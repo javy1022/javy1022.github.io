@@ -59,4 +59,16 @@ margin-right: 10px;
   padding-right: 295px;
   padding-bottom: 3px;
 }
- 
+
+.slogan3 {
+  font-family: Helvetica;
+  position: absolute;
+  top: 445px;
+  left: 210px;
+  color: black;
+  background-color: #F7DA07;
+  padding-top: 5px;
+  padding-left: 15px;
+  padding-right: 295px;
+  padding-bottom: 3px;
+}
