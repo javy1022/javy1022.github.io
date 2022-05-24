@@ -14,9 +14,17 @@
 	 
 }
 
+#links{
+	display:inline-block;
+}
+
+#links li {
+display: inline;
+margin-right: 10px;
+}
+
 #container {
   position: relative;
-  
 }
 
 .slogan1 {
