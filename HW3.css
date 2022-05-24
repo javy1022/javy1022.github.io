@@ -16,11 +16,13 @@
 
 #container {
   position: relative;
+  
 }
 
 
 /* Bottom right text */
 .slogan1 {
+  font-family: Helvetica;
   position: absolute;
   top: 165px;
   left: 160px;
@@ -29,5 +31,6 @@
   padding-left: 50px;
   padding-right: 185px;
   padding-bottom: 100px;
-  line-height: 0;
-}
+  line-height: 0.3;
+  background-color: #1C4668;
+ }
