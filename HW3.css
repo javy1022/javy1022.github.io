@@ -1,2 +1,15 @@
 #about, #projects, #services {
 	font-weight: bold;}
+
+#menu {
+	font-family: Helvetica;
+	font-weight: bold;
+	display: inline-block;
+	text-transform: uppercase;}
+	
+#lawyer{
+	 margin-left: -15px;
+	 image-resolution: 72dpi;
+	 display:block;
+	 
+}
