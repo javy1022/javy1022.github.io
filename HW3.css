@@ -24,7 +24,6 @@
   position: absolute;
   top: 165px;
   left: 160px;
-  background-color: black;
   color: white;
   padding-top: 50px; 
   padding-left: 50px;
@@ -37,3 +36,12 @@
 .slogan1 h1{
 	 font-size: 42px;
 }
+
+.slogan2 {
+  font-family: Helvetica;
+  position: absolute;
+  top: 290px;
+  left: 50px;
+  color: black;
+  background-color: white;
+ }
