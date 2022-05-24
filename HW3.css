@@ -19,8 +19,6 @@
   
 }
 
-
-/* Bottom right text */
 .slogan1 {
   font-family: Helvetica;
   position: absolute;
@@ -29,8 +27,8 @@
   background-color: black;
   color: white;
   padding-left: 50px;
-  padding-right: 185px;
-  padding-bottom: 100px;
+  padding-right: 125px;
+  padding-bottom: 365px;
   line-height: 0.3;
   background-color: #1C4668;
  }
