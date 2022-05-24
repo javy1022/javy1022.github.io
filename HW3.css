@@ -27,6 +27,7 @@ margin-right: 10px;
   position: relative;
 }
 
+
 .slogan1 {
   font-family: Helvetica;
   position: absolute;
@@ -39,6 +40,7 @@ margin-right: 10px;
   padding-bottom: 283px;
   line-height: 0.3;
   background-color: #1C4668;
+  
  }
 
 .slogan1 h1{
@@ -48,8 +50,13 @@ margin-right: 10px;
 .slogan2 {
   font-family: Helvetica;
   position: absolute;
-  top: 290px;
-  left: 50px;
+  top: 445px;
+  left: 210px;
   color: black;
   background-color: white;
- }
+  padding-top: 5px;
+  padding-left: 15px;
+  padding-right: 295px;
+  padding-bottom: 3px;
+}
+ 
