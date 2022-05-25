@@ -29,7 +29,16 @@
 display: inline;
 font-family: Helvetica;
 font-size: 17px;
+color: #C0C0C0;
 margin-right: 25px;
+}
+
+#links li a:visited{
+	 color: #C0C0C0;
+}
+
+#links li a:hover{
+	 color: black;
 }
 
 #texts li  {
