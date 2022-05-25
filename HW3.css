@@ -9,7 +9,8 @@
 }
 
 #about, #projects, #services {
-	font-weight: bold;}
+	font-weight: bold;
+}
 
 #menu {
 	font-family: mySecondFont;
@@ -88,7 +89,7 @@ margin-right: 25px;
 }
 
 
-.slogan1 {
+.slogan {
   font-family: mySecondFont;
   position: absolute;
   top: 165px;
@@ -103,19 +104,19 @@ margin-right: 25px;
   
  }
 
-.slogan1 h1{
+.slogan h1{
 	 font-size: 42.5px;
 	 font-weight: 100;
 	 
 	 	 
 }
 
-.slogan1 h5{
+.slogan h5{
 	 font-weight: lighter;
 	 font-size: 16px;
 }
 
-.slogan1 p{
+.slogan p{
 	 font-style: italic;
 	 color: #FCDF01;
 	 font-size: 15px;
@@ -124,7 +125,7 @@ margin-right: 25px;
 	 
 }
 
-.slogan2 {
+.email{
   font-family: Helvetica;
   font-size: 16px;
   position: absolute;
@@ -138,7 +139,7 @@ margin-right: 25px;
   padding-bottom: 3px;
 }
 
-.slogan3 {
+.sign_up {
   font-family: myFirstFont;
   font-size: 12px;
   font-weight: normal;
