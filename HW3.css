@@ -3,6 +3,11 @@
   src: url(AftaSansThin-Regular.woff);
 }
 
+@font-face {
+  font-family: mySecondFont;
+  src: url(acherusgrotesque-regular.woff);
+}
+
 #about, #projects, #services {
 	font-weight: bold;}
 
@@ -80,7 +85,7 @@ margin-right: 25px;
 
 
 .slogan1 {
-  font-family: Helvetica;
+  font-family: mySecondFont;
   position: absolute;
   top: 165px;
   left: 168px;
@@ -97,7 +102,7 @@ margin-right: 25px;
 .slogan1 h1{
 	 font-size: 42.5px;
 	 font-weight: lighter;
-	 font-stretch: condensed;;
+	 
 	 	 
 }
 
