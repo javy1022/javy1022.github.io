@@ -47,6 +47,18 @@ margin-right: 10px;
 	 font-size: 42px;
 }
 
+.slogan1 h5{
+	 font-weight: lighter;
+	 font-size: 16px;
+}
+
+.slogan1 p{
+	 font-style: italic;
+	 color: #FCDF01;
+	 font-size: 14px;
+	 font-weight: bold;
+}
+
 .slogan2 {
   font-family: Helvetica;
   font-size: 16px;
