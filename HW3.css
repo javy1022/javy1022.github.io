@@ -27,6 +27,8 @@
 
 #links li {
 display: inline;
+font-family: Helvetica;
+font-size: 17px;
 margin-right: 25px;
 }
 
