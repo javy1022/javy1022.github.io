@@ -3,11 +3,10 @@
 
 #menu {
 	font-family: Helvetica;
-	font-weight: bold;
 	font-size: 17px;
 	font-weight: lighter;
-	display: inline-block;
 	text-transform: uppercase;
+	display: inline-block;
 	padding-top: 28px;
 	padding-bottom: 40px;
 	padding-left: 175px;
@@ -44,6 +43,20 @@ margin-right: 25px;
 #texts li  {
  display: inline-block;
  margin-right: 100px;
+}
+
+.feature{
+	font-family: Helvetica;
+	font-size: 17px;
+	font-weight: lighter;
+	text-transform: uppercase;
+}
+
+.Lorem_ipsum{
+	font-family: Helvetica;
+	font-size: 14px;
+	font-weight: lighter;
+	
 }
 
 #container {
