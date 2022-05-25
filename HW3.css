@@ -32,7 +32,6 @@
 #links{
 	display:inline-block;
 	padding-left: 951px;
-	color:black;
 }
 
 #links li {
@@ -41,6 +40,10 @@ font-family: Helvetica;
 font-size: 17px;
 color: #C0C0C0;
 margin-right: 25px;
+}
+
+#links li a:link{
+	 color: black;
 }
 
 #links li a:visited{
