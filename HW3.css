@@ -14,7 +14,7 @@
 #menu {
 	font-family: mySecondFont;
 	font-size: 17px;
-	font-weight: normal;
+	font-weight: lighter;
 	text-transform: uppercase;
 	display: inline-block;
 	padding-top: 28px;
@@ -32,6 +32,7 @@
 #links{
 	display:inline-block;
 	padding-left: 951px;
+	color:black;
 }
 
 #links li {
