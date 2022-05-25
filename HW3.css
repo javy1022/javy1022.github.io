@@ -4,7 +4,8 @@
 #menu {
 	font-family: Helvetica;
 	font-weight: bold;
-	font-size: 10px;
+	font-size: 17px;
+	font-weight: lighter;
 	display: inline-block;
 	text-transform: uppercase;
 	padding-bottom: 12px;
