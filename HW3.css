@@ -1,3 +1,8 @@
+@font-face {
+  font-family: myFirstFont;
+  src: url(AftaSansThin-Regular.woff);
+}
+
 #about, #projects, #services {
 	font-weight: bold;}
 
@@ -125,8 +130,9 @@ margin-right: 25px;
 }
 
 .slogan3 {
-  font-family: Helvetica;
+  font-family: myFirstFont;
   font-size: 12px;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2.2px;
   position: absolute;
@@ -136,7 +142,7 @@ margin-right: 25px;
   background-color: #FCDF01;
   padding-top: 5px;
   padding-left: 15px;
-  padding-right: 12px;
+  padding-right: 21px;
   padding-bottom: 5px;
 }
 
