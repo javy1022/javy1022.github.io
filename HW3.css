@@ -8,7 +8,8 @@
 	text-transform: uppercase;}
 	
 #lawyer{
-	 margin-left: -15px;
+	 margin-left: -8px;
+	 
 	 image-resolution: 72dpi;
 	 display:block;
 	 
@@ -100,6 +101,7 @@ margin-right: 10px;
 
 div.gray_box {
   height: 200px;
+  width: 1600px;
   background-color:#F5F5F5;
   margin:-16px -8px; 
   
