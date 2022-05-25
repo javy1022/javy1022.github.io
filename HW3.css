@@ -65,6 +65,7 @@ margin-right: 10px;
   font-family: Helvetica;
   font-size: 12px;
   text-transform: uppercase;
+  letter-spacing: 2.2px;
   position: absolute;
   top: 595px;
   left: 218px;
@@ -72,6 +73,8 @@ margin-right: 10px;
   background-color: #FCDF01;
   padding-top: 5px;
   padding-left: 15px;
-  padding-right: 295px;
+  padding-right: 50px;
   padding-bottom: 3px;
+  
 }
+
