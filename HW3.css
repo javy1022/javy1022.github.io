@@ -90,9 +90,10 @@ margin-right: 25px;
  }
 
 .slogan1 h1{
-	 font-size: 42px;
+	 font-size: 42.5px;
 	 font-weight: lighter;
-	 
+	 font-stretch: condensed;;
+	 	 
 }
 
 .slogan1 h5{
