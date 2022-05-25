@@ -42,8 +42,12 @@ color: #C0C0C0;
 margin-right: 25px;
 }
 
+a {
+  color: #C0C0C0;
+}
+
 #links li a:visited{
-	 color: red;
+	 color: #C0C0C0;
 }
 
 #links li a:hover{
