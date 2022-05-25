@@ -23,6 +23,11 @@ display: inline;
 margin-right: 10px;
 }
 
+#texts li  {
+ display: inline-block;
+ margin-right: 100px;
+}
+
 #container {
   position: relative;
 }
