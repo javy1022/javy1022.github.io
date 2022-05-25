@@ -46,6 +46,7 @@ margin-right: 10px;
 .slogan1 h1{
 	 font-size: 42px;
 	 font-weight: lighter;
+	 
 }
 
 .slogan1 h5{
@@ -56,8 +57,10 @@ margin-right: 10px;
 .slogan1 p{
 	 font-style: italic;
 	 color: #FCDF01;
-	 font-size: 14px;
+	 font-size: 15px;
 	 font-weight: bold;
+	 position: absolute;
+	 
 }
 
 .slogan2 {
