@@ -12,9 +12,9 @@
 	font-weight: bold;}
 
 #menu {
-	font-family: Helvetica;
+	font-family: mySecondFont;
 	font-size: 17px;
-	font-weight: lighter;
+	font-weight: normal;
 	text-transform: uppercase;
 	display: inline-block;
 	padding-top: 28px;
@@ -60,7 +60,7 @@ margin-right: 25px;
 .feature{
 	font-family: myFirstFont;
 	font-size: 17px;
-	font-weight: bold;
+	font-weight: normal;
 	text-transform: uppercase;
 	padding-top: 137px;
 	padding-left: 130px;
@@ -101,7 +101,7 @@ margin-right: 25px;
 
 .slogan1 h1{
 	 font-size: 42.5px;
-	 font-weight: lighter;
+	 font-weight: 100;
 	 
 	 	 
 }
@@ -115,7 +115,7 @@ margin-right: 25px;
 	 font-style: italic;
 	 color: #FCDF01;
 	 font-size: 15px;
-	 font-weight: bold;
+	 font-weight: normal;
 	 position: absolute;
 	 
 }
@@ -137,7 +137,7 @@ margin-right: 25px;
 .slogan3 {
   font-family: myFirstFont;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: uppercase;
   letter-spacing: 2.2px;
   position: absolute;
