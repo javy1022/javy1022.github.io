@@ -9,7 +9,6 @@
 	
 #lawyer{
 	 margin-left: -8px;
-	 
 	 image-resolution: 72dpi;
 	 display:block;
 	 
@@ -38,12 +37,12 @@ margin-right: 10px;
   font-family: Helvetica;
   position: absolute;
   top: 165px;
-  left: 160px;
+  left: 168px;
   color: white;
   padding-top: 50px; 
   padding-left: 50px;
   padding-right: 42px;
-  padding-bottom: 283px;
+  padding-bottom: 275px;
   line-height: 0.3;
   background-color: #1C4668;
   
@@ -74,7 +73,7 @@ margin-right: 10px;
   font-size: 16px;
   position: absolute;
   top: 445px;
-  left: 210px;
+  left: 218px;
   color: black;
   background-color: white;
   padding-top: 5px;
@@ -89,7 +88,7 @@ margin-right: 10px;
   text-transform: uppercase;
   letter-spacing: 2.2px;
   position: absolute;
-  top: 595px;
+  top: 535px;
   left: 218px;
   color: black;
   background-color: #FCDF01;
