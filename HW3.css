@@ -58,9 +58,9 @@ margin-right: 25px;
 
 
 .feature{
-	font-family: Helvetica;
+	font-family: myFirstFont;
 	font-size: 17px;
-	font-weight: lighter;
+	font-weight: bold;
 	text-transform: uppercase;
 	padding-top: 137px;
 	padding-left: 130px;
@@ -71,8 +71,8 @@ margin-right: 25px;
 .Lorem_ipsum{
 	font-family: Helvetica;
 	font-size: 14.5px;
-	font-weight: lighter;
-	color: #696969;
+	font-weight: bold;
+	color: #888888;
 	padding-top: 5px;
 	padding-left: 130px;
 	padding-bottom: 135px;
