@@ -1,11 +1,11 @@
 @font-face {
   font-family: myFirstFont;
-  src: url(AftaSansThin-Regular.woff);
+  src: url(fonts/AftaSansThin-Regular.woff);
 }
 
 @font-face {
   font-family: mySecondFont;
-  src: url(acherusgrotesque-regular.woff);
+  src: url(fonts/acherusgrotesque-regular.woff);
 }
 
 #about, #projects, #services {
