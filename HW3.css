@@ -57,7 +57,7 @@ margin-right: 25px;
 
 #texts li  {
  display: inline-block;
- margin-right: -40px;
+ margin-right: -70px;
 }
 
 
@@ -75,14 +75,16 @@ margin-right: 25px;
 
 .Lorem_ipsum{
 	font-family: Helvetica;
-	font-size: 14.5px;
+	font-size: 14px;
 	font-weight: bold;
 	color: #888888;
 	padding-top: 5px;
 	padding-left: 130px;
 	padding-bottom: 135px;
-	
+	line-height: 1.5;
 }
+
+
 
 #container {
   position: relative;
