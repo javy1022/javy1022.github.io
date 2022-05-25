@@ -14,7 +14,7 @@
 
 #menu {
 	font-family: mySecondFont;
-	font-size: 17px;
+	font-size: 15.5px;
 	font-weight: lighter;
 	text-transform: uppercase;
 	display: inline-block;
@@ -38,7 +38,7 @@
 #links li {
 display: inline;
 font-family: Helvetica;
-font-size: 17px;
+font-size: 15.5px;
 color: #C0C0C0;
 margin-right: 25px;
 }
@@ -81,7 +81,7 @@ margin-right: 25px;
 	padding-top: 5px;
 	padding-left: 130px;
 	padding-bottom: 135px;
-	line-height: 1.5;
+	line-height: 1.7;
 }
 
 
@@ -130,6 +130,7 @@ margin-right: 25px;
 .email{
   font-family: Helvetica;
   font-size: 16px;
+  font-weight: normal;
   position: absolute;
   top: 445px;
   left: 218px;
