@@ -10,7 +10,18 @@
 }
 
 #search_icon:hover {
-    opacity: 1.0 ;
+    opacity: 0.5 ;
+}
+
+#clear_icon{
+	opacity: 0.3;
+	position: relative;
+	left: -50px;
+	top: 5px;
+}
+
+#clear_icon:hover {
+    opacity: 0.5 ;
 }
 
 #search_bar:focus, textarea {
@@ -30,6 +41,3 @@
     
 }
 
-::placeholder {
- padding-left: -100px; 
-}
