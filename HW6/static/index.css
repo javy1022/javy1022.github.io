@@ -1,0 +1,35 @@
+.search_wrapper {
+	display:flex;
+	
+}
+
+#search_icon{
+	opacity: 0.3;
+	position: relative;
+	left: 50px;
+}
+
+#search_icon:hover {
+    opacity: 1.0 ;
+}
+
+#search_bar:focus, textarea {
+    outline: none !important;
+	
+}
+
+#search_bar{
+	border-radius: 16px;
+	border:solid rgba(0, 0, 0, 0.3);
+	padding-left: 50px;
+}
+
+
+#search_bar:focus {
+    border:solid orange;
+    
+}
+
+::placeholder {
+ padding-left: -100px; 
+}
