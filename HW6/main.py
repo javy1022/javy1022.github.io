@@ -60,7 +60,30 @@ def hello():
         artist_biography_list.append(artist_result_json["biography"]) 
     
     return jsonify(image_list)
+
+@app.route('/image')  
+def load_image():
+    #func 1   
+    url = 'https://api.artsy.net/api/tokens/xapp_token'
+    api_authenticate = {'client_id': '5263ac83d3faa4643a80', 'client_secret': 'f510da3282c88d7acacb8a4c7a2e613a' }
+    data = requests.post(url, api_authenticate)
+    data_toJson = data.json()
+    token = (data_toJson["token"])
+   
+    #func 2
+    search_url = 'https://api.artsy.net/api/search'
+    result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': 'picasso', 'size': '10'})
+    result_toJson = result.json()
+    filtered_result = result_toJson["_embedded"]["results"];
     
+      
+   
+    image_list = []
+    artist_id_list = []
+    for x in filtered_result:
+        if(x["og_type"] == 'artist'):
+            image_list.append(x["_links"]["thumbnail"]["href"])
+    return jsonify(image_list)
     
 if __name__ == "__main__":
    app.run(debug=True)
