@@ -3,13 +3,22 @@ $(function(){
 		
 		$.ajax({
 			url: '/search',
-			type: 'POST',
-			success: function(response){
-				console.log(response);
-			},
-			error: function(error){
-				console.log(error);
-			}
+			type: 'GET',
+			
+        success: function(response){
+		    $("#test").html(response);
+			
+			
+        },
+        error: function(error){
+            alert("ERROR");
+        }
 		});
 	});
 });
+
+
+function clear_fields() {
+	 document.getElementById("search_bar").value = "";
+    
+}

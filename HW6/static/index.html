@@ -8,45 +8,21 @@ CSCI571 Summer 2022 HW6
 <head>
 <title>USC_CSCI571_Summer2022_HW6_CheWeiWu</title>
 <link href="index.css" type="text/css" rel="stylesheet" />
-<script src="index.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-<script>
-$(function(){
-	$('button').click(function(){
-		
-		$.ajax({
-			url: '/search',
-			type: 'GET',
-			
-        success: function(response){
-		    $("#test").html(response);
-			 alert("success");
-			
-        },
-        error: function(error){
-            alert("ERROR");
-        }
-		});
-	});
-});
-</script>
-
-
 </head>
-<body>
 
+<body>
 <form>
 <div class="search_wrapper">
 <div><img id= "search_icon" src="icons/search_icon.png" alt="search_icon" width="50" height="50"></div>
 <input type="text" placeholder="Please enter an artist name." id="search_bar" name="search_bar" size="100"/>
-<div><img id= "clear_icon" src="icons/clear_icon.png" alt="search_icon" width="40" height="40"></div>
+<div><img id= "clear_icon" src="icons/clear_icon.png" alt="search_icon" width="40" height="40" onclick="clear_fields()"></div>
 </div>
 </form>
 
 <button id='button' onclick="function()">Click me</button>
 
 <p id= "test"></p>
-
+<script type="text/javascript" src="index.js"></script>
 </body>
 </html>
