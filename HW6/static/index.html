@@ -8,6 +8,31 @@ CSCI571 Summer 2022 HW6
 <head>
 <title>USC_CSCI571_Summer2022_HW6_CheWeiWu</title>
 <link href="index.css" type="text/css" rel="stylesheet" />
+<script src="index.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script>
+$(function(){
+	$('button').click(function(){
+		
+		$.ajax({
+			url: '/search',
+			type: 'GET',
+			
+        success: function(response){
+		    $("#test").html(response);
+			 alert("success");
+			
+        },
+        error: function(error){
+            alert("ERROR");
+        }
+		});
+	});
+});
+</script>
+
+
 </head>
 <body>
 
@@ -19,7 +44,9 @@ CSCI571 Summer 2022 HW6
 </div>
 </form>
 
-<button type="button">Click Me!</button>
+<button id='button' onclick="function()">Click me</button>
+
+<p id= "test"></p>
 
 </body>
 </html>
