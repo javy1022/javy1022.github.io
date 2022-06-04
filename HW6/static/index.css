@@ -41,3 +41,14 @@
     
 }
 
+#image li  {
+ display: inline-block;
+ 
+ 
+}
+
+#image{
+	overflow: auto;
+	white-space: nowrap;
+	max-width: 500x;
+}

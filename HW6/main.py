@@ -59,7 +59,7 @@ def hello():
         artist_nationality_list.append(artist_result_json["nationality"])  
         artist_biography_list.append(artist_result_json["biography"]) 
     
-    return  artist_birthday_list[0]
+    return jsonify(image_list)
     
     
 if __name__ == "__main__":
