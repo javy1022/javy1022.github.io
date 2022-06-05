@@ -20,7 +20,15 @@ $(document).ready(function() {
 		    for (let i = 0; i < response.length; i++) {
 			
 			var img = document.createElement("img");
+			
 			img.src = response[i];
+			if(response[i] == "/assets/shared/missing_image.png"){
+				img.src = "/icons/artsy_logo.svg"
+				img.style.borderRadius = "50%";
+				img.style.border = "5px solid white";
+				img.width = "230";
+			}
+			
 			img.style.borderRadius = "50%";
 			img.style.border = "5px solid white";
 			let list = document.getElementById("image"); 

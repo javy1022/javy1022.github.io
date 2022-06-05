@@ -11,7 +11,7 @@ def main():
    
     #func 2
     search_url = 'https://api.artsy.net/api/search'
-    result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': 'picasso', 'size': '10'})
+    result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': 'claude', 'size': '10'})
     result_toJson = result.json()
     filtered_result = result_toJson["_embedded"]["results"];
     
@@ -52,9 +52,9 @@ def main():
         artist_nationality_list.append(artist_result_json["nationality"] )  
         artist_biography_list.append(artist_result_json["biography"] ) 
    
-    print(len(artist_birthday_list))
-    for i in range(len(artist_birthday_list)) :
-        print(artist_birthday_list[i])
+   
+    for i in range(len(image_list)) :
+        print(image_list[i])
     
        
    
