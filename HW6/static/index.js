@@ -39,6 +39,8 @@ $(document).ready(function() {
 			let list = document.getElementById("list"); 
 			list.append(img);
 						
+			}
+						
 			document.getElementById("loader").style.display = 'none';
 			
 			
