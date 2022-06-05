@@ -1,10 +1,6 @@
-/*var form = document.getElementById("form");
-form.addEventListener('submit', load_images);
-
 function clear_fields() {
 	 document.getElementById("search_bar").value = "";
-    
-}*/
+}
 
 $(document).ready(function() {
 
@@ -12,11 +8,11 @@ $(document).ready(function() {
 
 		$.ajax({
 			data : {
-				name : $('#search_bar').val(),
-				email : $('#search_bar').val()
+				input : $('#search_bar').val(),
+				
 			},
 			type : 'POST',
-			url : '/debug',
+			url : '/search_input',
 		
 		success: function(response){
 		    for (let i = 0; i < response.length; i++) {
@@ -27,7 +23,6 @@ $(document).ready(function() {
 			list.append(img);
 			
 			}
-			$("#test").html(response);
 			alert("success");
 			
 		},
@@ -35,9 +30,7 @@ $(document).ready(function() {
             alert("ERROR");
         }
 		})
-		.done(function(data) {
-			alert("hi")
-		});
+		
 
 		event.preventDefault();
 

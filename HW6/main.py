@@ -64,15 +64,15 @@ def hello():
     
     return jsonify(image_list)
     
-@app.route('/debug', methods=['GET','POST'])  
-def debug():
+@app.route('/search_input', methods=['GET','POST'])  
+def search_input():
     if request.method == 'POST':
-        test = request.form['name']
-        return redirect(url_for('image', x=test))
+        test = request.form['input']
+        return redirect(url_for('load_image', x=test))
     
 
-@app.route('/image/<x>', methods=['GET','POST'])  
-def image(x):
+@app.route('/load_image/<x>', methods=['GET','POST'])  
+def load_image(x):
        #func 1   
         url = 'https://api.artsy.net/api/tokens/xapp_token'
         api_authenticate = {'client_id': '5263ac83d3faa4643a80', 'client_secret': 'f510da3282c88d7acacb8a4c7a2e613a' }
