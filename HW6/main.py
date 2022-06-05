@@ -90,7 +90,36 @@ def load_image(x):
             if(x["og_type"] == 'artist'):
                 image_list.append(x["_links"]["thumbnail"]["href"])
         return jsonify(image_list)
-
+        
+    
+@app.route('/search_title', methods=['GET','POST'])  
+def search_title():
+    if request.method == 'POST':
+        test = request.form['input']
+        return redirect(url_for('title', x=test))
+            
+        
+@app.route('/title/<x>',  methods=['GET','POST'])  
+def title(x):
+    url = 'https://api.artsy.net/api/tokens/xapp_token'
+    api_authenticate = {'client_id': '5263ac83d3faa4643a80', 'client_secret': 'f510da3282c88d7acacb8a4c7a2e613a' }
+    data = requests.post(url, api_authenticate)
+    data_toJson = data.json()
+    token = (data_toJson["token"])
+   
+    #func 2
+    search_url = 'https://api.artsy.net/api/search'
+    result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': x, 'size': '10'})
+    result_toJson = result.json()
+    filtered_result = result_toJson["_embedded"]["results"];
+    
+    title_list = []
+    for x in filtered_result:
+        if(x["og_type"] == 'artist'):
+            title_list.append(x["title"] )
+            
+    return jsonify(title_list) 
+    
 if __name__ == "__main__":
     app.run()
    

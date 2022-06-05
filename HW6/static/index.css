@@ -41,18 +41,34 @@
     
 }
 
+#name{
+	display: inline-block;
+	color: white;
+	font-size:24px;
+	position: absolute;
+	margin-left:-225px;
+	margin-top:255px;
+}
+
 #image li  {
  display: inline-block;
- 
+ background-color: #205375;
+ padding-top:20px;
+ padding-bottom:100px;
 }
+
 
 #image{
 	overflow: auto;
 	white-space: nowrap;
 	max-width: 500x;
-	background-color: #205375;
-	padding-left: -100px;
+	padding-left:10px;
+	
+	
 }
+
+
+
 
 #loader{
 	display: none;
