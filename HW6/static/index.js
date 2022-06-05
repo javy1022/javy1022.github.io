@@ -19,6 +19,7 @@ $(document).ready(function() {
 			
 			var img = document.createElement("img");
 			img.src = response[i];
+			img.style.borderRadius = "50%";
 			let list = document.getElementById("image"); 
 			list.append(img);
 			

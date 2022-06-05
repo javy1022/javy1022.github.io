@@ -84,15 +84,11 @@ def load_image(x):
         result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': x, 'size': '10'})
         result_toJson = result.json()
         filtered_result = result_toJson["_embedded"]["results"];
-    
       
         image_list = []
-        artist_id_list = []
         for x in filtered_result:
             if(x["og_type"] == 'artist'):
                 image_list.append(x["_links"]["thumbnail"]["href"])
-     
-	       
         return jsonify(image_list)
 
 if __name__ == "__main__":
