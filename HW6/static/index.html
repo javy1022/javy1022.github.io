@@ -12,13 +12,16 @@ CSCI571 Summer 2022 HW6
 </head>
 
 <body>
-<form>
+
+<form id= "form" >
 <div class="search_wrapper">
-<div><img id= "search_icon" src="icons/search_icon.png" alt="search_icon" width="50" height="50" onclick="load_images()"></div>
+<div><input name="submit"  id="search_icon" type="image" src="icons/search_icon.png" alt="search" width="50" height="50"  ></div>
 <input type="text" placeholder="Please enter an artist name." id="search_bar" name="search_bar" size="100"/>
-<div><img id= "clear_icon" src="icons/clear_icon.png" alt="search_icon" width="40" height="40" onclick="clear_fields()"></div>
+<div><img id= "clear_icon" src="icons/clear_icon.png" alt="search_icon" width="40" height="40" onclick="load_images()"></div>
 </div>
 </form>
+
+
 
 <ul id= "image">
 

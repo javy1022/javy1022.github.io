@@ -1,13 +1,16 @@
 import requests
-from flask import Flask, jsonify, redirect, url_for, json
+from flask import Flask, jsonify, redirect, url_for, json, request
 app = Flask(__name__, static_url_path='', static_folder='static')
 
 @app.route('/')    
 def home():
-    return redirect(url_for('static', filename='index.html'))   
+   return redirect(url_for('static', filename='index.html'))   
 
 @app.route('/search')  
 def hello():
+    if request.method == 'POST':    
+        tt = request.form['values']
+        return 'aloha'
     #func 1   
     url = 'https://api.artsy.net/api/tokens/xapp_token'
     api_authenticate = {'client_id': '5263ac83d3faa4643a80', 'client_secret': 'f510da3282c88d7acacb8a4c7a2e613a' }
@@ -17,7 +20,7 @@ def hello():
    
     #func 2
     search_url = 'https://api.artsy.net/api/search'
-    result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': 'picasso', 'size': '10'})
+    result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': 'a', 'size': '10'})
     result_toJson = result.json()
     filtered_result = result_toJson["_embedded"]["results"];
     
@@ -60,31 +63,38 @@ def hello():
         artist_biography_list.append(artist_result_json["biography"]) 
     
     return jsonify(image_list)
+    
+@app.route('/debug', methods=['GET','POST'])  
+def debug():
+    if request.method == 'POST':
+        test = request.form['name']
+        return redirect(url_for('image', x=test))
+    
 
-@app.route('/image')  
-def load_image():
-    #func 1   
-    url = 'https://api.artsy.net/api/tokens/xapp_token'
-    api_authenticate = {'client_id': '5263ac83d3faa4643a80', 'client_secret': 'f510da3282c88d7acacb8a4c7a2e613a' }
-    data = requests.post(url, api_authenticate)
-    data_toJson = data.json()
-    token = (data_toJson["token"])
-   
-    #func 2
-    search_url = 'https://api.artsy.net/api/search'
-    result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': 'picasso', 'size': '10'})
-    result_toJson = result.json()
-    filtered_result = result_toJson["_embedded"]["results"];
+@app.route('/image/<x>', methods=['GET','POST'])  
+def image(x):
+       #func 1   
+        url = 'https://api.artsy.net/api/tokens/xapp_token'
+        api_authenticate = {'client_id': '5263ac83d3faa4643a80', 'client_secret': 'f510da3282c88d7acacb8a4c7a2e613a' }
+        data = requests.post(url, api_authenticate)
+        data_toJson = data.json()
+        token = (data_toJson["token"])
+      #func 2
+        search_url = 'https://api.artsy.net/api/search'
+        result = requests.get(search_url, headers={"X-XAPP-Token": token}, params={'q': x, 'size': '10'})
+        result_toJson = result.json()
+        filtered_result = result_toJson["_embedded"]["results"];
     
       
-   
-    image_list = []
-    artist_id_list = []
-    for x in filtered_result:
-        if(x["og_type"] == 'artist'):
-            image_list.append(x["_links"]["thumbnail"]["href"])
-    return jsonify(image_list)
-    
+        image_list = []
+        artist_id_list = []
+        for x in filtered_result:
+            if(x["og_type"] == 'artist'):
+                image_list.append(x["_links"]["thumbnail"]["href"])
+     
+	       
+        return jsonify(image_list)
+
 if __name__ == "__main__":
-   app.run(debug=True)
+    app.run()
    
