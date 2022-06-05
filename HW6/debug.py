@@ -56,7 +56,7 @@ def main():
     for i in range(len(title_list)) :
         print(title_list[i])
     
-       
+    
    
          
  

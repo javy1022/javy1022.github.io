@@ -62,11 +62,11 @@ $(document).ready(function() {
 		   	for (let i = 0; i < response.length; i++) {
 			const newDiv = document.createElement("p");
 			const newContent = document.createTextNode(response[i]);
-			let list = document.getElementById("title_list"); 
+			let list = document.getElementById("title"); 
 			newDiv.appendChild(newContent);
-			//newDiv.id = "name"
+			newDiv.id = "name"
 			list.appendChild(newDiv);
-			
+						
 		}
 		},
         error: function(error){
@@ -74,10 +74,10 @@ $(document).ready(function() {
         }
 		})
 		
-		
 		event.preventDefault();
 
 	});
+	
 
 });
 /*
