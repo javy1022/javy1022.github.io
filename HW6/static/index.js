@@ -20,6 +20,7 @@ $(document).ready(function() {
 			var img = document.createElement("img");
 			img.src = response[i];
 			img.style.borderRadius = "50%";
+			img.style.border = "5px solid white";
 			let list = document.getElementById("image"); 
 			list.append(img);
 			
