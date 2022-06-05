@@ -1,3 +1,5 @@
+
+
 function clear_fields() {
 	 document.getElementById("search_bar").value = "";
 }
@@ -5,7 +7,7 @@ function clear_fields() {
 $(document).ready(function() {
 
 	$('form').on('submit', function(event) {
-
+		document.getElementById("loader").style.display = 'block';
 		$.ajax({
 			data : {
 				input : $('#search_bar').val(),
@@ -25,8 +27,9 @@ $(document).ready(function() {
 			list.append(img);
 			
 			}
+			document.getElementById("loader").style.display = 'none';
 			alert("success");
-			
+		
 		},
         error: function(error){
             alert("ERROR");

@@ -50,6 +50,19 @@
 	overflow: auto;
 	white-space: nowrap;
 	max-width: 500x;
-	background-color: #205375
+	background-color: #205375;
+	padding-left: -100px;
+}
+
+#loader{
+	display: none;
+	position:relative;
+	margin-top:30px;
+	
+}
+
+#hi{
+	
+	position:absolute;
 	
 }
