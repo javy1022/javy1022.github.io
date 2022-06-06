@@ -6,17 +6,22 @@ CSCI571 Summer 2022 HW6
 <!DOCTYPE html>
 <html>
 <head>
-<title>USC_CSCI571_Summer2022_HW6_CheWeiWu</title>
+<title>Artist Search</title>
 <link href="index.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 
 <body>
+<div class =gray_box>
+<p>&nbsp</p>         
+</div>
+<p id="header">&nbsp&nbspArtist Search</p> 
+
 
 <form id= "form" >
 <div class="search_wrapper">
 <div><input name="submit"  id="search_icon" type="image" src="icons/search_icon.png" alt="search" width="50" height="50"  ></div>
-<input type="text" placeholder="Please enter an artist name." id="search_bar" name="search_bar" size="100"/>
+<input type="text" placeholder="Please enter an artist name." id="search_bar" name="search_bar" size="100" required/>
 <div><img id= "clear_icon" src="icons/clear_icon.png" alt="search_icon" width="40" height="40" onclick="clear_fields()"></div>
 </div>
 </form>
@@ -25,9 +30,14 @@ CSCI571 Summer 2022 HW6
 
 <ul id= "image">
 <li id= "list"></li>
-<p id= "title"></p>
+<p id= "title">
 </ul>
 
+<center>
+<h2 id= "title2"></h2>
+<h2 id= "nation"></h2>
+<p id= "bio"> </p>
+</center>
 
 <center>
 <div id="loader"><img id="loading" src="icons/loading.gif" alt="loader" /></div>

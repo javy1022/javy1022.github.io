@@ -1,5 +1,3 @@
-
-
 function clear_fields() {
 	 document.getElementById("search_bar").value = "";
 }
@@ -8,8 +6,10 @@ $(document).ready(function() {
 
 	$('form').on('submit', function(event) {
 		document.getElementById("loader").style.display = 'block';
-		let k = document.getElementById("list");
+		
 		list.innerHTML = "";
+		
+		title.innerHTML = "";
 		
 		$.ajax({
 			data : {
@@ -26,7 +26,7 @@ $(document).ready(function() {
 			var img = document.createElement("img");
 			
 			img.src = response[i];
-			
+			img.id ="hi";
 			if(response[i] == "/assets/shared/missing_image.png"){
 				img.src = "/icons/artsy_logo.svg"
 				img.style.borderRadius = "50%";
@@ -38,9 +38,10 @@ $(document).ready(function() {
 			img.style.border = "5px solid white";
 			let list = document.getElementById("list"); 
 			list.append(img);
-						
+			
+									
 			}
-						
+				
 			document.getElementById("loader").style.display = 'none';
 			
 			
@@ -118,3 +119,68 @@ function load_images(event) {
 		
      
 }*/
+
+$('ul').on("click", function(event){
+    $(function(){
+	document.getElementById("loader").style.display = 'block';	
+	let images = $('#list img');
+	var target = event.target,
+    index = $(target).index();
+	
+ 	$.ajax({
+			data : {
+				input :  $('#search_bar').val(),
+				input1: index,
+			},
+			type : 'POST',
+			url : '/detail_title',
+		
+		success: function(response){
+				
+				$("#title2").html(response[index]);
+		},
+        error: function(error){
+            alert("ERROR");
+        }
+		})
+	
+ 	$.ajax({
+			data : {
+				input :  $('#search_bar').val(),
+				input1: index,
+			},
+			type : 'POST',
+			url : '/detail_nation',
+		
+		success: function(response){
+				
+				$("#nation").html(response[index]);
+				document.getElementById("loader").style.display = 'none';	
+		},
+        error: function(error){
+            alert("ERROR");
+        }
+		})
+		
+	/*$.ajax({
+			data : {
+				input :  $('#search_bar').val(),
+				input1: index,
+			},
+			type : 'POST',
+			url : '/detail_bio',
+		
+		success: function(response){
+				
+				$("#bio").html(response[index]);
+				
+		},
+        error: function(error){
+            alert("ERROR");
+        }
+		})
+	*/
+
+	   
+});
+});
