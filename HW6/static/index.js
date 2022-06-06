@@ -10,6 +10,9 @@ function clear_fields() {
 $(document).ready(function() {
 
 	$('form').on('submit', function(event) {
+		
+		document.getElementById('title2').innerText = " ";
+		document.getElementById('nation').innerText = " ";
 		document.getElementById("loader").style.display = 'block';
 		x.style.display = "none";
 		list.innerHTML = "";
@@ -25,6 +28,7 @@ $(document).ready(function() {
 			url : '/search_input',
 		
 		success: function(response){
+					
 			if(response.length == 0){
 				x.style.display = "block";
 			}
