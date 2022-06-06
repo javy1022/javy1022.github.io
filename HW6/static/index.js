@@ -1,3 +1,6 @@
+var x = document.getElementById("nocontent");
+x.style.display = "none";
+
 function clear_fields() {
 	 document.getElementById("search_bar").value = "";
 }
@@ -6,7 +9,7 @@ $(document).ready(function() {
 
 	$('form').on('submit', function(event) {
 		document.getElementById("loader").style.display = 'block';
-		
+		x.style.display = "none";
 		list.innerHTML = "";
 		
 		title.innerHTML = "";
@@ -20,7 +23,9 @@ $(document).ready(function() {
 			url : '/search_input',
 		
 		success: function(response){
-			
+			if(response.length == 0){
+				x.style.display = "block";
+			}
 		    for (let i = 0; i < response.length; i++) {
 			
 			var img = document.createElement("img");

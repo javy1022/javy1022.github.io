@@ -98,3 +98,16 @@ div.gray_box {
 	margin-top:0px;
 }
 
+#nocontent{
+	
+  background-color: lightgrey;
+  width: 300px;
+  padding: 50px;
+  margin-left: 1000px;
+  margin-top: 80px;
+  border-radius: 32px;
+  font-size:32px;
+  text-align: center;
+  vertical-align: middle;
+	
+}
