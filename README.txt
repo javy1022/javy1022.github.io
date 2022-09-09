@@ -1,0 +1,2 @@
+This repository was created for CSCI571-SUMMER-2022. I'm re-using this repository for CSCI571-FALL-2022 as I dropped CSCI571-SUMMER-2022.
+Works from CSCI571-SUMMER-2022 have been removed and currently only contain homeworks for CSCI571-FALL-2022.
