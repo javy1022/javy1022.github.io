@@ -3,7 +3,7 @@
 	
 	
 	width: 800px;
-	height: 500px;
+	height: 700px;
 	
 	margin: auto;
 	margin-top: -12px;
@@ -12,18 +12,24 @@
 	background-position-y: top -277px;
 	background-size: 800px 450px;
 	background-repeat: no-repeat;
-	background-color: blue;
+	background-color: #AFE1AF;
+	box-shadow:0 0 0 5px #ccc;
+	
 	
 	
 }
 
 #business_search{
     font-size: 36px;
-	padding-top: 15px;
+	padding-top: 38px;
+	font-family: Roboto;
 }
 #fill_out{
     font-size: 28px;
-	margin-top: 28px;
+	margin-top: 10px;
+	font-family: Roboto;
+	font-weight: 100;
+	
 }
 
 
