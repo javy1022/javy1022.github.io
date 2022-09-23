@@ -1,0 +1,39 @@
+#banner {
+	
+	
+	
+	width: 800px;
+	height: 500px;
+	
+	margin: auto;
+	margin-top: -12px;
+	background-image: url('image/banner.jpeg');
+	background-position-x: left 0px;
+	background-position-y: top -277px;
+	background-size: 800px 450px;
+	background-repeat: no-repeat;
+	background-color: blue;
+	
+	
+}
+
+#business_search{
+    font-size: 36px;
+	padding-top: 15px;
+}
+#fill_out{
+    font-size: 28px;
+	margin-top: 28px;
+}
+
+
+body{
+    background-color: #e6e6e6;
+}
+
+.banner_text{
+	margin-left: 51px;
+	margin-top: 35px;
+	color: white;
+	
+}
