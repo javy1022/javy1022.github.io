@@ -81,12 +81,49 @@ input[type=text] {
 	color:		#3939c6;
 	font-family: Roboto;
 	font-size: 22px;
+	
 }
 
 .form_search_bar{
 	padding: 6px 14px;
-	width: 676px;
 	margin-top: 10px;
 	border: 2px solid  #e6e6e6;
+	font-size: 1em;
+	height: 1rem;
 	
 }
+
+#category_bar{
+	height: 2.05rem;
+	background: white;
+	max-width: 90%;
+	
+}
+
+#keyword, #location{
+	width: 676px; 
+	 
+ }
+ 
+#distance{
+	width: 175px; 
+	padding: 6px 3px; 
+	
+ }
+ 
+#search_bar_marginTop, #location_marginTop{
+	margin-top: 25px;
+	
+}
+
+#category{
+	padding-left: 221px;
+	
+}
+
+#category_bar{
+	margin-left:190px;
+	width: 330px;
+	
+}
+

@@ -16,9 +16,29 @@
 
 <div id="form_container">
 <form>
-  <label for="fname"><span class="form_title">Keyword</span><span class= "asterisk">*</span></label><br>
-  <input class="form_search_bar" type="text" id="fname" name="keyword"  required> <br><br>
-  <input type="submit" value="Submit">
+  <span class="form_title">Keyword</span><span class= "asterisk">*</span><br>
+  <input class="form_search_bar" type="text" id= "keyword"  name="keyword"  required> <br>
+  
+  <div id = search_bar_marginTop>
+  <span class="form_title">Distance(miles)</span>   <span class="form_title"  id="category">Category</span><span class= "asterisk">*</span><br>
+  <input class="form_search_bar" type="text" id= "distance" name="distance" value="10">   
+  <select class="form_search_bar" type="text" id= "category_bar" name="category">
+    <option class ="test" value="Default" selected>Default</option>
+    <option value="Arts & Entertainment">Arts & Entertainment</option>
+    <option value="Health & Medical">Health & Medical</option>
+	<option value="Hotels & Travel" >Hotels & Travel</option>
+	<option value="Food">Food</option>
+	<option value="Professional Services" >Professional Services</option>
+  </select> <br>
+  
+  <div id= location_marginTop>
+  <span class="form_title" id="location_title">Location</span><span class= "asterisk">*</span><br>
+  <input class="form_search_bar" type="text" id= "location"  name="location"  required> <br>
+  </div>
+  
+  </div>
+
+ <input type="submit" value="Submit">
 
 
 
