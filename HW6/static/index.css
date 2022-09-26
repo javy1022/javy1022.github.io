@@ -1,0 +1,180 @@
+#banner {
+	
+	
+	
+	width: 800px;
+	height: 715px;
+	
+	margin: auto;
+	margin-top: -12px;
+	background-image: url('image/banner.jpeg');
+	background-position-x: left 0px;
+	background-position-y: top -277px;
+	background-size: 800px 450px;
+	background-repeat: no-repeat;
+	background-color: white;
+	box-shadow:0 0 0 5px #ccc;
+	
+	
+	
+	
+}
+
+#business_search{
+    font-size: 36px;
+	padding-top: 38px;
+	font-family: Inter Tight ;
+}
+#fill_out{
+    font-size: 28px;
+	margin-top: 10px;
+	font-family: Inter Tight ;
+	font-weight: 100;
+	
+}
+
+
+body{
+    background-color: #e6e6e6;
+}
+
+input[type=text]:focus {
+  border: 2px solid black;
+}
+
+input[type=text] {
+   outline: none;
+}
+
+.banner_text{
+	margin-left: 51px;
+	margin-top: 35px;
+	color: white;
+	
+}
+
+#form_container {
+	margin-top: 70px;
+	font-family: Inter Tight ;
+	margin-left: 52px;
+	width:708px;
+}
+
+.asterisk{
+	position: relative;
+    top: -8px; /* This will move it 20px up */
+	left:2px;
+    color:#e60000;
+	font-family: Inter Tight ;
+	font-size:12px;
+}
+
+.form_title{
+	color:		#3939c6;
+	font-family: Inter Tight ;
+	font-size: 22px;
+	margin-top: 25px;
+}
+
+.form_search_bar{
+	padding: 6px 14px;
+	margin-top: 10px;
+	border: 2px solid  #e6e6e6;
+	font-size: 1em;
+	height: 1rem;
+	
+}
+
+#category_bar{
+	height: 2.05rem;
+	background: white;
+	max-width: 90%;
+	
+}
+
+#keyword, #location{
+	width: 676px; 
+	 
+ }
+ 
+#distance{
+	width: 175px; 
+	padding: 6px 3px; 
+	
+ }
+ 
+#search_bar_marginTop, #location_marginTop{
+	margin-top: 25px;
+	
+}
+
+#category{
+	padding-left: 221px;
+	
+}
+
+#category_bar{
+	margin-left:190px;
+	width: 329px;
+	
+}
+
+#hr_line{
+	color: #8c8c8c;
+	margin-top: 32px;
+}
+
+#auto_detect{
+	font-size: 26px;
+}
+
+#check_box{
+	width: 20px;
+    height: 20px;
+	
+}
+
+.buttons{
+	margin-top: 16px;
+	padding: 18px 32px;
+	color: white;
+	border: none;
+	font-size: 24px;
+	font-family: Quicksand ;
+	
+}
+
+#submit{
+	
+	background: linear-gradient(180deg, #5369ac 90%, #001a66 10%);
+}
+
+#clear{
+	padding: 18px 37px;
+	background: linear-gradient(180deg, #f9bc06 90%, #ff950a 10%);
+}
+
+#submit:hover {
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+	
+}
+
+#clear:hover {
+    box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.1);
+}
+
+#submit:active {
+	border-style: solid;
+	border-color: black;
+	border-width: 2px;
+	padding: 16px 30px;
+
+}
+
+#clear:active {
+
+	border-style: solid;
+	border-color: black;
+	border-width: 2px;
+	padding: 16px 35px;
+}
