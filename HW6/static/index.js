@@ -22,10 +22,12 @@ function send_request(url) {
     if (this.readyState == 4 && this.status == 200) {
 	  
       var resp = this.responseText;
+	  alert(resp);
 	  result_dict = JSON.parse(resp) ;
-	  console.log(Object.entries(result_dict["businesses"]["0"]));
-	  var test_arr = Object.entries(result_dict["businesses"]["0"]);
-	  alert(test_arr[3][1]);
+	  console.log(result_dict);
+	  //var test_arr = Object.entries(result_dict["businesses"]["0"]);
+	  //alert(test_arr[3][1]);
+	  
     }
  };
   xhttp.open("GET", url, true);
@@ -37,9 +39,9 @@ function get_yelp_result(){
 	var form_keyword = document.getElementById('keyword').value;
 	var form_location= document.getElementById('locations').value;
 	var form_category= document.getElementById('category_bar').value;
-	send_request("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + "16093");
+	send_request("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + "8047");
 	//alert("/?keywords=" + form_keyword + "&location=" + form_location  + "&category=" + form_category + "&distance=16093")
-	alert("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + "16093");
+	//alert("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + "16093");
 }
 
 

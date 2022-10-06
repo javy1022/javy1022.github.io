@@ -21,12 +21,30 @@ def homepage():
 def get_keyword(keyword,location,category,distance):
     url =  API_HOST + BUSINESS_SEARCH_PATH
     headers = {'Authorization': 'Bearer %s' % api_key,}
-    
     url_params = {	'term': keyword,
 					'location': location,	
-					'category': category,				
+					'categories': category,				
 					'radius': distance
 					}
+    
+    if category == "Default":
+         url_params["categories"] = "all"
+     
+    elif category == "Food": 
+         url_params["categories"] = "food"
+    
+    elif category == "Arts & Entertainment": 
+         url_params["categories"] = "arts"  
+    
+    elif category == "Health & Medical": 
+         url_params["categories"] = "health" 
+    
+    elif category == "Hotels & Travel": 
+         url_params["categories"] = "hotelstravel"          
+    
+    elif category == "Professional Services": 
+         url_params["categories"] = "professional"       
+  
     response = requests.get(url, headers=headers, params=url_params)
     response_json = response.json()
     #response_dump = json.dumps(response_json)
