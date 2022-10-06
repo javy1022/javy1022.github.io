@@ -178,3 +178,40 @@ input[type=text] {
 	border-width: 2px;
 	padding: 16px 35px;
 }
+
+ th, td {
+  border:1px solid black;
+  
+}
+
+table{
+	margin-left: 275px;
+	margin-top: 175px;
+	border-collapse: collapse;
+	width:1345px;
+	
+}
+
+#first_columns_width{
+	width:60px;
+	
+}
+
+#second_columns_width{
+	width:145px;
+	
+}
+
+#third_columns_width{
+	width:700px;
+	
+}
+
+#fourth_columns_width{
+	width:200px;
+}
+
+#fifth_columns_width{
+	width:203px;
+	
+}

@@ -3,6 +3,9 @@
  API Key: P5t7BttvGrXWg8bb79sSf_HpQ_B-S2HShUbc8nwlp4I3DFaPKVpuXMuo3sIhELcn-xxnPpLuilHqnfaQLXwU_DZ4tALO0UZ0Wd9j3YLSEp89rb6SEUxwDFwckOgvY3Yx
 */
 
+function table_header_constructor(item_table){
+	item_table.innerHTML += "<tr><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\">Business Name</th> <th id =\"fourth_columns_width\">Rating</th> <th id =\"fifth_columns_width\">Distance (miles)</th>  </tr>";
+}
 
 function clear_fields() {
 	 document.getElementById("keyword").value = "";
@@ -14,7 +17,8 @@ function clear_fields() {
 }
 
  var result_dict;
-
+ var item_table =  document.getElementById("table");
+ 
 function send_request(url) {
   var xhttp;
   xhttp=new XMLHttpRequest();
@@ -22,12 +26,23 @@ function send_request(url) {
     if (this.readyState == 4 && this.status == 200) {
 	  
       var resp = this.responseText;
-	  alert(resp);
+	 // alert(resp);
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
-	  //var test_arr = Object.entries(result_dict["businesses"]["0"]);
-	  //alert(test_arr[3][1]);
+	  var test_arr = Object.entries(result_dict["businesses"]["0"]);
+	  alert(test_arr[6][1]);
 	  
+	  table_header_constructor(item_table);
+	  item_table.innerHTML += "<tr><td>Jill</td><td><img src=" + test_arr[6][1] + "></img></td></tr>";
+	  
+	  
+	  /*
+	  <tr>
+    <td>Jill</td>
+    <td>Smith</td>
+    <td>50</td>
+  </tr>
+	  */
     }
  };
   xhttp.open("GET", url, true);
