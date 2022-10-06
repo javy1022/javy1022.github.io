@@ -36,13 +36,10 @@ function send_request(url) {
     if (this.readyState == 4 && this.status == 200) {
 	  
       var resp = this.responseText;
-	 // alert(resp);
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
-	  //var test_arr = Object.entries(result_dict["businesses"]["0"]);
-	  //alert(test_arr[6][1]);
 	  table_header_constructor(item_table);
-	  //item_table.innerHTML += "<tr><td>Jill</td><td><img src=" + test_arr[6][1] + "></img></td></tr>";
+	
 	  
 	  var total_businesses = Object.keys(result_dict["businesses"]).length;
 	  var list_for_table = new Array();
@@ -60,37 +57,29 @@ function send_request(url) {
 		
 		list_for_table.push(buffer_array);
 	  } 
-	  
-	 
-	    //item_table.innerHTML += "<tr><td>Jill</td><td><img src=" + test_arr[6][1] + "></img></td></tr>";
+	  	   
 	  
 	  for (let i = 0; i < total_businesses  ; i++) {
 		table_append_row(item_table, list_for_table, i);
 	  } 
-	  /*
-	  <tr>
-    <td>Jill</td>
-    <td>Smith</td>
-    <td>50</td>
-  </tr>
-	  */
+	
     }
  };
   xhttp.open("GET", url, true);
   xhttp.send();
 }
 
-//https://api.yelp.com/v3/businesses/search?term=Sushi&latitude=33.8491816&longitude=-118.3884078&categories=Food&radius=5
+
 function get_yelp_result(){
 	
 	var form_keyword = document.getElementById('keyword').value;
 	var form_location= document.getElementById('locations').value;
 	var form_category= document.getElementById('category_bar').value;
 	var form_distance_in_meter = Math.round(parseInt(document.getElementById('distance').value) * oneMile_in_meter) ;
-		
+	
+    //https://api.yelp.com/v3/businesses/search?term=Sushi&latitude=33.8491816&longitude=-118.3884078&categories=Food&radius=5	
 	send_request("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
-	//alert("/?keywords=" + form_keyword + "&location=" + form_location  + "&category=" + form_category + "&distance=16093")
-	//alert("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + "16093");
+	
 }
 
 
@@ -100,25 +89,11 @@ const locations = document.getElementById('locations');
 const form_data = document.getElementById('form_data');
 submit_button.addEventListener("click", submitForm, false);
 
-//let form_obj = new FormData(form_data);
-
 function submitForm(event) {
 	
  if(keyword.checkValidity() != false && locations.checkValidity() != false ){
 	event.preventDefault();
 	get_yelp_result();
 	
-	
-	
-	/*var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML =
-      this.responseText;
-		}
-  };
-    xhttp.open("GET", "/", true);
-    xhttp.send();
- }*/
 }
 }

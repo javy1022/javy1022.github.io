@@ -48,12 +48,8 @@ def get_keyword(keyword,location,category,distance):
   
     response = requests.get(url, headers=headers, params=url_params)
     response_json = response.json()
-    #response_dump = json.dumps(response_json)
-    
-    
-    
     return  response_json
-    #return response_json
+ 
     
 if __name__ == "__main__":
     app.run()
