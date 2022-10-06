@@ -13,14 +13,19 @@ function clear_fields() {
 	
 }
 
+ var result_dict;
+
 function send_request(url) {
   var xhttp;
   xhttp=new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
 	  
-      resp = this.responseText;
-	  alert(resp);
+      var resp = this.responseText;
+	  result_dict = JSON.parse(resp) ;
+	  console.log(Object.entries(result_dict["businesses"]["0"]));
+	  var test_arr = Object.entries(result_dict["businesses"]["0"]);
+	  alert(test_arr[3][1]);
     }
  };
   xhttp.open("GET", url, true);
@@ -31,9 +36,10 @@ function send_request(url) {
 function get_yelp_result(){
 	var form_keyword = document.getElementById('keyword').value;
 	var form_location= document.getElementById('locations').value;
-	var form_category= document.getElementById('category').value;
+	var form_category= document.getElementById('category_bar').value;
 	send_request("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + "16093");
 	//alert("/?keywords=" + form_keyword + "&location=" + form_location  + "&category=" + form_category + "&distance=16093")
+	alert("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + "16093");
 }
 
 
