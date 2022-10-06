@@ -18,6 +18,7 @@ function send_request(url) {
   xhttp=new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+	  
       resp = this.responseText;
 	  alert(resp);
     }
@@ -28,10 +29,9 @@ function send_request(url) {
 
 //https://api.yelp.com/v3/businesses/search?term=Sushi&latitude=33.8491816&longitude=-118.3884078&categories=Food&radius=5
 function get_yelp_result(){
-	var form_keyword = form_obj.get('keywords');
-	var form_location= form_obj.get('locations');
-	var form_category= form_obj.get('category');
-		
+	var form_keyword = document.getElementById('keyword').value;
+	var form_location= document.getElementById('locations').value;
+	var form_category= document.getElementById('category').value;
 	send_request("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + "16093");
 	//alert("/?keywords=" + form_keyword + "&location=" + form_location  + "&category=" + form_category + "&distance=16093")
 }
@@ -43,13 +43,16 @@ const locations = document.getElementById('locations');
 const form_data = document.getElementById('form_data');
 submit_button.addEventListener("click", submitForm, false);
 
-let form_obj = new FormData(form_data);
+//let form_obj = new FormData(form_data);
 
 function submitForm(event) {
-		
+	
  if(keyword.checkValidity() != false && locations.checkValidity() != false ){
 	event.preventDefault();
 	get_yelp_result();
+	
+	
+	
 	/*var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
