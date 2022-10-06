@@ -15,13 +15,28 @@ function table_append_row(item_table, list_for_table, i){
 	
 }
 
+function buffer_array_append(result_dict_item, buffer_array, header){
+	for(let i = 0; i < Object.keys(result_dict_item).length; i++){
+		
+			if(result_dict_item[i][0] == header){
+				if(header != "distance") buffer_array.push(result_dict_item[i][1]);
+				else{
+					var distanceMeters_to_miles = (result_dict_item[i][1] / oneMile_in_meter).toFixed(2);
+					buffer_array.push(distanceMeters_to_miles);
+				}
+			}
+		
+		}	
+	
+}
+
 function clear_fields() {
 	 document.getElementById("keyword").value = "";
 	 document.getElementById("locations").value = "";
 	 document.getElementById("distance").value = "10";
 	 document.getElementById("category_bar").value = "Default";
 	 document.getElementById("check_box").checked = false;
-	
+	 document.getElementById("table").innerHTML = "";
 }
 
  var result_dict;
@@ -47,14 +62,11 @@ function send_request(url) {
 	  for (let i = 0; i < total_businesses  ; i++) {
 		var result_dict_item = Object.entries(result_dict["businesses"][i]);
 		var buffer_array = new Array();
-		buffer_array.push(result_dict_item[6][1]);
-		buffer_array.push(result_dict_item[9][1]);
-		buffer_array.push(result_dict_item[12][1]);
-		
-		var distanceMeters_to_miles = (result_dict_item[4][1] / oneMile_in_meter).toFixed(2);
-		
-		buffer_array.push(distanceMeters_to_miles );
-		
+		buffer_array_append(result_dict_item, buffer_array, "image_url")
+		buffer_array_append(result_dict_item, buffer_array, "name")
+		buffer_array_append(result_dict_item, buffer_array, "rating")
+		buffer_array_append(result_dict_item, buffer_array, "distance")				
+				
 		list_for_table.push(buffer_array);
 	  } 
 	  	   
@@ -62,7 +74,7 @@ function send_request(url) {
 	  for (let i = 0; i < total_businesses  ; i++) {
 		table_append_row(item_table, list_for_table, i);
 	  } 
-	
+	  document.getElementById('table').scrollIntoView();
     }
  };
   xhttp.open("GET", url, true);
