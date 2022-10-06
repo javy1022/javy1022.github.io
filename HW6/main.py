@@ -27,6 +27,7 @@ def get_keyword(keyword,location,category,distance):
 					'radius': distance
 					}
     
+    
     if category == "Default":
          url_params["categories"] = "all"
      
