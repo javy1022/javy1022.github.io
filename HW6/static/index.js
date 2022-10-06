@@ -50,6 +50,10 @@ function send_request(url) {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
 	  
+	  if(document.getElementById("table").innerHTML != ""){
+		  document.getElementById("table").innerHTML = "";
+	  }
+	  
       var resp = this.responseText;
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
