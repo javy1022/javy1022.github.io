@@ -179,21 +179,19 @@ input[type=text] {
 	padding: 16px 35px;
 }
 
- th, td {
-  border:1px solid black;
-  
-}
 
-table{
+
+#table{
 	margin-left: 275px;
 	margin-top: 175px;
 	border-collapse: collapse;
 	width:1345px;
-	
+	font-family: Inter Tight;
+    font-size: 24px;
 }
 
 #first_columns_width{
-	width:60px;
+	width:70px;
 	
 }
 
@@ -214,4 +212,29 @@ table{
 #fifth_columns_width{
 	width:203px;
 	
+}
+
+#first_row_height{
+	
+	height:70px;
+	
+}
+
+.rows_height{
+	height:160px;
+}
+
+#table th {
+  background-color: #5369ac;
+  
+}
+
+#table tr {
+  background-color: white;
+  
+}
+
+#table td, #table th {
+  border: 1px solid #e6e6e6;
+  padding: 8px;
 }

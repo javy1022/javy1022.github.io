@@ -4,7 +4,7 @@
 */
 
 function table_header_constructor(item_table){
-	item_table.innerHTML += "<tr><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\">Business Name</th> <th id =\"fourth_columns_width\">Rating</th> <th id =\"fifth_columns_width\">Distance (miles)</th>  </tr>";
+	item_table.innerHTML += "<tr id =\"first_row_height\"><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\">Business Name</th> <th id =\"fourth_columns_width\">Rating</th> <th id =\"fifth_columns_width\">Distance (miles)</th>  </tr>";
 }
 
 function clear_fields() {
@@ -33,8 +33,8 @@ function send_request(url) {
 	  alert(test_arr[6][1]);
 	  
 	  table_header_constructor(item_table);
-	  item_table.innerHTML += "<tr><td>Jill</td><td><img src=" + test_arr[6][1] + "></img></td></tr>";
-	  
+	  //item_table.innerHTML += "<tr><td>Jill</td><td><img src=" + test_arr[6][1] + "></img></td></tr>";
+	  item_table.innerHTML += "<tr class=\"rows_height\"><td>Jill</td><td>Jill</td><td>Jill</td><td>Jill</td><td>Jill</td>";
 	  
 	  /*
 	  <tr>
