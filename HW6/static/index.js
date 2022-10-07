@@ -102,11 +102,10 @@ function get_yelp_result(lat, lng){
 	var form_category= document.getElementById('category_bar').value;
 	var form_distance_in_meter = Math.round(parseInt(document.getElementById('distance').value) * oneMile_in_meter) ;
 	
-	alert(lat);
-	alert(lng);
-	
+
+		
     //https://api.yelp.com/v3/businesses/search?term=Sushi&latitude=33.8491816&longitude=-118.3884078&categories=Food&radius=5	
-	send_request("/" + form_keyword + "/" + lat + + "/" + lng + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
+	send_request("/" + form_keyword +  "/" + lat.toString() + "/" + lng.toString() + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
 	
 }
 
