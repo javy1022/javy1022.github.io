@@ -8,7 +8,7 @@ api_key = "P5t7BttvGrXWg8bb79sSf_HpQ_B-S2HShUbc8nwlp4I3DFaPKVpuXMuo3sIhELcn-xxnP
 API_HOST = "https://api.yelp.com/v3"
 BUSINESS_SEARCH_PATH = "/businesses/search" 
 
-headers = {
+yelp_api_headers = {
 'Authorization': 'Bearer %s' % api_key,
 }
 
@@ -20,7 +20,7 @@ def homepage():
 @app.route('/<string:keyword>/<string:location>/<string:category>/<int:distance>')
 def get_keyword(keyword,location,category,distance):
     url =  API_HOST + BUSINESS_SEARCH_PATH
-    headers = {'Authorization': 'Bearer %s' % api_key,}
+    yelp_api_headers = {'Authorization': 'Bearer %s' % api_key,}
     url_params = {	'term': keyword,
 					'location': location,	
 					'categories': category,				
@@ -46,7 +46,7 @@ def get_keyword(keyword,location,category,distance):
     elif category == "Professional Services": 
          url_params["categories"] = "professional"       
   
-    response = requests.get(url, headers=headers, params=url_params)
+    response = requests.get(url, headers=yelp_api_headers, params=url_params)
     response_json = response.json()
     return  response_json
  

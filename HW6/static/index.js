@@ -1,6 +1,8 @@
 /*
  Client ID: stkdKi8rz4r41QtUROS-6g
- API Key: P5t7BttvGrXWg8bb79sSf_HpQ_B-S2HShUbc8nwlp4I3DFaPKVpuXMuo3sIhELcn-xxnPpLuilHqnfaQLXwU_DZ4tALO0UZ0Wd9j3YLSEp89rb6SEUxwDFwckOgvY3Yx
+ Yelp API Key: P5t7BttvGrXWg8bb79sSf_HpQ_B-S2HShUbc8nwlp4I3DFaPKVpuXMuo3sIhELcn-xxnPpLuilHqnfaQLXwU_DZ4tALO0UZ0Wd9j3YLSEp89rb6SEUxwDFwckOgvY3Yx
+ Goole Map API Key: AIzaSyBJa7H7NebIkHQVvifN-TKvBlsJnQNwMLE
+ 
 */
 
 const oneMile_in_meter = 1609.344;
@@ -94,6 +96,12 @@ function get_yelp_result(){
 	var form_category= document.getElementById('category_bar').value;
 	var form_distance_in_meter = Math.round(parseInt(document.getElementById('distance').value) * oneMile_in_meter) ;
 	
+	geoCode_send_request("https://maps.googleapis.com/maps/api/geocode/json?address=University+of+Southern+California+CA&key=AIzaSyBJa7H7NebIkHQVvifN-TKvBlsJnQNwMLE");
+	
+	
+	
+	
+	
     //https://api.yelp.com/v3/businesses/search?term=Sushi&latitude=33.8491816&longitude=-118.3884078&categories=Food&radius=5	
 	send_request("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
 	
@@ -132,3 +140,23 @@ if(location_form.disabled == false){
 	 
   }
 }
+
+
+function geoCode_send_request(url) {
+  var xhttp;
+  xhttp=new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+	  
+	  	  
+      var resp = this.responseText;
+	  result_dict = JSON.parse(resp) ;
+	  console.log(result_dict);
+	
+	    }
+ };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+
+
