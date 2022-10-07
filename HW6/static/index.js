@@ -99,15 +99,15 @@ function send_request(url) {
 function get_yelp_result(lat, lng){
 	
 	var form_keyword = document.getElementById('keyword').value;
-	var form_location= document.getElementById('locations').value; // to replace
 	var form_category= document.getElementById('category_bar').value;
 	var form_distance_in_meter = Math.round(parseInt(document.getElementById('distance').value) * oneMile_in_meter) ;
 	
 	if((typeof lat) == "number" && (typeof lng) == "number"){
-		send_request("/" + form_keyword +  "/" + lat.toString() + "/" + lng.toString() + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
+		send_request("/" + form_keyword +  "/" + lat.toString() + "/" + lng.toString() + "/" +   form_category + "/" + form_distance_in_meter);
+		alert("google");
 	}
-	else if (typeof lat == "string" && typeof lng == "string") {
-		send_request("/" + form_keyword +  "/" + lat + "/" + lng + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
+	else if ((typeof lat) == "string" && (typeof lng) == "string") {
+		send_request("/" + form_keyword +  "/" + lat + "/" + lng + "/" +  form_category + "/" + form_distance_in_meter);
 		alert("hi");
 	}
 		
@@ -125,7 +125,7 @@ submit_button.addEventListener("click", submitForm, false);
 
 function submitForm(event) {
 	
- if(keyword.checkValidity() != false && locations.checkValidity() != false ){
+ if(keyword.checkValidity() != false && locations.checkValidity() != false && location_form.disabled == false){
 	event.preventDefault();
 	
 	var form_location= document.getElementById('locations').value;
@@ -134,9 +134,12 @@ function submitForm(event) {
 	
 	var url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + GOOGLE_API_KEY;
 	
-	//geoCode_send_request(url);
-	IpInfo_send_request("https://ipinfo.io/?token=69aeb460f27a79");
+	geoCode_send_request(url);
 	
+	
+}else if (keyword.checkValidity() != false && location_form.disabled == true){
+	event.preventDefault();
+	IpInfo_send_request("https://ipinfo.io/?token=69aeb460f27a79");
 }
 }
 
@@ -179,6 +182,7 @@ function geoCode_send_request(url) {
 
 
 function IpInfo_send_request(url) {
+	
   var xhttp;
   xhttp=new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -192,6 +196,7 @@ function IpInfo_send_request(url) {
 	  
 	  console.log(result_dict);
 	  get_yelp_result(lat_lng_array[0], lat_lng_array[1]);
+	  
 	}
  };
   xhttp.open("GET", url, true);
