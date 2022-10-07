@@ -17,8 +17,8 @@ def homepage():
     return app.send_static_file("index.html")
 
 
-@app.route('/<string:keyword>/<string:location>/<string:category>/<int:distance>')
-def get_keyword(keyword,location,category,distance):
+@app.route('/<string:keyword>/<float:lat>/<float:lng>/<string:location>/<string:category>/<int:distance>')
+def get_keyword(keyword,lat,lng,location,category,distance):
     url =  YELP_API_HOST + BUSINESS_SEARCH_PATH
     yelp_api_headers = {'Authorization': 'Bearer %s' % yelp_api_key,}
     url_params = {	'term': keyword,
