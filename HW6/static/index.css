@@ -237,6 +237,7 @@ input[type=text] {
 
 #table td, #table th {
   border: 1px solid #e6e6e6;
+ 
 }
 
 .yelp_image {
@@ -249,4 +250,19 @@ input[type=text] {
 	color:black;
 	text-align: center;
 	font-family: Quicksand ;
+}
+
+#card{
+	border:1px solid red;
+	height: 1000px;
+	width: 1050px;
+	margin-left: 425px;
+	background: white;
+}
+
+#business_name{
+	font-family: Inter Tight;
+	font-size: 36px;
+	text-align: center;
+	margin-top: 58px;
 }

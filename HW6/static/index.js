@@ -26,7 +26,7 @@ function table_header_constructor(item_table){
 
 function table_append_row(item_table, list_for_table, i){
 		
-	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\">" +  list_for_table[i][1]  + "</td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
+	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"business_name\"  onClick=\"scroll_to_card()\" >" +  list_for_table[i][1]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
 	
 }
 
@@ -51,14 +51,36 @@ function clear_fields() {
 	 document.getElementById("distance").value = "10";
 	 document.getElementById("category_bar").value = "Default";
 	 document.getElementById("check_box").checked = false;
+	 document.getElementById("locations").disabled = false;
+	 document.getElementById("locations").style.backgroundColor = 'white';
 	 document.getElementById("table").innerHTML = "";
+	 
+	 list_for_table = [];
 }
+
+function scroll_to_card() {
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 document.getElementById('card').scrollIntoView();
+    
+}
+ 
+function preventDefault(event) {
+	event.preventDefault();
+    
+}
+ 
 
  var result_dict;
  var item_table =  document.getElementById("table");
  var items_for_table_list = new Array();
-
- 
+ var list_for_table = new Array();
+  
 function send_request(url) {
   var xhttp;
   xhttp=new XMLHttpRequest();
@@ -67,6 +89,7 @@ function send_request(url) {
 	  
 	  if(document.getElementById("table").innerHTML != ""){
 		  document.getElementById("table").innerHTML = "";
+		  list_for_table = [];
 	  }
 	  
       var resp = this.responseText;
@@ -76,8 +99,7 @@ function send_request(url) {
 	
 	  
 	  var total_businesses = Object.keys(result_dict["businesses"]).length;
-	  var list_for_table = new Array();
-	  
+	 	  
 	  for (let i = 0; i < total_businesses  ; i++) {
 		var result_dict_item = Object.entries(result_dict["businesses"][i]);
 		var buffer_array = new Array();
@@ -89,12 +111,20 @@ function send_request(url) {
 	
 		list_for_table.push(buffer_array);
 	  } 
-	  	   
+	  	   alert(list_for_table.length);
+  
 	  
 	  for (let i = 0; i < total_businesses  ; i++) {
 		table_append_row(item_table, list_for_table, i);
 	  } 
 	  document.getElementById('table').scrollIntoView();
+	  
+	  var business_urls_array = document.getElementsByClassName("business_name");
+	  
+	  for (let i = 0; i < business_urls_array.length; i++) {
+		 business_urls_array[i].addEventListener('click', preventDefault, false);
+      }
+	  
     }
  };
   xhttp.open("GET", url, true);
@@ -205,3 +235,5 @@ function IpInfo_send_request(url) {
   xhttp.open("GET", url, true);
   xhttp.send();
 }
+
+
