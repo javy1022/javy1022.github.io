@@ -95,24 +95,14 @@ function send_request(url) {
 }
 
 
-function get_yelp_result(){
+function get_yelp_result(lat, lng){
 	
 	var form_keyword = document.getElementById('keyword').value;
-	var form_location= document.getElementById('locations').value; // to replace
 	var form_category= document.getElementById('category_bar').value;
 	var form_distance_in_meter = Math.round(parseInt(document.getElementById('distance').value) * oneMile_in_meter) ;
-	
-	var buffer = form_location.replace(reg_remove_all_spaces_after_end_string, "");
-	var api_address_param = buffer.replace(reg_non_alphanumeric, '+');
-	
-	var url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + GOOGLE_API_KEY;
-	geoCode_send_request(url);
-	
-	
-	
-	
+		
     //https://api.yelp.com/v3/businesses/search?term=Sushi&latitude=33.8491816&longitude=-118.3884078&categories=Food&radius=5	
-	send_request("/" + form_keyword + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
+	send_request("/" + form_keyword + "/" + lat + "/" + lng + "/" +  form_category + "/" + form_distance_in_meter);
 	
 }
 
@@ -127,7 +117,14 @@ function submitForm(event) {
 	
  if(keyword.checkValidity() != false && locations.checkValidity() != false ){
 	event.preventDefault();
-	get_yelp_result();
+	//get_yelp_result();
+	var form_location= document.getElementById('locations').value;
+	var buffer = form_location.replace(reg_remove_all_spaces_after_end_string, "");
+	var api_address_param = buffer.replace(reg_non_alphanumeric, '+');
+	
+	var url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + GOOGLE_API_KEY;
+	
+	geoCode_send_request(url)
 	
 }
 }
@@ -165,7 +162,8 @@ function geoCode_send_request(url) {
 	  var lat_lng_array =  new Array();
 	  lat_lng_array.push(result_dict["results"]["0"]["geometry"]["location"]["lat"]);
 	  lat_lng_array.push(result_dict["results"]["0"]["geometry"]["location"]["lng"]);
-		  
+		
+	  get_yelp_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"])		
 	}
  };
   xhttp.open("GET", url, true);
