@@ -26,7 +26,7 @@ function table_header_constructor(item_table){
 
 function table_append_row(item_table, list_for_table, i){
 		
-	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"business_name\"  onClick=\"scroll_to_card()\" >" +  list_for_table[i][1]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
+	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"business_name\"  onclick='scroll_to_card(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][1]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
 	
 }
 
@@ -58,9 +58,9 @@ function clear_fields() {
 	 list_for_table = [];
 }
 
-function scroll_to_card() {
+function scroll_to_card(id) {
 	 
-	 
+	 alert(id);
 	 
 	 
 	 
@@ -235,5 +235,4 @@ function IpInfo_send_request(url) {
   xhttp.open("GET", url, true);
   xhttp.send();
 }
-
 
