@@ -81,11 +81,12 @@ function send_request(url) {
 	  for (let i = 0; i < total_businesses  ; i++) {
 		var result_dict_item = Object.entries(result_dict["businesses"][i]);
 		var buffer_array = new Array();
-		buffer_array_append(result_dict_item, buffer_array, "image_url")
-		buffer_array_append(result_dict_item, buffer_array, "name")
-		buffer_array_append(result_dict_item, buffer_array, "rating")
-		buffer_array_append(result_dict_item, buffer_array, "distance")				
-				
+		buffer_array_append(result_dict_item, buffer_array, "image_url");
+		buffer_array_append(result_dict_item, buffer_array, "name");
+		buffer_array_append(result_dict_item, buffer_array, "rating");
+		buffer_array_append(result_dict_item, buffer_array, "distance")	;			
+		buffer_array_append(result_dict_item, buffer_array, "id");	
+	
 		list_for_table.push(buffer_array);
 	  } 
 	  	   
