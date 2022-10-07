@@ -51,6 +51,15 @@ def get_keyword(keyword,lat_string,lng_string,category,distance):
     response = requests.get(url, headers=yelp_api_headers, params=url_params)
     response_json = response.json()
     return  response_json
+    
+@app.route('/<string:id>')
+def get_business_detail(id):
+    url =  "https://api.yelp.com/v3/businesses/" + id;
+    yelp_api_headers = {'Authorization': 'Bearer %s' % yelp_api_key,}
+       
+    response = requests.get(url, headers=yelp_api_headers)
+    response_json = response.json()
+    return  response_json    
  
     
 if __name__ == "__main__":

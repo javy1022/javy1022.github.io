@@ -26,7 +26,7 @@ function table_header_constructor(item_table){
 
 function table_append_row(item_table, list_for_table, i){
 		
-	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"business_name\"  onclick='scroll_to_card(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][1]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
+	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"business_name\"  onclick='business_detail_request(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][1]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
 	
 }
 
@@ -58,17 +58,50 @@ function clear_fields() {
 	 list_for_table = [];
 }
 
-function scroll_to_card(id) {
+function business_detail_request(id) {
+		
+	
+	send_request_business_detail("/" + id);
+		
+	
 	 
-	 alert(id);
-	 
-	 
-	 
-	 
-	 
-	 document.getElementById('card').scrollIntoView();
+	// document.getElementById('card').scrollIntoView();           for debug convinience
     
 }
+
+function send_request_business_detail(url) {
+  var xhttp;
+  xhttp=new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+	 
+      var resp = this.responseText;
+	  result_dict = JSON.parse(resp) ;
+	  console.log(result_dict);
+	  
+	  alert(result_dict["name"])
+	  var name = result_dict["name"];
+	  
+	  card.innerHTML += "<p id= \"business_name\">" + name + "</p>"
+	  
+	  
+    }
+ };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+
+/*function card_detail(result_dict, header){
+	for(let i = 0; i < Object.keys(result_dict).length; i++){
+		
+			if(result_dict_item[i][0] == header){
+				 buffer_array.push(result_dict_item[i][1]);
+			
+		}	
+	
+}*/
+
+
  
 function preventDefault(event) {
 	event.preventDefault();
@@ -78,6 +111,7 @@ function preventDefault(event) {
 
  var result_dict;
  var item_table =  document.getElementById("table");
+ var card =  document.getElementById("card");
  var items_for_table_list = new Array();
  var list_for_table = new Array();
   
