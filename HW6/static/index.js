@@ -9,9 +9,14 @@
 const reg_non_alphanumeric  = /[^a-z0-9+]+/gi;
 const reg_remove_all_spaces_after_end_string  = /\s*$/;
 const oneMile_in_meter = 1609.344;
+
 const GOOGLE_API_HOST = "https://maps.googleapis.com";
 const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
 const GOOGLE_API_KEY = "AIzaSyBJa7H7NebIkHQVvifN-TKvBlsJnQNwMLE";
+
+const IPINFO_API_HOST = "https://ipinfo.io/";
+const IPINFO_API_KEY = "69aeb460f27a79";
+
 document.getElementById("check_box").checked = false;
 
 
@@ -104,16 +109,13 @@ function get_yelp_result(lat, lng){
 	
 	if((typeof lat) == "number" && (typeof lng) == "number"){
 		send_request("/" + form_keyword +  "/" + lat.toString() + "/" + lng.toString() + "/" +   form_category + "/" + form_distance_in_meter);
-		alert("google");
+	
 	}
 	else if ((typeof lat) == "string" && (typeof lng) == "string") {
 		send_request("/" + form_keyword +  "/" + lat + "/" + lng + "/" +  form_category + "/" + form_distance_in_meter);
-		alert("hi");
+		
 	}
 		
-    //https://api.yelp.com/v3/businesses/search?term=Sushi&latitude=33.8491816&longitude=-118.3884078&categories=Food&radius=5	
-	//send_request("/" + form_keyword +  "/" + lat.toString() + "/" + lng.toString() + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
-	
 }
 
 
@@ -139,7 +141,7 @@ function submitForm(event) {
 	
 }else if (keyword.checkValidity() != false && location_form.disabled == true){
 	event.preventDefault();
-	IpInfo_send_request("https://ipinfo.io/?token=69aeb460f27a79");
+	IpInfo_send_request(IPINFO_API_HOST + "?token=" + IPINFO_API_KEY);
 }
 }
 
