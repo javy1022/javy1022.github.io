@@ -2,15 +2,21 @@
  Client ID: stkdKi8rz4r41QtUROS-6g
  Yelp API Key: P5t7BttvGrXWg8bb79sSf_HpQ_B-S2HShUbc8nwlp4I3DFaPKVpuXMuo3sIhELcn-xxnPpLuilHqnfaQLXwU_DZ4tALO0UZ0Wd9j3YLSEp89rb6SEUxwDFwckOgvY3Yx
  Goole Map API Key: AIzaSyBJa7H7NebIkHQVvifN-TKvBlsJnQNwMLE
+ IpInfo API KEY: 69aeb460f27a79
  
 */
 
 const reg_non_alphanumeric  = /[^a-z0-9+]+/gi;
 const reg_remove_all_spaces_after_end_string  = /\s*$/;
 const oneMile_in_meter = 1609.344;
+
 const GOOGLE_API_HOST = "https://maps.googleapis.com";
 const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
 const GOOGLE_API_KEY = "AIzaSyBJa7H7NebIkHQVvifN-TKvBlsJnQNwMLE";
+
+const IPINFO_API_HOST = "https://ipinfo.io/";
+const IPINFO_API_KEY = "69aeb460f27a79";
+
 document.getElementById("check_box").checked = false;
 
 
@@ -102,10 +108,16 @@ function get_yelp_result(lat, lng){
 	var form_category= document.getElementById('category_bar').value;
 	var form_distance_in_meter = Math.round(parseInt(document.getElementById('distance').value) * oneMile_in_meter) ;
 	
-
+	if((typeof lat) == "number" && (typeof lng) == "number"){
+		send_request("/" + form_keyword +  "/" + lat.toString() + "/" + lng.toString() + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
+	}
+	else if (typeof lat == "string" && typeof lng == "string") {
+		send_request("/" + form_keyword +  "/" + lat + "/" + lng + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
+		alert("hi");
+	}
 		
     //https://api.yelp.com/v3/businesses/search?term=Sushi&latitude=33.8491816&longitude=-118.3884078&categories=Food&radius=5	
-	send_request("/" + form_keyword +  "/" + lat.toString() + "/" + lng.toString() + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
+	//send_request("/" + form_keyword +  "/" + lat.toString() + "/" + lng.toString() + "/" + form_location + "/" +  form_category + "/" + form_distance_in_meter);
 	
 }
 
@@ -120,14 +132,15 @@ function submitForm(event) {
 	
  if(keyword.checkValidity() != false && locations.checkValidity() != false ){
 	event.preventDefault();
-	//get_yelp_result();
+	
 	var form_location= document.getElementById('locations').value;
 	var buffer = form_location.replace(reg_remove_all_spaces_after_end_string, "");
 	var api_address_param = buffer.replace(reg_non_alphanumeric, '+');
 	
 	var url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + GOOGLE_API_KEY;
 	
-	geoCode_send_request(url)
+	//geoCode_send_request(url);
+	IpInfo_send_request(IPINFO_API_HOST + "?token=" + IPINFO_API_KEY );
 	
 }
 }
@@ -161,11 +174,7 @@ function geoCode_send_request(url) {
       var resp = this.responseText;
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
-	  
-	  var lat_lng_array =  new Array();
-	  lat_lng_array.push(result_dict["results"]["0"]["geometry"]["location"]["lat"]);
-	  lat_lng_array.push(result_dict["results"]["0"]["geometry"]["location"]["lng"]);
-		
+	 	
 	  get_yelp_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"])		
 	}
  };
@@ -174,3 +183,22 @@ function geoCode_send_request(url) {
 }
 
 
+function IpInfo_send_request(url) {
+  var xhttp;
+  xhttp=new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+	   	  
+      var resp = this.responseText;
+	  result_dict = JSON.parse(resp) ;
+	  
+	  var buffer = result_dict["loc"];
+	  var lat_lng_array = buffer.split(",")
+	  
+	  console.log(result_dict);
+	  get_yelp_result(lat_lng_array[0], lat_lng_array[1]);
+	}
+ };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
