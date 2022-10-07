@@ -5,8 +5,14 @@
  
 */
 
+const reg_non_alphanumeric  = /[^a-z0-9+]+/gi;
+const reg_remove_all_spaces_after_end_string  = /\s*$/;
 const oneMile_in_meter = 1609.344;
+const GOOGLE_API_HOST = "https://maps.googleapis.com";
+const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
+const GOOGLE_API_KEY = "AIzaSyBJa7H7NebIkHQVvifN-TKvBlsJnQNwMLE";
 document.getElementById("check_box").checked = false;
+
 
 function table_header_constructor(item_table){
 	item_table.innerHTML += "<tr id =\"first_row_height\"><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\">Business Name</th> <th id =\"fourth_columns_width\">Rating</th> <th id =\"fifth_columns_width\">Distance (miles)</th>  </tr>";
@@ -92,12 +98,15 @@ function send_request(url) {
 function get_yelp_result(){
 	
 	var form_keyword = document.getElementById('keyword').value;
-	var form_location= document.getElementById('locations').value;
+	var form_location= document.getElementById('locations').value; // to replace
 	var form_category= document.getElementById('category_bar').value;
 	var form_distance_in_meter = Math.round(parseInt(document.getElementById('distance').value) * oneMile_in_meter) ;
 	
-	geoCode_send_request("https://maps.googleapis.com/maps/api/geocode/json?address=University+of+Southern+California+CA&key=AIzaSyBJa7H7NebIkHQVvifN-TKvBlsJnQNwMLE");
+	var buffer = form_location.replace(reg_remove_all_spaces_after_end_string, "");
+	var api_address_param = buffer.replace(reg_non_alphanumeric, '+');
 	
+	var url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + GOOGLE_API_KEY;
+	geoCode_send_request(url);
 	
 	
 	
@@ -152,8 +161,12 @@ function geoCode_send_request(url) {
       var resp = this.responseText;
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
-	
-	    }
+	  
+	  var lat_lng_array =  new Array();
+	  lat_lng_array.push(result_dict["results"]["0"]["geometry"]["location"]["lat"]);
+	  lat_lng_array.push(result_dict["results"]["0"]["geometry"]["location"]["lng"]);
+		  
+	}
  };
   xhttp.open("GET", url, true);
   xhttp.send();

@@ -4,12 +4,12 @@ from flask import Flask, jsonify, redirect, url_for, json, request
 app = Flask(__name__)
 
 
-api_key = "P5t7BttvGrXWg8bb79sSf_HpQ_B-S2HShUbc8nwlp4I3DFaPKVpuXMuo3sIhELcn-xxnPpLuilHqnfaQLXwU_DZ4tALO0UZ0Wd9j3YLSEp89rb6SEUxwDFwckOgvY3Yx"
-API_HOST = "https://api.yelp.com/v3"
+yelp_api_key = "P5t7BttvGrXWg8bb79sSf_HpQ_B-S2HShUbc8nwlp4I3DFaPKVpuXMuo3sIhELcn-xxnPpLuilHqnfaQLXwU_DZ4tALO0UZ0Wd9j3YLSEp89rb6SEUxwDFwckOgvY3Yx"
+YELP_API_HOST = "https://api.yelp.com/v3"
 BUSINESS_SEARCH_PATH = "/businesses/search" 
 
 yelp_api_headers = {
-'Authorization': 'Bearer %s' % api_key,
+'Authorization': 'Bearer %s' % yelp_api_key,
 }
 
 @app.route('/')
@@ -19,8 +19,8 @@ def homepage():
 
 @app.route('/<string:keyword>/<string:location>/<string:category>/<int:distance>')
 def get_keyword(keyword,location,category,distance):
-    url =  API_HOST + BUSINESS_SEARCH_PATH
-    yelp_api_headers = {'Authorization': 'Bearer %s' % api_key,}
+    url =  YELP_API_HOST + BUSINESS_SEARCH_PATH
+    yelp_api_headers = {'Authorization': 'Bearer %s' % yelp_api_key,}
     url_params = {	'term': keyword,
 					'location': location,	
 					'categories': category,				
