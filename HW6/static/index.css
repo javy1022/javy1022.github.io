@@ -82,6 +82,7 @@ input[type=text] {
 	border: 2px solid  #e6e6e6;
 	font-size: 1em;
 	height: 1rem;
+	border-color: #ccc;
 	
 }
 
@@ -92,9 +93,9 @@ input[type=text] {
 	
 }
 
-#keyword, #location{
+#keyword, #locations{
 	width: 676px; 
-	 
+	
  }
  
 #distance{

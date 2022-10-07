@@ -4,6 +4,7 @@
 */
 
 const oneMile_in_meter = 1609.344;
+document.getElementById("check_box").checked = false;
 
 function table_header_constructor(item_table){
 	item_table.innerHTML += "<tr id =\"first_row_height\"><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\">Business Name</th> <th id =\"fourth_columns_width\">Rating</th> <th id =\"fifth_columns_width\">Distance (miles)</th>  </tr>";
@@ -112,4 +113,22 @@ function submitForm(event) {
 	get_yelp_result();
 	
 }
+}
+
+const check_box = document.getElementById("check_box");
+const location_form = document.getElementById("locations");
+
+
+function check(event) {
+
+if(location_form.disabled == false){
+	 location_form.value = "";
+	 location_form.disabled = true;
+	 location_form.style.backgroundColor = '#e6e6e6';
+	 
+ }else if (location_form.disabled == true){
+	 location_form.style.backgroundColor = 'white';
+	 location_form.disabled = false;
+	 
+  }
 }
