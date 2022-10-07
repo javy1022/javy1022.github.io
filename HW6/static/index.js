@@ -9,14 +9,9 @@
 const reg_non_alphanumeric  = /[^a-z0-9+]+/gi;
 const reg_remove_all_spaces_after_end_string  = /\s*$/;
 const oneMile_in_meter = 1609.344;
-
 const GOOGLE_API_HOST = "https://maps.googleapis.com";
 const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
 const GOOGLE_API_KEY = "AIzaSyBJa7H7NebIkHQVvifN-TKvBlsJnQNwMLE";
-
-const IPINFO_API_HOST = "https://ipinfo.io/";
-const IPINFO_API_KEY = "69aeb460f27a79";
-
 document.getElementById("check_box").checked = false;
 
 
@@ -140,7 +135,7 @@ function submitForm(event) {
 	var url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + GOOGLE_API_KEY;
 	
 	//geoCode_send_request(url);
-	IpInfo_send_request(IPINFO_API_HOST + "?token=" + IPINFO_API_KEY );
+	IpInfo_send_request("https://ipinfo.io/?token=69aeb460f27a79");
 	
 }
 }
