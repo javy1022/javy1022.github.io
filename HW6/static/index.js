@@ -176,6 +176,7 @@ function send_request_business_detail(url) {
 	  card.innerHTML += "<div id= \"card\">";
 	  		 
 	  card.innerHTML += "<p id= \"name_title\" class= \"card_font\">" + name_title + "</p>";
+	  card.innerHTML += "<hr id= \"hr_line\">";
 	  card.innerHTML += "<div id = \"status_title_container\" class= \"card_font\" >" + status_title ;
 	  card.innerHTML +=  status_box;
 	  card.innerHTML += "<div id= \"category_title_container\" class= \"card_font\">" + category_title + "</div>";

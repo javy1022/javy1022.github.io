@@ -254,12 +254,13 @@ input[type=text] {
 }
 
 #card{
-	border:1px solid red;
-	height: 1500px;
+	border:1px solid #cccccc;
+	height: 2000px;
 	width: 1050px;
 	margin-left: 425px;
 	margin-top: 35px;
 	background: white;
+	
 }
 
 .card_font{
@@ -277,14 +278,13 @@ input[type=text] {
 
 #name_title{
 	text-align: center;
-	margin-top: -950px;
+	margin-top: -1950px;
 	
 }
 
 #status_title_container{
 	margin-left: 450px;
-	margin-top: 100px;
-	border:1px solid green;
+	margin-top: 61px;
 	position:absolute;
 	
 	
@@ -292,12 +292,12 @@ input[type=text] {
 
 #status_box_open{
 	height: 50px;
-	width: 100px;
+	width: 115px;
 	text-align: center;
 	background-color: green;
 	line-height: 50px;
 	margin-left: 450px;
-	margin-top: 150px;
+	margin-top: 105px;
 	border-radius: 20px;
 	position:absolute;
 	
@@ -305,105 +305,99 @@ input[type=text] {
 
 #status_box_closed{
 	height: 50px;
-	width: 100px;
+	width: 115px;
 	text-align: center;
 	background-color: red;
 	line-height: 50px;
 	margin-left: 450px;
-	margin-top: 150px;
+	margin-top: 105px;
 	border-radius: 20px;
 	position:absolute;
-	
+	border-top: 1px solid black;
+    border-left: 1px solid black;
+	border-right:2px solid 	#b30000;
+	border-bottom: 2px solid #b30000;
 }
 
 #status_text{
 	color:black;
+	font-family: Lato;
+	font-size: 20px;
 }
 
 #category_title_container{
-	margin-left: 1000px;
-	margin-top: 100px;
-	border:1px solid green;
+	margin-left: 940px;
+	margin-top: 61px;
 	position:absolute;
 	
 }
 
 #category_container{
-	margin-left: 1000px;
-	border:1px solid green;
+	margin-left: 940px;
+	margin-top: 106px;
 	position:absolute;
-	margin-top: 150px;
+	
 }
 
 #address_title_container{
 	margin-left: 450px;
-	margin-top: 250px;
-	border:1px solid green;
+	margin-top: 200px;
 	position:absolute;
 }
 
 #address_container{
 	margin-left: 450px;
-	margin-top: 300px;
-	border:1px solid green;
+	margin-top: 245px;
 	position:absolute;
 }
 
 #phone_title_container{
-	margin-left: 1000px;
-	margin-top: 250px;
-	border:1px solid green;
+	margin-left: 940px;
+	margin-top: 200px;
 	position:absolute;
 	
 }
 
 #phone_container{
-	margin-left: 1000px;
-	margin-top: 300px;
-	border:1px solid green;
+	margin-left: 940px;
+	margin-top: 245px;
 	position:absolute;
 }
 
 #transactions_title_container{
 	margin-left: 450px;
-	margin-top: 400px;
-	border: 1px solid green;
+	margin-top: 328px;
 	position:absolute;
 }
 
 #transactions_container{
 	margin-left: 450px;
-	margin-top: 450px;
-	border:1px solid green;
+	margin-top: 373px;
 	position:absolute;
 }
 
 #price_title_container{
-	margin-left: 1000px;
-	margin-top: 400px;
-	border:1px solid green;
+	margin-left: 940px;
+	margin-top: 328px;
 	position:absolute;
 }
 
 #price_container{
-	margin-left: 1000px;
-	margin-top: 450px;
-	
+	margin-left: 940px;
+	margin-top: 373px;
 	position:absolute;
 }
 
 #more_info_url_title_container{
 	margin-left: 450px;
-	margin-top: 550px;
-	border: 1px solid green;
+	margin-top: 450px;
 	position:absolute;
 	
 }
 
 #more_info_url_container{
 	margin-left: 450px;
-	margin-top: 600px;
-	border: 1px solid green;
+	margin-top: 494px;
 	position:absolute;
 	
 }
@@ -427,5 +421,11 @@ input[type=text] {
  object-fit: cover;
   max-width: 400px;
  max-height: 200px;
+}
+
+#hr_line{
+	width: 51.5%;
+	color: #e6e6e6;
+	
 }
 
