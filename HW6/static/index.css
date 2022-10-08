@@ -330,9 +330,36 @@ input[type=text] {
 
 #category_container{
 	margin-left: 1000px;
-	margin-top: 200px;
 	border:1px solid green;
 	position:absolute;
 	margin-top: 150px;
 }
 
+#address_title_container{
+	margin-left: 450px;
+	margin-top: 250px;
+	border:1px solid green;
+	position:absolute;
+}
+
+#address_container{
+	margin-left: 450px;
+	margin-top: 300px;
+	border:1px solid green;
+	position:absolute;
+}
+
+#phone_title_container{
+	margin-left: 1000px;
+	margin-top: 250px;
+	border:1px solid green;
+	position:absolute;
+	
+}
+
+#phone_container{
+	margin-left: 1000px;
+	margin-top: 300px;
+	border:1px solid green;
+	position:absolute;
+}

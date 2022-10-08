@@ -106,18 +106,25 @@ function send_request_business_detail(url) {
 	  }
 	  	  
 	  
+	  if (typeof result_dict["categories"] != undefined && result_dict["categories"].length != 0){
+	  
 	  for(let i = 0; i < result_dict["categories"].length; i ++){
 		   
 		   if(i != result_dict["categories"].length - 1) categories_buffer += result_dict["categories"][i]["title"] + " | ";
 		   else categories_buffer += result_dict["categories"][i]["title"] ;
 	  }
 	  
+	  }
+	  
+	  
+	  if (typeof result_dict["location"]["display_address"] != undefined && result_dict["location"]["display_address"].length != 0){
 	  
 	  for(let i = 0; i < result_dict["location"]["display_address"].length; i ++){
 		  
 		  if(i != result_dict["categories"].length - 1) address_buffer += result_dict["location"]["display_address"][i] + " ";
 		  else  address_buffer += result_dict["location"]["display_address"][i] ;
 		  
+	  }
 	  }
 	  
 	  transactions_support = transactions_support_buffer;
@@ -128,10 +135,12 @@ function send_request_business_detail(url) {
 	  
 	  var phone_number_title = "";
 	  var name_title = "";
-	  var category_title = "";
-	  
 	  var status_title = "";
 	  var status_box = "";
+      var category_title = "";
+	  var address_title = "";
+	  var address_title = "";
+	 
 	  
 	  if (typeof phone_number != undefined && phone_number != "" ) phone_number_title = "Phone Number";
 	  if (typeof phone_number == undefined) phone_number = ""; 
@@ -141,7 +150,6 @@ function send_request_business_detail(url) {
 	  
 	  if (typeof status_bool != undefined){
 		  status_title = "Status";
-		  var status_string;
 		  if(status_bool == true){
 			  status_box = "<div id= \"status_box_open\"> <span id = \"status_text\"> Open Now </span> </div></div>";  
 		  }else{
@@ -150,10 +158,9 @@ function send_request_business_detail(url) {
 		  
 	  }
 
-	  if (typeof category != undefined && category != "" ) category_title = "Category";
-	  if (typeof category == undefined) category   = "";
-		  
-	  
+	  if (category != "" ) category_title = "Category";
+	  if (address != "" ) address_title = "Address";
+	  	  
 	  card.innerHTML += "<div id= \"card\">";
 	  		 
 	  card.innerHTML += "<p id= \"name_title\" class= \"card_font\">" + name_title + "</p>";
@@ -161,6 +168,10 @@ function send_request_business_detail(url) {
 	  card.innerHTML +=  status_box;
 	  card.innerHTML += "<div id= \"category_title_container\" class= \"card_font\">" + category_title + "</div>";
 	  card.innerHTML += "<div id= \"category_container\" class= \"card_small_font\">" + category + "</div>";
+	  card.innerHTML += "<div id= \"address_title_container\" class= \"card_font\">" + address_title + "</div>";
+	  card.innerHTML += "<div id= \"address_container\" class= \"card_small_font\">" + address + "</div>";
+	  card.innerHTML += "<div id= \"phone_title_container\" class= \"card_font\">" + phone_number_title + "</div>";
+	  card.innerHTML += "<div id= \"phone_container\" class= \"card_small_font\">" + phone_number + "</div>";
 	 // card.innerHTML += "<span id= \"status_title\" class= \"card_font\">" + status_title + "</span>";
 	  
 	  
