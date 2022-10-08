@@ -21,7 +21,7 @@ document.getElementById("check_box").checked = false;
 
 
 function table_header_constructor(item_table){
-	item_table.innerHTML += "<tr id =\"first_row_height\"><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\">Business Name</th> <th id =\"fourth_columns_width\">Rating</th> <th id =\"fifth_columns_width\">Distance (miles)</th>  </tr>";
+	item_table.innerHTML += "<tr id =\"first_row_height\"><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\" onClick=\"sort_table(this.id)\">Business Name</th> <th id =\"fourth_columns_width\" onClick=\"sort_table(this.id)\">Rating</th> <th id =\"fifth_columns_width\" onClick=\"sort_table(this.id)\">Distance (miles)</th>  </tr>";
 }
 
 function table_append_row(item_table, list_for_table, i){
@@ -44,6 +44,34 @@ function buffer_array_append(result_dict_item, buffer_array, header){
 		}	
 	
 }
+
+var toggle_sorting = false;
+
+function sort_table(id){
+	document.getElementById("table").innerHTML = "";
+	
+	if(id == "fourth_columns_width"){
+		
+		if(toggle_sorting == true) {
+			bubbleSort(id , true);
+		    
+		}else{
+			bubbleSort(id , false);
+		}
+		
+		if (toggle_sorting == true) toggle_sorting = false;
+		else toggle_sorting = true;
+		
+		table_header_constructor(item_table);
+		 for (let i = 0; i < list_for_table.length  ; i++) {
+		table_append_row(item_table, list_for_table, i);
+	  } 
+	  document.getElementById('table').scrollIntoView();
+	
+	}
+}
+
+
 
 function clear_fields() {
 	 document.getElementById("keyword").value = "";
@@ -72,11 +100,6 @@ function send_request_business_detail(url) {
   xhttp=new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-	 
-	  if(document.getElementById("card_holder").innerHTML != ""){
-		  document.getElementById("card_holder").innerHTML = "";
-		 
-	  }
 	 
       var resp = this.responseText;
 	  result_dict = JSON.parse(resp) ;
@@ -293,7 +316,11 @@ function send_request(url) {
 		 business_urls_array[i].addEventListener('click', preventDefault, false);
       }
 	  
+	  
+
+	  
     }
+	
  };
   xhttp.open("GET", url, true);
   xhttp.send();
@@ -402,5 +429,52 @@ function IpInfo_send_request(url) {
  };
   xhttp.open("GET", url, true);
   xhttp.send();
+}
+
+function swap(list_for_table, x , y)
+{
+    let tmp = list_for_table[x];
+    list_for_table[x] =  list_for_table[y];
+    list_for_table[y] = tmp;
+	
+}
+ 
+
+function bubbleSort(id , toggle_bool){
+	
+if(id == "fourth_columns_width") {
+	if(toggle_bool == true){
+	var i, j;
+	for (i = 0; i < list_for_table.length - 1; i++)
+	{
+		for (j = 0; j < list_for_table.length - i - 1; j++)
+		{
+			if (list_for_table[j][2] > list_for_table[j+1][2])
+			{
+			   swap(list_for_table, j , j + 1);
+         
+			}
+			}
+		
+		}
+		
+	}else {
+		for (i = 0; i < list_for_table.length - 1; i++)
+	{
+		for (j = 0; j < list_for_table.length - i - 1; j++)
+		{
+			if (list_for_table[j][2] < list_for_table[j+1][2])
+			{
+			   swap(list_for_table, j , j + 1);
+         
+			}
+			}
+		}
+		
+	}
+}
+	
+
+	
 }
 
