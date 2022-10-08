@@ -54,6 +54,7 @@ function clear_fields() {
 	 document.getElementById("locations").disabled = false;
 	 document.getElementById("locations").style.backgroundColor = 'white';
 	 document.getElementById("table").innerHTML = "";
+	 document.getElementById("card_holder").innerHTML = "";
 	 
 	 list_for_table = [];
 }
@@ -71,6 +72,11 @@ function send_request_business_detail(url) {
   xhttp=new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+	 
+	  if(document.getElementById("card_holder").innerHTML != ""){
+		  document.getElementById("card_holder").innerHTML = "";
+		 
+	  }
 	 
       var resp = this.responseText;
 	  result_dict = JSON.parse(resp) ;
@@ -95,7 +101,7 @@ function send_request_business_detail(url) {
 	   for(let i = 0; i < result_dict["photos"].length; i ++){
 		  	photos_array.push(result_dict["photos"][i]);  
 	  }
-	  
+	 
 	  
 	  if (result_dict["transactions"] != null && result_dict["transactions"].length != 0){
 	  
@@ -191,37 +197,20 @@ function send_request_business_detail(url) {
 	  card.innerHTML += "<div id= \"price_container\" class= \"card_small_font\">" + price + "</div>";
 	  card.innerHTML += "<div id= \"more_info_url_title_container\" class= \"card_font\">" + more_info_url_title + "</div>";
 	  card.innerHTML += "<div id= \"more_info_url_container\" class= \"card_small_font\"> <a href=" + more_info_url + "> Yelp </a></div>";
-	  card.innerHTML += "</div>"; 
-	  	
-	  
-	 // card.innerHTML += "<div class=\"card\"> <img  class= \"yelp_card_size\" src="+  photos_array[0] + "> <div class=\"container\"> <h4><b>John Doe</b></h4> <p>Architect & Engineer</p> </div></div>"
-	  /*<div class="card">
-  <img src="img_avatar.png">
-  <div class="container">
-    <h4><b>John Doe</b></h4> 
-    <p>Architect & Engineer</p> 
-  </div>
-</div>*/
-	  
-	  //<img src=" + photos_array[0] +  ">style=\"width:100%\">
-	  
-	  
-	  
-	  
-	 /* <div class="card">
-		<img src="img_avatar.png" alt="Avatar" style="width:100%">
-		<div class="container">
-			<h4><b>John Doe</b></h4> 
-			<p>Architect & Engineer</p> 
-		</div>
-		</div>*/
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+	
+
+
+
+
+   for(let i = 0; i < 3; i++){
+		//if(i == 0  && i < photos_array.length ) card.innerHTML += "<div class=\"card\" id= \"card1\"> <img  class= \"yelp_card_size\" src="+  photos_array[0] + "> <div class=\"container\"> <h4><b>John Doe</b></h4> <p>Architect & Engineer</p> </div></div>";
+	    
+    if(i == 0 ) card.innerHTML += "<div class=\"card\" id= \"card1\"> <img  class= \"yelp_card_size\" src="+  photos_array[0] + " onmouseover=\"img_hoverd("+ (i + 1) +")\" onmouseout=\"img_not_hovered("+ (i+1)+")\">  <p class= \"photos\"> Photo 1</p> </div>";
+	if(i == 1 ) card.innerHTML += "<div class=\"card\" id= \"card2\"> <img  class= \"yelp_card_size\" src="+  photos_array[1] + " onmouseover=\"img_hoverd("+ (i + 1) +")\" onmouseout=\"img_not_hovered("+ (i+1)+")\">   <p class= \"photos\">Photo 2</p> </div>";
+	if(i == 2 ) card.innerHTML += "<div class=\"card\" id= \"card3\"> <img  class= \"yelp_card_size\" src="+  photos_array[2] + " onmouseover=\"img_hoverd("+ (i + 1) +")\" onmouseout=\"img_not_hovered("+ (i+1)+")\">   <p class= \"photos\">Photo 3</p> </div>";
+   }
+	 
+ 	  card.innerHTML += "</div>"; 
 	  document.getElementById("card_holder").scrollIntoView();  
     }
  };
@@ -229,17 +218,24 @@ function send_request_business_detail(url) {
   xhttp.send();
 }
 
-/*function card_detail(result_dict, header){
-	for(let i = 0; i < Object.keys(result_dict).length; i++){
-		
-			if(result_dict_item[i][0] == header){
-				 buffer_array.push(result_dict_item[i][1]);
-			
-		}	
+
+
+
+function img_hoverd(x){
 	
-}*/
+	var id = "card" + x.toString();
+	document.getElementById(id).style.borderColor = "black"; 
+		
+}
 
-
+function img_not_hovered(x){
+	
+	var id = "card" + x.toString();
+	document.getElementById(id).style.borderColor = "#cccccc"; 
+	
+	
+}
+ 
  
 function preventDefault(event) {
 	event.preventDefault();

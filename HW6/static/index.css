@@ -255,8 +255,8 @@ input[type=text] {
 
 #card{
 	border:1px solid #cccccc;
-	height: 2000px;
-	width: 1050px;
+	height: 1300px;
+	width: 1095px;
 	margin-left: 425px;
 	margin-top: 35px;
 	background: white;
@@ -278,7 +278,7 @@ input[type=text] {
 
 #name_title{
 	text-align: center;
-	margin-top: -1950px;
+	margin-top: -1250px;
 	
 }
 
@@ -403,15 +403,31 @@ input[type=text] {
 }
 
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  width: 400px;
+  position:absolute;
+  width: 340px;
   height: 500px;
-}
+ 
+  margin-top: 574px;
+  
+ }
+ 
+ #card1{
+ margin-left: 450px;
+  border: 1px solid #cccccc;
+ 
+ }
+ 
+ #card2{
+ margin-left: 805px;
+ border: 1px solid #cccccc; 
+ }
+ 
+#card3{
+ margin-left: 1155px;	
+ border: 1px solid #cccccc; 
+ }
 
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
+
 
 .container {
   padding: 2px 16px;
@@ -419,8 +435,8 @@ input[type=text] {
 
 .yelp_card_size {
  object-fit: cover;
-  max-width: 400px;
- max-height: 200px;
+ max-width: 100%;
+ max-height: auto;
 }
 
 #hr_line{
@@ -429,3 +445,12 @@ input[type=text] {
 	
 }
 
+.photos{
+	
+	position:absolute;
+    bottom: 0; 
+    left:0%;
+    margin-left:135px;
+	font-family: Lato;
+	font-size: 24px;
+}
