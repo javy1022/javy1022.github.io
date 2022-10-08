@@ -50,7 +50,7 @@ var toggle_sorting = false;
 function sort_table(id){
 	document.getElementById("table").innerHTML = "";
 	
-	if(id == "fourth_columns_width"){
+	if(id == "fourth_columns_width" || "fifth_columns_width" || "third_columns_width"){
 		
 		if(toggle_sorting == true) {
 			bubbleSort(id , true);
@@ -472,6 +472,70 @@ if(id == "fourth_columns_width") {
 		}
 		
 	}
+}else if (id == "fifth_columns_width"){
+	if(toggle_bool == true){
+	var i, j;
+	for (i = 0; i < list_for_table.length - 1; i++)
+	{
+		for (j = 0; j < list_for_table.length - i - 1; j++)
+		{
+			if (list_for_table[j][3] > list_for_table[j+1][3])
+			{
+			   swap(list_for_table, j , j + 1);
+         
+			}
+			}
+		
+		}
+		
+	}else {
+		for (i = 0; i < list_for_table.length - 1; i++)
+	{
+		for (j = 0; j < list_for_table.length - i - 1; j++)
+		{
+			if (list_for_table[j][3] < list_for_table[j+1][3])
+			{
+			   swap(list_for_table, j , j + 1);
+         
+			}
+			}
+		}
+		
+	}
+	
+	
+}else if (id == "third_columns_width"){
+	if(toggle_bool == true){
+	var i, j;
+	for (i = 0; i < list_for_table.length - 1; i++)
+	{
+		for (j = 0; j < list_for_table.length - i - 1; j++)
+		{
+			if (list_for_table[j][1].charCodeAt(0) > list_for_table[j+1][1].charCodeAt(0))
+			{
+			   swap(list_for_table, j , j + 1);
+         
+			}
+			}
+		
+		}
+		
+	}else {
+		for (i = 0; i < list_for_table.length - 1; i++)
+	{
+		for (j = 0; j < list_for_table.length - i - 1; j++)
+		{
+			if (list_for_table[j][1].charCodeAt(0) < list_for_table[j+1][1].charCodeAt(0))
+			{
+			   swap(list_for_table, j , j + 1);
+         
+			}
+			}
+		}
+		
+	}
+	
+	
 }
 	
 
