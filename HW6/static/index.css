@@ -363,3 +363,47 @@ input[type=text] {
 	border:1px solid green;
 	position:absolute;
 }
+
+#transactions_title_container{
+	margin-left: 450px;
+	margin-top: 400px;
+	border: 1px solid green;
+	position:absolute;
+}
+
+#transactions_container{
+	margin-left: 450px;
+	margin-top: 450px;
+	border:1px solid green;
+	position:absolute;
+}
+
+#price_title_container{
+	margin-left: 1000px;
+	margin-top: 400px;
+	border:1px solid green;
+	position:absolute;
+}
+
+#price_container{
+	margin-left: 1000px;
+	margin-top: 450px;
+	border:1px solid green;
+	position:absolute;
+}
+
+#more_info_url_title_container{
+	margin-left: 450px;
+	margin-top: 550px;
+	border: 1px solid green;
+	position:absolute;
+	
+}
+
+#more_info_url_container{
+	margin-left: 450px;
+	margin-top: 600px;
+	border: 1px solid green;
+	position:absolute;
+	
+}

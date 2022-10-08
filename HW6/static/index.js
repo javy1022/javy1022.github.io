@@ -91,20 +91,22 @@ function send_request_business_detail(url) {
 	  
 	  var categories_buffer = "";
 	  var category;
-	  
+	  	   
 	   for(let i = 0; i < result_dict["photos"].length; i ++){
 		  	photos_array.push(result_dict["photos"][i]);  
 	  }
 	  
 	  
-	  
+	  if (typeof result_dict["transactions"] != undefined && result_dict["transactions"].length != 0){
 	  
 	  for(let i = 0; i < result_dict["transactions"].length; i ++){
 		  
 		   if(i != result_dict["transactions"].length - 1) transactions_support_buffer += result_dict["transactions"][i].charAt(0).toUpperCase() + result_dict["transactions"][i].slice(1) + " | ";
 		   else transactions_support_buffer += result_dict["transactions"][i].charAt(0).toUpperCase() + result_dict["transactions"][i].slice(1) ;
 	  }
-	  	  
+	  }
+
+	  
 	  
 	  if (typeof result_dict["categories"] != undefined && result_dict["categories"].length != 0){
 	  
@@ -139,8 +141,11 @@ function send_request_business_detail(url) {
 	  var status_box = "";
       var category_title = "";
 	  var address_title = "";
-	  var address_title = "";
+	  var transactions_support_title = "";
+	  var price_title = "";
+	  var more_info_url_title = "";
 	 
+	  
 	  
 	  if (typeof phone_number != undefined && phone_number != "" ) phone_number_title = "Phone Number";
 	  if (typeof phone_number == undefined) phone_number = ""; 
@@ -160,6 +165,13 @@ function send_request_business_detail(url) {
 
 	  if (category != "" ) category_title = "Category";
 	  if (address != "" ) address_title = "Address";
+	  if (transactions_support != "" ) transactions_support_title = "Transactions Supported";
+	  
+	  if (typeof price != undefined && price != "" ) price_title = "Price";
+	  if (typeof price == undefined) price = ""; 
+	  
+	  if (typeof more_info_url != undefined && more_info_url != "" ) more_info_url_title = "More Info";
+	  if (typeof more_info_url == undefined) more_info_url = ""; 
 	  	  
 	  card.innerHTML += "<div id= \"card\">";
 	  		 
@@ -172,6 +184,12 @@ function send_request_business_detail(url) {
 	  card.innerHTML += "<div id= \"address_container\" class= \"card_small_font\">" + address + "</div>";
 	  card.innerHTML += "<div id= \"phone_title_container\" class= \"card_font\">" + phone_number_title + "</div>";
 	  card.innerHTML += "<div id= \"phone_container\" class= \"card_small_font\">" + phone_number + "</div>";
+	  card.innerHTML += "<div id= \"transactions_title_container\" class= \"card_font\">" + transactions_support_title + "</div>";
+	  card.innerHTML += "<div id= \"transactions_container\" class= \"card_small_font\">" + transactions_support + "</div>";
+	  card.innerHTML += "<div id= \"price_title_container\" class= \"card_font\">" + price_title + "</div>";
+	  card.innerHTML += "<div id= \"price_container\" class= \"card_small_font\">" + price + "</div>";
+	  card.innerHTML += "<div id= \"more_info_url_title_container\" class= \"card_font\">" + more_info_url_title + "</div>";
+	  card.innerHTML += "<div id= \"more_info_url_container\" class= \"card_small_font\"> <a href=" + more_info_url + "> Yelp </a></div>";
 	 // card.innerHTML += "<span id= \"status_title\" class= \"card_font\">" + status_title + "</span>";
 	  
 	  
