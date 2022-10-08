@@ -26,7 +26,7 @@ function table_header_constructor(item_table){
 
 function table_append_row(item_table, list_for_table, i){
 		
-	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"business_name\"  onclick='business_detail_request(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][1]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
+	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"name_title\"  onclick='business_detail_request(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][1]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
 	
 }
 
@@ -63,10 +63,7 @@ function business_detail_request(id) {
 	
 	send_request_business_detail("/" + id);
 		
-	
-	 
-	// document.getElementById('card').scrollIntoView();           for debug convinience
-    
+	    
 }
 
 function send_request_business_detail(url) {
@@ -127,9 +124,53 @@ function send_request_business_detail(url) {
 	  address = address_buffer;
 	  category = categories_buffer;
 	   
-	  card.innerHTML += "<p id= \"business_name\">" + name + "</p>"
+	  	  
+	  
+	  var phone_number_title = "";
+	  var name_title = "";
+	  var category_title = "";
+	  
+	  var status_title = "";
+	  var status_box = "";
+	  
+	  if (typeof phone_number != undefined && phone_number != "" ) phone_number_title = "Phone Number";
+	  if (typeof phone_number == undefined) phone_number = ""; 
+	  
+	  if (typeof name != undefined && name != "" ) name_title = name;
+	  if (typeof name == undefined) name_title = "";
+	  
+	  if (typeof status_bool != undefined){
+		  status_title = "Status";
+		  var status_string;
+		  if(status_bool == true){
+			  status_box = "<div id= \"status_box_open\"> <span id = \"status_text\"> Open Now </span> </div></div>";  
+		  }else{
+			  status_box = "<div id= \"status_box_closed\"> <span id = \"status_text\"> Closed </span> </div></div>";  
+		  }
+		  
+	  }
+
+	  if (typeof category != undefined && category != "" ) category_title = "Category";
+	  if (typeof category == undefined) category   = "";
+		  
+	  
+	  card.innerHTML += "<div id= \"card\">";
+	  		 
+	  card.innerHTML += "<p id= \"name_title\" class= \"card_font\">" + name_title + "</p>";
+	  card.innerHTML += "<div id = \"status_title_container\" class= \"card_font\" >" + status_title ;
+	  card.innerHTML +=  status_box;
+	  card.innerHTML += "<div id= \"category_title_container\" class= \"card_font\">" + category_title + "</div>";
+	  card.innerHTML += "<div id= \"category_container\" class= \"card_small_font\">" + category + "</div>";
+	 // card.innerHTML += "<span id= \"status_title\" class= \"card_font\">" + status_title + "</span>";
 	  
 	  
+	  
+	  
+	  
+	  
+	  
+	  card.innerHTML += "</div>"; 
+	  document.getElementById("card_holder").scrollIntoView();  
     }
  };
   xhttp.open("GET", url, true);
@@ -156,7 +197,7 @@ function preventDefault(event) {
 
  var result_dict;
  var item_table =  document.getElementById("table");
- var card =  document.getElementById("card");
+ var card =  document.getElementById("card_holder");
  var items_for_table_list = new Array();
  var list_for_table = new Array();
   
@@ -198,7 +239,7 @@ function send_request(url) {
 	  } 
 	  document.getElementById('table').scrollIntoView();
 	  
-	  var business_urls_array = document.getElementsByClassName("business_name");
+	  var business_urls_array = document.getElementsByClassName("name_title");
 	  
 	  for (let i = 0; i < business_urls_array.length; i++) {
 		 business_urls_array[i].addEventListener('click', preventDefault, false);

@@ -189,6 +189,7 @@ input[type=text] {
 	width:1345px;
 	font-family: Inter Tight;
     font-size: 24px;
+	
 }
 
 #first_columns_width{
@@ -257,12 +258,81 @@ input[type=text] {
 	height: 1000px;
 	width: 1050px;
 	margin-left: 425px;
+	margin-top: 35px;
 	background: white;
 }
 
-#business_name{
+.card_font{
 	font-family: Inter Tight;
-	font-size: 36px;
-	text-align: center;
-	margin-top: 58px;
+	font-size: 32px;
+	font-weight: bold;
 }
+
+.card_small_font{
+	font-family: Inter Tight;
+	font-size: 20px;
+	
+}
+
+
+#name_title{
+	text-align: center;
+	margin-top: -950px;
+	
+}
+
+#status_title_container{
+	margin-left: 450px;
+	margin-top: 100px;
+	border:1px solid green;
+	position:absolute;
+	
+	
+}
+
+#status_box_open{
+	height: 50px;
+	width: 100px;
+	text-align: center;
+	background-color: green;
+	line-height: 50px;
+	margin-left: 450px;
+	margin-top: 150px;
+	border-radius: 20px;
+	position:absolute;
+	
+}
+
+#status_box_closed{
+	height: 50px;
+	width: 100px;
+	text-align: center;
+	background-color: red;
+	line-height: 50px;
+	margin-left: 450px;
+	margin-top: 150px;
+	border-radius: 20px;
+	position:absolute;
+	
+}
+
+#status_text{
+	color:black;
+}
+
+#category_title_container{
+	margin-left: 1000px;
+	margin-top: 100px;
+	border:1px solid green;
+	position:absolute;
+	
+}
+
+#category_container{
+	margin-left: 1000px;
+	margin-top: 200px;
+	border:1px solid green;
+	position:absolute;
+	margin-top: 150px;
+}
+
