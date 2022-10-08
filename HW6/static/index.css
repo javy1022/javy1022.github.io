@@ -255,7 +255,7 @@ input[type=text] {
 
 #card{
 	border:1px solid red;
-	height: 1000px;
+	height: 1500px;
 	width: 1050px;
 	margin-left: 425px;
 	margin-top: 35px;
@@ -263,7 +263,7 @@ input[type=text] {
 }
 
 .card_font{
-	font-family: Inter Tight;
+	font-family: Lato;
 	font-size: 32px;
 	font-weight: bold;
 }
@@ -388,7 +388,7 @@ input[type=text] {
 #price_container{
 	margin-left: 1000px;
 	margin-top: 450px;
-	border:1px solid green;
+	
 	position:absolute;
 }
 
@@ -407,3 +407,25 @@ input[type=text] {
 	position:absolute;
 	
 }
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 400px;
+  height: 500px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+.yelp_card_size {
+ object-fit: cover;
+  max-width: 400px;
+ max-height: 200px;
+}
+

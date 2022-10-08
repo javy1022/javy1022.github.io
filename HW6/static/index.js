@@ -97,7 +97,7 @@ function send_request_business_detail(url) {
 	  }
 	  
 	  
-	  if (typeof result_dict["transactions"] != undefined && result_dict["transactions"].length != 0){
+	  if (result_dict["transactions"] != null && result_dict["transactions"].length != 0){
 	  
 	  for(let i = 0; i < result_dict["transactions"].length; i ++){
 		  
@@ -108,7 +108,7 @@ function send_request_business_detail(url) {
 
 	  
 	  
-	  if (typeof result_dict["categories"] != undefined && result_dict["categories"].length != 0){
+	  if (result_dict["categories"] != null && result_dict["categories"].length != 0){
 	  
 	  for(let i = 0; i < result_dict["categories"].length; i ++){
 		   
@@ -119,7 +119,7 @@ function send_request_business_detail(url) {
 	  }
 	  
 	  
-	  if (typeof result_dict["location"]["display_address"] != undefined && result_dict["location"]["display_address"].length != 0){
+	  if ( result_dict["location"]["display_address"] != null && result_dict["location"]["display_address"].length != 0){
 	  
 	  for(let i = 0; i < result_dict["location"]["display_address"].length; i ++){
 		  
@@ -147,13 +147,13 @@ function send_request_business_detail(url) {
 	 
 	  
 	  
-	  if (typeof phone_number != undefined && phone_number != "" ) phone_number_title = "Phone Number";
-	  if (typeof phone_number == undefined) phone_number = ""; 
+	  if ( phone_number != null && phone_number != "" ) phone_number_title = "Phone Number";
+	  if ( phone_number == null) phone_number = ""; 
 	  
-	  if (typeof name != undefined && name != "" ) name_title = name;
-	  if (typeof name == undefined) name_title = "";
+	  if ( name != null && name != "" ) name_title = name;
+	  if ( name == null) name_title = "";
 	  
-	  if (typeof status_bool != undefined){
+	  if ( status_bool != null){
 		  status_title = "Status";
 		  if(status_bool == true){
 			  status_box = "<div id= \"status_box_open\"> <span id = \"status_text\"> Open Now </span> </div></div>";  
@@ -167,11 +167,11 @@ function send_request_business_detail(url) {
 	  if (address != "" ) address_title = "Address";
 	  if (transactions_support != "" ) transactions_support_title = "Transactions Supported";
 	  
-	  if (typeof price != undefined && price != "" ) price_title = "Price";
-	  if (typeof price == undefined) price = ""; 
+	  if (price != null && price != "" ) price_title = "Price";
+	  if (price == null) price = ""; 
 	  
-	  if (typeof more_info_url != undefined && more_info_url != "" ) more_info_url_title = "More Info";
-	  if (typeof more_info_url == undefined) more_info_url = ""; 
+	  if (more_info_url != null && more_info_url != "" ) more_info_url_title = "More Info";
+	  if (more_info_url == null) more_info_url = ""; 
 	  	  
 	  card.innerHTML += "<div id= \"card\">";
 	  		 
@@ -190,15 +190,37 @@ function send_request_business_detail(url) {
 	  card.innerHTML += "<div id= \"price_container\" class= \"card_small_font\">" + price + "</div>";
 	  card.innerHTML += "<div id= \"more_info_url_title_container\" class= \"card_font\">" + more_info_url_title + "</div>";
 	  card.innerHTML += "<div id= \"more_info_url_container\" class= \"card_small_font\"> <a href=" + more_info_url + "> Yelp </a></div>";
-	 // card.innerHTML += "<span id= \"status_title\" class= \"card_font\">" + status_title + "</span>";
-	  
-	  
-	  
-	  
-	  
-	  
-	  
 	  card.innerHTML += "</div>"; 
+	  	
+	  
+	 // card.innerHTML += "<div class=\"card\"> <img  class= \"yelp_card_size\" src="+  photos_array[0] + "> <div class=\"container\"> <h4><b>John Doe</b></h4> <p>Architect & Engineer</p> </div></div>"
+	  /*<div class="card">
+  <img src="img_avatar.png">
+  <div class="container">
+    <h4><b>John Doe</b></h4> 
+    <p>Architect & Engineer</p> 
+  </div>
+</div>*/
+	  
+	  //<img src=" + photos_array[0] +  ">style=\"width:100%\">
+	  
+	  
+	  
+	  
+	 /* <div class="card">
+		<img src="img_avatar.png" alt="Avatar" style="width:100%">
+		<div class="container">
+			<h4><b>John Doe</b></h4> 
+			<p>Architect & Engineer</p> 
+		</div>
+		</div>*/
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  document.getElementById("card_holder").scrollIntoView();  
     }
  };
