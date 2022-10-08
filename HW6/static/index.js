@@ -78,10 +78,55 @@ function send_request_business_detail(url) {
       var resp = this.responseText;
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
-	  
-	  alert(result_dict["name"])
+	 
 	  var name = result_dict["name"];
+	  var status_bool = result_dict.hours[0]["is_open_now"];
+	  var phone_number = result_dict["display_phone"];
+	  var price = result_dict["price"];
+	  var more_info_url = result_dict["url"];
+	  var photos_array = new Array();
 	  
+	  var transactions_support_buffer = ""; 
+	  var transactions_support;
+	  
+	  var address_buffer = "";
+	  var address;
+	  
+	  var categories_buffer = "";
+	  var category;
+	  
+	   for(let i = 0; i < result_dict["photos"].length; i ++){
+		  	photos_array.push(result_dict["photos"][i]);  
+	  }
+	  
+	  
+	  
+	  
+	  for(let i = 0; i < result_dict["transactions"].length; i ++){
+		  
+		   if(i != result_dict["transactions"].length - 1) transactions_support_buffer += result_dict["transactions"][i].charAt(0).toUpperCase() + result_dict["transactions"][i].slice(1) + " | ";
+		   else transactions_support_buffer += result_dict["transactions"][i].charAt(0).toUpperCase() + result_dict["transactions"][i].slice(1) ;
+	  }
+	  	  
+	  
+	  for(let i = 0; i < result_dict["categories"].length; i ++){
+		   
+		   if(i != result_dict["categories"].length - 1) categories_buffer += result_dict["categories"][i]["title"] + " | ";
+		   else categories_buffer += result_dict["categories"][i]["title"] ;
+	  }
+	  
+	  
+	  for(let i = 0; i < result_dict["location"]["display_address"].length; i ++){
+		  
+		  if(i != result_dict["categories"].length - 1) address_buffer += result_dict["location"]["display_address"][i] + " ";
+		  else  address_buffer += result_dict["location"]["display_address"][i] ;
+		  
+	  }
+	  
+	  transactions_support = transactions_support_buffer;
+	  address = address_buffer;
+	  category = categories_buffer;
+	   
 	  card.innerHTML += "<p id= \"business_name\">" + name + "</p>"
 	  
 	  
@@ -145,7 +190,7 @@ function send_request(url) {
 	
 		list_for_table.push(buffer_array);
 	  } 
-	  	   alert(list_for_table.length);
+	  	  
   
 	  
 	  for (let i = 0; i < total_businesses  ; i++) {
