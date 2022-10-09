@@ -472,3 +472,11 @@ input[type=text] {
 	border-width: 1px;
 	margin-top : 30px;
 }
+
+#hr_banner{
+	height: 2px;
+	border-width: 0;
+	color:gray;
+	background-color:gray;
+	margin-top :30px;
+}
