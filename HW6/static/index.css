@@ -451,8 +451,10 @@ input[type=text] {
 }
 
 #hr_line{
-	width: 51.5%;
+	width: 1045px;
 	color: #e6e6e6;
+	text-align: center;
+	margin-left:450px;
 	
 }
 

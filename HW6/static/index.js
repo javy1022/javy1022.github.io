@@ -67,11 +67,22 @@ function sort_table(id){
 		else toggle_sorting = true;
 		
 		table_header_constructor(item_table);
+		
+		 
+	  
+	
+		
 		 for (let i = 0; i < list_for_table.length  ; i++) {
 		table_append_row(item_table, list_for_table, i);
 	  } 
 	
-	  
+	var temp = document.getElementsByClassName("name_title");
+	    for(let i = 0; i < temp.length; i ++){
+		 temp[i].style.color = "black";
+		 temp[i].style.textDecoration = "none";
+		 temp[i].addEventListener('mouseover', hovered, false);
+		 temp[i].addEventListener('mouseout', not_hovered, false);
+	  }
 	  
 	  document.getElementById('table').scrollIntoView();
 	
