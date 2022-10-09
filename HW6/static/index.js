@@ -479,7 +479,27 @@ function geoCode_send_request(url) {
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
 	 	
-	  get_yelp_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"])		
+	  if(result_dict["status"] != "ZERO_RESULTS"){
+		get_yelp_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
+	  }	else {
+		  
+		    if(document.getElementById("table").innerHTML != ""){
+		  document.getElementById("table").innerHTML = "";
+		  list_for_table = [];
+	  }
+	   if(document.getElementById("card_holder").innerHTML != ""){
+	   document.getElementById("card_holder").innerHTML = "";
+	   }
+		  
+		   if( document.getElementById("no_record_container").innerHTML  != ""){
+			 document.getElementById("no_record_container").innerHTML = "";
+	       }
+		  
+		  var no_record = document.getElementById("no_record_container");
+		
+		  no_record.innerHTML += "<div id= \"no_record\"><p>No record has been found</p></div>"
+		  no_record.innerHTML += "<hr id = \"hr_footer\">"
+	  }	
 	}
  };
   xhttp.open("GET", url, true);
