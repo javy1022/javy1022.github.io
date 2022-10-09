@@ -287,8 +287,11 @@ input[type=text] {
 #name_title{
 	text-align: center;
 	margin-top: -1250px;
+	color: black;
 	
 }
+
+
 
 #status_title_container{
 	margin-left: 450px;

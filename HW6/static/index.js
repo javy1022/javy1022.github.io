@@ -21,7 +21,10 @@ document.getElementById("check_box").checked = false;
 
 
 function table_header_constructor(item_table){
-	item_table.innerHTML += "<tr id =\"first_row_height\"><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\" onClick=\"sort_table(this.id)\">Business Name</th> <th id =\"fourth_columns_width\" onClick=\"sort_table(this.id)\">Rating</th> <th id =\"fifth_columns_width\" onClick=\"sort_table(this.id)\">Distance (miles)</th>  </tr>";
+	item_table.innerHTML += "<tr id =\"first_row_height\"><th id =\"first_columns_width\">No.</th> <th id =\"second_columns_width\">Image</th> <th id =\"third_columns_width\" onClick=\"sort_table(this.id)\" >Business Name</th> <th id =\"fourth_columns_width\" onClick=\"sort_table(this.id)\">Rating</th> <th id =\"fifth_columns_width\" onClick=\"sort_table(this.id)\">Distance (miles)</th>  </tr>";
+	document.getElementById("third_columns_width").style.cursor = "pointer";
+	document.getElementById("fourth_columns_width").style.cursor = "pointer";
+	document.getElementById("fifth_columns_width").style.cursor = "pointer";
 }
 
 function table_append_row(item_table, list_for_table, i){
@@ -29,6 +32,8 @@ function table_append_row(item_table, list_for_table, i){
 	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" + (i+1) + "</td><td><img src=" + list_for_table[i][0] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"name_title\"  onclick='business_detail_request(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][1]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][2] + "</td> <td class=\"table_text\">" + list_for_table[i][3] +"</td> </tr>";
 	
 }
+
+
 
 function buffer_array_append(result_dict_item, buffer_array, header){
 	for(let i = 0; i < Object.keys(result_dict_item).length; i++){
@@ -65,6 +70,9 @@ function sort_table(id){
 		 for (let i = 0; i < list_for_table.length  ; i++) {
 		table_append_row(item_table, list_for_table, i);
 	  } 
+	
+	  
+	  
 	  document.getElementById('table').scrollIntoView();
 	
 	
@@ -247,6 +255,21 @@ function send_request_business_detail(url) {
   xhttp.send();
 }
 
+function img_hoverd(x){
+	
+	var id = "card" + x.toString();
+	document.getElementById(id).style.borderColor = "black"; 
+		
+}
+
+function img_not_hovered(x){
+	
+	var id = "card" + x.toString();
+	document.getElementById(id).style.borderColor = "#cccccc"; 
+	
+	
+}
+
 
 
 
@@ -269,6 +292,14 @@ function img_not_hovered(x){
 function preventDefault(event) {
 	event.preventDefault();
     
+}
+ 
+ function hovered(){
+	 this.style.opacity = 0.5 ;
+ }
+ 
+function not_hovered () {
+	this.style.opacity = 1;
 }
  
 
@@ -334,6 +365,16 @@ function send_request(url) {
 	  for (let i = 0; i < total_businesses  ; i++) {
 		table_append_row(item_table, list_for_table, i);
 	  } 
+	  
+	   var temp = document.getElementsByClassName("name_title");
+	  
+	  for(let i = 0; i < temp.length; i ++){
+		 temp[i].style.color = "black";
+		 temp[i].style.textDecoration = "none";
+		 temp[i].addEventListener('mouseover', hovered, false);
+		 temp[i].addEventListener('mouseout', not_hovered, false);
+	  }
+	  
 	  document.getElementById('table').scrollIntoView();
 	  
 	  var business_urls_array = document.getElementsByClassName("name_title");
@@ -537,7 +578,7 @@ if(id == "fourth_columns_width") {
 	{
 		for (j = 0; j < list_for_table.length - i - 1; j++)
 		{
-			if (list_for_table[j][1].charCodeAt(0) > list_for_table[j+1][1].charCodeAt(0))
+			if (list_for_table[j][1].charCodeAt(0) < list_for_table[j+1][1].charCodeAt(0))
 			{
 			   swap(list_for_table, j , j + 1);
          
@@ -551,7 +592,7 @@ if(id == "fourth_columns_width") {
 	{
 		for (j = 0; j < list_for_table.length - i - 1; j++)
 		{
-			if (list_for_table[j][1].charCodeAt(0) < list_for_table[j+1][1].charCodeAt(0))
+			if (list_for_table[j][1].charCodeAt(0) > list_for_table[j+1][1].charCodeAt(0))
 			{
 			   swap(list_for_table, j , j + 1);
          
