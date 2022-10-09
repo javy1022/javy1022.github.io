@@ -50,7 +50,6 @@ var toggle_sorting = false;
 function sort_table(id){
 	document.getElementById("table").innerHTML = "";
 	
-	if(id == "fourth_columns_width" || "fifth_columns_width" || "third_columns_width"){
 		
 		if(toggle_sorting == true) {
 			bubbleSort(id , true);
@@ -68,7 +67,7 @@ function sort_table(id){
 	  } 
 	  document.getElementById('table').scrollIntoView();
 	
-	}
+	
 }
 
 
@@ -83,6 +82,7 @@ function clear_fields() {
 	 document.getElementById("locations").style.backgroundColor = 'white';
 	 document.getElementById("table").innerHTML = "";
 	 document.getElementById("card_holder").innerHTML = "";
+	 document.getElementById("no_record_container").innerHTML = "";
 	 
 	 list_for_table = [];
 }
@@ -104,6 +104,12 @@ function send_request_business_detail(url) {
       var resp = this.responseText;
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
+	  
+	   if(document.getElementById("card_holder").innerHTML != ""){
+	   document.getElementById("card_holder").innerHTML = "";
+	   }
+	 
+	 
 	 
 	  var name = result_dict["name"];
 	  var status_bool = result_dict.hours[0]["is_open_now"];
@@ -282,11 +288,22 @@ function send_request(url) {
 		  document.getElementById("table").innerHTML = "";
 		  list_for_table = [];
 	  }
+	   if(document.getElementById("card_holder").innerHTML != ""){
+	   document.getElementById("card_holder").innerHTML = "";
+	   }
+	   
+	   
+	    if( document.getElementById("no_record_container").innerHTML  != ""){
+			 document.getElementById("no_record_container").innerHTML = "";
+	   }
 	  
+	  
+	   
       var resp = this.responseText;
 	  result_dict = JSON.parse(resp) ;
 	  console.log(result_dict);
-	  table_header_constructor(item_table);
+	  
+	 
 	
 	  
 	  var total_businesses = Object.keys(result_dict["businesses"]).length;
@@ -303,8 +320,17 @@ function send_request(url) {
 		list_for_table.push(buffer_array);
 	  } 
 	  	  
-  
-	  
+	 if(list_for_table.length > 0){
+		 table_header_constructor(item_table);
+	 }else{
+			
+		var no_record = document.getElementById("no_record_container");
+		
+		no_record.innerHTML += "<div id= \"no_record\"><p>No record has been found</p></div>"
+		no_record.innerHTML += "<hr id = \"hr_footer\">"
+		
+	 }  
+	 
 	  for (let i = 0; i < total_businesses  ; i++) {
 		table_append_row(item_table, list_for_table, i);
 	  } 
