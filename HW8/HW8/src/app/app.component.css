@@ -1,0 +1,17 @@
+.bg {
+  
+  background-image: url("../assets/city.jpg");
+  background-repeat: no-repeat;
+
+  
+  height: 100%; 
+
+  
+  background-position: center;
+  background-size: cover;
+}
+
+#test{
+	color:red;
+	padding-top:500px;
+}
