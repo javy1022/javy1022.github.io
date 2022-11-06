@@ -5,3 +5,7 @@ body, html{
     margin: 0;
 }
 
+@font-face {
+  font-family: Nanum Gothic;
+  src: url(assets/font/NanumGothic-Regular.ttf) format("opentype");
+}
