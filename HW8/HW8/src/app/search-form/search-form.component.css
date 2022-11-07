@@ -58,10 +58,14 @@
 	
 	#keyword_text{
 		color:black;
+		font-family: NunitoSans;
+		font-size:18px;
+		margin-top:23px;
+		margin-left: 40px;
 	}
 	
 	.asterisk{
-		color:blue;
+		color:red;
 		
 	}
 }
