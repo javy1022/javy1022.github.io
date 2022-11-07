@@ -21,7 +21,23 @@
 		font-weight: bold;
 		font-size:20.5px;
 		margin-top: 18px;
+		
 	}
+	
+	#keyword_text{
+		color:black;
+		font-family: NunitoSans;
+		font-size:18px;
+		margin-top:36px;
+		margin-left: 4px;
+	}
+	
+	.asterisk{
+		color:red;
+		
+	}
+	
+	
 }
 
 @media (min-width: 575.98px) { 
@@ -37,6 +53,15 @@
 		font-weight: bold;
 		font-size:24px;
 		margin-top: 50px;
+		
+	}
+	
+	#keyword_text{
+		color:black;
+	}
+	
+	.asterisk{
+		color:blue;
 		
 	}
 }
