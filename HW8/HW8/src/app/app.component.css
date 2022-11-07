@@ -13,24 +13,42 @@
 
 .navbar-nav{
 	list-style-type: none;
+	
 }
 
 .navbar-brand{
-	font-size:24px;
+	
+	display:flex;
+    text-align: center;
+	font-size:16px;
 	color: black;
 	font-weight: 100;
 	font-family: Nanum Gothic;
-	background-color: #ffffff;
-    border: 2px solid #662D91;
+	background-color: white;
+    margin-top:10px;
+	
 }
 
-.navbar-nav > li{
-  margin-left:500px;
-  margin-right:30px;
+#bookings
+{
+  margin-right:44px;
+  
 }
 
-#test{
-	color:red;
-	padding-top:500px;
+
+
+
+
+.navbar-nav a.selected {
+    border: 2px solid black;
+	border-radius: 16px;
+	padding-top:14px;
+	padding-bottom: 14px;
+	padding-left:8px;
+	padding-right:8px;
+	align-items: center;
+    justify-content: center;
+	margin-top:2px;
+	margin-left:-8px;
 }
 

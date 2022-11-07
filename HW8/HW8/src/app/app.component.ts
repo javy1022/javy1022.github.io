@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'HW8';
+  
+  selectedNav = "search";
+  
+  onSelect(): void {
+    this.selectedNav = "search";
+	
+  }
+  
+  onSelect1(): void {
+    this.selectedNav = "bookings";
+	
+  }
 }
