@@ -6,6 +6,6 @@ body, html{
 }
 
 @font-face {
-  font-family: Nanum Gothic;
-  src: url(assets/font/NanumGothic-Regular.ttf) format("opentype");
+  font-family: NunitoSans;
+  src: url(assets/font/NunitoSans-Regular.ttf) format("opentype");
 }
