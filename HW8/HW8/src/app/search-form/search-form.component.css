@@ -3,21 +3,24 @@
 
 .container{
 	border-style: solid;
-	border-color: red;
-	background-color:yellow;
-	
+	border-color: #ced4da;
+    border-width: thin;
+	border-radius: 15px;
 }
 
 @media (max-width: 575.98px) { 
 	.container{
         max-width: 364px;
 		height: 672px;
+		margin-top: 62px;
     }
 }
 
 @media (min-width: 575.98px) { 
 	.container{
-        max-width: 500px;
+        max-width: 50%;
+		height: 534px;
+		margin-top: 42px;
     }
 }
 
