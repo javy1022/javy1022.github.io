@@ -5,3 +5,19 @@
 	border-radius: 15px;
 }
 
+#form_title{
+	color:black;
+	font-family: NunitoSans;
+	font-weight: bold;
+}
+
+#keyword_text{
+	color:black;
+	font-family: NunitoSans;
+}
+
+
+.asterisk{
+     color:red;
+}
+
