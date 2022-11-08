@@ -11,13 +11,27 @@
 	font-weight: bold;
 }
 
-#keyword_text{
+#keyword_text, #distance_text, #category_text{
 	color:black;
 	font-family: NunitoSans;
+	
 }
+
+
+
 
 
 .asterisk{
-     color:red;
+    font-family: NunitoSans;
+    color:red;
+	
 }
 
+#asterisk2{
+	margin-left:5px;
+}
+
+.coldfvxd{
+	border-style: solid;
+	border-color: red;
+}

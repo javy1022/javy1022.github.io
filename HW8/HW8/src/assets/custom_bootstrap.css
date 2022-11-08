@@ -652,9 +652,19 @@ progress {
 	margin-top: 32px;
   }
 	
-   .asterisk{
-		
-	}
+   #distance_text{
+	font-size:16px;
+	margin-left: 4px;
+	margin-top: 32px; 
+	
+   }
+   
+   #category_text{
+	font-size:16px;
+	margin-left: 4px;
+	margin-top: 32px; 
+	
+   }
 }
 
 @media (min-width: 576px) {
@@ -674,6 +684,31 @@ progress {
 	margin-left: 23px;
 	margin-top: 12px;
   }
+  
+  #distance_text{
+	font-size:17px;
+	margin-left: 23px;
+	margin-top: 12px;
+	
+   }
+   
+   #distance_input{
+	   margin-left: 33px;
+   }
+   
+   #category_text{
+	font-size:17px;
+	margin-left:72px;
+	margin-top: 12px;
+	
+   }
+   
+   #category_input{
+	
+	margin-left:35px;
+	
+	
+   }
 }
 @media (min-width: 768px) {
   .container-md, .container-sm, .container {
@@ -692,6 +727,21 @@ progress {
 	margin-left: 27px;
 	margin-top: 14px;
   }
+  
+  #distance_text{
+	font-size:17px;
+	margin-left: 27px;
+	margin-top: 14px;
+	
+   }
+   
+   #category_text{
+		font-size:17px;
+	margin-left: 72px;
+	margin-top: 14px;
+	
+   }
+  
 }
 @media (min-width: 992px) {
   .container-lg, .container-md, .container-sm, .container {
@@ -710,6 +760,20 @@ progress {
 	margin-left: 31px;
 	margin-top: 17px;
   }
+  
+   #distance_text{
+	font-size:17px;
+	margin-left: 31px;
+	margin-top: 17px;
+	
+   }
+   
+   #category_text{
+		font-size:17px;
+	margin-left: 72px;
+	margin-top: 17px;
+	
+   }
 }
 @media (min-width: 1200px) {
   .container-xl, .container-lg, .container-md, .container-sm, .container {
@@ -728,6 +792,20 @@ progress {
 	margin-left: 36px;
 	margin-top: 19px;
   }
+  
+  #distance_text{
+	font-size:17px;
+	margin-left: 36px;
+	margin-top: 19px;
+	
+   }
+   
+   #category_text{
+	font-size:17px;
+	margin-left: 72px;
+	margin-top: 19px;
+	
+   }
 }
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
@@ -746,6 +824,20 @@ progress {
 	margin-left: 40px;
 	margin-top: 22px;
   }
+  
+   #distance_text{
+	font-size:17px;
+	margin-left: 40px;
+	margin-top: 22px;
+	
+   }
+   
+   #category_text{
+	font-size:17px;
+	margin-left: 72px;
+	margin-top: 22px;
+	
+   }
 }
 .row {
   --bs-gutter-x: 1.5rem;
@@ -861,7 +953,7 @@ progress {
 
 .col-11 {
   flex: 0 0 auto;
-  width: 91.66666667%;
+  width: 90.33333333%;
 }
 
 .col-12 {
@@ -1023,11 +1115,12 @@ progress {
   }
   .col-sm-4 {
     flex: 0 0 auto;
-    width: 33.33333333%;
+    width: 38%;
   }
   .col-sm-5 {
     flex: 0 0 auto;
     width: 41.66666667%;
+	
   }
   .col-sm-6 {
     flex: 0 0 auto;
@@ -1039,7 +1132,7 @@ progress {
   }
   .col-sm-8 {
     flex: 0 0 auto;
-    width: 66.66666667%;
+    width: 45%;
   }
   .col-sm-9 {
     flex: 0 0 auto;

@@ -3,11 +3,58 @@
 		<div class="col" id="form_title">Business search</div>
 	</div>
 
+	<form>
+
 	<div class="row">
-         <label for="keyword_input" class="form-label" id="keyword_text">Keyword <span class= "asterisk">*</span></label>
-		 <input type="email" class="form-control" id="keyword_input" >
-
+		 <div class="col" >
+			<label for="keyword_input" class="form-label " id="keyword_text">Keyword <span class= "asterisk">*</span></label>
+		  </div>
 	</div>
-
-
+	
+	 <div class="row justify-content-center">
+	 <div class="col-12 col-sm-11" >
+			<input type="text" class="form-control form-control-lg" id="keyword_input" required >
+	 </div>
+	 </div>
+	 
+	 <div class="row">
+		 <div class="col-12 col-sm-5" >
+			<label for="distance_input" class="form-label " id= "distance_text">Distance</label>
+		  </div>
+		  
+		  <div class="col-12 col-sm-7 " >
+			<label for="category_input" class="form-label " id= "category_text">Category<span class= "asterisk" id="asterisk2">*</span></label>
+		  </div>
+	</div>
+	
+	<div class="row ">
+	 <div class="col-12 col-sm-8" >
+			<input type="text" class="form-control form-control-lg" id="distance_input"  >
+	 </div>
+	 
+	 <div class="col-3 col-sm-4" >
+			<select class="form-select form-select-lg" id="category_input" required >
+				<option value="Default" selected>Default</option>
+				<option value="Arts & Entertainment">Arts & Entertainment</option>
+				<option value="Health & Medical">Health & Medical</option>
+				<option value="Hotels & Travel">Hotels & Travel</option>
+				<option value="Food">Food</option>
+				<option value="Professional Services" >Professional Services</option>
+			</select>
+	 </div>
+	 </div>
+	 
+	 
+	<!--  <button type="submit" class="btn btn-primary">Submit</button>-->
+	</form>
 </div>
+
+
+<!-- 
+		  <label for="keyword_input" class="form-label  col-10 col-md-4" id="keyword_text">Keyword <span class= "asterisk">*</span></label>
+		  <label for="keyword_input" class="form-label  col-10 col-md-4" id="keyword_text">test <span class= "asterisk">*</span></label>
+
+
+
+
+-->
