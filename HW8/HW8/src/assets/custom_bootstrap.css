@@ -637,32 +637,39 @@ progress {
 @media (max-width: 576px) {
   .container-sm, .container {
     max-width: 365px;
+	height: 673px;
   }
 }
 
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 452px;
+	height: 316px;
   }
 }
 @media (min-width: 768px) {
   .container-md, .container-sm, .container {
     max-width: 539px;
+	height: 377px;
+	
   }
 }
 @media (min-width: 992px) {
   .container-lg, .container-md, .container-sm, .container {
     max-width: 626px;
+	height: 438px;
   }
 }
 @media (min-width: 1200px) {
   .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 713px;
+	height: 499px;
   }
 }
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 800px;
+	height: 576px;
   }
 }
 .row {
