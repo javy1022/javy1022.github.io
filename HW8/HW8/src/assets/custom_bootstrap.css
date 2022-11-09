@@ -665,12 +665,20 @@ progress {
 	margin-top: 32px; 
 	
    }
+   
+    #flexCheckDefault{
+		margin-top: 20px;
+   }
+   
+   #auto{
+	   margin-top: 15px;
+   }
 }
 
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 452px;
-	height: 316px;
+	height: 576px;
 	margin-top: 21px;
   }
   
@@ -709,11 +717,21 @@ progress {
 	
 	
    }
+   
+   #flexCheckDefault{
+		margin-top: 30px;
+		margin-left: 15px;
+   }
+   
+   #auto{
+	   margin-top: 25px;
+	   margin-left: 10px;
+   }
 }
 @media (min-width: 768px) {
   .container-md, .container-sm, .container {
     max-width: 539px;
-	height: 377px;
+	height: 576px;
 	margin-top: 25px;
   }
   
@@ -741,12 +759,22 @@ progress {
 	margin-top: 14px;
 	
    }
+   
+   #flexCheckDefault{
+		margin-top: 30px;
+		margin-left: 15px;
+   }
+   
+   #auto{
+	   margin-top: 25px;
+	   margin-left: 10px;
+   }
   
 }
 @media (min-width: 992px) {
   .container-lg, .container-md, .container-sm, .container {
     max-width: 626px;
-	height: 438px;
+	height: 576px;
 	margin-top: 29px;
   }
   
@@ -774,11 +802,21 @@ progress {
 	margin-top: 17px;
 	
    }
+   
+   #flexCheckDefault{
+		margin-top: 30px;
+		margin-left: 15px;
+   }
+   
+   #auto{
+	   margin-top: 25px;
+	   margin-left: 10px;
+   }
 }
 @media (min-width: 1200px) {
   .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 713px;
-	height: 499px;
+	height: 576px;
 	margin-top: 33px;
   }
   
@@ -805,6 +843,16 @@ progress {
 	margin-left: 72px;
 	margin-top: 19px;
 	
+   }
+   
+   #flexCheckDefault{
+		margin-top: 30px;
+		margin-left: 15px;
+   }
+   
+   #auto{
+	   margin-top: 25px;
+	   margin-left: 10px;
    }
 }
 @media (min-width: 1400px) {
@@ -838,6 +886,18 @@ progress {
 	margin-top: 22px;
 	
    }
+   
+    #flexCheckDefault{
+		margin-top: 30px;
+		margin-left: 15px;
+   }
+   
+   #auto{
+	   margin-top: 25px;
+	   margin-left: 10px;
+   }
+   
+  
 }
 .row {
   --bs-gutter-x: 1.5rem;
@@ -908,7 +968,7 @@ progress {
 
 .col-2 {
   flex: 0 0 auto;
-  width: 16.66666667%;
+  width: 10.66666667%;
 }
 
 .col-3 {
@@ -923,7 +983,7 @@ progress {
 
 .col-5 {
   flex: 0 0 auto;
-  width: 41.66666667%;
+  width:  41.66666667%;
 }
 
 .col-6 {
@@ -1103,7 +1163,7 @@ progress {
   }
   .col-sm-1 {
     flex: 0 0 auto;
-    width: 8.33333333%;
+    width: 12.33333333%;
   }
   .col-sm-2 {
     flex: 0 0 auto;

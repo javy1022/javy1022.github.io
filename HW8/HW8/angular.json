@@ -26,7 +26,7 @@
               "src/styles.css",
 			  "src/assets/custom_bootstrap.css"
             ],
-            "scripts": []
+            "scripts": ["src/assets/search-form.component.js"]
           },
           "configurations": {
             "production": {
@@ -94,7 +94,7 @@
               "src/styles.css",
 			  "src/assets/custom_bootstrap.css"
             ],
-            "scripts": []
+            "scripts": ["src/assets/search-form.component.js"]
           }
         }
       }

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,6 +12,8 @@ export class AppComponent {
   title = 'HW8';
   
   selectedNav = "search";
+ 
+  
   
   onSelect(): void {
     this.selectedNav = "search";
@@ -19,4 +24,5 @@ export class AppComponent {
     this.selectedNav = "bookings";
 	
   }
+    
 }

@@ -31,7 +31,26 @@
 	margin-left:5px;
 }
 
-.coldfvxd{
-	border-style: solid;
-	border-color: red;
+
+
+@media  (max-width:576px){
+	
+	#distance_input{
+		display:none;
+	}
+	
+	#distance_input2{
+		display:block;
+	}
+}
+
+@media  (min-width:576px){
+	
+	#distance_input{
+		display:block;
+	}
+	
+	#distance_input2{
+		display:none;
+	}
 }
