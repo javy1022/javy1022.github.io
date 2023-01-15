@@ -1,9 +1,0 @@
-<nav class="navbar navbar-expand bg-white">
-<div class="container-fluid">
-<ul class="navbar-nav ms-auto">
-  <li class="nav-item"> <a  id= "search" class="navbar-brand" [class.selected]="this.selectedNav === 'search'"  routerLink="/search" (click)="onSelect()">Search</a> </li>
-  <li class ="nav-item"> <a id= "bookings" class="navbar-brand"  [class.selected]="this.selectedNav === 'bookings'" routerLink="/bookings" (click)="onSelect1()">My Bookings</a> </li>
-  </ul>
-   </div>
-</nav>
-<router-outlet></router-outlet>
