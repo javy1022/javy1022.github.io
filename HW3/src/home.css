@@ -98,10 +98,42 @@
 }
 
 #images_container{
-	width: 1110px;
-	height: 1110px;
+	width: 1112px;
+	height: 1112px;
 	background-color: pink;
 	margin: auto;
+	
+	
+}
+
+.images{
+	display: inline-block;
+	width: 549px;
+	height: 549px;
+	
+}
+
+#image1{
+	background-color: lavender;
+}
+
+#image2{
+	background-color: darkseagreen;
+	margin-left: 10px;
+	
+}
+
+#image3{
+	
+}
+#image4{
+	
+}
+
+#pier{
+
+	max-height:100%;
+	max-width:auto;
 	
 	
 }
