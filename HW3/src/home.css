@@ -55,6 +55,7 @@
 	color: gray;
 }
 
+
 #home, #nature, #urban, #bio, #videos, #photo_albums, #book_online{ 
 	font-weight: normal;
 	
@@ -176,3 +177,6 @@
 	margin-left: 10px;
 }
 
+.anchor_links{
+	 text-decoration: none
+}
