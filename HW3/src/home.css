@@ -100,40 +100,39 @@
 #images_container{
 	width: 1112px;
 	height: 1112px;
-	background-color: pink;
 	margin: auto;
-	
-	
 }
 
-.images{
-	display: inline-block;
-	width: 549px;
-	height: 549px;
-	
-}
 
-#image1{
-	background-color: lavender;
-}
 
-#image2{
-	background-color: darkseagreen;
-	margin-left: 10px;
-	
-}
-
-#image3{
-	
-}
-#image4{
-	
-}
 
 #pier{
+	width: 549px;
+	height: 549px; 
+	object-fit: cover; 
+	object-position:-223px 0;
+}
 
-	max-height:100%;
-	max-width:auto;
-	
-	
+#road{
+	width: 549px; 
+	height: 549px;
+	object-fit: cover;
+	object-position:-146px 0;
+	margin-left: 10px;
+}
+
+#lake{
+	width: 549px;
+	height: 549px; 
+	object-fit: cover; 
+	object-position:-215px 0;
+	margin-top: 10px;
+}
+
+#mountain{
+	width: 549px;
+	height: 549px; 
+	object-fit: cover; 
+	object-position:-136px 0;
+	margin-left: 10px;
 }
