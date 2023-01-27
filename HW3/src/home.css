@@ -38,30 +38,41 @@
 	
 }
 
-#home a {
+#home_1 a {
    color: black;
 }
 
-#home a:visited {
-   color: black;
+#home_2 a {
+   color: gray;
 }
 
 
-#nature a:hover{
-	color:black;
+
+#nature_1 a{
+	color:gray;
 }
 
-#nature a:visited{
+#nature_1 a:visited{
 	color: gray;
 }
 
 
-#home, #nature, #urban, #bio, #videos, #photo_albums, #book_online{ 
+#nature_2{
+	color: black;
+}
+
+#nature_2 a:visited{
+	color: black;
+}
+
+
+
+#home_1, #nature_1, #urban, #bio, #videos, #photo_albums, #book_online{ 
 	font-weight: normal;
 	
 }
 
-#nature, #urban, #bio, #videos, #photo_albums, #book_online{
+#nature_1, #urban, #bio, #videos, #photo_albums, #book_online{
 	color:gray;
 }
 
@@ -71,7 +82,7 @@
 	text-align: center;
 	margin-left:-20px;
 	margin-top:40px;
-		
+	
 }
 
 #icons li{
@@ -85,9 +96,9 @@
    position: relative;
    left: 0;
    bottom: 0;
-   width: 100%;
+   width: 500px;
    height: 100px;
-  
+   margin: auto;
    color: black;
    text-align: center;
    margin-top: 55px;
@@ -101,7 +112,7 @@
 	width: 1112px;
 	height: 1112px;
 	margin: auto;
-	background-color: pink;
+	
 }
 
 
@@ -143,6 +154,7 @@
 	font-family: Domine;
 	font-size: 40px;
 	margin-top: -55px;
+	font-weight: normal;
 }
 
 #koalas{
