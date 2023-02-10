@@ -10,27 +10,95 @@ body {
   height: 643px;
   margin: auto;
   margin-top: 60px;
-  background-color: rgb(166, 166, 166,0.3);
+  background-color: rgb(166, 166, 166, 0.3);
   backdrop-filter: blur(15px);
   border-radius: 30px;
+}
+
+#title {
+  color: white;
+  text-align: center;
+  padding-top: 20px;
+  font-family: Noto Serif JP;
+  font-size: 52px;
+  font-weight: 100;
+}
+
+#hr_banner {
+  height: 1px;
+  border-width: 0;
+  background-color: white;
+  margin-top: -25px;
+}
+
+
+.form_title::after {
+  position: absolute;
+  content: "*";
+  color: red;
+  font-size: 18px;
+  margin-top: 0px;
+  margin-left: 2px;
+}
+
+.form_title {
+  position: absolute;
+  color: rgb(143, 210, 239);
+  font-family: DM Sans;
+  font-size: 25px;
+}
+
+#keyword_title {
+  margin-top: 40px;
+  margin-left: 30px;
+}
+
+.form_search_bar {
+  padding: 6px 14px;
+  margin-top: 10px;
+  background-color: transparent;
+  border-radius: 10px;
+  border: 1px solid white;
+  height: 40px;
+}
+
+#keyword {
+  width: 992px;
+  margin-top: 63px;
+  margin-bottom: 14px;
+}
+
+.input_center {
+  text-align: center;
   
 }
 
-#title{
-    color:white;
-    text-align: center;
-    padding-top: 20px;
-    font-family: Noto Serif JP;
-    font-size: 52px;
-    font-weight: 100;
-   
-    
+#distance_title{
+    position: absolute;
+    margin-left: -512px;
 }
 
-#hr_banner{
-	height: 1px;
-	border-width: 0;
-	background-color:white;
-	margin-top: -25px
-    
+#category{
+    margin-left: 2px;
+}
+
+#distance{
+    position: absolute;
+    margin-left: -511px;
+    margin-top:25px;
+    width:276px;
+}
+
+#category_bar{
+    position: absolute;
+    margin-left: 2px;
+    height: 54px;
+    margin-top:25px;
+    width: 509px;
+}
+
+select option {
+    background: 	rgb(55,55, 55);
+   
+    color: white;
 }
