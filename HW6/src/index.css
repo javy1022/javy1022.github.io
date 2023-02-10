@@ -15,3 +15,22 @@ body {
   border-radius: 30px;
   
 }
+
+#title{
+    color:white;
+    text-align: center;
+    padding-top: 20px;
+    font-family: Noto Serif JP;
+    font-size: 52px;
+    font-weight: 100;
+   
+    
+}
+
+#hr_banner{
+	height: 1px;
+	border-width: 0;
+	background-color:white;
+	margin-top: -25px
+    
+}
