@@ -1,0 +1,17 @@
+body {
+  background-image: url("../image/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0px -70px;
+}
+
+#form_container {
+  width: 1085px;
+  height: 643px;
+  margin: auto;
+  margin-top: 60px;
+  background-color: rgb(166, 166, 166,0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 30px;
+  
+}
