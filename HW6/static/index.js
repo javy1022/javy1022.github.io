@@ -10,7 +10,7 @@ function clear_fields() {
 
   if (location_form.style.display == "none") {
     location_form.style.display = "initial";
-    location_form.required = true;
+    location_form.required = truee;
   } else {
     document.getElementById("locations").value = "";
   }
