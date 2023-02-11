@@ -65,9 +65,9 @@ body {
   width: 992px;
   margin-top: 63px;
   margin-bottom: 14px;
-  font-family: DM Sans;
+  font-family: Roboto;
   color: white;
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 100;
 }
 
@@ -88,8 +88,9 @@ body {
   margin-top: 25px;
   width: 276px;
   color: white;
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 100;
+  font-family: Roboto;
 }
 
 #category_bar {
@@ -98,9 +99,9 @@ body {
   height: 54px;
   margin-top: 25px;
   width: 509px;
-  font-family: DM Sans;
+  font-family: Roboto;
   color: white;
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 100;
 }
 
