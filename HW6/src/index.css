@@ -72,26 +72,25 @@ body {
 }
 
 #distance_title {
-  position: absolute;
-  margin-left: -512px;
+  margin-left: 30px;
 }
 
 #category {
-  margin-left: 2px;
+  margin-left: 545px;
 }
 
 #distance {
-  position: absolute;
-  margin-left: -511px;
+  margin-left: 30px;
   margin-top: 25px;
   width: 276px;
   color: white;
   font-size: 22px;
+ 
 }
 
 #category_bar {
-  position: absolute;
-  margin-left: 2px;
+  
+  margin-left: 204px;
   height: 54px;
   margin-top: 25px;
   width: 509px;
