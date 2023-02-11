@@ -112,7 +112,8 @@ select option {
 
 
 input#distance::placeholder {
-  font-size: 22px;
+  font-family: Roboto;
+  font-size: 25px;
   font-weight: 100;
 }
 
