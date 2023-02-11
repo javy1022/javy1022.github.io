@@ -119,3 +119,22 @@ input#distance::placeholder {
   margin-left: 30px;
   margin-top: 20px;
 }
+
+#auto_detect{
+  
+  color:white;
+  font-family: DM Sans;
+  color: white;
+  font-size: 22px;
+  font-weight: 100;
+  margin-left: 179px;
+}
+
+#check_box{
+  position: absolute;
+	width: 18px;
+  height: 18px;
+	margin-left:152px;
+  margin-top: 29px;
+  
+}
