@@ -65,6 +65,10 @@ body {
   width: 992px;
   margin-top: 63px;
   margin-bottom: 14px;
+  font-family: DM Sans;
+  color: white;
+  font-size: 22px;
+  font-weight: 100;
 }
 
 .input_center {
@@ -85,7 +89,7 @@ body {
   width: 276px;
   color: white;
   font-size: 22px;
- 
+  font-weight: 100;
 }
 
 #category_bar {
@@ -94,20 +98,17 @@ body {
   height: 54px;
   margin-top: 25px;
   width: 509px;
-}
-
-select option {
-  background: rgb(55, 55, 55);
-
-  color: white;
-}
-
-#category_bar {
   font-family: DM Sans;
   color: white;
   font-size: 22px;
   font-weight: 100;
 }
+
+select option {
+  background: rgb(55, 55, 55);
+  color: white;
+}
+
 
 input#distance::placeholder {
   font-size: 22px;
