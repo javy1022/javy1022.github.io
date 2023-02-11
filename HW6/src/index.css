@@ -120,6 +120,7 @@ input#distance::placeholder {
 #location_title{
   margin-left: 30px;
   margin-top: 20px;
+  
 }
 
 #auto_detect{
@@ -139,4 +140,43 @@ input#distance::placeholder {
 	margin-left:152px;
   margin-top: 29px;
   
+}
+
+#locations{
+  
+    width: 992px;
+    margin-left: 30PX;
+    margin-top: -10PX;
+    font-family: Roboto;
+    color: white;
+    font-size: 25px;
+    font-weight: 100;
+  
+}
+
+.buttons{
+ 
+  height: 72px;
+	margin-top: 52px;
+	padding: 18px 32px;
+	color: white;
+	border: none;
+	font-size: 28px;
+	font-family: DM Sans;
+	border-radius: 14px;
+}
+
+#submit{
+  background-color: rgb(255, 112, 0);
+	box-shadow:0px 6px 0px  rgb(255, 90, 0) ;
+  width:183px;
+  margin-left: 32px;
+
+}
+
+#clear{
+  background-color: rgb(83, 118, 172);
+  box-shadow:0px 6px 0px  rgb(70, 90, 120) ;
+  width: 163px;
+  margin-left: 6px;
 }
