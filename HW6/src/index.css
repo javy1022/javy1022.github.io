@@ -31,7 +31,6 @@ body {
   margin-top: -25px;
 }
 
-
 .form_title::after {
   position: absolute;
   content: "*";
@@ -70,35 +69,48 @@ body {
 
 .input_center {
   text-align: center;
-  
 }
 
-#distance_title{
-    position: absolute;
-    margin-left: -512px;
+#distance_title {
+  position: absolute;
+  margin-left: -512px;
 }
 
-#category{
-    margin-left: 2px;
+#category {
+  margin-left: 2px;
 }
 
-#distance{
-    position: absolute;
-    margin-left: -511px;
-    margin-top:25px;
-    width:276px;
+#distance {
+  position: absolute;
+  margin-left: -511px;
+  margin-top: 25px;
+  width: 276px;
+  color: white;
+  font-size: 22px;
 }
 
-#category_bar{
-    position: absolute;
-    margin-left: 2px;
-    height: 54px;
-    margin-top:25px;
-    width: 509px;
+#category_bar {
+  position: absolute;
+  margin-left: 2px;
+  height: 54px;
+  margin-top: 25px;
+  width: 509px;
 }
 
 select option {
-    background: 	rgb(55,55, 55);
-   
-    color: white;
+  background: rgb(55, 55, 55);
+
+  color: white;
+}
+
+#category_bar {
+  font-family: DM Sans;
+  color: white;
+  font-size: 22px;
+  font-weight: 100;
+}
+
+input#distance::placeholder {
+  font-size: 22px;
+  font-weight: 100;
 }
