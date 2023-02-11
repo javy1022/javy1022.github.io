@@ -1,8 +1,8 @@
 body {
   background-image: url("../image/background.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 0px -70px;
+  background-size: 2560px;
+  background-position: 0px -68px;
 }
 
 #form_container {
@@ -60,6 +60,8 @@ body {
   border: 1px solid white;
   height: 40px;
 }
+
+
 
 #keyword {
   width: 992px;
