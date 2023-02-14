@@ -181,3 +181,92 @@ input#distance::placeholder {
 #clear:hover {
   background-color: #7592bd;
 }
+
+
+
+
+
+
+#table{
+	margin-left: 275px;
+	margin-top: 175px;
+	border-collapse: collapse;
+	width:1345px;
+	font-family: Inter Tight;
+  font-size: 24px;
+  color:red;
+  border-style: solid;
+  border-color: red;
+  
+	
+}
+
+#table th {
+  background-color: white;
+  
+}
+
+#table tr {
+  background-color: white;
+  
+  
+}
+
+#table td, #table th {
+  border: 2px solid red;
+ 
+}
+
+
+
+
+#first_row_height{
+	height:70px;
+}
+
+#first_columns_width{
+	width:70px;
+}
+
+#second_columns_width{
+	width:145px;
+	
+}
+
+#third_columns_width{
+	width:700px;
+	
+}
+
+#fourth_columns_width{
+	width:200px;
+}
+
+#fifth_columns_width{
+	width:203px;
+	
+}
+
+
+.rows_height{
+	height:160px;
+}
+
+.table_text{
+	color:red;
+	text-align: center;
+	font-family: Quicksand ;
+}
+
+.yelp_image {
+  object-fit: cover;
+  width: 100%;
+  height: 140px;
+ }
+
+ #name_title{
+	text-align: center;
+	margin-top: -1250px;
+	color: red;
+	
+}
