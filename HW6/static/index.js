@@ -138,7 +138,7 @@ function send_request(url) {
         table_append_row(item_table, list_for_table, i);
         } 
 
-
+     //document.getElementById('table').scrollIntoView({behavior: "smooth"});  
 
 
 
@@ -191,7 +191,7 @@ function table_header_constructor(item_table){
 
 function table_append_row(item_table, list_for_table, i){
 		
-	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" +  list_for_table[i][0] + "</td><td><img src=" + list_for_table[i][2] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"name_title\"  onclick='business_detail_request(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][3]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][4] + "</td> <td class=\"table_text\">" + list_for_table[i][5] +"</td> </tr>";
+	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" +  list_for_table[i][0] + "<br>" + list_for_table[i][1] + "</td><td><img src=" + list_for_table[i][2] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"name_title\"  onclick='business_detail_request(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][3]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][4] + "</td> <td class=\"table_text\">" + list_for_table[i][5] +"</td> </tr>";
 	
 }
 
