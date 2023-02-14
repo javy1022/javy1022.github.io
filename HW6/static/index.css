@@ -219,7 +219,9 @@ input#distance::placeholder {
   overflow: hidden;
 }
 
-
+#table td{
+  text-align: center;
+}
 
 
 #first_row_height{
@@ -251,7 +253,7 @@ input#distance::placeholder {
 
 
 .rows_height{
-	height:106px;
+	height:115px;
 }
 
 .table_text{
@@ -262,8 +264,10 @@ input#distance::placeholder {
 
 .yelp_image {
   object-fit: cover;
-  width: 100px;
-  height: 106px;
+  width: 120px;
+  height: 73px;
+  padding-top: 7px;
+  
  }
 
  #name_title{
