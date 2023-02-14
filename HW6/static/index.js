@@ -113,9 +113,10 @@ function send_request(url) {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
 	    var resp = this.responseText;
-	    //var result_dict = JSON.parse(resp) ;
-	    //console.log(result_dict);
-	  	console.log(resp)
+	    var result_dict = JSON.parse(resp) ;
+      console.log(result_dict)
+	    console.log(result_dict["_embedded"]["events"][0].name);
+	  
     }
 	
  };

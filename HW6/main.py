@@ -28,21 +28,21 @@ def homepage():
 def get_search_result(keyword,lat_string,lng_string,category,distance):
     request_url = TICKETMASTER_HOST + EVENT_SEARCH_PATH
     geohash = gh.encode(lat_string, lng_string, GEOHASH_PRECISION)
-    """
+    
     url_params = {	'apikey': TICKETMASTER_API_KEY,
                     'keyword': keyword,
-					'segmentId': segment_id,
-                    'radius': str(distance),
+				'segmentId': "",
+                    'radius': distance,
                     'unit': DISTANCE_UNIT,
                     'geoPoint': geohash
 				 }
-    
-    if category == "Default":
-         url_params["segmentId"] = ""
-     
-    elif category == "Music": 
+         
+    if category == "Music": 
          url_params["segmentId"] = MUSIC_SEGMENT_ID
     
+    elif category == "Sports": 
+         url_params["segmentId"] = SPORTS_SEGMENT_ID
+   
     elif category == "Arts & Theatre": 
          url_params["segmentId"] = ARTS_THEATRE_SEGMENT_ID
     
@@ -53,10 +53,10 @@ def get_search_result(keyword,lat_string,lng_string,category,distance):
          url_params["segmentId"] = MISCELLANEOUS_SEGMENT_ID        
         
   
-    response = requests.get(url, params=url_params)
+    response = requests.get(request_url, params=url_params)
     response_json = response.json()
     return  response_json
-    """
+    
     return str(geohash)
 
 if __name__ == "__main__":
