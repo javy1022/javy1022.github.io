@@ -7,6 +7,10 @@ const GOOGLE_API_KEY = "AIzaSyDIGpZqNauMP2qqXnnanXzP6ba0AIIkT58";
 const reg_non_alphanumeric = /[^a-z0-9+]+/gi;
 const reg_remove_all_spaces_after_end_string = /\s*$/;
 const DEFAULT_DISTANCE = "10";
+const UNDEFINED_LOW = "undefined";
+const UNDEFINED_CAP = "Undefined";
+const EMPTY = " ";
+const GENRE_SEPARATOR = " | "
 
 const keyword = document.getElementById("keyword");
 const distance = document.getElementById("distance");
@@ -31,51 +35,7 @@ function not_hovered() {
 }
 
 function preventDefault(event) {
-	event.preventDefault();
-    
-}
-
-function buffer_array_append(result_dict_item, buffer_array, header) {
-  for (let i = 0; i < Object.keys(result_dict_item).length; i++) {
-    if (result_dict_item[i][0] == header) {
-      if (header == "dates") {
-        let time_obj = result_dict_item[i][1]["start"];
-        if ("localDate" in time_obj) buffer_array.push(time_obj["localDate"]);
-        else buffer_array.push(" ");
-
-        if ("localTime" in time_obj) buffer_array.push(time_obj["localTime"]);
-        else buffer_array.push(" ");
-
-      } else if (header == "images") {
-        let image_obj = result_dict_item[i][1];
-        if (image_obj.length != 0) buffer_array.push(image_obj[0]["url"]);
-        else buffer_array.push(" ");
-
-      } else if (header == "name") {
-        let name_obj = result_dict_item[i][1];
-        if (name_obj.length != 0) buffer_array.push(name_obj);
-        else buffer_array.push(" ");
-
-      } else if (header == "classifications") {
-        let genre_obj = result_dict_item[i][1];
-
-        if ("name" in genre_obj[0]["segment"]) buffer_array.push(genre_obj[0]["segment"]["name"]);
-        else buffer_array.push(" ");
-
-      } else if (header == "_embedded") {
-        let venues_obj = result_dict_item[i][1]["venues"][0];
-
-        if (venues_obj["name"].length != 0) buffer_array.push(venues_obj["name"]);
-        else buffer_array.push(" ");
-     
-      } else if(header == "id"){
-        let id_obj = result_dict_item[i][1];
-        if (id_obj.length != 0) buffer_array.push(id_obj);
-        else buffer_array.push(" ");
-      }
-
-    }
-  }
+  event.preventDefault();
 }
 
 function table_header_constructor(item_table) {
@@ -215,7 +175,6 @@ function send_request(url) {
 
         list_for_table.push(buffer_array);
       }
-     
 
       if (list_for_table.length > 0) {
         table_header_constructor(item_table);
@@ -234,46 +193,133 @@ function send_request(url) {
         event_title_list[i].style.textDecoration = "none";
         event_title_list[i].addEventListener("mouseover", hovered, false);
         event_title_list[i].addEventListener("mouseout", not_hovered, false);
-        event_title_list[i].addEventListener('click', preventDefault, false);
+        event_title_list[i].addEventListener("click", preventDefault, false);
       }
 
       //document.getElementById('table').scrollIntoView({behavior: "smooth"});
-      console.log(list_for_table)
+      //console.log(list_for_table)
     }
   };
   xhttp.open("GET", url, true);
   xhttp.send();
 }
 
-
 function get_request_event_detail(id) {
-  let request_url = "/event-detail/" + id
-  console.log(request_url)
+  let request_url = "/event-detail/" + id;
   var xhttp;
-  xhttp=new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-	 
       let resp = this.responseText;
-	    let result_dict = JSON.parse(resp) ;
-	    console.log(result_dict);
-	  
-	
-	   
-	 
+      let result_dict = JSON.parse(resp);
+      console.log(result_dict);
 
+      let event_title, local_date, local_time, artist_or_team, venue;
+      let genre = ""
+      let time_obj = result_dict["dates"]["start"];
 
+      if ("name" in result_dict && (result_dict["name"].trim() != UNDEFINED_LOW && result_dict["name"].trim() != UNDEFINED_CAP)) event_title = result_dict["name"].trim();
+      else event_title = EMPTY;
 
+      if (
+        "dates" in result_dict &&
+        "start" in result_dict["dates"] &&
+        "localDate" in result_dict["dates"]["start"] &&
+        (result_dict["dates"]["start"]["localDate"].trim() != UNDEFINED_LOW && result_dict["dates"]["start"]["localDate"].trim() != UNDEFINED_CAP)
+      )
+        local_date = result_dict["dates"]["start"]["localDate"].trim();
+      else local_date = EMPTY;
+
+      if (
+        "dates" in result_dict &&
+        "start" in result_dict["dates"] &&
+        "localTime" in result_dict["dates"]["start"] &&
+        (result_dict["dates"]["start"]["localTime"].trim() != UNDEFINED_LOW && result_dict["dates"]["start"]["localTime"].trim() != UNDEFINED_CAP)
+      )
+        local_time = result_dict["dates"]["start"]["localTime"].trim();
+      else local_time = EMPTY;
+
+      if (
+        "_embedded" in result_dict &&
+        "attractions" in result_dict["_embedded"] &&
+        "name" in result_dict["_embedded"]["attractions"][0] &&
+        (result_dict["_embedded"]["attractions"][0]["name"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["attractions"][0]["name"].trim() != UNDEFINED_CAP)
+      )
+        artist_or_team = result_dict["_embedded"]["attractions"][0]["name"].trim();
+      else artist_or_team = EMPTY;
+
+      if (
+        "_embedded" in result_dict &&
+        "venues" in result_dict["_embedded"] &&
+        "name" in result_dict["_embedded"]["venues"][0] &&
+        (result_dict["_embedded"]["venues"][0]["name"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"][0]["name"].trim() != UNDEFINED_CAP)
+      )
+        venue = result_dict["_embedded"]["venues"][0]["name"].trim();
+      else venue = EMPTY;
+
+      if ("classifications" in result_dict) {
+        let class_obj = result_dict["classifications"][0];
+       
+        if ("segment" in class_obj && "name" in class_obj["segment"] && (class_obj["segment"]["name"].trim() != UNDEFINED_LOW && class_obj["segment"]["name"].trim() != UNDEFINED_CAP))
+            genre += class_obj["segment"]["name"].trim() + GENRE_SEPARATOR ;
+         
+        if ("genre" in class_obj && "name" in class_obj["genre"] && (class_obj["genre"]["name"].trim() != UNDEFINED_LOW && class_obj["genre"]["name"].trim() != UNDEFINED_CAP))
+            genre += class_obj["genre"]["name"].trim() + GENRE_SEPARATOR ;
+
+        if ("subGenre" in class_obj && "name" in class_obj["subGenre"] && (class_obj["subGenre"]["name"].trim() != UNDEFINED_LOW && class_obj["subGenre"]["name"].trim() != UNDEFINED_CAP))
+            genre += class_obj["subGenre"]["name"].trim() + GENRE_SEPARATOR ;
+        
+        if ("type" in class_obj && "name" in class_obj["type"] && (class_obj["type"]["name"].trim() != UNDEFINED_LOW && class_obj["type"]["name"].trim() != UNDEFINED_CAP))
+            genre += class_obj["type"]["name"].trim() + GENRE_SEPARATOR ;
+        
+        if ("subType" in class_obj && "name" in class_obj["subType"] && (class_obj["subType"]["name"].trim() != UNDEFINED_LOW && class_obj["subType"]["name"].trim() != UNDEFINED_CAP))
+            genre += class_obj["subType"]["name"].trim() + GENRE_SEPARATOR ;
+        
+        genre = genre.slice(0,-2).trim();    
+        console.log(genre);
+
+      } else genre = EMPTY;
+
+       
     }
- };
+  };
   xhttp.open("GET", request_url, true);
   xhttp.send();
 }
 
+function buffer_array_append(result_dict_item, buffer_array, header) {
+  for (let i = 0; i < Object.keys(result_dict_item).length; i++) {
+    if (result_dict_item[i][0] == header) {
+      if (header == "dates") {
+        let time_obj = result_dict_item[i][1]["start"];
+        if ("localDate" in time_obj) buffer_array.push(time_obj["localDate"]);
+        else buffer_array.push(EMPTY);
 
+        if ("localTime" in time_obj) buffer_array.push(time_obj["localTime"]);
+        else buffer_array.push(EMPTY);
+      } else if (header == "images") {
+        let image_obj = result_dict_item[i][1];
+        if (image_obj.length != 0) buffer_array.push(image_obj[0]["url"]);
+        else buffer_array.push(EMPTY);
+      } else if (header == "name") {
+        let name_obj = result_dict_item[i][1];
+        if (name_obj.length != 0) buffer_array.push(name_obj);
+        else buffer_array.push(EMPTY);
+      } else if (header == "classifications") {
+        let genre_obj = result_dict_item[i][1];
 
+        if ("name" in genre_obj[0]["segment"]) buffer_array.push(genre_obj[0]["segment"]["name"]);
+        else buffer_array.push(EMPTY);
+      } else if (header == "_embedded") {
+        let venues_obj = result_dict_item[i][1]["venues"][0];
 
-
-
-
-
+        if (venues_obj["name"].length != 0) buffer_array.push(venues_obj["name"]);
+        else buffer_array.push(EMPTY);
+      } else if (header == "id") {
+        let id_obj = result_dict_item[i][1];
+        if (id_obj.length != 0) buffer_array.push(id_obj);
+        else buffer_array.push(EMPTY);
+      }
+    }
+  }
+}
