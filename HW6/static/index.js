@@ -379,19 +379,31 @@ function generate_event_details_card(event_title,local_date,local_time,artist_or
     const card =  document.getElementById("card");
 
     if(event_title !=EMPTY) card.insertAdjacentHTML("beforeend","<p id= \"event_title\" class= \"card_font\">" + event_title + "</p>");
+    if(seatmap_url != EMPTY) card.insertAdjacentHTML("beforeend","<img id= \"seatmap\" src= " + seatmap_url + " alt=\"seatmap\" >" + "</img>");
+
+    card.insertAdjacentHTML("beforeend","<div id= \"event_info\">");
+
+    const event_info =  document.getElementById("event_info");
+    if(local_date != EMPTY || local_time !=EMPTY) {
+        if(local_time ==EMPTY) { 
+            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Date</p>"); 
+            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\">" + local_date + "</p>"); 
+        }
+        else if (local_date ==EMPTY) {
+            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Date</p>"); 
+            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\">" + local_time + "</p>"); 
+        }
+        else{
+            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Date</p>"); 
+            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\">" + local_date + " " + local_time + "</p>"); 
+        }
+    }
 
 
 
 
 
-
-
-
-
-
-
-
-
+    card.insertAdjacentHTML("beforeend","</div>");
     card.insertAdjacentHTML("beforeend","</div>");
 
   
