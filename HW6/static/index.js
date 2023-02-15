@@ -215,7 +215,7 @@ function get_request_event_detail(id) {
       let result_dict = JSON.parse(resp);
       console.log(result_dict);
 
-      let event_title, local_date, local_time, artist_or_team, venue, price_range, status;
+      let event_title, local_date, local_time, artist_or_team, venue, price_range, status, ticket_url, seatmap_url;
       let genre = EMPTY;
       let time_obj = result_dict["dates"]["start"];
 
@@ -304,11 +304,26 @@ function get_request_event_detail(id) {
         "code" in result_dict["dates"]["status"] &&
         result_dict["dates"]["status"]["code"].trim() != UNDEFINED_LOW &&
         result_dict["dates"]["status"]["code"].trim() != UNDEFINED_CAP
-      ) status = result_dict["dates"]["status"]["code"].trim();
+      )
+        status = result_dict["dates"]["status"]["code"].trim();
       else status = EMPTY;
 
-      console.log(status) 
+      if ("url" in result_dict && result_dict["url"].trim() != UNDEFINED_LOW && result_dict["url"].trim() != UNDEFINED_CAP) ticket_url = result_dict["url"].trim();
+      else ticket_url = EMPTY;
+
+      if (
+        "seatmap" in result_dict &&
+        "staticUrl" in result_dict["seatmap"] &&
+        result_dict["seatmap"]["staticUrl"].trim() != UNDEFINED_LOW &&
+        result_dict["seatmap"]["staticUrl"].trim() != UNDEFINED_CAP
+      )
+        seatmap_url = result_dict["seatmap"]["staticUrl"].trim();
+      else seatmap_url = EMPTY;
+
+      console.log(event_title + ", " + local_date + ", " + local_time + ", " + artist_or_team + ", " + venue + ", " + genre + ", " + price_range + ", " + status + ", " + ticket_url + ", " + seatmap_url)
     }
+
+      
   };
   xhttp.open("GET", request_url, true);
   xhttp.send();
