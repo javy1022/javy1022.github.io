@@ -20,6 +20,7 @@ const category = document.getElementById("category_bar");
 const location_form = document.getElementById("locations");
 const form_data = document.getElementById("form_data");
 const submit_button = document.getElementById("submit");
+const event_details =  document.getElementById("event_details_holder");
 
 const item_table = document.getElementById("table");
 
@@ -39,6 +40,45 @@ function not_hovered() {
 function preventDefault(event) {
   event.preventDefault();
 }
+
+function buffer_array_append(result_dict_item, buffer_array, header) {
+  /* have to handle cases like get_request_event_detai*/
+  for (let i = 0; i < Object.keys(result_dict_item).length; i++) {
+    if (result_dict_item[i][0] == header) {
+      if (header == "dates") {
+        let time_obj = result_dict_item[i][1]["start"];
+        if ("localDate" in time_obj) buffer_array.push(time_obj["localDate"]);
+        else buffer_array.push(EMPTY);
+
+        if ("localTime" in time_obj) buffer_array.push(time_obj["localTime"]);
+        else buffer_array.push(EMPTY);
+      } else if (header == "images") {
+        let image_obj = result_dict_item[i][1];
+        if (image_obj.length != 0) buffer_array.push(image_obj[0]["url"]);
+        else buffer_array.push(EMPTY);
+      } else if (header == "name") {
+        let name_obj = result_dict_item[i][1];
+        if (name_obj.length != 0) buffer_array.push(name_obj);
+        else buffer_array.push(EMPTY);
+      } else if (header == "classifications") {
+        let genre_obj = result_dict_item[i][1];
+
+        if ("name" in genre_obj[0]["segment"]) buffer_array.push(genre_obj[0]["segment"]["name"]);
+        else buffer_array.push(EMPTY);
+      } else if (header == "_embedded") {
+        let venues_obj = result_dict_item[i][1]["venues"][0];
+
+        if (venues_obj["name"].length != 0) buffer_array.push(venues_obj["name"]);
+        else buffer_array.push(EMPTY);
+      } else if (header == "id") {
+        let id_obj = result_dict_item[i][1];
+        if (id_obj.length != 0) buffer_array.push(id_obj);
+        else buffer_array.push(EMPTY);
+      }
+    }
+  }
+}
+
 
 function table_header_constructor(item_table) {
   item_table.innerHTML +=
@@ -198,7 +238,7 @@ function send_request(url) {
         event_title_list[i].addEventListener("click", preventDefault, false);
       }
 
-      //document.getElementById('table').scrollIntoView({behavior: "smooth"});
+     
       //console.log(list_for_table)
     }
   };
@@ -324,46 +364,37 @@ function get_request_event_detail(id) {
         seatmap_url = result_dict["seatmap"]["staticUrl"].trim();
       else seatmap_url = EMPTY;
 
-      console.log(artist_or_team);
+      generate_event_details_card(event_title,local_date,local_time,artist_or_team,venue,genre,price_range,status,ticket_url,seatmap_url);
     }
   };
   xhttp.open("GET", request_url, true);
   xhttp.send();
 }
 
-function buffer_array_append(result_dict_item, buffer_array, header) {
-  for (let i = 0; i < Object.keys(result_dict_item).length; i++) {
-    if (result_dict_item[i][0] == header) {
-      if (header == "dates") {
-        let time_obj = result_dict_item[i][1]["start"];
-        if ("localDate" in time_obj) buffer_array.push(time_obj["localDate"]);
-        else buffer_array.push(EMPTY);
+function generate_event_details_card(event_title,local_date,local_time,artist_or_team,venue,genre,price_range,status,ticket_url,seatmap_url){
+    //card.innerHTML += "<div id= \"card\">";
+   // card.innerHTML += "<p id= \"event_title\" class= \"card_font\">" + event_title + "</p>";
+    
+    event_details.insertAdjacentHTML("beforeend","<div id= \"card\">");
+    const card =  document.getElementById("card");
 
-        if ("localTime" in time_obj) buffer_array.push(time_obj["localTime"]);
-        else buffer_array.push(EMPTY);
-      } else if (header == "images") {
-        let image_obj = result_dict_item[i][1];
-        if (image_obj.length != 0) buffer_array.push(image_obj[0]["url"]);
-        else buffer_array.push(EMPTY);
-      } else if (header == "name") {
-        let name_obj = result_dict_item[i][1];
-        if (name_obj.length != 0) buffer_array.push(name_obj);
-        else buffer_array.push(EMPTY);
-      } else if (header == "classifications") {
-        let genre_obj = result_dict_item[i][1];
+    if(event_title !=EMPTY) card.insertAdjacentHTML("beforeend","<p id= \"event_title\" class= \"card_font\">" + event_title + "</p>");
 
-        if ("name" in genre_obj[0]["segment"]) buffer_array.push(genre_obj[0]["segment"]["name"]);
-        else buffer_array.push(EMPTY);
-      } else if (header == "_embedded") {
-        let venues_obj = result_dict_item[i][1]["venues"][0];
 
-        if (venues_obj["name"].length != 0) buffer_array.push(venues_obj["name"]);
-        else buffer_array.push(EMPTY);
-      } else if (header == "id") {
-        let id_obj = result_dict_item[i][1];
-        if (id_obj.length != 0) buffer_array.push(id_obj);
-        else buffer_array.push(EMPTY);
-      }
-    }
-  }
+
+
+
+
+
+
+
+
+
+
+
+    card.insertAdjacentHTML("beforeend","</div>");
+
+  
+    card.scrollIntoView({behavior: "smooth"});
+
 }

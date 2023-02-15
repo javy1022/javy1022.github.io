@@ -184,7 +184,7 @@ input#distance::placeholder {
 }
 
 
-
+/* Table */
 
 
 #table{
@@ -271,4 +271,27 @@ input#distance::placeholder {
   padding-top: 7px;
   
  }
+
+
+/*Event detail Card*/
+#card{
+  width: 1778px;
+  height: 992px;
+  margin: auto;
+  margin-top: 97px;
+  background-color: rgb(166, 166, 166, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 30px;
+	
+}
+
+#event_title{
+	text-align: center;
+	color: white;
+  font-family: Poppins;
+  font-size: 36px;
+	font-weight: bold;
+  padding-top: 40px;
+	
+}
 
