@@ -9,8 +9,9 @@ const reg_remove_all_spaces_after_end_string = /\s*$/;
 const DEFAULT_DISTANCE = "10";
 const UNDEFINED_LOW = "undefined";
 const UNDEFINED_CAP = "Undefined";
-const EMPTY = " ";
-const GENRE_SEPARATOR = " | "
+const EMPTY = "";
+const GENRE_SEPARATOR = " | ";
+const PRICE_RANGES_OPERATOR = " - ";
 
 const keyword = document.getElementById("keyword");
 const distance = document.getElementById("distance");
@@ -66,8 +67,8 @@ function table_append_row(item_table, list_for_table, i) {
 }
 
 function clear_fields() {
-  document.getElementById("keyword").value = "";
-  document.getElementById("distance").value = "";
+  document.getElementById("keyword").value = EMPTY;
+  document.getElementById("distance").value = EMPTY;
   document.getElementById("category_bar").value = "Default";
   document.getElementById("check_box").checked = false;
 
@@ -75,10 +76,10 @@ function clear_fields() {
     location_form.style.display = "initial";
     location_form.required = true;
   } else {
-    document.getElementById("locations").value = "";
+    document.getElementById("locations").value = EMPTY;
   }
 
-  document.getElementById("table").innerHTML = "";
+  document.getElementById("table").innerHTML = EMPTY;
   //document.getElementById("card_holder").innerHTML = "";
   //document.getElementById("no_record_container").innerHTML = "";
 
@@ -90,7 +91,7 @@ function check(event) {
     location_form.style.display = "initial";
     location_form.required = true;
   } else {
-    location_form.value = "";
+    location_form.value = EMPTY;
     location_form.required = false;
     location_form.style.display = "none";
   }
@@ -102,7 +103,7 @@ function submitForm(event) {
     event.preventDefault();
 
     let form_location = location_form.value;
-    let buffer = form_location.replace(reg_remove_all_spaces_after_end_string, "");
+    let buffer = form_location.replace(reg_remove_all_spaces_after_end_string, EMPTY);
     let api_address_param = buffer.replace(reg_non_alphanumeric, "+");
     let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + GOOGLE_API_KEY;
 
@@ -135,7 +136,7 @@ function get_yelp_result(lat, lng) {
   let form_category = category.value;
   let form_distance;
 
-  if (distance.value == "") form_distance = DEFAULT_DISTANCE;
+  if (distance.value == EMPTY) form_distance = DEFAULT_DISTANCE;
   else form_distance = distance.value;
 
   if (typeof lat == "number" && typeof lng == "number") {
@@ -152,8 +153,8 @@ function send_request(url) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      if (document.getElementById("table").innerHTML != "") {
-        document.getElementById("table").innerHTML = "";
+      if (document.getElementById("table").innerHTML != EMPTY) {
+        document.getElementById("table").innerHTML = EMPTY;
         list_for_table = [];
       }
 
@@ -214,18 +215,19 @@ function get_request_event_detail(id) {
       let result_dict = JSON.parse(resp);
       console.log(result_dict);
 
-      let event_title, local_date, local_time, artist_or_team, venue;
-      let genre = ""
+      let event_title, local_date, local_time, artist_or_team, venue, price_range;
+      let genre = EMPTY;
       let time_obj = result_dict["dates"]["start"];
 
-      if ("name" in result_dict && (result_dict["name"].trim() != UNDEFINED_LOW && result_dict["name"].trim() != UNDEFINED_CAP)) event_title = result_dict["name"].trim();
+      if ("name" in result_dict && result_dict["name"].trim() != UNDEFINED_LOW && result_dict["name"].trim() != UNDEFINED_CAP) event_title = result_dict["name"].trim();
       else event_title = EMPTY;
 
       if (
         "dates" in result_dict &&
         "start" in result_dict["dates"] &&
         "localDate" in result_dict["dates"]["start"] &&
-        (result_dict["dates"]["start"]["localDate"].trim() != UNDEFINED_LOW && result_dict["dates"]["start"]["localDate"].trim() != UNDEFINED_CAP)
+        result_dict["dates"]["start"]["localDate"].trim() != UNDEFINED_LOW &&
+        result_dict["dates"]["start"]["localDate"].trim() != UNDEFINED_CAP
       )
         local_date = result_dict["dates"]["start"]["localDate"].trim();
       else local_date = EMPTY;
@@ -234,7 +236,8 @@ function get_request_event_detail(id) {
         "dates" in result_dict &&
         "start" in result_dict["dates"] &&
         "localTime" in result_dict["dates"]["start"] &&
-        (result_dict["dates"]["start"]["localTime"].trim() != UNDEFINED_LOW && result_dict["dates"]["start"]["localTime"].trim() != UNDEFINED_CAP)
+        result_dict["dates"]["start"]["localTime"].trim() != UNDEFINED_LOW &&
+        result_dict["dates"]["start"]["localTime"].trim() != UNDEFINED_CAP
       )
         local_time = result_dict["dates"]["start"]["localTime"].trim();
       else local_time = EMPTY;
@@ -243,7 +246,8 @@ function get_request_event_detail(id) {
         "_embedded" in result_dict &&
         "attractions" in result_dict["_embedded"] &&
         "name" in result_dict["_embedded"]["attractions"][0] &&
-        (result_dict["_embedded"]["attractions"][0]["name"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["attractions"][0]["name"].trim() != UNDEFINED_CAP)
+        result_dict["_embedded"]["attractions"][0]["name"].trim() != UNDEFINED_LOW &&
+        result_dict["_embedded"]["attractions"][0]["name"].trim() != UNDEFINED_CAP
       )
         artist_or_team = result_dict["_embedded"]["attractions"][0]["name"].trim();
       else artist_or_team = EMPTY;
@@ -252,35 +256,49 @@ function get_request_event_detail(id) {
         "_embedded" in result_dict &&
         "venues" in result_dict["_embedded"] &&
         "name" in result_dict["_embedded"]["venues"][0] &&
-        (result_dict["_embedded"]["venues"][0]["name"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"][0]["name"].trim() != UNDEFINED_CAP)
+        result_dict["_embedded"]["venues"][0]["name"].trim() != UNDEFINED_LOW &&
+        result_dict["_embedded"]["venues"][0]["name"].trim() != UNDEFINED_CAP
       )
         venue = result_dict["_embedded"]["venues"][0]["name"].trim();
       else venue = EMPTY;
 
       if ("classifications" in result_dict) {
         let class_obj = result_dict["classifications"][0];
-       
-        if ("segment" in class_obj && "name" in class_obj["segment"] && (class_obj["segment"]["name"].trim() != UNDEFINED_LOW && class_obj["segment"]["name"].trim() != UNDEFINED_CAP))
-            genre += class_obj["segment"]["name"].trim() + GENRE_SEPARATOR ;
-         
-        if ("genre" in class_obj && "name" in class_obj["genre"] && (class_obj["genre"]["name"].trim() != UNDEFINED_LOW && class_obj["genre"]["name"].trim() != UNDEFINED_CAP))
-            genre += class_obj["genre"]["name"].trim() + GENRE_SEPARATOR ;
 
-        if ("subGenre" in class_obj && "name" in class_obj["subGenre"] && (class_obj["subGenre"]["name"].trim() != UNDEFINED_LOW && class_obj["subGenre"]["name"].trim() != UNDEFINED_CAP))
-            genre += class_obj["subGenre"]["name"].trim() + GENRE_SEPARATOR ;
-        
-        if ("type" in class_obj && "name" in class_obj["type"] && (class_obj["type"]["name"].trim() != UNDEFINED_LOW && class_obj["type"]["name"].trim() != UNDEFINED_CAP))
-            genre += class_obj["type"]["name"].trim() + GENRE_SEPARATOR ;
-        
-        if ("subType" in class_obj && "name" in class_obj["subType"] && (class_obj["subType"]["name"].trim() != UNDEFINED_LOW && class_obj["subType"]["name"].trim() != UNDEFINED_CAP))
-            genre += class_obj["subType"]["name"].trim() + GENRE_SEPARATOR ;
-        
-        genre = genre.slice(0,-2).trim();    
-        console.log(genre);
+        if ("segment" in class_obj && "name" in class_obj["segment"] && class_obj["segment"]["name"].trim() != UNDEFINED_LOW && class_obj["segment"]["name"].trim() != UNDEFINED_CAP)
+          genre += class_obj["segment"]["name"].trim() + GENRE_SEPARATOR;
 
-      } else genre = EMPTY;
+        if ("genre" in class_obj && "name" in class_obj["genre"] && class_obj["genre"]["name"].trim() != UNDEFINED_LOW && class_obj["genre"]["name"].trim() != UNDEFINED_CAP)
+          genre += class_obj["genre"]["name"].trim() + GENRE_SEPARATOR;
 
-       
+        if ("subGenre" in class_obj && "name" in class_obj["subGenre"] && class_obj["subGenre"]["name"].trim() != UNDEFINED_LOW && class_obj["subGenre"]["name"].trim() != UNDEFINED_CAP)
+          genre += class_obj["subGenre"]["name"].trim() + GENRE_SEPARATOR;
+
+        if ("type" in class_obj && "name" in class_obj["type"] && class_obj["type"]["name"].trim() != UNDEFINED_LOW && class_obj["type"]["name"].trim() != UNDEFINED_CAP)
+          genre += class_obj["type"]["name"].trim() + GENRE_SEPARATOR;
+
+        if ("subType" in class_obj && "name" in class_obj["subType"] && class_obj["subType"]["name"].trim() != UNDEFINED_LOW && class_obj["subType"]["name"].trim() != UNDEFINED_CAP)
+          genre += class_obj["subType"]["name"].trim() + GENRE_SEPARATOR;
+
+        if (genre.length != 0) genre = genre.slice(0, -2).trim();
+      }
+
+      if ("priceRanges" in result_dict && ("max" in result_dict["priceRanges"][0] || "min" in result_dict["priceRanges"][0])) {
+        let price_range_obj = result_dict["priceRanges"][0];
+        let min = -1, max = -1;
+        let currency = EMPTY;
+
+        if ("max" in price_range_obj) max = price_range_obj["max"];
+        if ("min" in price_range_obj) min = price_range_obj["min"];
+        if ("currency" in price_range_obj && price_range_obj["currency"].trim() != UNDEFINED_LOW && price_range_obj["currency"].trim() != UNDEFINED_CAP) currency = price_range_obj["currency"].trim();
+
+        if (min == -1) price_range = max + PRICE_RANGES_OPERATOR + max + " " + currency ;
+        else if (max == -1)  price_range = min + PRICE_RANGES_OPERATOR + min + " " + currency ;
+        else price_range = min + PRICE_RANGES_OPERATOR + max + " " + currency ;
+      }
+      else price_range = EMPTY;
+      
+      console.log(price_range)
     }
   };
   xhttp.open("GET", request_url, true);
