@@ -215,7 +215,7 @@ function get_request_event_detail(id) {
       let result_dict = JSON.parse(resp);
       console.log(result_dict);
 
-      let event_title, local_date, local_time, artist_or_team, venue, price_range;
+      let event_title, local_date, local_time, artist_or_team, venue, price_range, status;
       let genre = EMPTY;
       let time_obj = result_dict["dates"]["start"];
 
@@ -285,20 +285,29 @@ function get_request_event_detail(id) {
 
       if ("priceRanges" in result_dict && ("max" in result_dict["priceRanges"][0] || "min" in result_dict["priceRanges"][0])) {
         let price_range_obj = result_dict["priceRanges"][0];
-        let min = -1, max = -1;
+        let min = -1,
+          max = -1;
         let currency = EMPTY;
 
         if ("max" in price_range_obj) max = price_range_obj["max"];
         if ("min" in price_range_obj) min = price_range_obj["min"];
         if ("currency" in price_range_obj && price_range_obj["currency"].trim() != UNDEFINED_LOW && price_range_obj["currency"].trim() != UNDEFINED_CAP) currency = price_range_obj["currency"].trim();
 
-        if (min == -1) price_range = max + PRICE_RANGES_OPERATOR + max + " " + currency ;
-        else if (max == -1)  price_range = min + PRICE_RANGES_OPERATOR + min + " " + currency ;
-        else price_range = min + PRICE_RANGES_OPERATOR + max + " " + currency ;
-      }
-      else price_range = EMPTY;
-      
-      console.log(price_range)
+        if (min == -1) price_range = max + PRICE_RANGES_OPERATOR + max + " " + currency;
+        else if (max == -1) price_range = min + PRICE_RANGES_OPERATOR + min + " " + currency;
+        else price_range = min + PRICE_RANGES_OPERATOR + max + " " + currency;
+      } else price_range = EMPTY;
+
+      if (
+        "dates" in result_dict &&
+        "status" in result_dict["dates"] &&
+        "code" in result_dict["dates"]["status"] &&
+        result_dict["dates"]["status"]["code"].trim() != UNDEFINED_LOW &&
+        result_dict["dates"]["status"]["code"].trim() != UNDEFINED_CAP
+      ) status = result_dict["dates"]["status"]["code"].trim();
+      else status = EMPTY;
+
+      console.log(status) 
     }
   };
   xhttp.open("GET", request_url, true);
