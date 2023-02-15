@@ -10,6 +10,7 @@ const DEFAULT_DISTANCE = "10";
 const UNDEFINED_LOW = "undefined";
 const UNDEFINED_CAP = "Undefined";
 const EMPTY = "";
+const ARTISTS_SEPARATOR = " | ";
 const GENRE_SEPARATOR = " | ";
 const PRICE_RANGES_OPERATOR = " - ";
 
@@ -215,7 +216,8 @@ function get_request_event_detail(id) {
       let result_dict = JSON.parse(resp);
       console.log(result_dict);
 
-      let event_title, local_date, local_time, artist_or_team, venue, price_range, status, ticket_url, seatmap_url;
+      let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
+      let artist_or_team = EMPTY;
       let genre = EMPTY;
       let time_obj = result_dict["dates"]["start"];
 
@@ -242,15 +244,17 @@ function get_request_event_detail(id) {
         local_time = result_dict["dates"]["start"]["localTime"].trim();
       else local_time = EMPTY;
 
-      if (
-        "_embedded" in result_dict &&
-        "attractions" in result_dict["_embedded"] &&
-        "name" in result_dict["_embedded"]["attractions"][0] &&
-        result_dict["_embedded"]["attractions"][0]["name"].trim() != UNDEFINED_LOW &&
-        result_dict["_embedded"]["attractions"][0]["name"].trim() != UNDEFINED_CAP
-      )
-        artist_or_team = result_dict["_embedded"]["attractions"][0]["name"].trim();
-      else artist_or_team = EMPTY;
+      if ("_embedded" in result_dict && "attractions" in result_dict["_embedded"] && result_dict["_embedded"]["attractions"].length != 0) {
+          let artists_obj = result_dict["_embedded"]["attractions"];
+
+          for (let i = 0; i < artists_obj.length; i++) {
+              if ("name" in artists_obj[i] && artists_obj[i]["name"].trim() != UNDEFINED_LOW && artists_obj[i]["name"].trim() != UNDEFINED_CAP)
+                  artist_or_team += artists_obj[i]["name"].trim() + ARTISTS_SEPARATOR;
+          }
+          if (artist_or_team.length != 0) artist_or_team = artist_or_team.slice(0, -2).trim();
+
+
+      } else artist_or_team = EMPTY;
 
       if (
         "_embedded" in result_dict &&
@@ -320,10 +324,8 @@ function get_request_event_detail(id) {
         seatmap_url = result_dict["seatmap"]["staticUrl"].trim();
       else seatmap_url = EMPTY;
 
-      console.log(event_title + ", " + local_date + ", " + local_time + ", " + artist_or_team + ", " + venue + ", " + genre + ", " + price_range + ", " + status + ", " + ticket_url + ", " + seatmap_url)
+      console.log(artist_or_team);
     }
-
-      
   };
   xhttp.open("GET", request_url, true);
   xhttp.send();
