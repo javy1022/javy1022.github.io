@@ -15,8 +15,7 @@ const location_form = document.getElementById("locations");
 const form_data = document.getElementById("form_data");
 const submit_button = document.getElementById("submit");
 
-const item_table =  document.getElementById("table");
-
+const item_table = document.getElementById("table");
 
 function clear_fields() {
   document.getElementById("keyword").value = "";
@@ -31,11 +30,11 @@ function clear_fields() {
     document.getElementById("locations").value = "";
   }
 
-  //document.getElementById("table").innerHTML = "";
+  document.getElementById("table").innerHTML = "";
   //document.getElementById("card_holder").innerHTML = "";
   //document.getElementById("no_record_container").innerHTML = "";
 
-  //list_for_table = [];
+  list_for_table = [];
 }
 
 function check(event) {
@@ -105,6 +104,11 @@ function send_request(url) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+      if (document.getElementById("table").innerHTML != "") {
+        document.getElementById("table").innerHTML = "";
+        list_for_table = [];
+      }
+
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
 
@@ -121,28 +125,30 @@ function send_request(url) {
         buffer_array_append(result_dict_item, buffer_array, "_embedded");
 
         list_for_table.push(buffer_array);
-       
       }
-      console.log(list_for_table)
+     
 
-
-      if(list_for_table.length > 0){
+      if (list_for_table.length > 0) {
         table_header_constructor(item_table);
-      }else{
-         
-       console.log("no record")
-       
-      } 
-      
-      for (let i = 0; i < total_events  ; i++) {
+      } else {
+        console.log("no record");
+      }
+
+      for (let i = 0; i < total_events; i++) {
         table_append_row(item_table, list_for_table, i);
-        } 
+      }
 
-     //document.getElementById('table').scrollIntoView({behavior: "smooth"});  
+      let event_title_list = document.getElementsByClassName("event_title");
 
+      for (let i = 0; i < event_title_list.length; i++) {
+        event_title_list[i].style.color = "black";
+        event_title_list[i].style.textDecoration = "none";
+        event_title_list[i].addEventListener("mouseover", hovered, false);
+        event_title_list[i].addEventListener("mouseout", not_hovered, false);
+        event_title_list[i].addEventListener('click', preventDefault, false);
+      }
 
-
-
+      //document.getElementById('table').scrollIntoView({behavior: "smooth"});
     }
   };
   xhttp.open("GET", url, true);
@@ -182,19 +188,47 @@ function buffer_array_append(result_dict_item, buffer_array, header) {
   }
 }
 
-function table_header_constructor(item_table){
-	item_table.innerHTML += "<tr id =\"first_row_height\"><th id =\"first_columns_width\">Date</th> <th id =\"second_columns_width\">Icon</th> <th id =\"third_columns_width\" onClick=\"sort_table(this.id)\" >Event</th> <th id =\"fourth_columns_width\" onClick=\"sort_table(this.id)\">Genre</th> <th id =\"fifth_columns_width\" onClick=\"sort_table(this.id)\">Venue</th>  </tr>";
-	document.getElementById("third_columns_width").style.cursor = "pointer";
-	document.getElementById("fourth_columns_width").style.cursor = "pointer";
-	document.getElementById("fifth_columns_width").style.cursor = "pointer";
+function table_header_constructor(item_table) {
+  item_table.innerHTML +=
+    '<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id)">Venue</th>  </tr>';
+  document.getElementById("third_columns_width").style.cursor = "pointer";
+  document.getElementById("fourth_columns_width").style.cursor = "pointer";
+  document.getElementById("fifth_columns_width").style.cursor = "pointer";
 }
 
-function table_append_row(item_table, list_for_table, i){
-		
-	item_table.innerHTML += "<tr class=\"rows_height\"><td class=\"table_text\">" +  list_for_table[i][0] + "<br>" + list_for_table[i][1] + "</td><td><img src=" + list_for_table[i][2] + " class=\"yelp_image\"></img></td> <td class=\"table_text\"> <a href = \"#\" class=\"name_title\"  onclick='business_detail_request(\""+ list_for_table[i][4] +"\");' >" +  list_for_table[i][3]  + "</a></td> <td class=\"table_text\">" + list_for_table[i][4] + "</td> <td class=\"table_text\">" + list_for_table[i][5] +"</td> </tr>";
-	
+function table_append_row(item_table, list_for_table, i) {
+  item_table.innerHTML +=
+    '<tr class="rows_height"><td class="table_text">' +
+    list_for_table[i][0] +
+    "<br>" +
+    list_for_table[i][1] +
+    "</td><td><img src=" +
+    list_for_table[i][2] +
+    ' class="yelp_image"></img></td> <td class="table_text"> <a href = "#" class="event_title"  onclick=\'business_detail_request("' +
+    list_for_table[i][4] +
+    "\");' >" +
+    list_for_table[i][3] +
+    '</a></td> <td class="table_text">' +
+    list_for_table[i][4] +
+    '</td> <td class="table_text">' +
+    list_for_table[i][5] +
+    "</td> </tr>";
 }
 
-function sort_table(id){
-	console.log("sort placeholder")
+/* Helper functions */
+function sort_table(id) {
+  console.log("sort placeholder");
+}
+
+function hovered() {
+  this.style.color = "#6600ff";
+}
+
+function not_hovered() {
+  this.style.color = "black";
+}
+
+function preventDefault(event) {
+	event.preventDefault();
+    
 }
