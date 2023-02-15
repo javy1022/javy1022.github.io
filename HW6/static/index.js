@@ -257,7 +257,7 @@ function get_request_event_detail(id) {
       console.log(result_dict);
 
       let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
-      let artist_or_team = EMPTY;
+      let artist_or_team = [];
       let genre = EMPTY;
       let time_obj = result_dict["dates"]["start"];
 
@@ -286,15 +286,22 @@ function get_request_event_detail(id) {
 
       if ("_embedded" in result_dict && "attractions" in result_dict["_embedded"] && result_dict["_embedded"]["attractions"].length != 0) {
           let artists_obj = result_dict["_embedded"]["attractions"];
-
+          
           for (let i = 0; i < artists_obj.length; i++) {
-              if ("name" in artists_obj[i] && artists_obj[i]["name"].trim() != UNDEFINED_LOW && artists_obj[i]["name"].trim() != UNDEFINED_CAP)
-                  artist_or_team += artists_obj[i]["name"].trim() + ARTISTS_SEPARATOR;
+              let temp = [];
+
+              if ("name" in artists_obj[i] && artists_obj[i]["name"].trim() != UNDEFINED_LOW && artists_obj[i]["name"].trim() != UNDEFINED_CAP)temp.push(artists_obj[i]["name"].trim())
+              else temp.push(EMPTY);
+
+              if("url" in artists_obj[i] && artists_obj[i]["url"].trim() != UNDEFINED_LOW && artists_obj[i]["url"].trim() != UNDEFINED_CAP ) temp.push(artists_obj[i]["url"].trim())
+              else temp.push(EMPTY);
+
+              artist_or_team.push(temp);
           }
-          if (artist_or_team.length != 0) artist_or_team = artist_or_team.slice(0, -2).trim();
+         
 
 
-      } else artist_or_team = EMPTY;
+      } 
 
       if (
         "_embedded" in result_dict &&
@@ -364,6 +371,7 @@ function get_request_event_detail(id) {
         seatmap_url = result_dict["seatmap"]["staticUrl"].trim();
       else seatmap_url = EMPTY;
 
+      console.log(artist_or_team)
       generate_event_details_card(event_title,local_date,local_time,artist_or_team,venue,genre,price_range,status,ticket_url,seatmap_url);
     }
   };
@@ -377,12 +385,10 @@ function generate_event_details_card(event_title,local_date,local_time,artist_or
     
     event_details.insertAdjacentHTML("beforeend","<div id= \"card\">");
     const card =  document.getElementById("card");
-
     if(event_title !=EMPTY) card.insertAdjacentHTML("beforeend","<p id= \"event_title\" class= \"card_font\">" + event_title + "</p>");
     if(seatmap_url != EMPTY) card.insertAdjacentHTML("beforeend","<img id= \"seatmap\" src= " + seatmap_url + " alt=\"seatmap\" >" + "</img>");
 
     card.insertAdjacentHTML("beforeend","<div id= \"event_info\">");
-
     const event_info =  document.getElementById("event_info");
     if(local_date != EMPTY || local_time !=EMPTY) {
         if(local_time ==EMPTY) { 
@@ -397,6 +403,11 @@ function generate_event_details_card(event_title,local_date,local_time,artist_or
             event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Date</p>"); 
             event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\">" + local_date + " " + local_time + "</p>"); 
         }
+    }
+
+    if(artist_or_team != EMPTY){
+        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Artist/Team</p>");   
+        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\">" + artist_or_team + "</p>"); 
     }
 
 

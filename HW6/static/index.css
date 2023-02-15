@@ -328,5 +328,6 @@ input#distance::placeholder {
   color: white;
   font-family: Poppins;
   font-size: 24px;
+  margin-bottom: -18px;
  
 }
