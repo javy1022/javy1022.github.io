@@ -17,6 +17,94 @@ const submit_button = document.getElementById("submit");
 
 const item_table = document.getElementById("table");
 
+/* Helper functions */
+function sort_table(id) {
+  console.log("sort placeholder");
+}
+
+function hovered() {
+  this.style.color = "#6600ff";
+}
+
+function not_hovered() {
+  this.style.color = "black";
+}
+
+function preventDefault(event) {
+	event.preventDefault();
+    
+}
+
+function buffer_array_append(result_dict_item, buffer_array, header) {
+  for (let i = 0; i < Object.keys(result_dict_item).length; i++) {
+    if (result_dict_item[i][0] == header) {
+      if (header == "dates") {
+        let time_obj = result_dict_item[i][1]["start"];
+        if ("localDate" in time_obj) buffer_array.push(time_obj["localDate"]);
+        else buffer_array.push(" ");
+
+        if ("localTime" in time_obj) buffer_array.push(time_obj["localTime"]);
+        else buffer_array.push(" ");
+
+      } else if (header == "images") {
+        let image_obj = result_dict_item[i][1];
+        if (image_obj.length != 0) buffer_array.push(image_obj[0]["url"]);
+        else buffer_array.push(" ");
+
+      } else if (header == "name") {
+        let name_obj = result_dict_item[i][1];
+        if (name_obj.length != 0) buffer_array.push(name_obj);
+        else buffer_array.push(" ");
+
+      } else if (header == "classifications") {
+        let genre_obj = result_dict_item[i][1];
+
+        if ("name" in genre_obj[0]["segment"]) buffer_array.push(genre_obj[0]["segment"]["name"]);
+        else buffer_array.push(" ");
+
+      } else if (header == "_embedded") {
+        let venues_obj = result_dict_item[i][1]["venues"][0];
+
+        if (venues_obj["name"].length != 0) buffer_array.push(venues_obj["name"]);
+        else buffer_array.push(" ");
+     
+      } else if(header == "id"){
+        let id_obj = result_dict_item[i][1];
+        if (id_obj.length != 0) buffer_array.push(id_obj);
+        else buffer_array.push(" ");
+      }
+
+    }
+  }
+}
+
+function table_header_constructor(item_table) {
+  item_table.innerHTML +=
+    '<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id)">Venue</th>  </tr>';
+  document.getElementById("third_columns_width").style.cursor = "pointer";
+  document.getElementById("fourth_columns_width").style.cursor = "pointer";
+  document.getElementById("fifth_columns_width").style.cursor = "pointer";
+}
+
+function table_append_row(item_table, list_for_table, i) {
+  item_table.innerHTML +=
+    '<tr class="rows_height"><td class="table_text">' +
+    list_for_table[i][0] +
+    "<br>" +
+    list_for_table[i][1] +
+    "</td><td><img src=" +
+    list_for_table[i][2] +
+    ' class="yelp_image"></img></td> <td class="table_text"> <a href = "#" class="event_title"  onclick=\'get_request_event_detail("' +
+    list_for_table[i][6] +
+    "\");' >" +
+    list_for_table[i][3] +
+    '</a></td> <td class="table_text">' +
+    list_for_table[i][4] +
+    '</td> <td class="table_text">' +
+    list_for_table[i][5] +
+    "</td> </tr>";
+}
+
 function clear_fields() {
   document.getElementById("keyword").value = "";
   document.getElementById("distance").value = "";
@@ -123,6 +211,7 @@ function send_request(url) {
         buffer_array_append(result_dict_item, buffer_array, "name");
         buffer_array_append(result_dict_item, buffer_array, "classifications");
         buffer_array_append(result_dict_item, buffer_array, "_embedded");
+        buffer_array_append(result_dict_item, buffer_array, "id");
 
         list_for_table.push(buffer_array);
       }
@@ -149,86 +238,42 @@ function send_request(url) {
       }
 
       //document.getElementById('table').scrollIntoView({behavior: "smooth"});
+      console.log(list_for_table)
     }
   };
   xhttp.open("GET", url, true);
   xhttp.send();
 }
 
-function buffer_array_append(result_dict_item, buffer_array, header) {
-  for (let i = 0; i < Object.keys(result_dict_item).length; i++) {
-    if (result_dict_item[i][0] == header) {
-      if (header == "dates") {
-        let time_obj = result_dict_item[i][1]["start"];
-        if ("localDate" in time_obj) buffer_array.push(time_obj["localDate"]);
-        else buffer_array.push(" ");
 
-        if ("localTime" in time_obj) buffer_array.push(time_obj["localTime"]);
-        else buffer_array.push(" ");
-      } else if (header == "images") {
-        let image_obj = result_dict_item[i][1];
-        if (image_obj.length != 0) buffer_array.push(image_obj[0]["url"]);
-        else buffer_array.push(" ");
-      } else if (header == "name") {
-        let name_obj = result_dict_item[i][1];
-        if (name_obj.length != 0) buffer_array.push(name_obj);
-        else buffer_array.push(" ");
-      } else if (header == "classifications") {
-        let genre_obj = result_dict_item[i][1];
+function get_request_event_detail(id) {
+  let request_url = "/event-detail/" + id
+  console.log(request_url)
+  var xhttp;
+  xhttp=new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+	 
+      let resp = this.responseText;
+	    let result_dict = JSON.parse(resp) ;
+	    console.log(result_dict);
+	  
+	
+	   
+	 
 
-        if ("name" in genre_obj[0]["segment"]) buffer_array.push(genre_obj[0]["segment"]["name"]);
-        else buffer_array.push(" ");
-      } else if (header == "_embedded") {
-        let venues_obj = result_dict_item[i][1]["venues"][0];
 
-        if (venues_obj["name"].length != 0) buffer_array.push(venues_obj["name"]);
-        else buffer_array.push(" ");
-      }
+
     }
-  }
+ };
+  xhttp.open("GET", request_url, true);
+  xhttp.send();
 }
 
-function table_header_constructor(item_table) {
-  item_table.innerHTML +=
-    '<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id)">Venue</th>  </tr>';
-  document.getElementById("third_columns_width").style.cursor = "pointer";
-  document.getElementById("fourth_columns_width").style.cursor = "pointer";
-  document.getElementById("fifth_columns_width").style.cursor = "pointer";
-}
 
-function table_append_row(item_table, list_for_table, i) {
-  item_table.innerHTML +=
-    '<tr class="rows_height"><td class="table_text">' +
-    list_for_table[i][0] +
-    "<br>" +
-    list_for_table[i][1] +
-    "</td><td><img src=" +
-    list_for_table[i][2] +
-    ' class="yelp_image"></img></td> <td class="table_text"> <a href = "#" class="event_title"  onclick=\'business_detail_request("' +
-    list_for_table[i][4] +
-    "\");' >" +
-    list_for_table[i][3] +
-    '</a></td> <td class="table_text">' +
-    list_for_table[i][4] +
-    '</td> <td class="table_text">' +
-    list_for_table[i][5] +
-    "</td> </tr>";
-}
 
-/* Helper functions */
-function sort_table(id) {
-  console.log("sort placeholder");
-}
 
-function hovered() {
-  this.style.color = "#6600ff";
-}
 
-function not_hovered() {
-  this.style.color = "black";
-}
 
-function preventDefault(event) {
-	event.preventDefault();
-    
-}
+
+

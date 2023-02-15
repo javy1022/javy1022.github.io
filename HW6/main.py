@@ -5,6 +5,7 @@ from geolib import geohash as gh
 TICKETMASTER_API_KEY = "PbITZwAJ32tYq1Codl5AhoRCENI3fPfo"
 TICKETMASTER_HOST = "https://app.ticketmaster.com"
 EVENT_SEARCH_PATH = "/discovery/v2/events.json"
+EVENT_DETAIL_PATH = "/discovery/v2/events/"
 
 MUSIC_SEGMENT_ID = "KZFzniwnSyZfZ7v7nJ"
 SPORTS_SEGMENT_ID  = "KZFzniwnSyZfZ7v7nE"
@@ -57,7 +58,15 @@ def get_search_result(keyword,lat_string,lng_string,category,distance):
     response_json = response.json()
     return  response_json
     
-    return str(geohash)
+@app.route('/event-detail/<string:id>')
+def get_event_detail(id):
+     request_url =  TICKETMASTER_HOST + EVENT_DETAIL_PATH + id;
+     url_params = {'apikey': TICKETMASTER_API_KEY}
+
+     response = requests.get(request_url, params=url_params)
+     response_json = response.json()
+     return  response_json
+
 
 if __name__ == "__main__":
     app.run()
