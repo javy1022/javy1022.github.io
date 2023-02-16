@@ -347,3 +347,39 @@ a.artists_url{
   border-radius: 12px;
   line-height: 43px;
 }
+
+#offsale{
+  background-color: red;
+  text-align: center;
+  width: 108px;
+  height: 43px;
+  border-radius: 12px;
+  line-height: 43px;
+}
+
+#canceled{
+  background-color: black;
+  text-align: center;
+  width: 124px;
+  height: 43px;
+  border-radius: 12px;
+  line-height: 43px;
+}
+
+#postponed{
+  background-color: orange;
+  text-align: center;
+  width: 109px;
+  height: 43px;
+  border-radius: 12px;
+  line-height: 43px;
+}
+
+#rescheduled{
+  background-color: orange;
+  text-align: center;
+  width: 160px;
+  height: 43px;
+  border-radius: 12px;
+  line-height: 43px;
+}

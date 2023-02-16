@@ -452,10 +452,22 @@ function generate_event_details_card(event_title, local_date, local_time, artist
 
   if(status != EMPTY){
       event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title" >Ticket Status</p>');
+      
       if(status == "onsale"){
         event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"onsale\">On Sale</p>");
+      }
+      else if(status == "offsale"){
+        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"offsale\">Off Sale</p>");
+      }    
+      else if(status == "cancelled" || status == "canceled"){
+        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"canceled\">Canceled</p>");
+      }   
+      else if(status == "postponed"){
+        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"postponed\">Postponed</p>");
       }  
-
+      else if(status == "rescheduled"){
+        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"rescheduled\">Rescheduled</p>");
+      }  
 
   }
 
