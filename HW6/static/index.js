@@ -21,7 +21,6 @@ const location_form = document.getElementById("locations");
 const form_data = document.getElementById("form_data");
 const submit_button = document.getElementById("submit");
 const event_details = document.getElementById("event_details_holder");
-
 const item_table = document.getElementById("table");
 
 /* Helper functions */
@@ -132,19 +131,19 @@ function table_append_row(item_table, list_for_table, i) {
 }
 
 function clear_fields() {
-  document.getElementById("keyword").value = EMPTY;
-  document.getElementById("distance").value = EMPTY;
-  document.getElementById("category_bar").value = "Default";
+  keyword.value = EMPTY;
+  distance.value = EMPTY;
+  category.value = "Default";
   document.getElementById("check_box").checked = false;
 
   if (location_form.style.display == "none") {
     location_form.style.display = "initial";
     location_form.required = true;
   } else {
-    document.getElementById("locations").value = EMPTY;
+    location_form.value = EMPTY;
   }
 
-  document.getElementById("table").innerHTML = EMPTY;
+  item_table.innerHTML = EMPTY;
   event_details.innerHTML = EMPTY;
   //document.getElementById("no_record_container").innerHTML = "";
 
@@ -183,7 +182,6 @@ function geoCode_send_request(url) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      console.log("bingo");
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
 
@@ -218,7 +216,7 @@ function send_request(url) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("table").innerHTML = EMPTY;
+      item_table.innerHTML = EMPTY;
       list_for_table = [];
       event_details.innerHTML = EMPTY;
       
@@ -253,8 +251,6 @@ function send_request(url) {
       }
 
       custom_urls_css("event_title");
-
-      //console.log(list_for_table)
     }
   };
   xhttp.open("GET", url, true);
@@ -385,8 +381,7 @@ function get_request_event_detail(id) {
       )
         seatmap_url = result_dict["seatmap"]["staticUrl"].trim();
       else seatmap_url = EMPTY;
-
-      console.log(status);
+     
       generate_event_details_card(event_title, local_date, local_time, artist_or_team, venue, genre, price_range, status, ticket_url, seatmap_url);
     }
   };
