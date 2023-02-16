@@ -383,7 +383,7 @@ function get_request_event_detail(id) {
         seatmap_url = result_dict["seatmap"]["staticUrl"].trim();
       else seatmap_url = EMPTY;
 
-      console.log(artist_or_team);
+      console.log(status);
       generate_event_details_card(event_title, local_date, local_time, artist_or_team, venue, genre, price_range, status, ticket_url, seatmap_url);
     }
   };
@@ -434,6 +434,33 @@ function generate_event_details_card(event_title, local_date, local_time, artist
     event_info.insertAdjacentHTML("beforeend", artists_info);
     custom_urls_css("artists_url");
   }
+
+  if(venue != EMPTY){
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Venue</p>');
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + venue + "</p>");   
+  }  
+
+  if(genre != EMPTY){
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Genres</p>');
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + genre + "</p>");   
+  }  
+
+  if(price_range != EMPTY){
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Price Ranges</p>');
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + price_range + "</p>");   
+  }  
+
+  if(status != EMPTY){
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title" >Ticket Status</p>');
+      if(status == "onsale"){
+        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"onsale\">On Sale</p>");
+      }  
+
+
+  }
+
+
+
 
   card.insertAdjacentHTML("beforeend", "</div>");
   card.insertAdjacentHTML("beforeend", "</div>");
