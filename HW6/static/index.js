@@ -19,9 +19,11 @@ const distance = document.getElementById("distance");
 const category = document.getElementById("category_bar");
 const location_form = document.getElementById("locations");
 const form_data = document.getElementById("form_data");
+const check_box = document.getElementById("check_box");
 const submit_button = document.getElementById("submit");
 const event_details = document.getElementById("event_details_holder");
 const item_table = document.getElementById("table");
+const no_record_container = document.getElementById("no_record_container");
 
 /* Helper functions */
 function sort_table(id) {
@@ -131,10 +133,10 @@ function table_append_row(item_table, list_for_table, i) {
 }
 
 function clear_fields() {
-  keyword.value = EMPTY;
-  distance.value = EMPTY;
-  category.value = "Default";
-  document.getElementById("check_box").checked = false;
+  if(keyword.value !=EMPTY) keyword.value = EMPTY;
+  if(distance.value !=EMPTY) distance.value = EMPTY;
+  if(category.value != "Default") category.value = "Default";
+  if(check_box.checked == true) check_box.checked = false;
 
   if (location_form.style.display == "none") {
     location_form.style.display = "initial";
@@ -142,12 +144,11 @@ function clear_fields() {
   } else {
     location_form.value = EMPTY;
   }
-
-  item_table.innerHTML = EMPTY;
-  event_details.innerHTML = EMPTY;
+  if(item_table.innerHTML != EMPTY) item_table.innerHTML = EMPTY;
+  if(event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
   //document.getElementById("no_record_container").innerHTML = "";
-
-  list_for_table = [];
+  if(list_for_table.length != 0) list_for_table = [];
+  if(no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
 }
 
 function check(event) {
@@ -159,6 +160,16 @@ function check(event) {
     location_form.required = false;
     location_form.style.display = "none";
   }
+}
+
+function no_record_constructor(){
+  if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
+
+  no_record_container.insertAdjacentHTML("beforeend", '<div id= "no_record_div">');
+  const no_record = document.getElementById("no_record_div");
+  no_record.insertAdjacentHTML("beforeend", '<p id= "no_record">No Records found</p></div>');
+
+  no_record_container.insertAdjacentHTML("beforeend", "</div>");
 }
 
 submit_button.addEventListener("click", submitForm, false);
@@ -184,9 +195,16 @@ function geoCode_send_request(url) {
     if (this.readyState == 4 && this.status == 200) {
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
-
+      console.log(result_dict)
       if (result_dict["status"] != "ZERO_RESULTS") {
         get_yelp_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
+        
+      } else {
+        console.log("geocode no result");
+        item_table.innerHTML = EMPTY;
+        list_for_table = [];
+        event_details.innerHTML = EMPTY;
+        no_record_constructor();
       }
     }
   };
@@ -219,38 +237,41 @@ function send_request(url) {
       item_table.innerHTML = EMPTY;
       list_for_table = [];
       event_details.innerHTML = EMPTY;
-      
 
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
+      console.log(result_dict);
 
-      let total_events = Object.keys(result_dict["_embedded"]["events"]).length;
+      if ("_embedded" in result_dict && "events" in result_dict["_embedded"] && result_dict["_embedded"]["events"].length != 0) {
+        if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
 
-      for (let i = 0; i < total_events; i++) {
-        let result_dict_item = Object.entries(result_dict["_embedded"]["events"][i]);
-        let buffer_array = new Array();
+        let total_events = Object.keys(result_dict["_embedded"]["events"]).length;
 
-        buffer_array_append(result_dict_item, buffer_array, "dates");
-        buffer_array_append(result_dict_item, buffer_array, "images");
-        buffer_array_append(result_dict_item, buffer_array, "name");
-        buffer_array_append(result_dict_item, buffer_array, "classifications");
-        buffer_array_append(result_dict_item, buffer_array, "_embedded");
-        buffer_array_append(result_dict_item, buffer_array, "id");
+        for (let i = 0; i < total_events; i++) {
+          let result_dict_item = Object.entries(result_dict["_embedded"]["events"][i]);
+          let buffer_array = new Array();
 
-        list_for_table.push(buffer_array);
-      }
+          buffer_array_append(result_dict_item, buffer_array, "dates");
+          buffer_array_append(result_dict_item, buffer_array, "images");
+          buffer_array_append(result_dict_item, buffer_array, "name");
+          buffer_array_append(result_dict_item, buffer_array, "classifications");
+          buffer_array_append(result_dict_item, buffer_array, "_embedded");
+          buffer_array_append(result_dict_item, buffer_array, "id");
 
-      if (list_for_table.length > 0) {
+          list_for_table.push(buffer_array);
+        }
+
         table_header_constructor(item_table);
+
+        for (let i = 0; i < total_events; i++) {
+          table_append_row(item_table, list_for_table, i);
+        }
+
+        custom_urls_css("event_title");
       } else {
-        console.log("no record");
+        
+          no_record_constructor();
       }
-
-      for (let i = 0; i < total_events; i++) {
-        table_append_row(item_table, list_for_table, i);
-      }
-
-      custom_urls_css("event_title");
     }
   };
   xhttp.open("GET", url, true);
@@ -263,17 +284,15 @@ function get_request_event_detail(id) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      
-
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
       console.log(result_dict);
       event_details.innerHTML = EMPTY;
-     
+
       let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
       let artist_or_team = [];
       let genre = EMPTY;
-      let time_obj = result_dict["dates"]["start"];
+      //let time_obj = result_dict["dates"]["start"];
 
       if ("name" in result_dict && result_dict["name"].trim() != UNDEFINED_LOW && result_dict["name"].trim() != UNDEFINED_CAP) event_title = result_dict["name"].trim();
       else event_title = EMPTY;
@@ -381,7 +400,7 @@ function get_request_event_detail(id) {
       )
         seatmap_url = result_dict["seatmap"]["staticUrl"].trim();
       else seatmap_url = EMPTY;
-     
+
       generate_event_details_card(event_title, local_date, local_time, artist_or_team, venue, genre, price_range, status, ticket_url, seatmap_url);
     }
   };
@@ -430,46 +449,41 @@ function generate_event_details_card(event_title, local_date, local_time, artist
     custom_urls_css("artists_url");
   }
 
-  if(venue != EMPTY){
+  if (venue != EMPTY) {
     event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Venue</p>');
-    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + venue + "</p>");   
-  }  
-
-  if(genre != EMPTY){
-    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Genres</p>');
-    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + genre + "</p>");   
-  }  
-
-  if(price_range != EMPTY){
-    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Price Ranges</p>');
-    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + price_range + "</p>");   
-  }  
-
-  if(status != EMPTY){
-      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title" >Ticket Status</p>');
-      
-      if(status == "onsale"){
-        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"onsale\">On Sale</p>");
-      }
-      else if(status == "offsale"){
-        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"offsale\">Off Sale</p>");
-      }    
-      else if(status == "cancelled" || status == "canceled"){
-        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"canceled\">Canceled</p>");
-      }   
-      else if(status == "postponed"){
-        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"postponed\">Postponed</p>");
-      }  
-      else if(status == "rescheduled"){
-        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"rescheduled\">Rescheduled</p>");
-      }  
-
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + venue + "</p>");
   }
 
-  if(ticket_url != EMPTY){
-      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title" >Buy Ticket At:</p>');
-      event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\"><a href=" + ticket_url + ' class= "ticket_url"  target="_blank"' + ">" + "Ticketmaster" + "</a></p>");  
-      custom_urls_css("ticket_url");
+  if (genre != EMPTY) {
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Genres</p>');
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + genre + "</p>");
+  }
+
+  if (price_range != EMPTY) {
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Price Ranges</p>');
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + price_range + "</p>");
+  }
+
+  if (status != EMPTY) {
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title" >Ticket Status</p>');
+
+    if (status == "onsale") {
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text" id="onsale">On Sale</p>');
+    } else if (status == "offsale") {
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text" id="offsale">Off Sale</p>');
+    } else if (status == "cancelled" || status == "canceled") {
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text" id="canceled">Canceled</p>');
+    } else if (status == "postponed") {
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text" id="postponed">Postponed</p>');
+    } else if (status == "rescheduled") {
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text" id="rescheduled">Rescheduled</p>');
+    }
+  }
+
+  if (ticket_url != EMPTY) {
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title" >Buy Ticket At:</p>');
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text"><a href=' + ticket_url + ' class= "ticket_url"  target="_blank"' + ">" + "Ticketmaster" + "</a></p>");
+    custom_urls_css("ticket_url");
   }
   card.insertAdjacentHTML("beforeend", "</div>");
   card.insertAdjacentHTML("beforeend", "</div>");

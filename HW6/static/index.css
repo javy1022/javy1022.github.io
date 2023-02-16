@@ -377,3 +377,20 @@ input#distance::placeholder {
   line-height: 43px;
 }
 
+#no_record_div{
+  width: 2048px;
+  height: 67px;
+  margin-top: -14px;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 67px;
+}
+
+#no_record{
+  font-family: Roboto;
+  text-align: center;
+  color: red;
+  font-size: 26px;
+  font-weight: bold;
+}
