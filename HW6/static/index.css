@@ -332,13 +332,6 @@ input#distance::placeholder {
  
 }
 
-a.artists_url{
-  
-  font-family: Lato;
-  font-size: 24px;
-  margin-bottom: -18px;
-}
-
 #onsale{
   background-color: green;
   text-align: center;
@@ -383,3 +376,4 @@ a.artists_url{
   border-radius: 12px;
   line-height: 43px;
 }
+

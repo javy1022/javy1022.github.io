@@ -51,7 +51,7 @@ function preventDefault(event) {
 function custom_urls_css(class_name) {
   let temp = document.getElementsByClassName(class_name);
   for (let i = 0; i < temp.length; i++) {
-    if (class_name == "artists_url") {
+    if (class_name == "artists_url" || class_name == "ticket_url") {
       temp[i].style.color = "#00a0cc";
       temp[i].style.textDecoration = "none";
       temp[i].addEventListener("mouseover", hovered_artists_url, false);
@@ -469,6 +469,12 @@ function generate_event_details_card(event_title, local_date, local_time, artist
         event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\" id=\"rescheduled\">Rescheduled</p>");
       }  
 
+  }
+
+  if(ticket_url != EMPTY){
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title" >Buy Ticket At:</p>');
+      event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\"><a href=" + ticket_url + ' class= "ticket_url"  target="_blank"' + ">" + "Ticketmaster" + "</a></p>");  
+      custom_urls_css("ticket_url");
   }
 
 
