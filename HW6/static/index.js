@@ -20,7 +20,7 @@ const category = document.getElementById("category_bar");
 const location_form = document.getElementById("locations");
 const form_data = document.getElementById("form_data");
 const submit_button = document.getElementById("submit");
-const event_details =  document.getElementById("event_details_holder");
+const event_details = document.getElementById("event_details_holder");
 
 const item_table = document.getElementById("table");
 
@@ -33,7 +33,7 @@ function hovered() {
   this.style.color = "#6600ff";
 }
 
-function hovered_artists_url(){
+function hovered_artists_url() {
   this.style.color = "#b380ff";
 }
 function not_hovered() {
@@ -46,6 +46,24 @@ function not_hovered_artists_url() {
 
 function preventDefault(event) {
   event.preventDefault();
+}
+
+function custom_urls_css(class_name) {
+  let temp = document.getElementsByClassName(class_name);
+  for (let i = 0; i < temp.length; i++) {
+    if (class_name == "artists_url") {
+      temp[i].style.color = "#00a0cc";
+      temp[i].style.textDecoration = "none";
+      temp[i].addEventListener("mouseover", hovered_artists_url, false);
+      temp[i].addEventListener("mouseout", not_hovered_artists_url, false);
+    } else if (class_name == "event_title") {
+      temp[i].style.color = "black";
+      temp[i].style.textDecoration = "none";
+      temp[i].addEventListener("mouseover", hovered, false);
+      temp[i].addEventListener("mouseout", not_hovered, false);
+      temp[i].addEventListener("click", preventDefault, false);
+    }
+  }
 }
 
 function buffer_array_append(result_dict_item, buffer_array, header) {
@@ -85,7 +103,6 @@ function buffer_array_append(result_dict_item, buffer_array, header) {
     }
   }
 }
-
 
 function table_header_constructor(item_table) {
   item_table.innerHTML +=
@@ -235,17 +252,8 @@ function send_request(url) {
         table_append_row(item_table, list_for_table, i);
       }
 
-      let event_title_list = document.getElementsByClassName("event_title");
+      custom_urls_css("event_title");
 
-      for (let i = 0; i < event_title_list.length; i++) {
-        event_title_list[i].style.color = "black";
-        event_title_list[i].style.textDecoration = "none";
-        event_title_list[i].addEventListener("mouseover", hovered, false);
-        event_title_list[i].addEventListener("mouseout", not_hovered, false);
-        event_title_list[i].addEventListener("click", preventDefault, false);
-      }
-
-     
       //console.log(list_for_table)
     }
   };
@@ -292,23 +300,20 @@ function get_request_event_detail(id) {
       else local_time = EMPTY;
 
       if ("_embedded" in result_dict && "attractions" in result_dict["_embedded"] && result_dict["_embedded"]["attractions"].length != 0) {
-          let artists_obj = result_dict["_embedded"]["attractions"];
-          
-          for (let i = 0; i < artists_obj.length; i++) {
-              let temp = [];
+        let artists_obj = result_dict["_embedded"]["attractions"];
 
-              if ("name" in artists_obj[i] && artists_obj[i]["name"].trim() != UNDEFINED_LOW && artists_obj[i]["name"].trim() != UNDEFINED_CAP)temp.push(artists_obj[i]["name"].trim())
-              else temp.push(EMPTY);
+        for (let i = 0; i < artists_obj.length; i++) {
+          let temp = [];
 
-              if("url" in artists_obj[i] && artists_obj[i]["url"].trim() != UNDEFINED_LOW && artists_obj[i]["url"].trim() != UNDEFINED_CAP ) temp.push(artists_obj[i]["url"].trim())
-              else temp.push(EMPTY);
+          if ("name" in artists_obj[i] && artists_obj[i]["name"].trim() != UNDEFINED_LOW && artists_obj[i]["name"].trim() != UNDEFINED_CAP) temp.push(artists_obj[i]["name"].trim());
+          else temp.push(EMPTY);
 
-              artist_or_team.push(temp);
-          }
-         
+          if ("url" in artists_obj[i] && artists_obj[i]["url"].trim() != UNDEFINED_LOW && artists_obj[i]["url"].trim() != UNDEFINED_CAP) temp.push(artists_obj[i]["url"].trim());
+          else temp.push(EMPTY);
 
-
-      } 
+          artist_or_team.push(temp);
+        }
+      }
 
       if (
         "_embedded" in result_dict &&
@@ -378,75 +383,60 @@ function get_request_event_detail(id) {
         seatmap_url = result_dict["seatmap"]["staticUrl"].trim();
       else seatmap_url = EMPTY;
 
-      console.log(artist_or_team)
-      generate_event_details_card(event_title,local_date,local_time,artist_or_team,venue,genre,price_range,status,ticket_url,seatmap_url);
+      console.log(artist_or_team);
+      generate_event_details_card(event_title, local_date, local_time, artist_or_team, venue, genre, price_range, status, ticket_url, seatmap_url);
     }
   };
   xhttp.open("GET", request_url, true);
   xhttp.send();
 }
 
-function generate_event_details_card(event_title,local_date,local_time,artist_or_team,venue,genre,price_range,status,ticket_url,seatmap_url){
-    //card.innerHTML += "<div id= \"card\">";
-   // card.innerHTML += "<p id= \"event_title\" class= \"card_font\">" + event_title + "</p>";
-    
-    event_details.insertAdjacentHTML("beforeend","<div id= \"card\">");
-    const card =  document.getElementById("card");
-    if(event_title !=EMPTY) card.insertAdjacentHTML("beforeend","<p id= \"event_title\" class= \"card_font\">" + event_title + "</p>");
-    if(seatmap_url != EMPTY) card.insertAdjacentHTML("beforeend","<img id= \"seatmap\" src= " + seatmap_url + " alt=\"seatmap\" >" + "</img>");
+function generate_event_details_card(event_title, local_date, local_time, artist_or_team, venue, genre, price_range, status, ticket_url, seatmap_url) {
+  //card.innerHTML += "<div id= \"card\">";
+  // card.innerHTML += "<p id= \"event_title\" class= \"card_font\">" + event_title + "</p>";
 
-    card.insertAdjacentHTML("beforeend","<div id= \"event_info\">");
-    const event_info =  document.getElementById("event_info");
-    if(local_date != EMPTY || local_time !=EMPTY) {
-        if(local_time ==EMPTY) { 
-            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Date</p>"); 
-            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\">" + local_date + "</p>"); 
-        }
-        else if (local_date ==EMPTY) {
-            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Date</p>"); 
-            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\">" + local_time + "</p>"); 
-        }
-        else{
-            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Date</p>"); 
-            event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\">" + local_date + " " + local_time + "</p>"); 
-        }
+  event_details.insertAdjacentHTML("beforeend", '<div id= "card">');
+  const card = document.getElementById("card");
+  if (event_title != EMPTY) card.insertAdjacentHTML("beforeend", '<p id= "event_title" class= "card_font">' + event_title + "</p>");
+  if (seatmap_url != EMPTY) card.insertAdjacentHTML("beforeend", '<img id= "seatmap" src= ' + seatmap_url + ' alt="seatmap" >' + "</img>");
+
+  card.insertAdjacentHTML("beforeend", '<div id= "event_info">');
+  const event_info = document.getElementById("event_info");
+  if (local_date != EMPTY || local_time != EMPTY) {
+    if (local_time == EMPTY) {
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Date</p>');
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + local_date + "</p>");
+    } else if (local_date == EMPTY) {
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Date</p>');
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + local_time + "</p>");
+    } else {
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Date</p>');
+      event_info.insertAdjacentHTML("beforeend", '<p class= "detail_text">' + local_date + " " + local_time + "</p>");
     }
+  }
 
-    if(artist_or_team.length != 0){
-        event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_title\">Artist/Team</p>");   
+  if (artist_or_team.length != 0) {
+    event_info.insertAdjacentHTML("beforeend", '<p class= "detail_title">Artist/Team</p>');
 
-        let artists_info = "<p class= \"detail_text\">"
-        for(let i= 0; i < artist_or_team.length; i++){
-            if(artist_or_team[i][0] != EMPTY){
-                if(artist_or_team[i][1] != EMPTY){
-                    if(i != artist_or_team.length - 1) artists_info +=  "<a href=" + artist_or_team[i][1] + " class= \"artists_url\" target=\"_blank\"" + ">" +  artist_or_team[i][0]  + "</a>" + ARTISTS_SEPARATOR;
-                    else artists_info +=  "<a href=" + artist_or_team[i][1] + " class= \"artists_url\"  target=\"_blank\"" + ">" +  artist_or_team[i][0]  + "</a>";
-                }else{
-                    if(i != artist_or_team.length - 1) artists_info +=  artist_or_team[i][0]  + ARTISTS_SEPARATOR;
-                    else artists_info += artist_or_team[i][0]  + "</a>";
-                }
-            }    
-         
+    let artists_info = '<p class= "detail_text">';
+    for (let i = 0; i < artist_or_team.length; i++) {
+      if (artist_or_team[i][0] != EMPTY) {
+        if (artist_or_team[i][1] != EMPTY) {
+          if (i != artist_or_team.length - 1) artists_info += "<a href=" + artist_or_team[i][1] + ' class= "artists_url" target="_blank"' + ">" + artist_or_team[i][0] + "</a>" + ARTISTS_SEPARATOR;
+          else artists_info += "<a href=" + artist_or_team[i][1] + ' class= "artists_url"  target="_blank"' + ">" + artist_or_team[i][0] + "</a>";
+        } else {
+          if (i != artist_or_team.length - 1) artists_info += artist_or_team[i][0] + ARTISTS_SEPARATOR;
+          else artists_info += artist_or_team[i][0] + "</a>";
         }
-        artists_info += "</p>"
-        event_info.insertAdjacentHTML("beforeend", artists_info ); 
+      }
     }
+    artists_info += "</p>";
+    event_info.insertAdjacentHTML("beforeend", artists_info);
+    custom_urls_css("artists_url");
+  }
 
-    var temp = document.getElementsByClassName("artists_url");
-	  
-	  for(let i = 0; i < temp.length; i ++){
-		 temp[i].style.color = "#00a0cc";
-		 temp[i].style.textDecoration = "none";
-		 temp[i].addEventListener('mouseover', hovered_artists_url, false);
-		 temp[i].addEventListener('mouseout', not_hovered_artists_url, false);
-	  }
+  card.insertAdjacentHTML("beforeend", "</div>");
+  card.insertAdjacentHTML("beforeend", "</div>");
 
-
-
-    card.insertAdjacentHTML("beforeend","</div>");
-    card.insertAdjacentHTML("beforeend","</div>");
-
-  
-    card.scrollIntoView({behavior: "smooth"});
-
+  card.scrollIntoView({ behavior: "smooth" });
 }
