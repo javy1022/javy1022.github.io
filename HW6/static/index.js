@@ -145,7 +145,7 @@ function clear_fields() {
   }
 
   document.getElementById("table").innerHTML = EMPTY;
-  //document.getElementById("card_holder").innerHTML = "";
+  event_details.innerHTML = EMPTY;
   //document.getElementById("no_record_container").innerHTML = "";
 
   list_for_table = [];
@@ -218,10 +218,10 @@ function send_request(url) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      if (document.getElementById("table").innerHTML != EMPTY) {
-        document.getElementById("table").innerHTML = EMPTY;
-        list_for_table = [];
-      }
+      document.getElementById("table").innerHTML = EMPTY;
+      list_for_table = [];
+      event_details.innerHTML = EMPTY;
+      
 
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
@@ -267,10 +267,13 @@ function get_request_event_detail(id) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+      
+
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
       console.log(result_dict);
-
+      event_details.innerHTML = EMPTY;
+     
       let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
       let artist_or_team = [];
       let genre = EMPTY;
@@ -392,9 +395,6 @@ function get_request_event_detail(id) {
 }
 
 function generate_event_details_card(event_title, local_date, local_time, artist_or_team, venue, genre, price_range, status, ticket_url, seatmap_url) {
-  //card.innerHTML += "<div id= \"card\">";
-  // card.innerHTML += "<p id= \"event_title\" class= \"card_font\">" + event_title + "</p>";
-
   event_details.insertAdjacentHTML("beforeend", '<div id= "card">');
   const card = document.getElementById("card");
   if (event_title != EMPTY) card.insertAdjacentHTML("beforeend", '<p id= "event_title" class= "card_font">' + event_title + "</p>");
@@ -476,10 +476,6 @@ function generate_event_details_card(event_title, local_date, local_time, artist
       event_info.insertAdjacentHTML("beforeend", "<p class= \"detail_text\"><a href=" + ticket_url + ' class= "ticket_url"  target="_blank"' + ">" + "Ticketmaster" + "</a></p>");  
       custom_urls_css("ticket_url");
   }
-
-
-
-
   card.insertAdjacentHTML("beforeend", "</div>");
   card.insertAdjacentHTML("beforeend", "</div>");
 

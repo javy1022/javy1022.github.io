@@ -276,7 +276,7 @@ input#distance::placeholder {
 /*Event detail Card*/
 #card{
   width: 1778px;
-  height: 992px;
+  height: 1000px;
   margin: auto;
   margin-top: 97px;
   background-color: rgb(166, 166, 166, 0.3);
