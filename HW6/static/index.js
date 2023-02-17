@@ -644,9 +644,14 @@ function generate_venue_details_card(venue_name, address, state_code,city, posta
 
  if(venue_name != EMPTY) venue_card.insertAdjacentHTML("beforeend", '<p id= "venue_card_title">'+ venue_name+'</p>');
  if(image != EMPTY) venue_card.insertAdjacentHTML("beforeend", ' <div id= "wrap"><img id= "venue_image"  src= ' + image+ ' alt="seatmap" >' + '</img></div>');
-
-
-
+ 
+ venue_card.insertAdjacentHTML("beforeend", '<div id="vl"></div>');
+ venue_card.insertAdjacentHTML("beforeend", '<div id="address_box"></div>');
+ 
+ venue_card.insertAdjacentHTML("beforeend", '<span id= "address_T">Address:</span>');
+ venue_card.insertAdjacentHTML("beforeend", '<span id= "address_1">' + address + '</span>');
+ venue_card.insertAdjacentHTML("beforeend", '<span id= "address_2">' + city + '</span>');
+ venue_card.insertAdjacentHTML("beforeend", '<span id= "address_3">' + postalCode + '</span>');
 
 
   venue_card.insertAdjacentHTML("beforeend", '<div id= "venue_card_outline"></div>');

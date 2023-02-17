@@ -475,3 +475,58 @@ input#distance::placeholder {
   position: absolute;
  
 }
+
+#vl {
+  border-left: 1px solid black;
+  height: 198px;
+  margin-left: 890px;
+  margin-top: 170px;
+  position: absolute;
+}
+
+
+#address_title{
+  font-family: Lato;
+ 
+  color: black;
+  font-size: 30px;
+  word-wrap: break-word;
+  margin-top: 0px;
+}
+
+#address_T {
+  position:absolute;
+  font-family: Lato;
+  font-weight: bold;
+  color: black;
+  font-size: 30px;
+  margin-left:236px ;
+  margin-top: 189px;
+}
+
+#address_1 {
+  position:absolute;
+  font-family: Lato;
+  color: black;
+  font-size: 30px;
+  margin-left:364px ;
+  margin-top: 189px;
+}
+
+#address_2 {
+  position:absolute;
+  font-family: Lato;
+  color: black;
+  font-size: 30px;
+  margin-left:364px ;
+  margin-top: 226px;
+}
+
+#address_3 {
+  position:absolute;
+  font-family: Lato;
+  color: black;
+  font-size: 30px;
+  margin-left:364px ;
+  margin-top: 263px;
+}
