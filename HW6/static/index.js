@@ -564,7 +564,7 @@ function get_request_venue_details(venue) {
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        let venue_name, address, city_temp, state_code,city, postalCode, upcoming_url;
+        let venue_name, address, city_temp, state_code,city, postalCode, upcoming_url, image;
         var resp = this.responseText;
         let result_dict = JSON.parse(resp);
         console.log(result_dict);
@@ -614,12 +614,21 @@ function get_request_venue_details(venue) {
         if("_embedded" in result_dict &&
         "venues" in result_dict["_embedded"] &&
         result_dict["_embedded"]["venues"].length != 0 &&
-        "url" in result_dict["_embedded"]["venues"]["0"] && result_dict["_embedded"]["venues"]["0"]["url"] != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["url"] != UNDEFINED_CAP)
-        upcoming_url =   result_dict["_embedded"]["venues"]["0"]["url"];
+        "url" in result_dict["_embedded"]["venues"]["0"] && result_dict["_embedded"]["venues"]["0"]["url"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["url"].trim() != UNDEFINED_CAP)
+        upcoming_url =   result_dict["_embedded"]["venues"]["0"]["url"].trim();
         else upcoming_url = EMPTY;
 
+        if("_embedded" in result_dict &&
+        "venues" in result_dict["_embedded"] &&
+        result_dict["_embedded"]["venues"].length != 0 &&
+        "images" in result_dict["_embedded"]["venues"]["0"] && result_dict["_embedded"]["venues"]["0"]["images"].length != 0 &&
+       "url" in result_dict["_embedded"]["venues"]["0"]["images"]["0"] && result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim() != UNDEFINED_LOW
+       && result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim() != UNDEFINED_CAP)
+        image = result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim() ;
+        else image  = EMPTY;
+
         city =  city_temp + ", " + state_code
-        generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url);
+        generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url, image);
       }
     };
     xhttp.open("GET", request_url, true);
@@ -627,21 +636,20 @@ function get_request_venue_details(venue) {
   }
 }
 
-function generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url){
+function generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url, image){
   if(venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
-
+  
   venue_card_holder.insertAdjacentHTML("beforeend", '<div id= "venue_card">');
   const venue_card  = document.getElementById("venue_card");
 
+ if(venue_name != EMPTY) venue_card.insertAdjacentHTML("beforeend", '<p id= "venue_card_title">'+ venue_name+'</p>');
+ if(image != EMPTY) venue_card.insertAdjacentHTML("beforeend", ' <div id= "wrap"><img id= "venue_image"  src= ' + image+ ' alt="seatmap" >' + '</img></div>');
 
-  venue_card.insertAdjacentHTML("beforeend", '<p id= "venue_card_title">'+ venue_name+'</p>');
+
+
+
+
   venue_card.insertAdjacentHTML("beforeend", '<div id= "venue_card_outline"></div>');
-  
-  
-  
-  
-  
-  
   venue_card_holder.insertAdjacentHTML("beforeend", '</div>');
   venue_card.scrollIntoView({ behavior: "smooth" });
 }

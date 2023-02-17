@@ -430,7 +430,7 @@ input#distance::placeholder {
   border-radius: 50px;
   background-color: white;
   margin-top: 48px;
-
+  position: relative;
 }
 
 #venue_card_outline{
@@ -441,7 +441,8 @@ input#distance::placeholder {
   outline: 1px solid black;
   outline-offset: -25px;
   border-radius: 70px;
-  margin-top: -162px;
+  margin-top: -164px;
+  position: absolute;
 }
 
 #venue_card_title{
@@ -453,4 +454,24 @@ input#distance::placeholder {
   text-decoration-thickness: 1px;
   text-underline-offset: 13px;
   padding-top: 50px;
+}
+
+
+#wrap > img {
+  width:100%;
+  height:150%;
+  object-fit: contain;
+  margin-top: -30px;
+}
+
+#wrap{
+  left: 0 ;
+  right: 0;
+  width: 242px;
+  height: 133px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -8px;
+  position: absolute;
+ 
 }
