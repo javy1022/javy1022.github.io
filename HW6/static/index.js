@@ -544,6 +544,11 @@ function generate_event_details_card(event_title, local_date, local_time, artist
   card.scrollIntoView({ behavior: "smooth" });
 
   venue_details.insertAdjacentHTML("beforeend", '<div id= "venue_details">');
+  const venue_content = document.getElementById("venue_details");
+
+  venue_content.insertAdjacentHTML("beforeend", '<p id= "show_venue">Show Venue Details</p>');
+  venue_content.insertAdjacentHTML("beforeend", '<div id= "arrow"></div>');
+
   venue_details.insertAdjacentHTML("beforeend", '</div>');
   
   
