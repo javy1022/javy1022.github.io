@@ -3,7 +3,10 @@
 
 const GOOGLE_API_HOST = "https://maps.googleapis.com";
 const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
-const GOOGLE_API_KEY = "AIzaSyDIGpZqNauMP2qqXnnanXzP6ba0AIIkT58";
+const GOOGLE_API_KEY = "AIzaSyCaxgf431eIfeDFnIXhPKc7D6SpffjwBz0";
+const IPINFO_API_HOST = "https://ipinfo.io/";
+const IPINFO_API_KEY = "69aeb460f27a79";
+
 const reg_non_alphanumeric = /[^a-z0-9+]+/gi;
 const reg_remove_all_spaces_after_end_string = /\s*$/;
 const DEFAULT_DISTANCE = "10";
@@ -67,38 +70,41 @@ function custom_urls_css(class_name) {
   }
 }
 
-function buffer_array_append(result_dict_item, buffer_array, header) {
+function buffer_array_append(result_dict_item, buffer_array, header, result_dict_obj) {
   /* have to handle cases like get_request_event_detai*/
+
   for (let i = 0; i < Object.keys(result_dict_item).length; i++) {
     if (result_dict_item[i][0] == header) {
       if (header == "dates") {
-        let time_obj = result_dict_item[i][1]["start"];
-        if ("localDate" in time_obj) buffer_array.push(time_obj["localDate"]);
+        let time_obj = result_dict_obj["dates"];
+        if ("start" in time_obj && "localDate" in time_obj["start"] && time_obj["start"]["localDate"] != UNDEFINED_LOW && time_obj["start"]["localDate"] != UNDEFINED_CAP)
+          buffer_array.push(time_obj["start"]["localDate"]);
         else buffer_array.push(EMPTY);
 
-        if ("localTime" in time_obj) buffer_array.push(time_obj["localTime"]);
+        if ("start" in time_obj && "localTime" in time_obj["start"] && time_obj["start"]["localTime"] != UNDEFINED_LOW && time_obj["start"]["localTime"] != UNDEFINED_CAP)
+          buffer_array.push(time_obj["start"]["localTime"]);
         else buffer_array.push(EMPTY);
       } else if (header == "images") {
-        let image_obj = result_dict_item[i][1];
-        if (image_obj.length != 0) buffer_array.push(image_obj[0]["url"]);
+        let image_obj = result_dict_obj["images"];
+        if (image_obj.length != 0 && image_obj["0"]["url"] != UNDEFINED_LOW && image_obj["0"]["url"] != UNDEFINED_CAP)  buffer_array.push(image_obj["0"]["url"]);
         else buffer_array.push(EMPTY);
       } else if (header == "name") {
-        let name_obj = result_dict_item[i][1];
-        if (name_obj.length != 0) buffer_array.push(name_obj);
+        let name_obj = result_dict_obj["name"];
+        if (name_obj != UNDEFINED_LOW && name_obj != UNDEFINED_CAP) buffer_array.push(name_obj);
         else buffer_array.push(EMPTY);
       } else if (header == "classifications") {
-        let genre_obj = result_dict_item[i][1];
-
-        if ("name" in genre_obj[0]["segment"]) buffer_array.push(genre_obj[0]["segment"]["name"]);
+        let genre_obj = result_dict_obj["classifications"];
+        if (genre_obj.length != 0 && "segment" in genre_obj["0"] && "name" in genre_obj["0"]["segment"] && genre_obj["0"]["segment"]["name"] != UNDEFINED_LOW && genre_obj["0"]["segment"]["name"] != UNDEFINED_CAP)
+          buffer_array.push(genre_obj[0]["segment"]["name"]);
         else buffer_array.push(EMPTY);
       } else if (header == "_embedded") {
-        let venues_obj = result_dict_item[i][1]["venues"][0];
+        let venues_obj = result_dict_obj["_embedded"];
 
-        if (venues_obj["name"].length != 0) buffer_array.push(venues_obj["name"]);
+        if ("venues" in venues_obj && venues_obj["venues"].length != 0 && "name" in venues_obj["venues"]["0"] && venues_obj["venues"]["0"]["name"] !=UNDEFINED_LOW && venues_obj["venues"]["0"]["name"] !=UNDEFINED_CAP ) buffer_array.push(venues_obj["venues"]["0"]["name"]);
         else buffer_array.push(EMPTY);
       } else if (header == "id") {
-        let id_obj = result_dict_item[i][1];
-        if (id_obj.length != 0) buffer_array.push(id_obj);
+        let id_obj = result_dict_obj["id"];
+        if (id_obj != UNDEFINED_LOW && id_obj != UNDEFINED_CAP) buffer_array.push(id_obj);
         else buffer_array.push(EMPTY);
       }
     }
@@ -133,10 +139,10 @@ function table_append_row(item_table, list_for_table, i) {
 }
 
 function clear_fields() {
-  if(keyword.value !=EMPTY) keyword.value = EMPTY;
-  if(distance.value !=EMPTY) distance.value = EMPTY;
-  if(category.value != "Default") category.value = "Default";
-  if(check_box.checked == true) check_box.checked = false;
+  if (keyword.value != EMPTY) keyword.value = EMPTY;
+  if (distance.value != EMPTY) distance.value = EMPTY;
+  if (category.value != "Default") category.value = "Default";
+  if (check_box.checked == true) check_box.checked = false;
 
   if (location_form.style.display == "none") {
     location_form.style.display = "initial";
@@ -144,11 +150,11 @@ function clear_fields() {
   } else {
     location_form.value = EMPTY;
   }
-  if(item_table.innerHTML != EMPTY) item_table.innerHTML = EMPTY;
-  if(event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
+  if (item_table.innerHTML != EMPTY) item_table.innerHTML = EMPTY;
+  if (event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
   //document.getElementById("no_record_container").innerHTML = "";
-  if(list_for_table.length != 0) list_for_table = [];
-  if(no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
+  if (list_for_table.length != 0) list_for_table = [];
+  if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
 }
 
 function check(event) {
@@ -162,7 +168,7 @@ function check(event) {
   }
 }
 
-function no_record_constructor(){
+function no_record_constructor() {
   if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
 
   no_record_container.insertAdjacentHTML("beforeend", '<div id= "no_record_div">');
@@ -183,8 +189,9 @@ function submitForm(event) {
     let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + GOOGLE_API_KEY;
 
     geoCode_send_request(url);
-  } else {
-    console.log("ohmygod");
+  } else if (keyword.checkValidity() != false && location_form.style.display == "none" && check_box.checked == true) {
+    event.preventDefault();
+    ipInfo_send_request(IPINFO_API_HOST + "?token=" + IPINFO_API_KEY);
   }
 }
 
@@ -195,17 +202,33 @@ function geoCode_send_request(url) {
     if (this.readyState == 4 && this.status == 200) {
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
-      console.log(result_dict)
+
       if (result_dict["status"] != "ZERO_RESULTS") {
         get_yelp_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
-        
       } else {
-        console.log("geocode no result");
         item_table.innerHTML = EMPTY;
         list_for_table = [];
         event_details.innerHTML = EMPTY;
         no_record_constructor();
       }
+    }
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+
+function ipInfo_send_request(url) {
+  var xhttp;
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var resp = this.responseText;
+      let result_dict = JSON.parse(resp);
+
+      var buffer = result_dict["loc"];
+      var lat_lng_array = buffer.split(",");
+
+      get_yelp_result(lat_lng_array[0], lat_lng_array[1]);
     }
   };
   xhttp.open("GET", url, true);
@@ -248,17 +271,34 @@ function send_request(url) {
         let total_events = Object.keys(result_dict["_embedded"]["events"]).length;
 
         for (let i = 0; i < total_events; i++) {
-          let result_dict_item = Object.entries(result_dict["_embedded"]["events"][i]);
-          let buffer_array = new Array();
+          if (result_dict["_embedded"]["events"][i].length != 0) {
+            let result_dict_obj = result_dict["_embedded"]["events"][i];
+            let result_dict_item = Object.entries(result_dict["_embedded"]["events"][i]);
+            let buffer_array = new Array();
 
-          buffer_array_append(result_dict_item, buffer_array, "dates");
-          buffer_array_append(result_dict_item, buffer_array, "images");
-          buffer_array_append(result_dict_item, buffer_array, "name");
-          buffer_array_append(result_dict_item, buffer_array, "classifications");
-          buffer_array_append(result_dict_item, buffer_array, "_embedded");
-          buffer_array_append(result_dict_item, buffer_array, "id");
+            if ("dates" in result_dict_obj) buffer_array_append(result_dict_item, buffer_array, "dates", result_dict_obj);
+            else {
+              buffer_array.push(EMPTY);
+              buffer_array.push(EMPTY);
+            }
 
-          list_for_table.push(buffer_array);
+            if ("images" in result_dict_obj) buffer_array_append(result_dict_item, buffer_array, "images", result_dict_obj);
+            else buffer_array.push(EMPTY);
+
+            if ("name" in result_dict_obj) buffer_array_append(result_dict_item, buffer_array, "name", result_dict_obj);
+            else buffer_array.push(EMPTY);
+
+            if ("classifications" in result_dict_obj) buffer_array_append(result_dict_item, buffer_array, "classifications", result_dict_obj);
+            else buffer_array.push(EMPTY);
+
+            if ("_embedded" in result_dict_obj) buffer_array_append(result_dict_item, buffer_array, "_embedded", result_dict_obj);
+            else buffer_array.push(EMPTY);
+
+            if ("id" in result_dict_obj) buffer_array_append(result_dict_item, buffer_array, "id", result_dict_obj);
+            else buffer_array.push(EMPTY);
+
+            list_for_table.push(buffer_array);
+          }
         }
 
         table_header_constructor(item_table);
@@ -269,8 +309,7 @@ function send_request(url) {
 
         custom_urls_css("event_title");
       } else {
-        
-          no_record_constructor();
+        no_record_constructor();
       }
     }
   };
@@ -286,7 +325,7 @@ function get_request_event_detail(id) {
     if (this.readyState == 4 && this.status == 200) {
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
-      console.log(result_dict);
+
       event_details.innerHTML = EMPTY;
 
       let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
