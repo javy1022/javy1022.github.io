@@ -26,6 +26,7 @@ const check_box = document.getElementById("check_box");
 const submit_button = document.getElementById("submit");
 const event_details = document.getElementById("event_details_holder");
 const item_table = document.getElementById("table");
+const venue_details = document.getElementById("venue_details_holder");
 const no_record_container = document.getElementById("no_record_container");
 
 /* Helper functions */
@@ -86,7 +87,7 @@ function buffer_array_append(result_dict_item, buffer_array, header, result_dict
         else buffer_array.push(EMPTY);
       } else if (header == "images") {
         let image_obj = result_dict_obj["images"];
-        if (image_obj.length != 0 && image_obj["0"]["url"] != UNDEFINED_LOW && image_obj["0"]["url"] != UNDEFINED_CAP)  buffer_array.push(image_obj["0"]["url"]);
+        if (image_obj.length != 0 && image_obj["0"]["url"] != UNDEFINED_LOW && image_obj["0"]["url"] != UNDEFINED_CAP) buffer_array.push(image_obj["0"]["url"]);
         else buffer_array.push(EMPTY);
       } else if (header == "name") {
         let name_obj = result_dict_obj["name"];
@@ -94,13 +95,26 @@ function buffer_array_append(result_dict_item, buffer_array, header, result_dict
         else buffer_array.push(EMPTY);
       } else if (header == "classifications") {
         let genre_obj = result_dict_obj["classifications"];
-        if (genre_obj.length != 0 && "segment" in genre_obj["0"] && "name" in genre_obj["0"]["segment"] && genre_obj["0"]["segment"]["name"] != UNDEFINED_LOW && genre_obj["0"]["segment"]["name"] != UNDEFINED_CAP)
+        if (
+          genre_obj.length != 0 &&
+          "segment" in genre_obj["0"] &&
+          "name" in genre_obj["0"]["segment"] &&
+          genre_obj["0"]["segment"]["name"] != UNDEFINED_LOW &&
+          genre_obj["0"]["segment"]["name"] != UNDEFINED_CAP
+        )
           buffer_array.push(genre_obj[0]["segment"]["name"]);
         else buffer_array.push(EMPTY);
       } else if (header == "_embedded") {
         let venues_obj = result_dict_obj["_embedded"];
 
-        if ("venues" in venues_obj && venues_obj["venues"].length != 0 && "name" in venues_obj["venues"]["0"] && venues_obj["venues"]["0"]["name"] !=UNDEFINED_LOW && venues_obj["venues"]["0"]["name"] !=UNDEFINED_CAP ) buffer_array.push(venues_obj["venues"]["0"]["name"]);
+        if (
+          "venues" in venues_obj &&
+          venues_obj["venues"].length != 0 &&
+          "name" in venues_obj["venues"]["0"] &&
+          venues_obj["venues"]["0"]["name"] != UNDEFINED_LOW &&
+          venues_obj["venues"]["0"]["name"] != UNDEFINED_CAP
+        )
+          buffer_array.push(venues_obj["venues"]["0"]["name"]);
         else buffer_array.push(EMPTY);
       } else if (header == "id") {
         let id_obj = result_dict_obj["id"];
@@ -525,7 +539,12 @@ function generate_event_details_card(event_title, local_date, local_time, artist
     custom_urls_css("ticket_url");
   }
   card.insertAdjacentHTML("beforeend", "</div>");
+  
   card.insertAdjacentHTML("beforeend", "</div>");
-
   card.scrollIntoView({ behavior: "smooth" });
+
+  venue_details.insertAdjacentHTML("beforeend", '<div id= "venue_details">');
+  venue_details.insertAdjacentHTML("beforeend", '</div>');
+  
+  
 }

@@ -191,6 +191,7 @@ input#distance::placeholder {
 	margin-left: auto;
   margin-right: auto;
 	margin-top: 73px;
+  margin-bottom: 194px;
 	border-collapse: collapse;
 	width:1345px;
 	font-family: Lato;
@@ -199,9 +200,8 @@ input#distance::placeholder {
   border-style: solid;
   border: 1px solid black;
   table-layout: fixed;
-  
-	
-}
+ }
+
 
 #table th {
   background-color: white;
@@ -278,7 +278,7 @@ input#distance::placeholder {
   width: 1778px;
   height: 1000px;
   margin: auto;
-  margin-top: 97px;
+  margin-top: -98px;
   background-color: rgb(166, 166, 166, 0.3);
   backdrop-filter: blur(15px);
   border-radius: 30px;
@@ -393,4 +393,11 @@ input#distance::placeholder {
   color: red;
   font-size: 26px;
   font-weight: bold;
+}
+
+#venue_details{
+  background-color: pink;
+  width: 1778px;
+  height: 500px;
+  margin: auto;
 }
