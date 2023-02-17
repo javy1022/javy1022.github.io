@@ -27,6 +27,7 @@ const submit_button = document.getElementById("submit");
 const event_details = document.getElementById("event_details_holder");
 const item_table = document.getElementById("table");
 const venue_details = document.getElementById("venue_details_holder");
+const venue_card_holder = document.getElementById("venue_card_holder");
 const no_record_container = document.getElementById("no_record_container");
 
 /* Helper functions */
@@ -627,5 +628,20 @@ function get_request_venue_details(venue) {
 }
 
 function generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url){
-  console.log(venue_name)
+  if(venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
+
+  venue_card_holder.insertAdjacentHTML("beforeend", '<div id= "venue_card">');
+  const venue_card  = document.getElementById("venue_card");
+
+
+  venue_card.insertAdjacentHTML("beforeend", '<p id= "venue_card_title">'+ venue_name+'</p>');
+  venue_card.insertAdjacentHTML("beforeend", '<div id= "venue_card_outline"></div>');
+  
+  
+  
+  
+  
+  
+  venue_card_holder.insertAdjacentHTML("beforeend", '</div>');
+  venue_card.scrollIntoView({ behavior: "smooth" });
 }

@@ -420,3 +420,37 @@ input#distance::placeholder {
   margin-top: -36px;
  
 }
+
+
+
+#venue_card{
+  margin: auto;
+  width: 1778px;
+  height: 605px;
+  border-radius: 50px;
+  background-color: white;
+  margin-top: 48px;
+
+}
+
+#venue_card_outline{
+  margin: auto;
+  width: 1778px;
+  height: 604px;
+  border-radius: 30px;
+  outline: 1px solid black;
+  outline-offset: -25px;
+  border-radius: 70px;
+  margin-top: -162px;
+}
+
+#venue_card_title{
+  text-align: center;
+  color: black;
+  font-size: 52px;
+  text-decoration: underline;
+  font-family: Lato;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 13px;
+  padding-top: 50px;
+}
