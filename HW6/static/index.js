@@ -277,7 +277,7 @@ function send_request(url) {
 
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
-      console.log(result_dict);
+      //console.log(result_dict);
 
       if ("_embedded" in result_dict && "events" in result_dict["_embedded"] && result_dict["_embedded"]["events"].length != 0) {
         if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
@@ -539,7 +539,7 @@ function generate_event_details_card(event_title, local_date, local_time, artist
     custom_urls_css("ticket_url");
   }
   card.insertAdjacentHTML("beforeend", "</div>");
-  
+
   card.insertAdjacentHTML("beforeend", "</div>");
   card.scrollIntoView({ behavior: "smooth" });
 
@@ -547,9 +547,85 @@ function generate_event_details_card(event_title, local_date, local_time, artist
   const venue_content = document.getElementById("venue_details");
 
   venue_content.insertAdjacentHTML("beforeend", '<p id= "show_venue">Show Venue Details</p>');
-  venue_content.insertAdjacentHTML("beforeend", '<div id= "arrow"></div>');
 
-  venue_details.insertAdjacentHTML("beforeend", '</div>');
-  
-  
+  venue_content.insertAdjacentHTML("beforeend", '<div id= "arrow"></div>');
+  document.getElementById("arrow").addEventListener("click", function () {
+    get_request_venue_details(venue);
+  });
+
+  venue_details.insertAdjacentHTML("beforeend", "</div>");
+}
+
+function get_request_venue_details(venue) {
+  if (venue != EMPTY) {
+    let request_url = "/venue-detail/" + venue;
+    var xhttp;
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let venue_name, address, city_temp, state_code,city, postalCode, upcoming_url;
+        var resp = this.responseText;
+        let result_dict = JSON.parse(resp);
+        console.log(result_dict);
+
+        if (
+          "_embedded" in result_dict &&
+          "venues" in result_dict["_embedded"] &&
+          result_dict["_embedded"]["venues"].length != 0 &&
+          "name" in result_dict["_embedded"]["venues"]["0"] &&
+          result_dict["_embedded"]["venues"]["0"]["name"].trim() != UNDEFINED_LOW &&
+          result_dict["_embedded"]["venues"]["0"]["name"].trim() != UNDEFINED_CAP
+        )
+          venue_name = result_dict["_embedded"]["venues"]["0"]["name"].trim();
+        else venue_name = EMPTY;
+
+        if( "_embedded" in result_dict &&
+        "venues" in result_dict["_embedded"] &&
+        result_dict["_embedded"]["venues"].length != 0 &&
+        "address" in result_dict["_embedded"]["venues"]["0"] && "line1" in result_dict["_embedded"]["venues"]["0"]["address"] 
+        && result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim() != UNDEFINED_CAP)
+          address =   result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim();
+          else address = EMPTY;
+
+        if( "_embedded" in result_dict &&
+        "venues" in result_dict["_embedded"] &&
+        result_dict["_embedded"]["venues"].length != 0 &&
+        "city" in result_dict["_embedded"]["venues"]["0"] && "name" in  result_dict["_embedded"]["venues"]["0"]["city"] &&
+        result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim() != UNDEFINED_CAP
+        )city_temp = result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim();
+        else city_temp = EMPTY;
+
+        if("_embedded" in result_dict &&
+        "venues" in result_dict["_embedded"] &&
+        result_dict["_embedded"]["venues"].length != 0 &&
+        "state" in result_dict["_embedded"]["venues"]["0"] && "stateCode" in result_dict["_embedded"]["venues"]["0"]["state"] && 
+        result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim() != UNDEFINED_CAP
+        )  state_code = result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim();
+        else state_code = EMPTY;
+        
+        if("_embedded" in result_dict &&
+        "venues" in result_dict["_embedded"] &&
+        result_dict["_embedded"]["venues"].length != 0 &&
+        "postalCode" in result_dict["_embedded"]["venues"]["0"] && result_dict["_embedded"]["venues"]["0"]["postalCode"].trim() != UNDEFINED_LOW  && result_dict["_embedded"]["venues"]["0"]["postalCode"].trim() != UNDEFINED_CAP)
+        postalCode = result_dict["_embedded"]["venues"]["0"]["postalCode"].trim();
+        else postalCode = EMPTY;
+
+        if("_embedded" in result_dict &&
+        "venues" in result_dict["_embedded"] &&
+        result_dict["_embedded"]["venues"].length != 0 &&
+        "url" in result_dict["_embedded"]["venues"]["0"] && result_dict["_embedded"]["venues"]["0"]["url"] != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["url"] != UNDEFINED_CAP)
+        upcoming_url =   result_dict["_embedded"]["venues"]["0"]["url"];
+        else upcoming_url = EMPTY;
+
+        city =  city_temp + ", " + state_code
+        generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url);
+      }
+    };
+    xhttp.open("GET", request_url, true);
+    xhttp.send();
+  }
+}
+
+function generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url){
+  console.log(venue_name)
 }
