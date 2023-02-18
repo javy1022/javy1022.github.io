@@ -551,6 +551,7 @@ function generate_event_details_card(event_title, local_date, local_time, artist
   venue_content.insertAdjacentHTML("beforeend", '<p id= "show_venue">Show Venue Details</p>');
 
   venue_content.insertAdjacentHTML("beforeend", '<div id= "arrow"></div>');
+  document.getElementById("arrow").style.cursor = "pointer";
   document.getElementById("arrow").addEventListener("click", function () {
     get_request_venue_details(venue);
   });

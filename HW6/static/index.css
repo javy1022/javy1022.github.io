@@ -380,7 +380,7 @@ input#distance::placeholder {
 #no_record_div{
   width: 2048px;
   height: 67px;
-  margin-top: -14px;
+  margin-top: -194px;
   background-color: white;
   margin-left: auto;
   margin-right: auto;
@@ -419,6 +419,11 @@ input#distance::placeholder {
   transform: rotate(135deg);
   margin-top: -36px;
  
+}
+
+#arrow:hover{
+  border-width: thick thick 0px 0px ;
+
 }
 
 
