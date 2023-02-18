@@ -183,84 +183,80 @@ input#distance::placeholder {
   background-color: #7592bd;
 }
 
-
 /* Table */
 
-
-#table{
-	margin-left: auto;
+#table {
+  margin-left: auto;
   margin-right: auto;
-	margin-top: 73px;
+  margin-top: 73px;
   margin-bottom: 194px;
-	border-collapse: collapse;
-	width:1345px;
-	font-family: Lato;
+  border-collapse: collapse;
+  width: 1345px;
+  font-family: Lato;
   font-size: 26px;
-  color:black;
+  color: black;
   border-style: solid;
   border: 1px solid black;
   table-layout: fixed;
- }
-
+}
 
 #table th {
   background-color: white;
-  
 }
 
 #table tr {
   background-color: white;
-  
-  
 }
 
-#table td, #table th {
+#test {
+  box-shadow: 0px 0px 20px gray;
+
+  z-index: 5;
+}
+
+#table td,
+#table th {
   border: 1px solid black;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
-#table td{
+#table td {
   text-align: center;
 }
 
-
-#first_row_height{
-	height:66px;
+#first_row_height {
+  height: 66px;
 }
 
-#first_columns_width{
-	width:300px;
+#first_columns_width {
+  width: 300px;
 }
 
-#second_columns_width{
-	width:300px;
-	
+#second_columns_width {
+  width: 300px;
 }
 
-#third_columns_width{
-	width:810px;
-	
+#third_columns_width {
+  width: 810px;
 }
 
-#fourth_columns_width{
-	width:200px;
+#fourth_columns_width {
+  width: 200px;
 }
 
-#fifth_columns_width{
-	width:402px;
-	
+#fifth_columns_width {
+  width: 402px;
 }
 
-
-.rows_height{
-	height:115px;
+.rows_height {
+  height: 115px;
 }
 
-.table_text{
-	color:black;
-	text-align: center;
-	font-family: Lato ;
+.table_text {
+  color: black;
+  text-align: center;
+  font-family: Lato;
   font-size: 25px;
 }
 
@@ -269,12 +265,10 @@ input#distance::placeholder {
   width: 120px;
   height: 73px;
   padding-top: 7px;
-  
- }
-
+}
 
 /*Event detail Card*/
-#card{
+#card {
   width: 1778px;
   height: 1000px;
   margin: auto;
@@ -282,41 +276,34 @@ input#distance::placeholder {
   background-color: rgb(166, 166, 166, 0.3);
   backdrop-filter: blur(15px);
   border-radius: 30px;
-	
 }
 
-#event_title{
-	text-align: center;
-	color: white;
+#event_title {
+  text-align: center;
+  color: white;
   font-family: Lato;
   font-size: 37px;
-	font-weight: bold;
+  font-weight: bold;
   padding-top: 40px;
-  
-	
 }
 
-#seatmap{
- position: absolute;
- object-fit: cover;
- width: 940px;
- height: 710px;
- margin-left: 705px;
- margin-top: 46px;
-
- 
+#seatmap {
+  position: absolute;
+  object-fit: cover;
+  width: 940px;
+  height: 710px;
+  margin-left: 705px;
+  margin-top: 46px;
 }
 
-#event_info{
+#event_info {
   width: 625px;
   height: 705px;
   margin-top: 116px;
   margin-left: 74px;
-  
-  
 }
 
-.detail_title{
+.detail_title {
   color: #66ffcc;
   font-family: Lato;
   font-size: 35px;
@@ -324,15 +311,14 @@ input#distance::placeholder {
   margin-bottom: -14px;
 }
 
-.detail_text{
+.detail_text {
   color: white;
   font-family: Lato;
   font-size: 24px;
   margin-bottom: -9px;
- 
 }
 
-#onsale{
+#onsale {
   background-color: green;
   text-align: center;
   width: 105px;
@@ -341,7 +327,7 @@ input#distance::placeholder {
   line-height: 43px;
 }
 
-#offsale{
+#offsale {
   background-color: red;
   text-align: center;
   width: 108px;
@@ -350,7 +336,7 @@ input#distance::placeholder {
   line-height: 43px;
 }
 
-#canceled{
+#canceled {
   background-color: black;
   text-align: center;
   width: 124px;
@@ -359,7 +345,7 @@ input#distance::placeholder {
   line-height: 43px;
 }
 
-#postponed{
+#postponed {
   background-color: orange;
   text-align: center;
   width: 109px;
@@ -368,7 +354,7 @@ input#distance::placeholder {
   line-height: 43px;
 }
 
-#rescheduled{
+#rescheduled {
   background-color: orange;
   text-align: center;
   width: 160px;
@@ -377,7 +363,7 @@ input#distance::placeholder {
   line-height: 43px;
 }
 
-#no_record_div{
+#no_record_div {
   width: 2048px;
   height: 67px;
   margin-top: -194px;
@@ -387,7 +373,7 @@ input#distance::placeholder {
   line-height: 67px;
 }
 
-#no_record{
+#no_record {
   font-family: Roboto;
   text-align: center;
   color: red;
@@ -395,13 +381,13 @@ input#distance::placeholder {
   font-weight: bold;
 }
 
-#venue_details{
+#venue_details {
   width: 1778px;
   height: 164px;
   margin: auto;
 }
 
-#show_venue{
+#show_venue {
   text-align: center;
   color: white;
   font-family: Lato;
@@ -409,26 +395,22 @@ input#distance::placeholder {
   margin-top: 24px;
 }
 
-#arrow{
-  width:50px;
-  height:50px;
+#arrow {
+  width: 50px;
+  height: 50px;
   margin: auto;
   border-color: white;
   border-style: solid;
-  border-width: thin thin 0px 0px ;
+  border-width: thin thin 0px 0px;
   transform: rotate(135deg);
   margin-top: -36px;
- 
 }
 
-#arrow:hover{
-  border-width: thick thick 0px 0px ;
-
+#arrow:hover {
+  border-width: thick thick 0px 0px;
 }
 
-
-
-#venue_card{
+#venue_card {
   margin: auto;
   width: 1778px;
   height: 605px;
@@ -438,7 +420,7 @@ input#distance::placeholder {
   position: relative;
 }
 
-#venue_card_outline{
+#venue_card_outline {
   margin: auto;
   width: 1778px;
   height: 604px;
@@ -448,10 +430,9 @@ input#distance::placeholder {
   border-radius: 70px;
   margin-top: -164px;
   position: absolute;
-
 }
 
-#venue_card_title{
+#venue_card_title {
   text-align: center;
   color: black;
   font-size: 52px;
@@ -462,16 +443,15 @@ input#distance::placeholder {
   padding-top: 50px;
 }
 
-
 #wrap > img {
-  width:100%;
-  height:150%;
+  width: 100%;
+  height: 150%;
   object-fit: contain;
   margin-top: -30px;
 }
 
-#wrap{
-  left: 0 ;
+#wrap {
+  left: 0;
   right: 0;
   width: 242px;
   height: 133px;
@@ -479,7 +459,6 @@ input#distance::placeholder {
   margin-right: auto;
   margin-top: -8px;
   position: absolute;
- 
 }
 
 #vl {
@@ -490,10 +469,9 @@ input#distance::placeholder {
   position: absolute;
 }
 
-
-#address_title{
+#address_title {
   font-family: Lato;
- 
+
   color: black;
   font-size: 30px;
   word-wrap: break-word;
@@ -501,67 +479,66 @@ input#distance::placeholder {
 }
 
 #address_T {
-  position:absolute;
+  position: absolute;
   font-family: Lato;
   font-weight: bold;
   color: black;
   font-size: 30px;
-  margin-left:236px ;
+  margin-left: 236px;
   margin-top: 189px;
 }
 
 #address_1 {
-  position:absolute;
+  position: absolute;
   font-family: Lato;
   color: black;
   font-size: 30px;
-  margin-left:364px ;
+  margin-left: 364px;
   margin-top: 189px;
 }
 
 #address_2 {
-  position:absolute;
+  position: absolute;
   font-family: Lato;
   color: black;
   font-size: 30px;
-  margin-left:364px ;
+  margin-left: 364px;
   margin-top: 226px;
 }
 
 #address_3 {
-  position:absolute;
+  position: absolute;
   font-family: Lato;
   color: black;
   font-size: 30px;
-  margin-left:364px ;
+  margin-left: 364px;
   margin-top: 263px;
 }
 
-#map_text{
+#map_text {
   color: #00a0cc;
   position: absolute;
   z-index: 1;
   font-family: Lato;
-  margin-left:315px ;
+  margin-left: 315px;
   margin-top: 320px;
   font-size: 30px;
 }
 
-#map_text:hover{
+#map_text:hover {
   color: #b380ff;
 }
 
-
-#upcoming_url{
+#upcoming_url {
   color: #00a0cc;
   position: absolute;
   z-index: 1;
   font-family: Lato;
-  margin-left:1154px ;
+  margin-left: 1154px;
   margin-top: 189px;
   font-size: 30px;
 }
 
-#upcoming_url:hover{
+#upcoming_url:hover {
   color: #b380ff;
 }

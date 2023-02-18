@@ -130,30 +130,38 @@ function buffer_array_append(result_dict_item, buffer_array, header, result_dict
 }
 
 function table_header_constructor(item_table) {
-  item_table.insertAdjacentHTML("beforeend",'<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id,toggle_sorting_event)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id,toggle_sorting_genre)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id,toggle_sorting_venue)">Venue</th>  </tr>')
-     
+  item_table.insertAdjacentHTML(
+    "beforeend",
+    '<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id,toggle_sorting_event)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id,toggle_sorting_genre)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id,toggle_sorting_venue)">Venue</th>  </tr>'
+  );
+
   document.getElementById("third_columns_width").style.cursor = "pointer";
   document.getElementById("fourth_columns_width").style.cursor = "pointer";
   document.getElementById("fifth_columns_width").style.cursor = "pointer";
 }
 
 function table_append_row(item_table, list_for_table, i) {
-  item_table.insertAdjacentHTML("beforeend",'<tr class="rows_height"><td class="table_text">' +
-  list_for_table[i][0] +
-  "<br>" +
-  list_for_table[i][1] +
-  "</td><td><img src=" +
-  list_for_table[i][2] +
-  ' class="yelp_image"></img></td> <td class="table_text"> <a href = "#" class="event_title"  onclick=\'get_request_event_detail("' +
-  list_for_table[i][6] +
-  "\");' >" +
-  list_for_table[i][3] +
-  '</a></td> <td class="table_text">' +
-  list_for_table[i][4] +
-  '</td> <td class="table_text">' +
-  list_for_table[i][5] +
-  "</td> </tr>")
-
+  let test;
+  if (i == 0) test = '<tr class="rows_height" id= "test"><td class="table_text">';
+  else test = '<tr class="rows_height"><td class="table_text">';
+  item_table.insertAdjacentHTML(
+    "beforeend",
+    test +
+      list_for_table[i][0] +
+      "<br>" +
+      list_for_table[i][1] +
+      "</td><td><img src=" +
+      list_for_table[i][2] +
+      ' class="yelp_image"></img></td> <td class="table_text"> <a href = "#" class="event_title"  onclick=\'get_request_event_detail("' +
+      list_for_table[i][6] +
+      "\");' >" +
+      list_for_table[i][3] +
+      '</a></td> <td class="table_text">' +
+      list_for_table[i][4] +
+      '</td> <td class="table_text">' +
+      list_for_table[i][5] +
+      "</td> </tr>"
+  );
 }
 
 function clear_fields() {

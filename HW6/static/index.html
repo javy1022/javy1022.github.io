@@ -1,68 +1,58 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>USC_CSCI571_SPRING2023_HW6_CheWeiWu</title>
-<link href="static/index.css" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Serif JP">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM Sans">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-
-</head>
-<body>
-   
+  <head>
+    <title>USC_CSCI571_SPRING2023_HW6_CheWeiWu</title>
+    <link href="static/index.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Serif JP" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM Sans" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" />
+  </head>
+  <body>
     <div id="form_container">
-        <h1 id="title"> Events Search</h1>
-        <hr id ="hr_banner" style="width:1025px">
+      <h1 id="title">Events Search</h1>
+      <hr id="hr_banner" style="width: 1025px" />
 
-        <form id= "form_data">
-            <span class="form_title" id="keyword_title">Keyword</span><br>
-            <div class="input_center">
-            <input class="form_search_bar" type="text" id= "keyword"  name="keywords" required> <br>
-            </div>
-        
-            <span class="form_title" id="distance_title">Distance (miles)</span> <span class="form_title"  id="category" name= "category">Category</span><br>
-                        
-            <input class="form_search_bar" type="number" id= "distance" name="distance" placeholder="10" min="0" > 
-            <select class="form_search_bar" type="text" id= "category_bar" name="category">
-                <option value="Default" selected >Default</option>
-                <option value="Music">Music</option>
-                <option value="Sports">Sports</option>
-                <option value="Arts & Theatre" >Arts & Theatre</option>
-                <option value="Film">Film</option>
-                <option value="Miscellaneous" >Miscellaneous</option>
-            </select> <br>  
-            
-            <span class="form_title" id="location_title">Location</span>
-            <input type="checkbox" id="check_box" name="check_box" value="checked" onclick="check()" >
-            <p id="auto_detect">Auto-Detect Location</p>
+      <form id="form_data">
+        <span class="form_title" id="keyword_title">Keyword</span><br />
+        <div class="input_center"><input class="form_search_bar" type="text" id="keyword" name="keywords" required /> <br /></div>
 
-            <input class="form_search_bar" type="text" id= "locations"  name="locations" required>
-            
-            <input class="buttons" id="submit" type="submit" value="SEARCH"> 
-            <input class="buttons" id="clear"  type="button" value="CLEAR" onclick="clear_fields()"> 
-        </form>
+        <span class="form_title" id="distance_title">Distance (miles)</span> <span class="form_title" id="category" name="category">Category</span><br />
 
+        <input class="form_search_bar" type="number" id="distance" name="distance" placeholder="10" min="0" />
+        <select class="form_search_bar" type="text" id="category_bar" name="category">
+          <option value="Default" selected>Default</option>
+          <option value="Music">Music</option>
+          <option value="Sports">Sports</option>
+          <option value="Arts & Theatre">Arts & Theatre</option>
+          <option value="Film">Film</option>
+          <option value="Miscellaneous">Miscellaneous</option>
+        </select>
+        <br />
+
+        <span class="form_title" id="location_title">Location</span>
+        <input type="checkbox" id="check_box" name="check_box" value="checked" onclick="check()" />
+        <p id="auto_detect">Auto-Detect Location</p>
+
+        <input class="form_search_bar" type="text" id="locations" name="locations" required />
+
+        <input class="buttons" id="submit" type="submit" value="SEARCH" />
+        <input class="buttons" id="clear" type="button" value="CLEAR" onclick="clear_fields()" />
+      </form>
     </div>
 
     <div>
-        <table id= "table" >
-        </table>
-    </div> 
-   
-
-    <div id= "event_details_holder">
+      <table id="table"></table>
     </div>
 
-    <div id= "venue_details_holder">
-    </div>
+    <div id="event_details_holder"></div>
 
-    <div id = "venue_card_holder">
-    </div>
+    <div id="venue_details_holder"></div>
 
-    <div id = "no_record_container">
-    </div>
+    <div id="venue_card_holder"></div>
 
-    <script src="static/index.js"></script> 
-</body>
+    <div id="no_record_container"></div>
+
+    <script src="static/index.js"></script>
+  </body>
 </html>
