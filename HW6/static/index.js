@@ -6,6 +6,7 @@ const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
 const GOOGLE_API_KEY = "AIzaSyCaxgf431eIfeDFnIXhPKc7D6SpffjwBz0";
 const IPINFO_API_HOST = "https://ipinfo.io/";
 const IPINFO_API_KEY = "69aeb460f27a79";
+const GOOGLE_MAP_SEARCH_PATH = "https://www.google.com/maps/search/?api=1&query=";
 
 const reg_non_alphanumeric = /[^a-z0-9+]+/gi;
 const reg_remove_all_spaces_after_end_string = /\s*$/;
@@ -57,7 +58,7 @@ function preventDefault(event) {
 function custom_urls_css(class_name) {
   let temp = document.getElementsByClassName(class_name);
   for (let i = 0; i < temp.length; i++) {
-    if (class_name == "artists_url" || class_name == "ticket_url") {
+    if (class_name == "artists_url" || class_name == "ticket_url" ) {
       temp[i].style.color = "#00a0cc";
       temp[i].style.textDecoration = "none";
       temp[i].addEventListener("mouseover", hovered_artists_url, false);
@@ -628,7 +629,7 @@ function get_request_venue_details(venue) {
         else image  = EMPTY;
 
         city =  city_temp + ", " + state_code
-        generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url, image);
+        generate_venue_details_card(venue_name, address, state_code,city,city_temp, postalCode, upcoming_url, image);
       }
     };
     xhttp.open("GET", request_url, true);
@@ -636,7 +637,7 @@ function get_request_venue_details(venue) {
   }
 }
 
-function generate_venue_details_card(venue_name, address, state_code,city, postalCode, upcoming_url, image){
+function generate_venue_details_card(venue_name, address, state_code,city,city_temp, postalCode, upcoming_url, image){
   if(venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
   
   venue_card_holder.insertAdjacentHTML("beforeend", '<div id= "venue_card">');
@@ -653,6 +654,13 @@ function generate_venue_details_card(venue_name, address, state_code,city, posta
  venue_card.insertAdjacentHTML("beforeend", '<span id= "address_2">' + city + '</span>');
  venue_card.insertAdjacentHTML("beforeend", '<span id= "address_3">' + postalCode + '</span>');
 
+ let venue_temp = venue_name.replace(reg_non_alphanumeric ,"+");
+ let address_temp = address.replace(reg_non_alphanumeric ,"+");
+ let city_name = city_temp.replace(reg_non_alphanumeric ,"+");
+ let query = venue_temp + "%2C+" + address_temp + "%2C+" + city_name + "%2C+"  + state_code + "%2C+" + postalCode;
+ let google_map_link = GOOGLE_MAP_SEARCH_PATH + query;
+ venue_card.insertAdjacentHTML("beforeend", '<a href=' + google_map_link + ' class= "google_map"  target="_blank"' + ">" + "<span id= \"map_text\">Open in Google Maps</span>" + "</a>");
+ 
 
   venue_card.insertAdjacentHTML("beforeend", '<div id= "venue_card_outline"></div>');
   venue_card_holder.insertAdjacentHTML("beforeend", '</div>');

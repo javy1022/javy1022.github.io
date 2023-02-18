@@ -443,6 +443,7 @@ input#distance::placeholder {
   border-radius: 70px;
   margin-top: -164px;
   position: absolute;
+
 }
 
 #venue_card_title{
@@ -529,4 +530,18 @@ input#distance::placeholder {
   font-size: 30px;
   margin-left:364px ;
   margin-top: 263px;
+}
+
+#map_text{
+  color: #00a0cc;
+  position: absolute;
+  z-index: 1;
+  font-family: Lato;
+  margin-left:315px ;
+  margin-top: 320px;
+  font-size: 30px;
+}
+
+#map_text:hover{
+  color: #b380ff;
 }
