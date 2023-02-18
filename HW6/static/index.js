@@ -32,6 +32,14 @@ const venue_card_holder = document.getElementById("venue_card_holder");
 const no_record_container = document.getElementById("no_record_container");
 
 /* Helper functions */
+function reset(){
+  if (item_table.innerHTML != EMPTY) item_table.innerHTML = EMPTY;
+  if(list_for_table.length != 0)  list_for_table = [];
+  if(event_details.innerHTML != EMPTY)event_details.innerHTML = EMPTY;
+  if(venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
+  if(venue_card_holder.innerHTML != EMPTY) venue_card_holder.innerHTML = EMPTY;
+}
+
 function sort_table(id) {
   console.log("sort placeholder");
 }
@@ -168,8 +176,9 @@ function clear_fields() {
   }
   if (item_table.innerHTML != EMPTY) item_table.innerHTML = EMPTY;
   if (event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
-  //document.getElementById("no_record_container").innerHTML = "";
   if (list_for_table.length != 0) list_for_table = [];
+  if(venue_details.innerHTML !=EMPTY) venue_details.innerHTML = EMPTY;
+  if(venue_card_holder.innerHTML !=EMPTY)  venue_card_holder.innerHTML = EMPTY;
   if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
 }
 
@@ -222,9 +231,7 @@ function geoCode_send_request(url) {
       if (result_dict["status"] != "ZERO_RESULTS") {
         get_yelp_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
       } else {
-        item_table.innerHTML = EMPTY;
-        list_for_table = [];
-        event_details.innerHTML = EMPTY;
+        reset();
         no_record_constructor();
       }
     }
@@ -273,9 +280,9 @@ function send_request(url) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      item_table.innerHTML = EMPTY;
-      list_for_table = [];
-      event_details.innerHTML = EMPTY;
+       reset();
+       if(no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
+
 
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
@@ -325,6 +332,7 @@ function send_request(url) {
 
         custom_urls_css("event_title");
       } else {
+        reset();
         no_record_constructor();
       }
     }
@@ -342,7 +350,9 @@ function get_request_event_detail(id) {
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
 
-      event_details.innerHTML = EMPTY;
+     if(event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
+     if(venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
+     if(venue_card_holder.innerHTML != EMPTY) venue_card_holder.innerHTML = EMPTY;
 
       let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
       let artist_or_team = [];
