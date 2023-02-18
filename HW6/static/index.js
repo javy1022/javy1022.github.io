@@ -78,26 +78,24 @@ function custom_urls_css(class_name) {
 }
 
 function buffer_array_append(result_dict_item, buffer_array, header, result_dict_obj) {
-  /* have to handle cases like get_request_event_detai*/
-
   for (let i = 0; i < Object.keys(result_dict_item).length; i++) {
     if (result_dict_item[i][0] == header) {
       if (header == "dates") {
         let time_obj = result_dict_obj["dates"];
-        if ("start" in time_obj && "localDate" in time_obj["start"] && time_obj["start"]["localDate"] != UNDEFINED_LOW && time_obj["start"]["localDate"] != UNDEFINED_CAP)
-          buffer_array.push(time_obj["start"]["localDate"]);
+        if ("start" in time_obj && "localDate" in time_obj["start"] && time_obj["start"]["localDate"].trim() != UNDEFINED_LOW && time_obj["start"]["localDate"].trim() != UNDEFINED_CAP)
+          buffer_array.push(time_obj["start"]["localDate"].trim());
         else buffer_array.push(EMPTY);
 
-        if ("start" in time_obj && "localTime" in time_obj["start"] && time_obj["start"]["localTime"] != UNDEFINED_LOW && time_obj["start"]["localTime"] != UNDEFINED_CAP)
-          buffer_array.push(time_obj["start"]["localTime"]);
+        if ("start" in time_obj && "localTime" in time_obj["start"] && time_obj["start"]["localTime"].trim() != UNDEFINED_LOW && time_obj["start"]["localTime"].trim() != UNDEFINED_CAP)
+          buffer_array.push(time_obj["start"]["localTime"].trim());
         else buffer_array.push(EMPTY);
       } else if (header == "images") {
         let image_obj = result_dict_obj["images"];
-        if (image_obj.length != 0 && image_obj["0"]["url"] != UNDEFINED_LOW && image_obj["0"]["url"] != UNDEFINED_CAP) buffer_array.push(image_obj["0"]["url"]);
+        if (image_obj.length != 0 && image_obj["0"]["url"].trim() != UNDEFINED_LOW && image_obj["0"]["url"].trim() != UNDEFINED_CAP) buffer_array.push(image_obj["0"]["url"].trim());
         else buffer_array.push(EMPTY);
       } else if (header == "name") {
         let name_obj = result_dict_obj["name"];
-        if (name_obj != UNDEFINED_LOW && name_obj != UNDEFINED_CAP) buffer_array.push(name_obj);
+        if (name_obj.trim() != UNDEFINED_LOW && name_obj.trim() != UNDEFINED_CAP) buffer_array.push(name_obj.trim());
         else buffer_array.push(EMPTY);
       } else if (header == "classifications") {
         let genre_obj = result_dict_obj["classifications"];
@@ -105,10 +103,10 @@ function buffer_array_append(result_dict_item, buffer_array, header, result_dict
           genre_obj.length != 0 &&
           "segment" in genre_obj["0"] &&
           "name" in genre_obj["0"]["segment"] &&
-          genre_obj["0"]["segment"]["name"] != UNDEFINED_LOW &&
-          genre_obj["0"]["segment"]["name"] != UNDEFINED_CAP
+          genre_obj["0"]["segment"]["name"].trim() != UNDEFINED_LOW &&
+          genre_obj["0"]["segment"]["name"].trim() != UNDEFINED_CAP
         )
-          buffer_array.push(genre_obj[0]["segment"]["name"]);
+          buffer_array.push(genre_obj[0]["segment"]["name"].trim());
         else buffer_array.push(EMPTY);
       } else if (header == "_embedded") {
         let venues_obj = result_dict_obj["_embedded"];
@@ -117,48 +115,45 @@ function buffer_array_append(result_dict_item, buffer_array, header, result_dict
           "venues" in venues_obj &&
           venues_obj["venues"].length != 0 &&
           "name" in venues_obj["venues"]["0"] &&
-          venues_obj["venues"]["0"]["name"] != UNDEFINED_LOW &&
-          venues_obj["venues"]["0"]["name"] != UNDEFINED_CAP
+          venues_obj["venues"]["0"]["name"].trim() != UNDEFINED_LOW &&
+          venues_obj["venues"]["0"]["name"].trim() != UNDEFINED_CAP
         )
-          buffer_array.push(venues_obj["venues"]["0"]["name"]);
+          buffer_array.push(venues_obj["venues"]["0"]["name"].trim());
         else buffer_array.push(EMPTY);
       } else if (header == "id") {
         let id_obj = result_dict_obj["id"];
-        if (id_obj != UNDEFINED_LOW && id_obj != UNDEFINED_CAP) buffer_array.push(id_obj);
+        if (id_obj.trim() != UNDEFINED_LOW && id_obj.trim() != UNDEFINED_CAP) buffer_array.push(id_obj.trim());
         else buffer_array.push(EMPTY);
       }
     }
   }
 }
- //toggle_sorting_event 
-//toggle_sorting_genre
- //toggle_sorting_venue
 
 function table_header_constructor(item_table) {
-  item_table.innerHTML +=
-    '<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id,toggle_sorting_event)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id,toggle_sorting_genre)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id,toggle_sorting_venue)">Venue</th>  </tr>';
+  item_table.insertAdjacentHTML("beforeend",'<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id,toggle_sorting_event)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id,toggle_sorting_genre)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id,toggle_sorting_venue)">Venue</th>  </tr>')
+     
   document.getElementById("third_columns_width").style.cursor = "pointer";
   document.getElementById("fourth_columns_width").style.cursor = "pointer";
   document.getElementById("fifth_columns_width").style.cursor = "pointer";
 }
 
 function table_append_row(item_table, list_for_table, i) {
-  item_table.innerHTML +=
-    '<tr class="rows_height"><td class="table_text">' +
-    list_for_table[i][0] +
-    "<br>" +
-    list_for_table[i][1] +
-    "</td><td><img src=" +
-    list_for_table[i][2] +
-    ' class="yelp_image"></img></td> <td class="table_text"> <a href = "#" class="event_title"  onclick=\'get_request_event_detail("' +
-    list_for_table[i][6] +
-    "\");' >" +
-    list_for_table[i][3] +
-    '</a></td> <td class="table_text">' +
-    list_for_table[i][4] +
-    '</td> <td class="table_text">' +
-    list_for_table[i][5] +
-    "</td> </tr>";
+  item_table.insertAdjacentHTML("beforeend",'<tr class="rows_height"><td class="table_text">' +
+  list_for_table[i][0] +
+  "<br>" +
+  list_for_table[i][1] +
+  "</td><td><img src=" +
+  list_for_table[i][2] +
+  ' class="yelp_image"></img></td> <td class="table_text"> <a href = "#" class="event_title"  onclick=\'get_request_event_detail("' +
+  list_for_table[i][6] +
+  "\");' >" +
+  list_for_table[i][3] +
+  '</a></td> <td class="table_text">' +
+  list_for_table[i][4] +
+  '</td> <td class="table_text">' +
+  list_for_table[i][5] +
+  "</td> </tr>")
+
 }
 
 function clear_fields() {
@@ -228,7 +223,7 @@ function geoCode_send_request(url) {
       let result_dict = JSON.parse(resp);
 
       if (result_dict["status"] != "ZERO_RESULTS") {
-        get_yelp_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
+        get_ticketmaster_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
       } else {
         reset();
         no_record_constructor();
@@ -250,14 +245,14 @@ function ipInfo_send_request(url) {
       var buffer = result_dict["loc"];
       var lat_lng_array = buffer.split(",");
 
-      get_yelp_result(lat_lng_array[0], lat_lng_array[1]);
+      get_ticketmaster_result(lat_lng_array[0], lat_lng_array[1]);
     }
   };
   xhttp.open("GET", url, true);
   xhttp.send();
 }
 
-function get_yelp_result(lat, lng) {
+function get_ticketmaster_result(lat, lng) {
   let form_keyword = keyword.value;
   let form_category = category.value;
   let form_distance;
@@ -273,7 +268,6 @@ function get_yelp_result(lat, lng) {
 }
 
 let list_for_table = new Array();
-
 function send_request(url) {
   let xhttp;
   xhttp = new XMLHttpRequest();
@@ -284,7 +278,6 @@ function send_request(url) {
 
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
-     
 
       if ("_embedded" in result_dict && "events" in result_dict["_embedded"] && result_dict["_embedded"]["events"].length != 0) {
         if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
@@ -355,7 +348,6 @@ function get_request_event_detail(id) {
       let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
       let artist_or_team = [];
       let genre = EMPTY;
-      //let time_obj = result_dict["dates"]["start"];
 
       if ("name" in result_dict && result_dict["name"].trim() != UNDEFINED_LOW && result_dict["name"].trim() != UNDEFINED_CAP) event_title = result_dict["name"].trim();
       else event_title = EMPTY;
@@ -576,7 +568,6 @@ function get_request_venue_details(venue) {
         let venue_name, address, city_temp, state_code, city, postalCode, upcoming_url, image;
         var resp = this.responseText;
         let result_dict = JSON.parse(resp);
-    
 
         if (
           "_embedded" in result_dict &&
@@ -704,7 +695,7 @@ let toggle_sorting_event = false;
 let toggle_sorting_genre = false;
 let toggle_sorting_venue = false;
 function sort_table(id, toggle_sorting) {
-  document.getElementById("table").innerHTML = "";
+  document.getElementById("table").innerHTML = EMPTY;
 
   if (toggle_sorting == true) {
     bubbleSort(id, true);
@@ -713,27 +704,23 @@ function sort_table(id, toggle_sorting) {
   }
 
   if (id == "third_columns_width") {
-    if(toggle_sorting_event == true)  toggle_sorting_event = false;
-    else  toggle_sorting_event = true;
+    if (toggle_sorting_event == true) toggle_sorting_event = false;
+    else toggle_sorting_event = true;
+  } else if (id == "fourth_columns_width") {
+    if (toggle_sorting_genre == true) toggle_sorting_genre = false;
+    else toggle_sorting_genre = true;
+  } else if (id == "fifth_columns_width") {
+    if (toggle_sorting_venue == true) toggle_sorting_venue = false;
+    else toggle_sorting_venue = true;
   }
-  else if  (id == "fourth_columns_width") {
-    if(toggle_sorting_genre == true)  toggle_sorting_genre = false;
-    else  toggle_sorting_genre = true;
-  }
-  else if  (id == "fifth_columns_width") {
-    if( toggle_sorting_venue == true)   toggle_sorting_venue = false;
-    else  toggle_sorting_venue = true;
-  }
-
 
   table_header_constructor(item_table);
 
   for (let i = 0; i < list_for_table.length; i++) {
     table_append_row(item_table, list_for_table, i);
   }
-  
-  custom_urls_css("event_title");
 
+  custom_urls_css("event_title");
 }
 
 function swap(list_for_table, x, y) {
@@ -745,26 +732,25 @@ function swap(list_for_table, x, y) {
 function bubbleSort(id, toggle_bool) {
   let index;
   if (id == "third_columns_width") index = 3;
-  else if  (id == "fourth_columns_width") index = 4;
-  else if  (id == "fifth_columns_width") index = 5;
+  else if (id == "fourth_columns_width") index = 4;
+  else if (id == "fifth_columns_width") index = 5;
 
-    if (toggle_bool == true) {
-      var i, j;
-      for (i = 0; i < list_for_table.length - 1; i++) {
-        for (j = 0; j < list_for_table.length - i - 1; j++) {
-          if (list_for_table[j][index].charCodeAt(0) < list_for_table[j + 1][index].charCodeAt(0)) {
-            swap(list_for_table, j, j + 1);
-          }
-        }
-      }
-    } else {
-      for (i = 0; i < list_for_table.length - 1; i++) {
-        for (j = 0; j < list_for_table.length - i - 1; j++) {
-          if (list_for_table[j][index].charCodeAt(0) > list_for_table[j + 1][index].charCodeAt(0)) {
-            swap(list_for_table, j, j + 1);
-          }
+  if (toggle_bool == true) {
+    var i, j;
+    for (i = 0; i < list_for_table.length - 1; i++) {
+      for (j = 0; j < list_for_table.length - i - 1; j++) {
+        if (list_for_table[j][index].charCodeAt(0) < list_for_table[j + 1][index].charCodeAt(0)) {
+          swap(list_for_table, j, j + 1);
         }
       }
     }
-  
+  } else {
+    for (i = 0; i < list_for_table.length - 1; i++) {
+      for (j = 0; j < list_for_table.length - i - 1; j++) {
+        if (list_for_table[j][index].charCodeAt(0) > list_for_table[j + 1][index].charCodeAt(0)) {
+          swap(list_for_table, j, j + 1);
+        }
+      }
+    }
+  }
 }
