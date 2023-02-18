@@ -32,16 +32,12 @@ const venue_card_holder = document.getElementById("venue_card_holder");
 const no_record_container = document.getElementById("no_record_container");
 
 /* Helper functions */
-function reset(){
+function reset() {
   if (item_table.innerHTML != EMPTY) item_table.innerHTML = EMPTY;
-  if(list_for_table.length != 0)  list_for_table = [];
-  if(event_details.innerHTML != EMPTY)event_details.innerHTML = EMPTY;
-  if(venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
-  if(venue_card_holder.innerHTML != EMPTY) venue_card_holder.innerHTML = EMPTY;
-}
-
-function sort_table(id) {
-  console.log("sort placeholder");
+  if (list_for_table.length != 0) list_for_table = [];
+  if (event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
+  if (venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
+  if (venue_card_holder.innerHTML != EMPTY) venue_card_holder.innerHTML = EMPTY;
 }
 
 function hovered() {
@@ -66,7 +62,7 @@ function preventDefault(event) {
 function custom_urls_css(class_name) {
   let temp = document.getElementsByClassName(class_name);
   for (let i = 0; i < temp.length; i++) {
-    if (class_name == "artists_url" || class_name == "ticket_url" ) {
+    if (class_name == "artists_url" || class_name == "ticket_url") {
       temp[i].style.color = "#00a0cc";
       temp[i].style.textDecoration = "none";
       temp[i].addEventListener("mouseover", hovered_artists_url, false);
@@ -134,10 +130,13 @@ function buffer_array_append(result_dict_item, buffer_array, header, result_dict
     }
   }
 }
+ //toggle_sorting_event 
+//toggle_sorting_genre
+ //toggle_sorting_venue
 
 function table_header_constructor(item_table) {
   item_table.innerHTML +=
-    '<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id)">Venue</th>  </tr>';
+    '<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id,toggle_sorting_event)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id,toggle_sorting_genre)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id,toggle_sorting_venue)">Venue</th>  </tr>';
   document.getElementById("third_columns_width").style.cursor = "pointer";
   document.getElementById("fourth_columns_width").style.cursor = "pointer";
   document.getElementById("fifth_columns_width").style.cursor = "pointer";
@@ -177,8 +176,8 @@ function clear_fields() {
   if (item_table.innerHTML != EMPTY) item_table.innerHTML = EMPTY;
   if (event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
   if (list_for_table.length != 0) list_for_table = [];
-  if(venue_details.innerHTML !=EMPTY) venue_details.innerHTML = EMPTY;
-  if(venue_card_holder.innerHTML !=EMPTY)  venue_card_holder.innerHTML = EMPTY;
+  if (venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
+  if (venue_card_holder.innerHTML != EMPTY) venue_card_holder.innerHTML = EMPTY;
   if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
 }
 
@@ -280,13 +279,12 @@ function send_request(url) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-       reset();
-       if(no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
-
+      reset();
+      if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
 
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
-      //console.log(result_dict);
+     
 
       if ("_embedded" in result_dict && "events" in result_dict["_embedded"] && result_dict["_embedded"]["events"].length != 0) {
         if (no_record_container.innerHTML != EMPTY) no_record_container.innerHTML = EMPTY;
@@ -350,9 +348,9 @@ function get_request_event_detail(id) {
       let resp = this.responseText;
       let result_dict = JSON.parse(resp);
 
-     if(event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
-     if(venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
-     if(venue_card_holder.innerHTML != EMPTY) venue_card_holder.innerHTML = EMPTY;
+      if (event_details.innerHTML != EMPTY) event_details.innerHTML = EMPTY;
+      if (venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
+      if (venue_card_holder.innerHTML != EMPTY) venue_card_holder.innerHTML = EMPTY;
 
       let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
       let artist_or_team = [];
@@ -575,10 +573,10 @@ function get_request_venue_details(venue) {
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        let venue_name, address, city_temp, state_code,city, postalCode, upcoming_url, image;
+        let venue_name, address, city_temp, state_code, city, postalCode, upcoming_url, image;
         var resp = this.responseText;
         let result_dict = JSON.parse(resp);
-        console.log(result_dict);
+    
 
         if (
           "_embedded" in result_dict &&
@@ -591,55 +589,79 @@ function get_request_venue_details(venue) {
           venue_name = result_dict["_embedded"]["venues"]["0"]["name"].trim();
         else venue_name = EMPTY;
 
-        if( "_embedded" in result_dict &&
-        "venues" in result_dict["_embedded"] &&
-        result_dict["_embedded"]["venues"].length != 0 &&
-        "address" in result_dict["_embedded"]["venues"]["0"] && "line1" in result_dict["_embedded"]["venues"]["0"]["address"] 
-        && result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim() != UNDEFINED_CAP)
-          address =   result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim();
-          else address = EMPTY;
+        if (
+          "_embedded" in result_dict &&
+          "venues" in result_dict["_embedded"] &&
+          result_dict["_embedded"]["venues"].length != 0 &&
+          "address" in result_dict["_embedded"]["venues"]["0"] &&
+          "line1" in result_dict["_embedded"]["venues"]["0"]["address"] &&
+          result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim() != UNDEFINED_LOW &&
+          result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim() != UNDEFINED_CAP
+        )
+          address = result_dict["_embedded"]["venues"]["0"]["address"]["line1"].trim();
+        else address = EMPTY;
 
-        if( "_embedded" in result_dict &&
-        "venues" in result_dict["_embedded"] &&
-        result_dict["_embedded"]["venues"].length != 0 &&
-        "city" in result_dict["_embedded"]["venues"]["0"] && "name" in  result_dict["_embedded"]["venues"]["0"]["city"] &&
-        result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim() != UNDEFINED_CAP
-        )city_temp = result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim();
+        if (
+          "_embedded" in result_dict &&
+          "venues" in result_dict["_embedded"] &&
+          result_dict["_embedded"]["venues"].length != 0 &&
+          "city" in result_dict["_embedded"]["venues"]["0"] &&
+          "name" in result_dict["_embedded"]["venues"]["0"]["city"] &&
+          result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim() != UNDEFINED_LOW &&
+          result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim() != UNDEFINED_CAP
+        )
+          city_temp = result_dict["_embedded"]["venues"]["0"]["city"]["name"].trim();
         else city_temp = EMPTY;
 
-        if("_embedded" in result_dict &&
-        "venues" in result_dict["_embedded"] &&
-        result_dict["_embedded"]["venues"].length != 0 &&
-        "state" in result_dict["_embedded"]["venues"]["0"] && "stateCode" in result_dict["_embedded"]["venues"]["0"]["state"] && 
-        result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim() != UNDEFINED_CAP
-        )  state_code = result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim();
+        if (
+          "_embedded" in result_dict &&
+          "venues" in result_dict["_embedded"] &&
+          result_dict["_embedded"]["venues"].length != 0 &&
+          "state" in result_dict["_embedded"]["venues"]["0"] &&
+          "stateCode" in result_dict["_embedded"]["venues"]["0"]["state"] &&
+          result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim() != UNDEFINED_LOW &&
+          result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim() != UNDEFINED_CAP
+        )
+          state_code = result_dict["_embedded"]["venues"]["0"]["state"]["stateCode"].trim();
         else state_code = EMPTY;
-        
-        if("_embedded" in result_dict &&
-        "venues" in result_dict["_embedded"] &&
-        result_dict["_embedded"]["venues"].length != 0 &&
-        "postalCode" in result_dict["_embedded"]["venues"]["0"] && result_dict["_embedded"]["venues"]["0"]["postalCode"].trim() != UNDEFINED_LOW  && result_dict["_embedded"]["venues"]["0"]["postalCode"].trim() != UNDEFINED_CAP)
-        postalCode = result_dict["_embedded"]["venues"]["0"]["postalCode"].trim();
+
+        if (
+          "_embedded" in result_dict &&
+          "venues" in result_dict["_embedded"] &&
+          result_dict["_embedded"]["venues"].length != 0 &&
+          "postalCode" in result_dict["_embedded"]["venues"]["0"] &&
+          result_dict["_embedded"]["venues"]["0"]["postalCode"].trim() != UNDEFINED_LOW &&
+          result_dict["_embedded"]["venues"]["0"]["postalCode"].trim() != UNDEFINED_CAP
+        )
+          postalCode = result_dict["_embedded"]["venues"]["0"]["postalCode"].trim();
         else postalCode = EMPTY;
 
-        if("_embedded" in result_dict &&
-        "venues" in result_dict["_embedded"] &&
-        result_dict["_embedded"]["venues"].length != 0 &&
-        "url" in result_dict["_embedded"]["venues"]["0"] && result_dict["_embedded"]["venues"]["0"]["url"].trim() != UNDEFINED_LOW && result_dict["_embedded"]["venues"]["0"]["url"].trim() != UNDEFINED_CAP)
-        upcoming_url =   result_dict["_embedded"]["venues"]["0"]["url"].trim();
+        if (
+          "_embedded" in result_dict &&
+          "venues" in result_dict["_embedded"] &&
+          result_dict["_embedded"]["venues"].length != 0 &&
+          "url" in result_dict["_embedded"]["venues"]["0"] &&
+          result_dict["_embedded"]["venues"]["0"]["url"].trim() != UNDEFINED_LOW &&
+          result_dict["_embedded"]["venues"]["0"]["url"].trim() != UNDEFINED_CAP
+        )
+          upcoming_url = result_dict["_embedded"]["venues"]["0"]["url"].trim();
         else upcoming_url = EMPTY;
 
-        if("_embedded" in result_dict &&
-        "venues" in result_dict["_embedded"] &&
-        result_dict["_embedded"]["venues"].length != 0 &&
-        "images" in result_dict["_embedded"]["venues"]["0"] && result_dict["_embedded"]["venues"]["0"]["images"].length != 0 &&
-       "url" in result_dict["_embedded"]["venues"]["0"]["images"]["0"] && result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim() != UNDEFINED_LOW
-       && result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim() != UNDEFINED_CAP)
-        image = result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim() ;
-        else image  = EMPTY;
+        if (
+          "_embedded" in result_dict &&
+          "venues" in result_dict["_embedded"] &&
+          result_dict["_embedded"]["venues"].length != 0 &&
+          "images" in result_dict["_embedded"]["venues"]["0"] &&
+          result_dict["_embedded"]["venues"]["0"]["images"].length != 0 &&
+          "url" in result_dict["_embedded"]["venues"]["0"]["images"]["0"] &&
+          result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim() != UNDEFINED_LOW &&
+          result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim() != UNDEFINED_CAP
+        )
+          image = result_dict["_embedded"]["venues"]["0"]["images"]["0"]["url"].trim();
+        else image = EMPTY;
 
-        city =  city_temp + ", " + state_code
-        generate_venue_details_card(venue_name, address, state_code,city,city_temp, postalCode, upcoming_url, image);
+        city = city_temp + ", " + state_code;
+        generate_venue_details_card(venue_name, address, state_code, city, city_temp, postalCode, upcoming_url, image);
       }
     };
     xhttp.open("GET", request_url, true);
@@ -647,34 +669,102 @@ function get_request_venue_details(venue) {
   }
 }
 
-function generate_venue_details_card(venue_name, address, state_code,city,city_temp, postalCode, upcoming_url, image){
-  if(venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
-  
+function generate_venue_details_card(venue_name, address, state_code, city, city_temp, postalCode, upcoming_url, image) {
+  if (venue_details.innerHTML != EMPTY) venue_details.innerHTML = EMPTY;
+
   venue_card_holder.insertAdjacentHTML("beforeend", '<div id= "venue_card">');
-  const venue_card  = document.getElementById("venue_card");
+  const venue_card = document.getElementById("venue_card");
 
- if(venue_name != EMPTY) venue_card.insertAdjacentHTML("beforeend", '<p id= "venue_card_title">'+ venue_name+'</p>');
- if(image != EMPTY) venue_card.insertAdjacentHTML("beforeend", ' <div id= "wrap"><img id= "venue_image"  src= ' + image+ ' alt="seatmap" >' + '</img></div>');
- 
- venue_card.insertAdjacentHTML("beforeend", '<div id="vl"></div>');
- venue_card.insertAdjacentHTML("beforeend", '<div id="address_box"></div>');
- 
- venue_card.insertAdjacentHTML("beforeend", '<span id= "address_T">Address:</span>');
- venue_card.insertAdjacentHTML("beforeend", '<span id= "address_1">' + address + '</span>');
- venue_card.insertAdjacentHTML("beforeend", '<span id= "address_2">' + city + '</span>');
- venue_card.insertAdjacentHTML("beforeend", '<span id= "address_3">' + postalCode + '</span>');
+  if (venue_name != EMPTY) venue_card.insertAdjacentHTML("beforeend", '<p id= "venue_card_title">' + venue_name + "</p>");
+  if (image != EMPTY) venue_card.insertAdjacentHTML("beforeend", ' <div id= "wrap"><img id= "venue_image"  src= ' + image + ' alt="seatmap" >' + "</img></div>");
 
- let venue_temp = venue_name.replace(reg_non_alphanumeric ,"+");
- let address_temp = address.replace(reg_non_alphanumeric ,"+");
- let city_name = city_temp.replace(reg_non_alphanumeric ,"+");
- let query = venue_temp + "%2C+" + address_temp + "%2C+" + city_name + "%2C+"  + state_code + "%2C+" + postalCode;
- let google_map_link = GOOGLE_MAP_SEARCH_PATH + query;
- venue_card.insertAdjacentHTML("beforeend", '<a href=' + google_map_link + ' class= "google_map"  target="_blank"' + ">" + "<span id= \"map_text\">Open in Google Maps</span>" + "</a>");
+  venue_card.insertAdjacentHTML("beforeend", '<div id="vl"></div>');
+  venue_card.insertAdjacentHTML("beforeend", '<div id="address_box"></div>');
 
- venue_card.insertAdjacentHTML("beforeend", '<a href=' + upcoming_url + ' class= "google_map"  target="_blank"' + ">" + "<span id= \"upcoming_url\">More events at this venue</span>" + "</a>");
- 
+  venue_card.insertAdjacentHTML("beforeend", '<span id= "address_T">Address:</span>');
+  venue_card.insertAdjacentHTML("beforeend", '<span id= "address_1">' + address + "</span>");
+  venue_card.insertAdjacentHTML("beforeend", '<span id= "address_2">' + city + "</span>");
+  venue_card.insertAdjacentHTML("beforeend", '<span id= "address_3">' + postalCode + "</span>");
+
+  let venue_temp = venue_name.replace(reg_non_alphanumeric, "+");
+  let address_temp = address.replace(reg_non_alphanumeric, "+");
+  let city_name = city_temp.replace(reg_non_alphanumeric, "+");
+  let query = venue_temp + "%2C+" + address_temp + "%2C+" + city_name + "%2C+" + state_code + "%2C+" + postalCode;
+  let google_map_link = GOOGLE_MAP_SEARCH_PATH + query;
+  venue_card.insertAdjacentHTML("beforeend", "<a href=" + google_map_link + ' class= "google_map"  target="_blank"' + ">" + '<span id= "map_text">Open in Google Maps</span>' + "</a>");
+
+  venue_card.insertAdjacentHTML("beforeend", "<a href=" + upcoming_url + ' class= "google_map"  target="_blank"' + ">" + '<span id= "upcoming_url">More events at this venue</span>' + "</a>");
 
   venue_card.insertAdjacentHTML("beforeend", '<div id= "venue_card_outline"></div>');
-  venue_card_holder.insertAdjacentHTML("beforeend", '</div>');
+  venue_card_holder.insertAdjacentHTML("beforeend", "</div>");
   venue_card.scrollIntoView({ behavior: "smooth" });
+}
+
+let toggle_sorting_event = false;
+let toggle_sorting_genre = false;
+let toggle_sorting_venue = false;
+function sort_table(id, toggle_sorting) {
+  document.getElementById("table").innerHTML = "";
+
+  if (toggle_sorting == true) {
+    bubbleSort(id, true);
+  } else {
+    bubbleSort(id, false);
+  }
+
+  if (id == "third_columns_width") {
+    if(toggle_sorting_event == true)  toggle_sorting_event = false;
+    else  toggle_sorting_event = true;
+  }
+  else if  (id == "fourth_columns_width") {
+    if(toggle_sorting_genre == true)  toggle_sorting_genre = false;
+    else  toggle_sorting_genre = true;
+  }
+  else if  (id == "fifth_columns_width") {
+    if( toggle_sorting_venue == true)   toggle_sorting_venue = false;
+    else  toggle_sorting_venue = true;
+  }
+
+
+  table_header_constructor(item_table);
+
+  for (let i = 0; i < list_for_table.length; i++) {
+    table_append_row(item_table, list_for_table, i);
+  }
+  
+  custom_urls_css("event_title");
+
+}
+
+function swap(list_for_table, x, y) {
+  let tmp = list_for_table[x];
+  list_for_table[x] = list_for_table[y];
+  list_for_table[y] = tmp;
+}
+
+function bubbleSort(id, toggle_bool) {
+  let index;
+  if (id == "third_columns_width") index = 3;
+  else if  (id == "fourth_columns_width") index = 4;
+  else if  (id == "fifth_columns_width") index = 5;
+
+    if (toggle_bool == true) {
+      var i, j;
+      for (i = 0; i < list_for_table.length - 1; i++) {
+        for (j = 0; j < list_for_table.length - i - 1; j++) {
+          if (list_for_table[j][index].charCodeAt(0) < list_for_table[j + 1][index].charCodeAt(0)) {
+            swap(list_for_table, j, j + 1);
+          }
+        }
+      }
+    } else {
+      for (i = 0; i < list_for_table.length - 1; i++) {
+        for (j = 0; j < list_for_table.length - i - 1; j++) {
+          if (list_for_table[j][index].charCodeAt(0) > list_for_table[j + 1][index].charCodeAt(0)) {
+            swap(list_for_table, j, j + 1);
+          }
+        }
+      }
+    }
+  
 }

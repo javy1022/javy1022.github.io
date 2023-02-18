@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, jsonify, redirect, url_for, json, request, send_from_directory
+from flask import Flask
 from geolib import geohash as gh
 
 TICKETMASTER_API_KEY = "PbITZwAJ32tYq1Codl5AhoRCENI3fPfo"
@@ -17,10 +17,7 @@ DISTANCE_UNIT = "miles"
 
 GEOHASH_PRECISION = 7
 
-#https://app.ticketmaster.com/discovery/v2/events.json?apikey=PbITZwAJ32tYq1Codl5AhoRCENI3fPfo&keyword=University+of+California&segmentID=KZFzniwnSyZfZ7v7nE&radius=10&units=miles&geoPoint=9q5cs
 app = Flask(__name__)
-
-
 
 @app.route('/')
 def homepage():
