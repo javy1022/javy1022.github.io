@@ -660,6 +660,8 @@ function generate_venue_details_card(venue_name, address, state_code,city,city_t
  let query = venue_temp + "%2C+" + address_temp + "%2C+" + city_name + "%2C+"  + state_code + "%2C+" + postalCode;
  let google_map_link = GOOGLE_MAP_SEARCH_PATH + query;
  venue_card.insertAdjacentHTML("beforeend", '<a href=' + google_map_link + ' class= "google_map"  target="_blank"' + ">" + "<span id= \"map_text\">Open in Google Maps</span>" + "</a>");
+
+ venue_card.insertAdjacentHTML("beforeend", '<a href=' + upcoming_url + ' class= "google_map"  target="_blank"' + ">" + "<span id= \"upcoming_url\">More events at this venue</span>" + "</a>");
  
 
   venue_card.insertAdjacentHTML("beforeend", '<div id= "venue_card_outline"></div>');

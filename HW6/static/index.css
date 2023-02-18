@@ -545,3 +545,18 @@ input#distance::placeholder {
 #map_text:hover{
   color: #b380ff;
 }
+
+
+#upcoming_url{
+  color: #00a0cc;
+  position: absolute;
+  z-index: 1;
+  font-family: Lato;
+  margin-left:1154px ;
+  margin-top: 189px;
+  font-size: 30px;
+}
+
+#upcoming_url:hover{
+  color: #b380ff;
+}
