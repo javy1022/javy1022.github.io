@@ -20,8 +20,13 @@ export class SearchFormComponent {
    location_input: string = Constants.EMPTY;
    checkbox_input: boolean = false;
    
+   
   onClear(){
-    alert(this.checkbox_input)
+    if (this.keyword_input != Constants.EMPTY) this.keyword_input = Constants.EMPTY;
+    if ( this.distance_input != 10) this.distance_input = 10;
+    if (this.category_input != "Default") this.category_input = "Default";
+    if (this.location_input != Constants.EMPTY) this.location_input = Constants.EMPTY;
+    if (this.checkbox_input == true) this.checkbox_input = false;
   }
    
    onSubmit() { 
@@ -34,4 +39,9 @@ export class SearchFormComponent {
 	
    }
     
+   onCheckboxChange(){
+    if (this.checkbox_input == true) {
+      this.location_input = Constants.EMPTY;
+    }
+  }
 }

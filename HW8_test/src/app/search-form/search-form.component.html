@@ -17,30 +17,29 @@
           </div>
           <div class="col-sm-5">
             <label for="category_input" class="form-label text-info star">Category</label>
-            
-			<select class="form-select form-select-lg w-75" [(ngModel)]="category_input" name="category">
-				<option value="Default" selected>Default</option>
-				<option value="Music">Music</option>
-				<option value="Sports">Sports</option>
-				<option value="Arts & Theatre">Arts & Theatre</option>
-				<option value="Film">Film</option>
-				<option value="Miscellaneous">Miscellaneous</option>
-			</select>
+
+            <select class="form-select form-select-lg w-75" [(ngModel)]="category_input" name="category">
+              <option value="Default" selected>Default</option>
+              <option value="Music">Music</option>
+              <option value="Sports">Sports</option>
+              <option value="Arts & Theatre">Arts & Theatre</option>
+              <option value="Film">Film</option>
+              <option value="Miscellaneous">Miscellaneous</option>
+            </select>
           </div>
         </div>
       </div>
 
       <div class="mb-3 ms-5 col-sm-11">
         <label for="location_input" class="form-label text-info star">Location</label>
-        <input type="text" class="form-control form-control-lg" id="location_input" [(ngModel)]="location_input" name="location" required />
+        <input type="text" class="form-control form-control-lg" id="location_input" [(ngModel)]="location_input" name="location" 
+		[disabled]="checkbox_input" required />
       </div>
 
-	  <div class="form-check text-info mt-4 ms-5">
-		<input class="form-check-input" type="checkbox" id="cb" name="cb" [(ngModel)]="checkbox_input">
-		<label class="form-check-label" for="cb">
-		  Auto-detect your location
-		</label>
-	  </div>
+      <div class="form-check text-info mt-4 ms-5">
+        <input class="form-check-input" type="checkbox" id="cb" name="cb" [(ngModel)]="checkbox_input" (change)="onCheckboxChange()" />
+        <label class="form-check-label" for="cb"> Auto-detect your location </label>
+      </div>
 
       <div class="mt-5 d-flex justify-content-center">
         <div class="row gx-4">
