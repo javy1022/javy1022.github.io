@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { NgForm }   from '@angular/forms';
-
 import { YelpAjaxService } from '../yelp-ajax.service';
-
+import * as Constants from "../constants";
 
 @Component({
   selector: 'app-search-form',
@@ -16,15 +14,14 @@ export class SearchFormComponent {
    }
  
    // learn to use interface if have time
-   keyword_input: string = '';
+   keyword_input: string = Constants.EMPTY;
    distance_input: number = 10;
-   category_input: string = '';
-   location_input: string = '';
+   category_input: string = 'Default';
+   location_input: string = Constants.EMPTY;
+   checkbox_input: boolean = false;
    
   onClear(){
-	var search_form = <HTMLFormElement>document.getElementById("search_form");
-	//can't use this if hw ask to use javascript to reset form (is reset javascript?)
-    search_form.reset();
+    alert(this.checkbox_input)
   }
    
    onSubmit() { 
