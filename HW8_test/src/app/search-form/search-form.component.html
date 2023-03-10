@@ -1,46 +1,42 @@
-<div class="container">
-  	<div class="mt-5 mx-auto w-100 h-75 " id="form_container">
-		<h2 class="text-center pt-5 bg-primary">Business Search</h2>
-		 
-		<form class="bg-warning w-75 h-75 mt-5 mx-auto fs-5" id="search_form" (ngSubmit)="onSubmit()"  ngNativeValidate>
-			<div class="mb-3 ">
-				<label for="keyword_input" class="form-label">Keyword</label>
-				<input type="text" class="form-control form-control-lg " id="keyword_input" [(ngModel)]="keyword_input" name="keyword" required >
-			</div>
-			
-			<div class="mb-3">
-				  <div class="row gx-5">
-					<div class="col-sm-6">
-						<label for="distance_input" class="form-label">Distance</label>
-						<input type="text" class="form-control form-control-lg " id="distance_input"  [(ngModel)]="distance_input"  name="distance" >
-					</div>
-					<div class="col-sm-6">
-						<label for="category_input" class="form-label">Category</label>
-						<input type="text" class="form-control form-control-lg w-75 " id="category_input"  [(ngModel)]="category_input" name="category" required >
-					</div>
-				  </div>
-			</div>
-			
-			<div class="mb-3">
-				<label for="location_input" class="form-label">Location</label>
-				<input type="text" class="form-control form-control-lg " id="location_input"  [(ngModel)]="location_input"  name="location" required  >
-			</div>
-			
-			<div class="mt-5">
-				  <div class="row gx-4">
-					<div class="col-6 text-end ">
-						<button class="btn btn-danger btn-lg" type="submit">Submit</button>
-					</div>
-					<div class="col-6 text-start">
-						<button type="button" class="btn btn-primary btn-lg" (click)="onClear()">Clear</button>
-					</div>
-				  </div>
-			</div>
-			
-		</form>
-		
-		
-	</div>
+<div class="container pt-5">
+  <div class="mt-5 pt-4 mx-auto w-75 h-75 bg-dark bg-opacity-75 bg-blur rounded-4">
+    <h2 class="text-center text-white pt-5 fs-1" id="title">Events Search</h2>
+	<hr class="mx-auto" style="width:55rem"/>
+
+    <form class="w-100h-75 ms-5 fs-5" id="search_form" (ngSubmit)="onSubmit()" ngNativeValidate>
+      <div class="mb-3 col-sm-11">
+        <label for="keyword_input" class="form-label text-info star " >Keyword</label>
+        <input type="text" class="form-control form-control-lg" id="keyword_input" [(ngModel)]="keyword_input" name="keyword" required />
+      </div>
+
+      <div class="mb-3">
+        <div class="row gx-5">
+          <div class="col-sm-6">
+            <label for="distance_input" class="form-label text-info">Distance</label>
+            <input type="text" class="form-control form-control-lg" id="distance_input" [(ngModel)]="distance_input" name="distance" />
+          </div>
+          <div class="col-sm-6">
+            <label for="category_input" class="form-label text-info star">Category</label>
+            <input type="text" class="form-control form-control-lg w-75 " id="category_input " [(ngModel)]="category_input" name="category" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="location_input" class="form-label text-info star">Location</label>
+        <input type="text" class="form-control form-control-lg" id="location_input" [(ngModel)]="location_input" name="location" required />
+      </div>
+
+      <div class="mt-5">
+        <div class="row gx-4">
+          <div class="col-6 text-end">
+            <button class="btn btn-danger btn-lg" type="submit">Submit</button>
+          </div>
+          <div class="col-6 text-start">
+            <button type="button" class="btn btn-primary btn-lg" (click)="onClear()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
-
-
