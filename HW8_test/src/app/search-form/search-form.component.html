@@ -1,7 +1,20 @@
+<nav class="navbar navbar-expand">
+	<div class="container-fluid">
+	  <ul class="navbar-nav ms-auto pe-5">
+		<li class="nav-item">
+		  <button class="nav-link btn btn-link text-white fs-5" type="button">Search</button>
+		</li>
+		<li class="nav-item">
+		  <button class="nav-link btn btn-link  text-white fs-5" type="button">Favorites</button>
+		</li>
+	  </ul>
+	</div>
+  </nav>
+
 <div class="container pt-5">
-  <div class="mt-5 pt-4 mx-auto w-75 h-75 bg-dark bg-opacity-75 bg-blur rounded-4">
+  <div class="mt-5 pt-4 mx-auto w-sm-75 h-75 bg-dark bg-opacity-75 bg-blur rounded-4">
     <h2 class="text-center text-white pt-5 fs-1" id="title">Events Search</h2>
-    <hr class="mx-auto" style="width: 55rem" />
+    <hr class="mx-auto custom-hr" />
 
     <form class="w-100 h-75 fs-5 pt-3" id="search_form" (ngSubmit)="onSubmit()" ngNativeValidate>
       <div class="mb-5 ms-5 col-5 col-sm-11">

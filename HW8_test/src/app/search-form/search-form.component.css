@@ -26,3 +26,7 @@ hr {
   margin-top: 0rem;
   margin-left: 0.4rem;
 }
+
+.custom-hr {
+  width: 90%;
+}
