@@ -9,15 +9,17 @@ import { YelpAjaxService } from '../yelp-ajax.service';
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.css']
 })
-export class SearchFormComponent {
-   
-   constructor(private yelp_ajax: YelpAjaxService) {}
+export class SearchFormComponent {     
+
+  constructor(private yelp_ajax: YelpAjaxService) {
+    
+   }
  
    // learn to use interface if have time
-   keyword_input = '';
-   distance_input = '';
-   category_input = '';
-   location_input = '';
+   keyword_input: string = '';
+   distance_input: number = 10;
+   category_input: string = '';
+   location_input: string = '';
    
   onClear(){
 	var search_form = <HTMLFormElement>document.getElementById("search_form");
