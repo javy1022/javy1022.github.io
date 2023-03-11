@@ -5,16 +5,20 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { SearchFormComponent } from './search-form/search-form.component';
+import { AppRoutingModule } from './app-routing.module';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchFormComponent
+    SearchFormComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,
 	FormsModule,
-	HttpClientModule
+	HttpClientModule,
+ AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
