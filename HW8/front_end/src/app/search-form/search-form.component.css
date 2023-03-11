@@ -1,0 +1,42 @@
+.container {
+  height: 100vh;
+}
+
+.bg-blur {
+  backdrop-filter: blur(10px);
+}
+
+#title{
+  font-family: Noto Serif JP;
+}
+
+hr {
+  margin-top: 2rem ;
+  margin-bottom: 2rem;
+  border: 0;
+  border-top: 2px solid white; 
+}
+
+.star::after
+{
+  position: absolute;
+  content: "*";
+  color: red;
+  font-size: 1rem;
+  margin-top: 0rem;
+  margin-left: 0.4rem;
+}
+
+.custom-hr {
+  width: 92%;
+}
+
+.ch{
+  height: 82.7%;
+}
+
+@media (min-width: 576px) {
+  .ch {
+    height: 65%;
+  }
+}
