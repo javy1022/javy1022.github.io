@@ -1,9 +1,9 @@
 .nav-link {
-    border:transparent;
-    transition-duration: 0s;
-  }
-  
+  border: transparent;
+  transition-duration: 0s;
+}
+
 .nav-link.active {
-    border: 0.1rem solid white;
-    transition-duration: 0s;
-  }
+  border: 0.1rem solid white;
+  transition-duration: 0s;
+}

@@ -6,19 +6,18 @@
   backdrop-filter: blur(10px);
 }
 
-#title{
+#title {
   font-family: Noto Serif JP;
 }
 
 hr {
-  margin-top: 2rem ;
+  margin-top: 2rem;
   margin-bottom: 2rem;
   border: 0;
-  border-top: 2px solid white; 
+  border-top: 0.1rem solid white;
 }
 
-.star::after
-{
+.star::after {
   position: absolute;
   content: "*";
   color: red;
@@ -31,7 +30,7 @@ hr {
   width: 92%;
 }
 
-.ch{
+.ch {
   height: 82.7%;
 }
 
