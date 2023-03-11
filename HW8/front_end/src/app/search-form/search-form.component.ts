@@ -44,7 +44,7 @@ export class SearchFormComponent {
   }
 
   onKeywordChange(){
-     //this.http_request.get_autocomplete_suggestions();
+     this.http_request.get_autocomplete_suggestions();
   }
 
 }

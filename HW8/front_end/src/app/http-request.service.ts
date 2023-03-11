@@ -7,15 +7,18 @@ import { SharedService } from "./shared.service";
 })
 export class HttpRequestService {
   constructor(private http: HttpClient, private sharedService: SharedService) {}
-
+  
   // get autocomplete suggestions
-  /*
+  
   get_autocomplete_suggestions(){
-    return this.http.get(request_url, { responseType: "json" }).subscribe((res) => {
-      let result_dict = JSON.parse(JSON.stringify(res));
-      this.get_ticketmaster_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
+
+    const params = new HttpParams().set('keyword', this.sharedService.keyword_input);
+    return this.http.get("http://localhost:3000/search/auto-complete", { params: params, responseType: "json" }).subscribe((res) => {
+      console.log(res);
+       //let result_dict = JSON.parse(JSON.stringify(res));
+     
     });
-  }*/
+  }
   
   // get lat lng using Google Map API
   geoCode_send_request(request_url: string) {
