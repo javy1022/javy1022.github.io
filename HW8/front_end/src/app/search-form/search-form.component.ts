@@ -26,10 +26,15 @@ export class SearchFormComponent {
     const GOOGLE_API_HOST = "https://maps.googleapis.com";
     const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
 
-    let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
-    let api_address_param = buffer.replace(reg_non_alphanumeric, "+");
-    let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + Config.GOOGLE_API_KEY;
-    this.http_request.geoCode_send_request(url);
+    if (!this.sharedService.checkbox_input) {
+      let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
+      let api_address_param = buffer.replace(reg_non_alphanumeric, "+");
+      let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + Config.GOOGLE_API_KEY;
+      this.http_request.geoCode_send_request(url);
+    } else {
+      const IPINFO_API_HOST = "https://ipinfo.io/";
+      this.http_request.ipInfo_send_request(IPINFO_API_HOST + "?token=" + Config.IPINFO_API_KEY);
+    }
   }
 
   onCheckboxChange() {

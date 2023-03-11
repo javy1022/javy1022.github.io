@@ -8,11 +8,21 @@ import { SharedService } from "./shared.service";
 export class HttpRequestService {
   constructor(private http: HttpClient, private sharedService: SharedService) {}
 
-  // get lat lng and call ticketmaster
+  // get lat lng using Google Map API
   geoCode_send_request(request_url: string) {
     return this.http.get(request_url, { responseType: "json" }).subscribe((res) => {
-      var result_dict = JSON.parse(JSON.stringify(res));
+      let result_dict = JSON.parse(JSON.stringify(res));
       this.get_ticketmaster_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
+    });
+  }
+
+  // get lat lng using ipInfo API
+  ipInfo_send_request(request_url: string) {
+    return this.http.get(request_url, { responseType: "json" }).subscribe((res) => {
+      let result_dict = JSON.parse(JSON.stringify(res));
+      let buffer = result_dict["loc"];
+      let lat_lng_array = buffer.split(",");
+      this.get_ticketmaster_result(lat_lng_array[0], lat_lng_array[1]);      
     });
   }
 
