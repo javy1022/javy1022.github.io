@@ -5,7 +5,7 @@ import { SharedService } from "./shared.service";
 @Injectable({
   providedIn: "root",
 })
-export class YelpAjaxService {
+export class HttpRequestService {
   constructor(private http: HttpClient, private sharedService: SharedService) {}
 
   // get lat lng and call ticketmaster
