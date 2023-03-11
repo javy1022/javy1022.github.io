@@ -1,7 +1,3 @@
-/*const yelp_api_key = "uSjjTUgg-0j-e57O8dY9aDufA5u1HuNrvZ3tGIz-X5mAm98dYvR25gn6YVslv75zV3V9cwaEruFCuXiLar1E9dJq2TnWhc1JhCJJsoz7GMMMT2IIfdu_FEssjbnDY3Yx"
-const YELP_API_HOST = "https://api.yelp.com/v3"
-const BUSINESS_SEARCH_PATH = "/businesses/search" */
-
 const TICKETMASTER_API_KEY = "PbITZwAJ32tYq1Codl5AhoRCENI3fPfo"
 const TICKETMASTER_HOST = "https://app.ticketmaster.com"
 const EVENT_SEARCH_PATH = "/discovery/v2/events.json"
@@ -22,7 +18,7 @@ var axios = require('axios');
 var router = express.Router();
 var geohash = require('ngeohash');
 
-router.get('/search', function(req, res, next) {
+router.get('/search/event-search', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');   
   let gh = geohash.encode(req.query.lat, req.query.lng, GEOHASH_PRECISION);
 

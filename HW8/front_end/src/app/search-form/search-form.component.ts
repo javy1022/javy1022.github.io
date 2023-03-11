@@ -42,6 +42,11 @@ export class SearchFormComponent {
       this.sharedService.location_input = Constants.EMPTY;
     }
   }
+
+  onKeywordChange(){
+     //this.http_request.get_autocomplete_suggestions();
+  }
+
 }
 
 // move to another function

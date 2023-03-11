@@ -8,6 +8,15 @@ import { SharedService } from "./shared.service";
 export class HttpRequestService {
   constructor(private http: HttpClient, private sharedService: SharedService) {}
 
+  // get autocomplete suggestions
+  /*
+  get_autocomplete_suggestions(){
+    return this.http.get(request_url, { responseType: "json" }).subscribe((res) => {
+      let result_dict = JSON.parse(JSON.stringify(res));
+      this.get_ticketmaster_result(result_dict["results"]["0"]["geometry"]["location"]["lat"], result_dict["results"]["0"]["geometry"]["location"]["lng"]);
+    });
+  }*/
+  
   // get lat lng using Google Map API
   geoCode_send_request(request_url: string) {
     return this.http.get(request_url, { responseType: "json" }).subscribe((res) => {
@@ -39,7 +48,7 @@ export class HttpRequestService {
       },
     });
 
-    return this.http.get("http://localhost:3000/search", { params: params, responseType: "json" }).subscribe((res) => {
+    return this.http.get("http://localhost:3000/search/event-search", { params: params, responseType: "json" }).subscribe((res) => {
       console.log(res);
       let result_dict = JSON.parse(JSON.stringify(res));
 
