@@ -7,19 +7,19 @@
     <form class="w-100 h-75 fs-5 pt-0 pt-sm-3" id="search_form" (ngSubmit)="onSubmit()" ngNativeValidate>
       <div class="mb-3 mb-sm-5 ms-3 ms-sm-5 col-11">
         <label for="keyword_input" class="form-label text-info fs-5 star">Keyword</label>
-        <input type="text" class="form-control form-control-lg" id="keyword_input" [(ngModel)]="keyword_input" name="keyword" required />
+        <input type="text" class="form-control form-control-lg" id="keyword_input" [(ngModel)]="sharedService.keyword_input" name="keyword" required />
       </div>
 
       <div class="mb-3 mb-sm-5">
         <div class="row gx-5">
           <div class="col-11 col-sm-6 ms-3 ms-sm-5 mb-3 mb-sm-0">
             <label for="distance_input" class="form-label text-info fs-5">Distance</label>
-            <input type="number" class="form-control form-control-lg " id="distance_input" [(ngModel)]="distance_input" name="distance" />
+            <input type="number" class="form-control form-control-lg " id="distance_input" [(ngModel)]="sharedService.distance_input" name="distance" />
           </div>
           <div class="col-sm-5 ms-3 ms-sm-5">
             <label for="category_input" class="form-label text-info fs-5 star">Category</label>
 
-            <select class="form-select form-select-lg w-75" [(ngModel)]="category_input" name="category">
+            <select class="form-select form-select-lg w-75" [(ngModel)]="sharedService.category_input" name="category">
               <option value="Default" selected>Default</option>
               <option value="Music">Music</option>
               <option value="Sports">Sports</option>
@@ -33,12 +33,12 @@
 
       <div class="mb-3 ms-3 ms-sm-5 col-11">
         <label for="location_input" class="form-label text-info fs-5 star">Location</label>
-        <input type="text" class="form-control form-control-lg" id="location_input" [(ngModel)]="location_input" name="location" 
-		[disabled]="checkbox_input" required />
+        <input type="text" class="form-control form-control-lg" id="location_input" [(ngModel)]="sharedService.location_input" name="location" 
+		[disabled]="sharedService.checkbox_input" required />
       </div>
 
       <div class="form-check text-info mt-4 ms-3 ms-sm-5">
-        <input class="form-check-input" type="checkbox" id="cb" name="cb" [(ngModel)]="checkbox_input" (change)="onCheckboxChange()" />
+        <input class="form-check-input" type="checkbox" id="cb" name="cb" [(ngModel)]="sharedService.checkbox_input" (change)="onCheckboxChange()" />
         <label class="form-check-label fs-5" for="cb">Auto-detect your location</label>
       </div>
 
