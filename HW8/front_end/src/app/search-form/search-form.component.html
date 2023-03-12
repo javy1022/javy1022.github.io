@@ -7,6 +7,15 @@
       <div class="mb-3 mb-sm-5 ms-3 ms-sm-5 col-11">
         <label for="keyword_input" class="form-label text-info fs-5 star">Keyword</label>
         <input type="text" class="form-control form-control-lg" id="keyword_input" [(ngModel)]="sharedService.keyword_input" name="keyword" (input)="onKeywordChange()" required />
+        <!--
+          matInput [matAutocomplete]="auto"
+
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions" [value]="option">{{ option }}</mat-option>
+        </mat-autocomplete>
+      -->
+      
+      
       </div>
 
       <div class="mb-3 mb-sm-5">
@@ -53,3 +62,6 @@
     </form>
   </div>
 </div>
+
+
+<app-event-table></app-event-table>

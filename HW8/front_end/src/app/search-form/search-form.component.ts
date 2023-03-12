@@ -4,13 +4,18 @@ import * as Constants from "../constants";
 import * as Config from "../config";
 import { SharedService } from "../shared.service";
 
+import { MatAutocomplete } from '@angular/material/autocomplete';
+
+
 @Component({
   selector: "app-search-form",
   templateUrl: "./search-form.component.html",
   styleUrls: ["./search-form.component.css"],
 })
 export class SearchFormComponent {
-  constructor(private http_request: HttpRequestService, public sharedService: SharedService) {}
+  constructor(private http_request: HttpRequestService, public sharedService: SharedService) {
+   
+  }
 
   onClear() {
     if (this.sharedService.keyword_input != Constants.EMPTY) this.sharedService.keyword_input = Constants.EMPTY;
@@ -30,7 +35,14 @@ export class SearchFormComponent {
       let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
       let api_address_param = buffer.replace(reg_non_alphanumeric, "+");
       let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + Config.GOOGLE_API_KEY;
-      this.http_request.geoCode_send_request(url);
+      this.http_request.geoCode_send_request(url).subscribe({
+        next: (result) => {        
+          this.sharedService.setData(result);
+        },
+        error: (error) => {
+          console.log(error); // handle the error here
+        }
+      });
     } else {
       const IPINFO_API_HOST = "https://ipinfo.io/";
       this.http_request.ipInfo_send_request(IPINFO_API_HOST + "?token=" + Config.IPINFO_API_KEY);
@@ -46,7 +58,6 @@ export class SearchFormComponent {
   onKeywordChange(){
      this.http_request.get_autocomplete_suggestions();
   }
-
 }
 
 // move to another function
