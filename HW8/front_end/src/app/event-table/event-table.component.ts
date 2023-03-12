@@ -1,6 +1,4 @@
-import { Component , Inject, OnInit} from '@angular/core';
-import { HttpRequestService } from "../http-request.service";
-import { SearchFormComponent } from "../search-form/search-form.component"
+import { Component, OnInit} from '@angular/core';
 import { SharedService } from "../shared.service";
 
 @Component({
@@ -9,12 +7,11 @@ import { SharedService } from "../shared.service";
   styleUrls: ['./event-table.component.css']
 })
 export class EventTableComponent implements OnInit{
-  constructor(private http_request: HttpRequestService, public sharedService: SharedService) { }
+  constructor(public sharedService: SharedService) { }
   
   ngOnInit() {
     this.sharedService.search_result.subscribe(data => {
-      if (data) {
-        
+      if (data) {        
         console.log(data); // use the data here
       }
     });

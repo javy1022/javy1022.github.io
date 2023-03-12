@@ -5,12 +5,12 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import { SearchFormComponent } from "./search-form/search-form.component";
+import { EventTableComponent } from "./event-table/event-table.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { FavoritesComponent } from "./favorites/favorites.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { EventTableComponent } from "./event-table/event-table.component";
 // Material Modules
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";

@@ -4,8 +4,7 @@ import * as Constants from "../constants";
 import * as Config from "../config";
 import { SharedService } from "../shared.service";
 
-import { MatAutocomplete } from '@angular/material/autocomplete';
-
+import { MatAutocomplete } from "@angular/material/autocomplete";
 
 @Component({
   selector: "app-search-form",
@@ -13,9 +12,7 @@ import { MatAutocomplete } from '@angular/material/autocomplete';
   styleUrls: ["./search-form.component.css"],
 })
 export class SearchFormComponent {
-  constructor(private http_request: HttpRequestService, public sharedService: SharedService) {
-   
-  }
+  constructor(private http_request: HttpRequestService, public sharedService: SharedService) {}
 
   onClear() {
     if (this.sharedService.keyword_input != Constants.EMPTY) this.sharedService.keyword_input = Constants.EMPTY;
@@ -36,22 +33,22 @@ export class SearchFormComponent {
       let api_address_param = buffer.replace(reg_non_alphanumeric, "+");
       let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + Config.GOOGLE_API_KEY;
       this.http_request.geoCode_send_request(url).subscribe({
-        next: (result) => {        
+        next: (result) => {
           this.sharedService.set_search_result(result);
         },
         error: (error) => {
           console.log(error); // handle the error here
-        }
+        },
       });
     } else {
       const IPINFO_API_HOST = "https://ipinfo.io/";
       this.http_request.ipInfo_send_request(IPINFO_API_HOST + "?token=" + Config.IPINFO_API_KEY).subscribe({
-        next: (result) => {        
-          this.sharedService.set_search_result(result);        
+        next: (result) => {
+          this.sharedService.set_search_result(result);
         },
         error: (error) => {
           console.log(error); // handle the error here
-        }
+        },
       });
     }
   }
@@ -62,8 +59,10 @@ export class SearchFormComponent {
     }
   }
 
-  onKeywordChange(){
-     this.http_request.get_autocomplete_suggestions();
+  onKeywordChange() {
+    this.http_request.get_autocomplete_suggestions().subscribe(res => {
+      console.log(res);
+    });
   }
 }
 
