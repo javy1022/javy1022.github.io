@@ -4,8 +4,6 @@ import * as Constants from "../constants";
 import * as Config from "../config";
 import { SharedService } from "../shared.service";
 
-import { MatAutocomplete } from "@angular/material/autocomplete";
-
 @Component({
   selector: "app-search-form",
   templateUrl: "./search-form.component.html",
@@ -13,6 +11,7 @@ import { MatAutocomplete } from "@angular/material/autocomplete";
 })
 export class SearchFormComponent {
   constructor(private http_request: HttpRequestService, public sharedService: SharedService) {}
+  ac_list = [];
 
   onClear() {
     if (this.sharedService.keyword_input != Constants.EMPTY) this.sharedService.keyword_input = Constants.EMPTY;
@@ -20,6 +19,7 @@ export class SearchFormComponent {
     if (this.sharedService.category_input != "Default") this.sharedService.category_input = "Default";
     if (this.sharedService.location_input != Constants.EMPTY) this.sharedService.location_input = Constants.EMPTY;
     if (this.sharedService.checkbox_input == true) this.sharedService.checkbox_input = false;
+    this.ac_list = [];
   }
 
   onSubmit() {
@@ -60,8 +60,11 @@ export class SearchFormComponent {
   }
 
   onKeywordChange() {
-    this.http_request.get_autocomplete_suggestions().subscribe(res => {
-      console.log(res);
+    this.http_request.get_autocomplete_suggestions().subscribe((res) => {
+      const attractions = res["attractions"];
+      const names = attractions.map((attraction: { name: string }) => attraction.name);
+      this.ac_list = names;
+      if (this.sharedService.keyword_input == Constants.EMPTY) this.ac_list = [];
     });
   }
 }

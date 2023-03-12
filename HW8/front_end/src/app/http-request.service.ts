@@ -17,9 +17,15 @@ export class HttpRequestService {
   const params = new HttpParams().set("keyword", this.sharedService.keyword_input);
   return this.http.get("http://localhost:3000/search/auto-complete", { params: params, responseType: "json" })
     .pipe(
-      map(res => {
-       
-        return res;
+      map((res: any) => {
+        let result_dict = JSON.parse(JSON.stringify(res));
+        const attractions = result_dict?._embedded?.attractions;
+        if (attractions) {
+          return { attractions };
+        } else {
+          // handle the case where `attractions` is null or undefined
+          return { attractions: [] };
+        }
       })
     );
 }
