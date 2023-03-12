@@ -3,6 +3,7 @@ import { HttpRequestService } from "../http-request.service";
 import * as Constants from "../constants";
 import * as Config from "../config";
 import { SharedService } from "../shared.service";
+import { delay } from "rxjs";
 
 @Component({
   selector: "app-search-form",
@@ -12,7 +13,8 @@ import { SharedService } from "../shared.service";
 export class SearchFormComponent {
   constructor(private http_request: HttpRequestService, public sharedService: SharedService) {}
   ac_list = [];
-
+  isLoading = false;
+  
   onClear() {
     if (this.sharedService.keyword_input != Constants.EMPTY) this.sharedService.keyword_input = Constants.EMPTY;
     if (this.sharedService.distance_input != 10) this.sharedService.distance_input = 10;
@@ -60,12 +62,16 @@ export class SearchFormComponent {
   }
 
   onKeywordChange() {
-    this.http_request.get_autocomplete_suggestions().subscribe((res) => {
-      const attractions = res["attractions"];
-      const names = attractions.map((attraction: { name: string }) => attraction.name);
-      this.ac_list = names;
-      if (this.sharedService.keyword_input == Constants.EMPTY) this.ac_list = [];
-    });
+    this.isLoading = true;
+    setTimeout(() => {
+      this.http_request.get_autocomplete_suggestions().subscribe((res) => {
+        const attractions = res["attractions"];
+        const names = attractions.map((attraction: { name: string }) => attraction.name);
+        this.ac_list = names;
+        if (this.sharedService.keyword_input == Constants.EMPTY) this.ac_list = [];
+        this.isLoading = false;
+      });
+    }, 500);
   }
 }
 

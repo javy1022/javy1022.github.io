@@ -16,12 +16,13 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AppComponent, SearchFormComponent, FavoritesComponent, NavBarComponent,
     EventTableComponent],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule, ReactiveFormsModule, MatInputModule, MatIconModule, 
-    MatButtonModule, MatAutocompleteModule],
+    MatButtonModule, MatAutocompleteModule, MatProgressSpinnerModule],
   providers: [],
   bootstrap: [AppComponent],
 })

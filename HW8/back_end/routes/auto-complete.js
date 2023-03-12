@@ -9,11 +9,11 @@ var router = express.Router();
 // Create a rate limiter that allows 5 requests per second, with a burst limit of 1 message
 const rateLimit = require("express-rate-limit");
 const limiter = rateLimit({
-  windowMs: 1000, 
+  windowMs: 1000,
   max: 5,
   maxConcurrency: 1,
   handler: function (req, res, next) {
-    return res.status(429).json({ error: "Too many requests, please try again later." });
+    return res.status(429).json({ error: "Too many requests, Please Type Slower !!!" });
   },
 });
 
