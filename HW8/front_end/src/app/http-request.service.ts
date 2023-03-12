@@ -44,12 +44,17 @@ export class HttpRequestService {
 
   // get lat lng using ipInfo API
   ipInfo_send_request(request_url: string) {
-    return this.http.get(request_url, { responseType: "json" }).subscribe((res) => {
-      let result_dict = JSON.parse(JSON.stringify(res));
-      let buffer = result_dict["loc"];
-      let lat_lng_array = buffer.split(",");
-      this.get_ticketmaster_result(lat_lng_array[0], lat_lng_array[1]);      
-    });
+    return this.http.get(request_url, { responseType: "json" }).pipe(
+      map((res: any) => {
+        let result_dict = JSON.parse(JSON.stringify(res));
+        let buffer = result_dict["loc"];
+        let lat_lng_array = buffer.split(",");
+        return { lat: lat_lng_array[0], lng: lat_lng_array[1] };
+      }),
+      switchMap((location) => {
+        return this.get_ticketmaster_result(location.lat, location.lng);
+      })
+    );
   }
 
   // api request to Ticketmaster

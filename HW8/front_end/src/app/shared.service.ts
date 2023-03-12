@@ -17,7 +17,7 @@ export class SharedService {
   private search_result_subject = new BehaviorSubject<any>(null);
   search_result = this.search_result_subject.asObservable();
 
-  setData(result: any) {
+  set_search_result(result: any) {
     this.search_result_subject.next(result);
   }
 

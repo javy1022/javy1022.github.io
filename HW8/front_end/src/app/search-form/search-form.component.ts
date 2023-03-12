@@ -37,7 +37,7 @@ export class SearchFormComponent {
       let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + Config.GOOGLE_API_KEY;
       this.http_request.geoCode_send_request(url).subscribe({
         next: (result) => {        
-          this.sharedService.setData(result);
+          this.sharedService.set_search_result(result);
         },
         error: (error) => {
           console.log(error); // handle the error here
@@ -45,7 +45,14 @@ export class SearchFormComponent {
       });
     } else {
       const IPINFO_API_HOST = "https://ipinfo.io/";
-      this.http_request.ipInfo_send_request(IPINFO_API_HOST + "?token=" + Config.IPINFO_API_KEY);
+      this.http_request.ipInfo_send_request(IPINFO_API_HOST + "?token=" + Config.IPINFO_API_KEY).subscribe({
+        next: (result) => {        
+          this.sharedService.set_search_result(result);        
+        },
+        error: (error) => {
+          console.log(error); // handle the error here
+        }
+      });
     }
   }
 
