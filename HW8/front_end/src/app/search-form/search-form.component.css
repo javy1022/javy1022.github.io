@@ -30,12 +30,15 @@ hr {
   width: 92%;
 }
 
-.ch {
-  height: 82.7%;
-}
 
 @media (min-width: 576px) {
   .ch {
     height: 65%;
+  }
+}
+
+@media (max-width: 575px) {
+  .ch {
+    height: 82%;    
   }
 }

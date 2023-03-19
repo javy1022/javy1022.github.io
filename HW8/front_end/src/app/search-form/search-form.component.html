@@ -1,7 +1,7 @@
 <div class="container pt-0 pt-sm-5">
-  <div class="mt-5 pt-4 mx-auto w-sm-75 ch h-sm-100 bg-dark bg-opacity-75 bg-blur rounded-4">
+  <div class="mt-5 pt-4 mx-auto w-100 w-sm-75 ch bg-dark bg-opacity-75 bg-blur rounded-4">
     <h2 class="text-center text-white pt-3 fs-1" id="title">Events Search</h2>
-    <hr class="mx-auto custom-hr mt-4" />
+    <hr class="mx-auto custom-hr mt-4 " />
 
     <form class="w-100 h-75 fs-5 pt-0 pt-sm-3" id="search_form" (ngSubmit)="onSubmit()" ngNativeValidate>
       <div class="mb-3 mb-sm-5 ms-3 ms-sm-5 col-11">
@@ -64,7 +64,7 @@
       </div>
     </form>
   </div>
+  <app-event-table></app-event-table>
 </div>
 
 
-<app-event-table></app-event-table>
