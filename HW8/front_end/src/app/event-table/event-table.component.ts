@@ -49,7 +49,8 @@ export class EventTableComponent implements AfterViewInit {
         }
         console.log(list_for_table);
         this.table_header_constructor(this.table)
-          
+        
+        this.table.nativeElement.insertAdjacentHTML("beforeend", "<tbody></tbody>");
         for (let i = 0; i < total_events; i++) {
           this.table_append_row(this.table, list_for_table, i);
         }
@@ -104,16 +105,16 @@ export class EventTableComponent implements AfterViewInit {
   table_header_constructor(table:any) {
     table.nativeElement.insertAdjacentHTML(
       "beforeend",
-      '<tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id,toggle_sorting_event)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id,toggle_sorting_genre)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id,toggle_sorting_venue)">Venue</th>  </tr>'
+      '<thead><tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id,toggle_sorting_event)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id,toggle_sorting_genre)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id,toggle_sorting_venue)">Venue</th></tr></thead>'
     );
 
   }
 
   table_append_row(table:ElementRef, list_for_table:any[], i:any) {
     let test;
-    if (i == 0) test = '<tr class="rows_height" id= "test"><td class="table_text">';
+    if (i === 0) test = '<tr class="rows_height" id= "test"><td class="table_text">';
     else test = '<tr class="rows_height"><td class="table_text">';
-    table.nativeElement.insertAdjacentHTML(
+    table.nativeElement.querySelector("tbody").insertAdjacentHTML(
       "beforeend",
       test +
         list_for_table[i][0] +
