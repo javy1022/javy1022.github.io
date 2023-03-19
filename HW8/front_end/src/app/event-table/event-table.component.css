@@ -1,4 +1,10 @@
-#first_row_height {
-    height: 100px;
-    
+@media (max-width: 576px) {
+  .custom-table {
+    min-width: 150%;
+  }
+}
+
+.square-container {
+    width: 20vw;
+    padding-bottom: 20vw;
   }

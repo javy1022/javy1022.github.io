@@ -105,24 +105,24 @@ export class EventTableComponent implements AfterViewInit {
   table_header_constructor(table:any) {
     table.nativeElement.insertAdjacentHTML(
       "beforeend",
-      '<thead><tr id ="first_row_height"><th id ="first_columns_width">Date</th> <th id ="second_columns_width">Icon</th> <th id ="third_columns_width" onClick="sort_table(this.id,toggle_sorting_event)" >Event</th> <th id ="fourth_columns_width" onClick="sort_table(this.id,toggle_sorting_genre)">Genre</th> <th id ="fifth_columns_width" onClick="sort_table(this.id,toggle_sorting_venue)">Venue</th></tr></thead>'
+      '<thead><tr> <th>Date/Time</th> <th>Icon</th> <th>Event</th> <th>Genre</th> <th>Venue</th> </tr></thead>'
     );
 
   }
 
   table_append_row(table:ElementRef, list_for_table:any[], i:any) {
-    let test;
-    if (i === 0) test = '<tr class="rows_height" id= "test"><td class="table_text">';
-    else test = '<tr class="rows_height"><td class="table_text">';
+    let table_row;
+    if (i === 0) table_row = '<tr><td class="fw-bold">';
+    else table_row = '<tr><td class="fw-bold">';
     table.nativeElement.querySelector("tbody").insertAdjacentHTML(
       "beforeend",
-      test +
+      table_row +
         list_for_table[i][0] +
         "<br>" +
         list_for_table[i][1] +
-        "</td><td><img src=" +
+        '</td><td><div class=" position-relative" style="width: 20vw; padding-bottom: 20vw;"><img src="' +
         list_for_table[i][2] +
-        ' class="yelp_image"></img></td> <td class="table_text"> <a href = "#" class="event_title"  onclick=\'get_request_event_detail("' +
+        '" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover;"></img></div></td><td class="table_text"> <a href="#" class="event_title"  onclick=\'get_request_event_detail("' +
         list_for_table[i][6] +
         "\");' >" +
         list_for_table[i][3] +
@@ -132,5 +132,9 @@ export class EventTableComponent implements AfterViewInit {
         list_for_table[i][5] +
         "</td> </tr>"
     );
+    
+    
+    
+    
   }
 }
