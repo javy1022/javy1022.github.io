@@ -10,16 +10,14 @@ import * as Constants from "../constants";
 export class EventTableComponent implements AfterViewInit{ 
   constructor(public sharedService: SharedService,private elementRef: ElementRef, private renderer: Renderer2) {}
   
-  @ViewChild('table', { static: false }) table!: ElementRef;
+ 
   @ViewChild('tableWrapper') tableWrapper!: ElementRef;
   list_for_table: any[] = [];
   
   ngAfterViewInit() {
     this.sharedService.search_result.subscribe((resp) => {
       if (resp ) {        
-        this.list_for_table = this.generate_table_ref(resp);
-        console.log(this.sharedService.show_table)       
-        // Add this block
+        this.list_for_table = this.generate_table_ref(resp);       
       setTimeout(() => {
         this.tableWrapper.nativeElement.scrollIntoView({
           behavior: 'smooth',
