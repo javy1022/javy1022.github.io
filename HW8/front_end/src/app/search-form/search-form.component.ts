@@ -15,11 +15,12 @@ export class SearchFormComponent {
   isLoading = false;
   
   onClear() {
-    if (this.sharedService.keyword_input != Constants.EMPTY) this.sharedService.keyword_input = Constants.EMPTY;
-    if (this.sharedService.distance_input != 10) this.sharedService.distance_input = 10;
-    if (this.sharedService.category_input != "Default") this.sharedService.category_input = "Default";
-    if (this.sharedService.location_input != Constants.EMPTY) this.sharedService.location_input = Constants.EMPTY;
-    if (this.sharedService.checkbox_input == true) this.sharedService.checkbox_input = false;
+    if (this.sharedService.keyword_input !== Constants.EMPTY) this.sharedService.keyword_input = Constants.EMPTY;
+    if (this.sharedService.distance_input !== 10) this.sharedService.distance_input = 10;
+    if (this.sharedService.category_input !== "Default") this.sharedService.category_input = "Default";
+    if (this.sharedService.location_input !== Constants.EMPTY) this.sharedService.location_input = Constants.EMPTY;
+    if (this.sharedService.checkbox_input === true) this.sharedService.checkbox_input = false;
+    if(this.sharedService.show_table === true)  this.sharedService.show_table = false;
     this.ac_list = [];
   }
 
@@ -27,7 +28,7 @@ export class SearchFormComponent {
     const reg_geo_loc = /\s*$/;
     const reg_non_alphanumeric = /[^a-z0-9+]+/gi;
     const GOOGLE_API_HOST = "https://maps.googleapis.com";
-    const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
+    const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";   
 
     if (!this.sharedService.checkbox_input) {
       let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
@@ -35,7 +36,8 @@ export class SearchFormComponent {
       let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + Config.GOOGLE_API_KEY;
       this.http_request.geoCode_send_request(url).subscribe({
         next: (result) => {
-          this.sharedService.set_search_result(result);
+          this.sharedService.set_search_result(result);        
+        
         },
         error: (error) => {
           console.log(error); // handle the error here
@@ -55,7 +57,7 @@ export class SearchFormComponent {
   }
 
   onCheckboxChange() {
-    if (this.sharedService.checkbox_input == true) {
+    if (this.sharedService.checkbox_input === true) {
       this.sharedService.location_input = Constants.EMPTY;
     }
   }
@@ -67,7 +69,7 @@ export class SearchFormComponent {
         const attractions = res["attractions"];
         const names = attractions.map((attraction: { name: string }) => attraction.name);
         this.ac_list = names;
-        if (this.sharedService.keyword_input == Constants.EMPTY) this.ac_list = [];
+        if (this.sharedService.keyword_input === Constants.EMPTY) this.ac_list = [];
         this.isLoading = false;
       });
     }, 500);

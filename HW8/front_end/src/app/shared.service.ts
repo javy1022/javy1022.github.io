@@ -15,6 +15,8 @@ export class SharedService {
   //public location_input: string = Constants.EMPTY;
   public location_input: string = "New York";
   public checkbox_input: boolean = false;
+
+  public show_table: boolean = false;
  
   private search_result_subject = new BehaviorSubject<any>(null);
   search_result = this.search_result_subject.asObservable();

@@ -1,61 +1,59 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { SharedService } from "../shared.service";
 import * as Constants from "../constants";
-
 
 @Component({
   selector: "app-event-table",
   templateUrl: "./event-table.component.html",
   styleUrls: ["./event-table.component.css"],
 })
-export class EventTableComponent implements AfterViewInit {
+export class EventTableComponent implements OnInit { 
   constructor(public sharedService: SharedService) {}
-  @ViewChild('table') table!: ElementRef;
-
-  ngAfterViewInit() {
-    let list_for_table = new Array<any>();
-
+  
+  list_for_table: any[] = [];
+  ngOnInit() {
     this.sharedService.search_result.subscribe((resp) => {
       if (resp) {
-        const total_events = resp["_embedded"]?.events?.length;
-
-        for (let i = 0; i < total_events; i++) {
-          const resp_obj = resp["_embedded"]["events"][i];
-          const resp_item = Object.entries(resp["_embedded"]["events"][i]);
-          let buffer_array = new Array<any>();
-
-          if ("dates" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "dates", resp_obj);
-          else {
-            buffer_array.push(Constants.EMPTY);
-            buffer_array.push(Constants.EMPTY);
-          }
-
-          if ("images" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "images", resp_obj);
-          else buffer_array.push(Constants.EMPTY);
-
-          if ("name" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "name", resp_obj);
-          else buffer_array.push(Constants.EMPTY);
-
-          if ("classifications" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "classifications", resp_obj);
-          else buffer_array.push(Constants.EMPTY);
-
-          if ("_embedded" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "_embedded", resp_obj);
-          else buffer_array.push(Constants.EMPTY);
-
-          if ("id" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "id", resp_obj);
-          else buffer_array.push(Constants.EMPTY);
-
-          list_for_table.push(buffer_array);
-        }
-        console.log(list_for_table);
-        this.table_header_constructor(this.table)
-        
-        this.table.nativeElement.insertAdjacentHTML("beforeend", "<tbody></tbody>");
-        for (let i = 0; i < total_events; i++) {
-          this.table_append_row(this.table, list_for_table, i);
-        }
+        this.list_for_table = this.generate_table_ref(resp);
       }
     });
+  }
+
+  generate_table_ref(resp: any): any[] {
+    let list_for_table = new Array<any>();
+    const total_events = resp["_embedded"]?.events?.length;
+
+    for (let i = 0; i < total_events; i++) {
+      const resp_obj = resp["_embedded"]["events"][i];
+      const resp_item = Object.entries(resp["_embedded"]["events"][i]);
+      let buffer_array = new Array<any>();
+
+      if ("dates" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "dates", resp_obj);
+      else {
+        buffer_array.push(Constants.EMPTY);
+        buffer_array.push(Constants.EMPTY);
+      }
+
+      if ("images" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "images", resp_obj);
+      else buffer_array.push(Constants.EMPTY);
+
+      if ("name" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "name", resp_obj);
+      else buffer_array.push(Constants.EMPTY);
+
+      if ("classifications" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "classifications", resp_obj);
+      else buffer_array.push(Constants.EMPTY);
+
+      if ("_embedded" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "_embedded", resp_obj);
+      else buffer_array.push(Constants.EMPTY);
+
+      if ("id" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "id", resp_obj);
+      else buffer_array.push(Constants.EMPTY);
+
+      list_for_table.push(buffer_array);
+    }
+    console.log(list_for_table);
+
+    return list_for_table;
   }
 
   buffer_array_append(resp_item: any[], buffer_array: any[], header: string, resp_obj: any) {
@@ -74,7 +72,7 @@ export class EventTableComponent implements AfterViewInit {
         } else if (header === "images") {
           const image_obj = resp_obj["images"];
           const image = image_obj?.[0]?.url?.trim();
-          if (image_obj.length !== 0 && image !== Constants.UNDEFINED_LOW && image !== Constants.UNDEFINED_CAP && image !== undefined)  {
+          if (image_obj.length !== 0 && image !== Constants.UNDEFINED_LOW && image !== Constants.UNDEFINED_CAP && image !== undefined) {
             buffer_array.push(image);
           } else buffer_array.push(Constants.EMPTY);
         } else if (header === "name") {
@@ -100,41 +98,5 @@ export class EventTableComponent implements AfterViewInit {
         }
       }
     }
-  }
-
-  table_header_constructor(table:any) {
-    table.nativeElement.insertAdjacentHTML(
-      "beforeend",
-      '<thead><tr> <th>Date/Time</th> <th>Icon</th> <th>Event</th> <th>Genre</th> <th>Venue</th> </tr></thead>'
-    );
-
-  }
-
-  table_append_row(table:ElementRef, list_for_table:any[], i:any) {
-    let table_row;
-    if (i === 0) table_row = '<tr><td class="fw-bold">';
-    else table_row = '<tr><td class="fw-bold">';
-    table.nativeElement.querySelector("tbody").insertAdjacentHTML(
-      "beforeend",
-      table_row +
-        list_for_table[i][0] +
-        "<br>" +
-        list_for_table[i][1] +
-        '</td><td><div class=" position-relative" style="width: 20vw; padding-bottom: 20vw;"><img src="' +
-        list_for_table[i][2] +
-        '" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover;"></img></div></td><td class="table_text"> <a href="#" class="event_title"  onclick=\'get_request_event_detail("' +
-        list_for_table[i][6] +
-        "\");' >" +
-        list_for_table[i][3] +
-        '</a></td> <td class="table_text">' +
-        list_for_table[i][4] +
-        '</td> <td class="table_text">' +
-        list_for_table[i][5] +
-        "</td> </tr>"
-    );
-    
-    
-    
-    
   }
 }
