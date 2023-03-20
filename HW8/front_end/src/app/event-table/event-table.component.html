@@ -1,7 +1,7 @@
-<div *ngIf="sharedService.show_table" class="table-responsive mt-5 ">
+<div *ngIf="sharedService.show_table" class="table-responsive mt-5 " #tableWrapper>
   
     <div *ngIf="sharedService.show_table" class="table-responsive mt-5">
-      <table class="table table-dark table-striped w-auto min-vw-150 custom-table text-center fs-6 rounded-4 overflow-hidden "  #table>
+      <table class="table table-dark table-striped w-auto min-vw-150 custom-table text-center fs-6 rounded-4 overflow-hidden "  #table >
         <thead>
           <tr>
             <th>Date/Time</th>

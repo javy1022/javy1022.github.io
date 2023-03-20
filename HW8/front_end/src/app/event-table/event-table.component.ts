@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, AfterViewInit, ViewChild, ElementRef , Renderer2} from "@angular/core";
 import { SharedService } from "../shared.service";
 import * as Constants from "../constants";
 
@@ -7,14 +7,25 @@ import * as Constants from "../constants";
   templateUrl: "./event-table.component.html",
   styleUrls: ["./event-table.component.css"],
 })
-export class EventTableComponent implements OnInit { 
-  constructor(public sharedService: SharedService) {}
+export class EventTableComponent implements AfterViewInit{ 
+  constructor(public sharedService: SharedService,private elementRef: ElementRef, private renderer: Renderer2) {}
   
+  @ViewChild('table', { static: false }) table!: ElementRef;
+  @ViewChild('tableWrapper') tableWrapper!: ElementRef;
   list_for_table: any[] = [];
-  ngOnInit() {
+  
+  ngAfterViewInit() {
     this.sharedService.search_result.subscribe((resp) => {
-      if (resp) {
+      if (resp ) {        
         this.list_for_table = this.generate_table_ref(resp);
+        console.log(this.sharedService.show_table)       
+        // Add this block
+      setTimeout(() => {
+        this.tableWrapper.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 100);
       }
     });
   }
