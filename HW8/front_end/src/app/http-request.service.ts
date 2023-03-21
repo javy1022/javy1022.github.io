@@ -15,7 +15,7 @@ export class HttpRequestService {
   get_autocomplete_suggestions(): Observable<any> {
     const params = new HttpParams().set("keyword", this.sharedService.keyword_input);
     return this.http.get("http://localhost:3000/search/auto-complete", { params: params, responseType: "json" }).pipe(
-      map((res: any) => {       
+      map((res: any) => {
         const attractions = res?._embedded?.attractions;
         if (attractions) {
           return { attractions };
@@ -26,13 +26,25 @@ export class HttpRequestService {
       })
     );
   }
+  // get event details with id
+  get_request_event_detail(id: string, event: MouseEvent): Observable<any> {
+    event.preventDefault();
+    const params = new HttpParams().set("id", id);
+    const url = "http://localhost:3000/search/event-details";
+  
+    return this.http.get(url, { params: params }).pipe(
+      map((res: any) => {      
+        return res;
+      })
+    );
+  }
 
   // get lat lng using Google Map API
   geoCode_send_request(request_url: string): Observable<any> {
     return this.http.get(request_url, { responseType: "json" }).pipe(
-      map((res: any) => {       
+      map((res: any) => {
         if (res.status != "ZERO_RESULTS") {
-          const lat_lng_obj = res?.results?.[0]?.geometry?.location
+          const lat_lng_obj = res?.results?.[0]?.geometry?.location;
           return {
             lat: lat_lng_obj?.lat,
             lng: lat_lng_obj?.lng,
@@ -52,7 +64,7 @@ export class HttpRequestService {
   // get lat lng using ipInfo API
   ipInfo_send_request(request_url: string): Observable<any> {
     return this.http.get(request_url, { responseType: "json" }).pipe(
-      map((res: any) => {      
+      map((res: any) => {
         const buffer = res.loc;
         const lat_lng_array = buffer.split(",");
         return { lat: lat_lng_array[0], lng: lat_lng_array[1] };

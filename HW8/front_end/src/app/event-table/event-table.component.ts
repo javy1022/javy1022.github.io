@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef , Renderer2} from "@angular/core";
 import { SharedService } from "../shared.service";
+import { HttpRequestService } from "../http-request.service";
 import * as Constants from "../constants";
 
 @Component({
@@ -8,7 +9,7 @@ import * as Constants from "../constants";
   styleUrls: ["./event-table.component.css"],
 })
 export class EventTableComponent implements AfterViewInit{ 
-  constructor(public sharedService: SharedService,private elementRef: ElementRef, private renderer: Renderer2) {}
+  constructor(public sharedService: SharedService,public http_request: HttpRequestService,private elementRef: ElementRef, private renderer: Renderer2) {}
   
  
   @ViewChild('tableWrapper') tableWrapper!: ElementRef;
@@ -117,4 +118,6 @@ export class EventTableComponent implements AfterViewInit{
       }
     }
   }
+
+ 
 }

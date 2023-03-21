@@ -6,6 +6,7 @@ const cors = require('cors');
 
 var event_search_router = require('./routes/event-search');
 var auto_complete_router = require('./routes/auto-complete');
+var event_details_router = require('./routes/event-details.js');
 
 var app = express();
 app.use(cors());
@@ -18,5 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', event_search_router );
 app.use('/', auto_complete_router);
+app.use('/', event_details_router);
 
 module.exports = app;

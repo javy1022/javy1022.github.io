@@ -18,11 +18,11 @@
                 <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
               </div>
             </td>
-            <td class="table_text">
-              <a href="#" class="event_title">{{ item[3] }}</a>
+            <td>
+              <a href="#" class="text-reset text-decoration-none" (click)="this.http_request.get_request_event_detail(item[6], $event)">{{ item[3] }}</a>
             </td>
-            <td class="table_text">{{ item[4] }}</td>
-            <td class="table_text">{{ item[5] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
           </tr>
         </tbody>
       </table>
