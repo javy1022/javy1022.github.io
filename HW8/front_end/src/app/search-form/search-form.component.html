@@ -64,7 +64,14 @@
       </div>
     </form>
   </div>
-  <app-event-table></app-event-table>
-</div>
+ 
+  
+    <div [ngSwitch]="sharedService.current_info">
+      <app-event-table *ngSwitchCase="'table'" ></app-event-table> 
+      <app-event-details *ngSwitchCase="'event_details'" ></app-event-details>
+    </div>
+ 
+
+  </div>
 
 

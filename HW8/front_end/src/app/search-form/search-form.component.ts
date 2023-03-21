@@ -30,6 +30,8 @@ export class SearchFormComponent {
     const GOOGLE_API_HOST = "https://maps.googleapis.com";
     const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";   
 
+    this.sharedService.current_info = "table"
+
     if (!this.sharedService.checkbox_input) {
       let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
       let api_address_param = buffer.replace(reg_non_alphanumeric, "+");

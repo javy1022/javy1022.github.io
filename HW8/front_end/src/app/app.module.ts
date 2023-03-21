@@ -17,10 +17,12 @@ import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 @NgModule({
   declarations: [AppComponent, SearchFormComponent, FavoritesComponent, NavBarComponent,
-    EventTableComponent],
+    EventTableComponent,
+    EventDetailsComponent],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule, ReactiveFormsModule, MatInputModule, MatIconModule, 
     MatButtonModule, MatAutocompleteModule, MatProgressSpinnerModule],
   providers: [],

@@ -31,7 +31,7 @@ export class HttpRequestService {
     event.preventDefault();
     const params = new HttpParams().set("id", id);
     const url = "http://localhost:3000/search/event-details";
-  
+    this.sharedService.current_info = "event_details"
     return this.http.get(url, { params: params }).pipe(
       map((res: any) => {      
         return res;

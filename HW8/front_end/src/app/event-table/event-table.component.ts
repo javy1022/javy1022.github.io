@@ -13,7 +13,6 @@ import { Subscription } from 'rxjs';
 export class EventTableComponent implements AfterViewInit, OnDestroy{ 
   constructor(public sharedService: SharedService,public http_request: HttpRequestService, private cdr: ChangeDetectorRef) {}
   
- 
   @ViewChild('tableWrapper') tableWrapper!: ElementRef;
   list_for_table: any[] = [];
   search_subs: Subscription = new Subscription();

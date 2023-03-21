@@ -1,0 +1,11 @@
+@media (min-width: 576px) {
+    .ch {
+      height: 10vh;
+    }
+  }
+  
+  @media (max-width: 575px) {
+    .ch {
+      height: 82vh;    
+    }
+  }

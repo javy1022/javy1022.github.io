@@ -17,7 +17,8 @@ export class SharedService {
   public checkbox_input: boolean = false;
 
   public show_table: boolean = false;
- 
+  public current_info: string = 'table';
+
   private search_result_subject = new BehaviorSubject<any>(null);
   search_result = this.search_result_subject.asObservable();
 
