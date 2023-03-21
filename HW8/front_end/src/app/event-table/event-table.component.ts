@@ -1,25 +1,30 @@
-import { Component, AfterViewInit, ViewChild, ElementRef , Renderer2} from "@angular/core";
+import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef,ChangeDetectionStrategy } from "@angular/core";
 import { SharedService } from "../shared.service";
 import { HttpRequestService } from "../http-request.service";
 import * as Constants from "../constants";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-event-table",
   templateUrl: "./event-table.component.html",
   styleUrls: ["./event-table.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EventTableComponent implements AfterViewInit{ 
-  constructor(public sharedService: SharedService,public http_request: HttpRequestService,private elementRef: ElementRef, private renderer: Renderer2) {}
+export class EventTableComponent implements AfterViewInit, OnDestroy{ 
+  constructor(public sharedService: SharedService,public http_request: HttpRequestService, private cdr: ChangeDetectorRef) {}
   
  
   @ViewChild('tableWrapper') tableWrapper!: ElementRef;
   list_for_table: any[] = [];
+  search_subs: Subscription = new Subscription();
   
   ngAfterViewInit() {
-    this.sharedService.search_result.subscribe((resp) => {
+    this.search_subs = this.sharedService.search_result.subscribe((resp) => {
       if (resp ) {        
         this.list_for_table = this.generate_table_ref(resp);  
-        this.sort_by_dateTime();     
+        this.sort_by_dateTime();    
+        this.cdr.detectChanges();
+
       setTimeout(() => {
         this.tableWrapper.nativeElement.scrollIntoView({
           behavior: 'smooth',
@@ -28,6 +33,9 @@ export class EventTableComponent implements AfterViewInit{
       }, 100);
       }
     });
+  }
+  ngOnDestroy() {
+    this.search_subs.unsubscribe();
   }
 
   sort_by_dateTime() {
