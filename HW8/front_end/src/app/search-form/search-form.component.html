@@ -66,9 +66,9 @@
   </div>
  
   
-    <div [ngSwitch]="sharedService.current_info">
+    <div class="mt-5 pb-5" [ngSwitch]="sharedService.current_info">
       <app-event-table *ngSwitchCase="'table'" ></app-event-table> 
-      <app-event-details *ngSwitchCase="'event_details'" ></app-event-details>
+      <app-event-details *ngSwitchCase="'event_details'"></app-event-details>
     </div>
  
 
