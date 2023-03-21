@@ -3,6 +3,9 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { SharedService } from "./shared.service";
 import { Observable } from "rxjs";
 import { filter, map, concatMap } from "rxjs/operators";
+import { BehaviorSubject } from "rxjs";
+import { tap, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: "root",
@@ -25,16 +28,13 @@ export class HttpRequestService {
     );
   }
   // Get event details with id
-  get_request_event_detail(id: string, event: MouseEvent): Observable<any> {
+  get_request_event_detail(id: string, event: MouseEvent): void {
     event.preventDefault();
-    const params = new HttpParams().set("id", id);
-    const url = "http://localhost:3000/search/event-details";
+    const url = `http://localhost:3000/search/event-details/${id}`;
     this.sharedService.current_info = "event_details";
-    return this.http.get(url, { params: params }).pipe(
-      map((res: any) => {
-        return res;
-      })
-    );
+    this.http.get(url).subscribe((result) => {
+      this.sharedService.eventDetailSource.next(result);
+    });
   }
 
   // Get lat lng using Google geolocation API

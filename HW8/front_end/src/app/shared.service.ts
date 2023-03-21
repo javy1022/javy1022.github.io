@@ -23,4 +23,7 @@ export class SharedService {
 
   public search_result_source = new BehaviorSubject<any>(null);
   search_result = this.search_result_source.asObservable();
+
+  public eventDetailSource = new BehaviorSubject<any>(null);
+  eventDetail$ = this.eventDetailSource.asObservable();
 }

@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from "@angular/core";
 import { HttpRequestService } from "../http-request.service";
+import { SharedService } from "../shared.service";
 
 @Component({
   selector: "app-event-details",
@@ -7,7 +8,7 @@ import { HttpRequestService } from "../http-request.service";
   styleUrls: ["./event-details.component.css"],
 })
 export class EventDetailsComponent implements AfterViewInit {
-  constructor(public http_request: HttpRequestService) {}
+  constructor(public http_request: HttpRequestService, public sharedService: SharedService) {}
 
   @ViewChild("eventDetails") eventDetails!: ElementRef;
 
@@ -17,16 +18,19 @@ export class EventDetailsComponent implements AfterViewInit {
   }
 
   subs_event_details() {
-    this.http_request.get_autocomplete_suggestions().subscribe(
-      (result) => {
-        console.log("Ni Hao:", result);
-        // Process the result here
+    this.sharedService.eventDetail$.subscribe({
+      next: (result) => {
+        if (result) {
+          console.log("Ni Hao:", result);
+          // Process the result here
+        }
       },
-      (error) => {
+      error: (error) => {
         console.error("Error occurred:", error);
       }
-    );
+    });
   }
+  
 
   scroll_to_eventDetails() {
     setTimeout(() => {

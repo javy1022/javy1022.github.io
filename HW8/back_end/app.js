@@ -6,7 +6,7 @@ const cors = require('cors');
 
 var event_search_router = require('./routes/event-search');
 var auto_complete_router = require('./routes/auto-complete');
-var event_details_router = require('./routes/event-details.js');
+var event_details_router = require('./routes/event-details');
 
 var app = express();
 app.use(cors());
