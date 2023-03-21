@@ -17,7 +17,8 @@ export class EventTableComponent implements AfterViewInit{
   ngAfterViewInit() {
     this.sharedService.search_result.subscribe((resp) => {
       if (resp ) {        
-        this.list_for_table = this.generate_table_ref(resp);       
+        this.list_for_table = this.generate_table_ref(resp);  
+        this.sort_by_dateTime();     
       setTimeout(() => {
         this.tableWrapper.nativeElement.scrollIntoView({
           behavior: 'smooth',
@@ -25,6 +26,14 @@ export class EventTableComponent implements AfterViewInit{
         });
       }, 100);
       }
+    });
+  }
+
+  sort_by_dateTime() {
+    this.list_for_table.sort((a, b) => {
+      const date_a = new Date(a[0] + ' ' + a[1]);
+      const dateb = new Date(b[0] + ' ' + b[1]);
+      return date_a.getTime() - dateb.getTime();
     });
   }
 
