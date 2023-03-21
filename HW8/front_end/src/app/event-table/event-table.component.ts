@@ -1,35 +1,33 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef,ChangeDetectionStrategy } from "@angular/core";
+import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { SharedService } from "../shared.service";
 import { HttpRequestService } from "../http-request.service";
 import * as Constants from "../constants";
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-event-table",
   templateUrl: "./event-table.component.html",
   styleUrls: ["./event-table.component.css"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventTableComponent implements AfterViewInit, OnDestroy{ 
-  constructor(public sharedService: SharedService,public http_request: HttpRequestService, private cdr: ChangeDetectorRef) {}
-  
-  @ViewChild('tableWrapper') tableWrapper!: ElementRef;
-  list_for_table: any[] = [];
+export class EventTableComponent implements AfterViewInit, OnDestroy {
+  constructor(public sharedService: SharedService, public http_request: HttpRequestService, private cdr: ChangeDetectorRef) {}
+  @ViewChild("tableWrapper") tableWrapper!: ElementRef;
   search_subs: Subscription = new Subscription();
-  
+
   ngAfterViewInit() {
     this.search_subs = this.sharedService.search_result.subscribe((resp) => {
-      if (resp ) {        
-        this.list_for_table = this.generate_table_ref(resp);  
-        this.sort_by_dateTime();    
+      if (resp) {
+        this.sharedService.list_for_table = this.generate_table_ref(resp);
+        this.sort_by_dateTime();
         this.cdr.detectChanges();
 
-      setTimeout(() => {
-        this.tableWrapper.nativeElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }, 100);
+        setTimeout(() => {
+          this.tableWrapper.nativeElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 100);
       }
     });
   }
@@ -38,17 +36,15 @@ export class EventTableComponent implements AfterViewInit, OnDestroy{
   }
 
   sort_by_dateTime() {
-    this.list_for_table.sort((a, b) => {
-      const date_a = new Date(a[0] + ' ' + a[1]);
-      const dateb = new Date(b[0] + ' ' + b[1]);
-      return date_a.getTime() - dateb.getTime();
+    this.sharedService.list_for_table.sort((a, b) => {
+      const date_a = new Date(a[0] + " " + a[1]);
+      const date_b = new Date(b[0] + " " + b[1]);
+      return date_a.getTime() - date_b.getTime();
     });
   }
 
   generate_table_ref(resp: any): any[] {
-    let list_for_table = new Array<any>();
     const total_events = resp["_embedded"]?.events?.length;
-
     for (let i = 0; i < total_events; i++) {
       const resp_obj = resp["_embedded"]["events"][i];
       const resp_item = Object.entries(resp["_embedded"]["events"][i]);
@@ -75,11 +71,9 @@ export class EventTableComponent implements AfterViewInit, OnDestroy{
       if ("id" in resp_obj) this.buffer_array_append(resp_item, buffer_array, "id", resp_obj);
       else buffer_array.push(Constants.EMPTY);
 
-      list_for_table.push(buffer_array);
+      this.sharedService.list_for_table.push(buffer_array);
     }
-    console.log(list_for_table);
-
-    return list_for_table;
+    return this.sharedService.list_for_table;
   }
 
   buffer_array_append(resp_item: any[], buffer_array: any[], header: string, resp_obj: any) {
@@ -125,6 +119,4 @@ export class EventTableComponent implements AfterViewInit, OnDestroy{
       }
     }
   }
-
- 
 }

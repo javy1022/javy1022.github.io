@@ -29,7 +29,7 @@ export class EventDetailsComponent implements AfterViewInit {
   }
 
   scroll_to_eventDetails() {
-     setTimeout(() => {
+    setTimeout(() => {
       this.eventDetails.nativeElement.scrollIntoView({
         behavior: "auto",
         block: "start",

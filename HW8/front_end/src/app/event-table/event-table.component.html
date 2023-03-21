@@ -1,33 +1,32 @@
 <div *ngIf="sharedService.show_table" class="table-responsive" #tableWrapper>
-      <div *ngIf="sharedService.show_table" class="table-responsive">
-      <table class="table table-dark table-striped w-auto min-vw-150 custom-table text-center fs-6 rounded-4 overflow-hidden "  >
-        <thead>
-          <tr>
-            <th>Date/Time</th>
-            <th>Icon</th>
-            <th>Event</th>
-            <th>Genre</th>
-            <th>Venue</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of list_for_table">
-            <td class="fw-bold">{{ item[0] }}<br />{{ item[1] }}</td>
-            <td>
-              <div class="position-relative" style="width: 20vw; padding-bottom: 20vw">
-                <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
-              </div>
-            </td>
-            <td>
-              <a href="#" class="text-reset text-decoration-none" (click)="this.http_request.get_request_event_detail(item[6], $event)">{{ item[3] }}</a>
-            </td>
-            <td>{{ item[4] }}</td>
-            <td>{{ item[5] }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
- 
+  <div class="table-responsive">
+    <table class="table table-dark table-striped w-auto min-vw-150 custom-table text-center fs-6 rounded-4 overflow-hidden">
+      <thead>
+        <tr>
+          <th>Date/Time</th>
+          <th>Icon</th>
+          <th>Event</th>
+          <th>Genre</th>
+          <th>Venue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of sharedService.list_for_table">
+          <td class="fw-bold">{{ item[0] }}<br />{{ item[1] }}</td>
+          <td>
+            <div class="position-relative" style="width: 20vw; padding-bottom: 20vw">
+              <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
+            </div>
+          </td>
+          <td>
+            <a href="#" class="text-reset text-decoration-none" (click)="this.http_request.get_request_event_detail(item[6], $event)">{{ item[3] }}</a>
+          </td>
+          <td>{{ item[4] }}</td>
+          <td>{{ item[5] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!--<a href="#" class="event_title" (click)="get_request_event_detail(item[6])">{{item[3]}}</a> -->

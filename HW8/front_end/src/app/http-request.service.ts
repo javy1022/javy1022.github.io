@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { SharedService } from "./shared.service";
 import { Observable } from "rxjs";
-import { switchMap, filter, map } from "rxjs/operators";
+import { filter, map, concatMap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -10,8 +10,7 @@ import { switchMap, filter, map } from "rxjs/operators";
 export class HttpRequestService {
   constructor(private http: HttpClient, private sharedService: SharedService) {}
 
-  // get autocomplete suggestions
-
+  // Get autocomplete suggestions
   get_autocomplete_suggestions(): Observable<any> {
     const params = new HttpParams().set("keyword", this.sharedService.keyword_input);
     return this.http.get("http://localhost:3000/search/auto-complete", { params: params, responseType: "json" }).pipe(
@@ -20,26 +19,25 @@ export class HttpRequestService {
         if (attractions) {
           return { attractions };
         } else {
-          // handle the case where `attractions` is null or undefined
           return { attractions: [] };
         }
       })
     );
   }
-  // get event details with id
+  // Get event details with id
   get_request_event_detail(id: string, event: MouseEvent): Observable<any> {
     event.preventDefault();
     const params = new HttpParams().set("id", id);
     const url = "http://localhost:3000/search/event-details";
-    this.sharedService.current_info = "event_details"
+    this.sharedService.current_info = "event_details";
     return this.http.get(url, { params: params }).pipe(
-      map((res: any) => {      
+      map((res: any) => {
         return res;
       })
     );
   }
 
-  // get lat lng using Google Map API
+  // Get lat lng using Google geolocation API
   geoCode_send_request(request_url: string): Observable<any> {
     return this.http.get(request_url, { responseType: "json" }).pipe(
       map((res: any) => {
@@ -50,18 +48,17 @@ export class HttpRequestService {
             lng: lat_lng_obj?.lng,
           };
         } else {
-          console.log("no result");
           return;
         }
       }),
       filter((location): location is { lat: string; lng: string } => location !== undefined),
-      switchMap((location) => {
+      concatMap((location) => {
         return this.get_ticketmaster_result(location.lat, location.lng);
       })
     );
   }
 
-  // get lat lng using ipInfo API
+  // Get lat lng using ipInfo API
   ipInfo_send_request(request_url: string): Observable<any> {
     return this.http.get(request_url, { responseType: "json" }).pipe(
       map((res: any) => {
@@ -69,13 +66,13 @@ export class HttpRequestService {
         const lat_lng_array = buffer.split(",");
         return { lat: lat_lng_array[0], lng: lat_lng_array[1] };
       }),
-      switchMap((location) => {
+      concatMap((location) => {
         return this.get_ticketmaster_result(location.lat, location.lng);
       })
     );
   }
 
-  // api request to Ticketmaster
+  // Get events from Ticketmaster API
   get_ticketmaster_result(lat: string, lng: string): Observable<any> {
     const params = new HttpParams({
       fromObject: {

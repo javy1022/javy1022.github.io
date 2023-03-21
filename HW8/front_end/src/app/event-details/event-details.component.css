@@ -9,3 +9,7 @@
       height: 80vh;    
     }
   }
+
+  .bg-blur {
+    backdrop-filter: blur(10px);
+  }
