@@ -29,6 +29,7 @@ export class SearchFormComponent {
     this.sharedService.current_info = "";
   }
 
+  searchResult$ = this.sharedService.search_result_source.asObservable();
   onSubmit() {
     const reg_geo_loc = /\s*$/;
     const reg_non_alphanumeric = /[^a-z0-9+]+/gi;

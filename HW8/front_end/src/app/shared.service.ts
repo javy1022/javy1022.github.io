@@ -17,7 +17,7 @@ export class SharedService {
   public checkbox_input: boolean = false;
 
   public show_table: boolean = false;
-  public current_info: string = "table";
+  public current_info: string = "";
 
   public list_for_table: any[] = [];
 

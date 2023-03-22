@@ -74,9 +74,9 @@
       </div>
     </form>
   </div>
-
-  <div class="mt-5 pb-5" [ngSwitch]="sharedService.current_info">
-    <app-event-table *ngSwitchCase="'table'"></app-event-table>
-    <app-event-details *ngSwitchCase="'event_details'"></app-event-details>
+ 
+  <div class="mt-5 pb-5">
+    <app-event-table [hidden]="sharedService.current_info !== 'table'"  [events_data]="searchResult$ | async"  #eventTable></app-event-table>
+    <app-event-details [hidden]="sharedService.current_info !== 'event_details'"></app-event-details>
   </div>
 </div>
