@@ -15,6 +15,8 @@ export class EventDetailsComponent implements AfterViewInit, OnDestroy {
   @ViewChild("eventDetails") eventDetails!: ElementRef;
   event_detail_subs: Subscription = new Subscription();
 
+  event_title = ""
+
   ngAfterViewInit() {
     this.subs_event_details();
   }
@@ -51,12 +53,12 @@ export class EventDetailsComponent implements AfterViewInit, OnDestroy {
     this.sharedService.current_info = "table";
   }
   extract_event_details(resp: any) {
-    let event_title, local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
+    let local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
     let artist_or_team = [];
     let genres = Constants.EMPTY;
 
-    event_title = resp?.name?.trim();
-    if (event_title === undefined || event_title === Constants.UNDEFINED_CAP || event_title === Constants.UNDEFINED_LOW) event_title = Constants.EMPTY;
+    this.event_title = resp?.name?.trim();
+    if (this.event_title === undefined || this.event_title === Constants.UNDEFINED_CAP || this.event_title  === Constants.UNDEFINED_LOW) this.event_title = Constants.EMPTY;
 
     local_date = resp?.dates?.start?.localDate?.trim();
     if (local_date === undefined || local_date === Constants.UNDEFINED_CAP || local_date === Constants.UNDEFINED_LOW) local_date = Constants.EMPTY;
@@ -130,5 +132,6 @@ export class EventDetailsComponent implements AfterViewInit, OnDestroy {
 
     seatmap_url = resp?.seatmap?.staticUrl?.trim();
     if (seatmap_url === undefined || seatmap_url === Constants.UNDEFINED_CAP || seatmap_url === Constants.UNDEFINED_LOW) seatmap_url = Constants.EMPTY;
+    console.log(this.event_title)
   }
 }
