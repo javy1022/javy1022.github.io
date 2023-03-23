@@ -9,7 +9,7 @@ export class SharedService {
   constructor() {}
 
   //public keyword_input: string = Constants.EMPTY;
-  public keyword_input: string = "Taylor Swift";
+  public keyword_input: string = "Adele";
   public distance_input: number = 10;
   public category_input: string = "Default";
   //public location_input: string = Constants.EMPTY;

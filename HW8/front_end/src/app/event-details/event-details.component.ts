@@ -19,6 +19,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   event_title!: string;
   local_date!: string;
   artist_or_team: any[] = [];
+  venue!: string;
+  genre: string = Constants.EMPTY;
+  price_range!: any;
+  status!: string;
 
   ngOnInit() {
     this.subs_event_details();
@@ -54,11 +58,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   back_to_table() {
     this.sharedService.current_info = "table";   
+    this.artist_or_team = []
+    this.genre = Constants.EMPTY;
   }
   extract_event_details(resp: any) {
-    let venue, price_range, status, ticket_url, seatmap_url;
-
-    let genres = Constants.EMPTY;
+    let    ticket_url, seatmap_url;  
 
     this.event_title = resp?.name?.trim();
     if (this.event_title === undefined || this.event_title === Constants.UNDEFINED_CAP || this.event_title === Constants.UNDEFINED_LOW) this.event_title = Constants.EMPTY;
@@ -66,8 +70,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.local_date = resp?.dates?.start?.localDate?.trim();
     if (this.local_date === undefined || this.local_date === Constants.UNDEFINED_CAP || this.local_date === Constants.UNDEFINED_LOW) this.local_date = Constants.EMPTY;
 
-    let artists = resp?._embedded?.attractions;
-    this.artist_or_team = []
+    let artists = resp?._embedded?.attractions;    
     if (artists !== undefined && artists.length !== 0) {
       for (let i = 0; i < artists.length; i++) {
         let artist_name = artists[i]?.name?.trim();
@@ -76,32 +79,32 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       }
     }
 
-    venue = resp?._embedded?.venues?.[0]?.name?.trim();
-    if (venue === undefined || venue === Constants.UNDEFINED_CAP || venue === Constants.UNDEFINED_LOW) venue = Constants.EMPTY;
+    this.venue = resp?._embedded?.venues?.[0]?.name?.trim();
+    if (this.venue === undefined || this.venue === Constants.UNDEFINED_CAP || this.venue === Constants.UNDEFINED_LOW) this.venue = Constants.EMPTY;
 
     if (resp?.classifications !== undefined) {
       let class_obj = resp.classifications?.[0];
 
       let segment = class_obj?.segment?.name?.trim();
-      if (segment !== undefined && segment !== Constants.UNDEFINED_CAP && segment !== Constants.UNDEFINED_LOW) genres += segment + Constants.GENRE_SEPARATOR;
-
+      if (segment !== undefined && segment !== Constants.UNDEFINED_CAP && segment !== Constants.UNDEFINED_LOW) this.genre += segment + Constants.GENRE_SEPARATOR;
+      
       let genre_name = class_obj?.genre?.name?.trim();
-      if (genre_name !== undefined && genre_name !== Constants.UNDEFINED_CAP && genre_name !== Constants.UNDEFINED_LOW) genres += genre_name + Constants.GENRE_SEPARATOR;
+      if (genre_name !== undefined && genre_name !== Constants.UNDEFINED_CAP && genre_name !== Constants.UNDEFINED_LOW) this.genre += genre_name + Constants.GENRE_SEPARATOR;
 
       let sub_genre = class_obj?.subGenre?.name?.trim();
-      if (sub_genre !== undefined && sub_genre !== Constants.UNDEFINED_CAP && sub_genre !== Constants.UNDEFINED_LOW) genres += sub_genre + Constants.GENRE_SEPARATOR;
+      if (sub_genre !== undefined && sub_genre !== Constants.UNDEFINED_CAP && sub_genre !== Constants.UNDEFINED_LOW) this.genre += sub_genre + Constants.GENRE_SEPARATOR;
 
       let type = class_obj?.name?.trim();
-      if (type !== undefined && type !== Constants.UNDEFINED_CAP && type !== Constants.UNDEFINED_LOW) genres += type + Constants.GENRE_SEPARATOR;
+      if (type !== undefined && type !== Constants.UNDEFINED_CAP && type !== Constants.UNDEFINED_LOW) this.genre += type + Constants.GENRE_SEPARATOR;
 
       let subtype = class_obj?.subType?.name?.trim();
-      if (subtype !== undefined && subtype !== Constants.UNDEFINED_CAP && subtype !== Constants.UNDEFINED_LOW) genres += subtype + Constants.GENRE_SEPARATOR;
-      if (genres.length !== 0) genres = genres.slice(0, -2).trim();
+      if (subtype !== undefined && subtype !== Constants.UNDEFINED_CAP && subtype !== Constants.UNDEFINED_LOW) this.genre += subtype + Constants.GENRE_SEPARATOR;
+      if (this.genre.length !== 0) this.genre = this.genre.slice(0, -2).trim();
     }
 
-    price_range = resp?.priceRanges;
-    if (price_range !== undefined && (price_range[0]?.max !== undefined || price_range[0]?.min !== undefined)) {
-      let price_range_obj = price_range[0];
+    this.price_range= resp?.priceRanges;
+    if (this.price_range !== undefined && (this.price_range[0]?.max !== undefined || this.price_range[0]?.min !== undefined)) {
+      let price_range_obj = this.price_range[0];
       let min = -1,
         max = -1;
       let currency = Constants.EMPTY;
@@ -112,13 +115,19 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       let currency_type = price_range_obj?.currency?.trim();
       if (currency_type !== undefined && currency_type !== Constants.UNDEFINED_CAP && currency_type !== Constants.UNDEFINED_LOW) currency = currency_type;
 
-      if (min === -1) price_range = max + Constants.PRICE_RANGES_OPERATOR + max + " " + currency;
-      else if (max === -1) price_range = min + Constants.PRICE_RANGES_OPERATOR + min + " " + currency;
-      else price_range = min + Constants.PRICE_RANGES_OPERATOR + max + " " + currency;
-    } else price_range = Constants.EMPTY;
+      if (min === -1) this.price_range = max + Constants.PRICE_RANGES_OPERATOR + max + " " + currency;
+      else if (max === -1) this.price_range = min + Constants.PRICE_RANGES_OPERATOR + min + " " + currency;
+      else this.price_range= min + Constants.PRICE_RANGES_OPERATOR + max + " " + currency;
+    } else this.price_range = Constants.EMPTY;
 
-    status = resp?.dates?.status?.code?.trim();
-    if (status === undefined || status === Constants.UNDEFINED_CAP || status === Constants.UNDEFINED_LOW) status = Constants.EMPTY;
+    this.status = resp?.dates?.status?.code?.trim();
+    if (this.status === undefined || this.status === Constants.UNDEFINED_CAP || this.status === Constants.UNDEFINED_LOW) this.status = Constants.EMPTY;
+
+    if(this.status === "onsale") this.status = "On Sale"
+    else if (this.status === "offsale") this.status = "Off Sale"
+    else if (this.status === "cancelled" || this.status === "canceled") this.status = "Canceled"
+    else if (this.status === "rescheduled") this.status = "Rescheduled"
+    else if(this.status === "postponed") this.status = "Postponed"
 
     ticket_url = resp?.url?.trim();
     if (ticket_url === undefined || ticket_url === Constants.UNDEFINED_CAP || ticket_url === Constants.UNDEFINED_LOW) ticket_url = Constants.EMPTY;

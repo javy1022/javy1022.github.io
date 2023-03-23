@@ -6,7 +6,7 @@
   
   @media (max-width: 575px) {
     .ch {
-      height: 80vh;    
+      height: 150vh;    
     }
   }
 
@@ -26,7 +26,8 @@
   .subtitle_color{
     color: #80ECD8;
   }
-
+  
+ 
   
 
 
