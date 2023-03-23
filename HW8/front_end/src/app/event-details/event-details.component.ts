@@ -3,6 +3,9 @@ import { HttpRequestService } from "../http-request.service";
 import { SharedService } from "../shared.service";
 import { Subscription } from "rxjs";
 import * as Constants from "../constants";
+import { faSquareFacebook , faTwitter} from '@fortawesome/free-brands-svg-icons';
+
+
 
 @Component({
   selector: "app-event-details",
@@ -25,6 +28,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   status!: string;
   ticket_url!: string;
   seatmap_url!: string;
+
+  fb_icon = faSquareFacebook;
+  twitter_icon = faTwitter;
+
 
   ngOnInit() {
     this.subs_event_details();

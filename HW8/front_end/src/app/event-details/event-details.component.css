@@ -1,14 +1,6 @@
-@media (min-width: 576px) {
-    .ch {
-      height: 10vh;
-    }
-  }
-  
-  @media (max-width: 575px) {
-    .ch {
-      height: 150vh;    
-    }
-  }
+.ch{
+  height: auto;
+}
 
   .bg-blur {
     backdrop-filter: blur(10px);
@@ -26,8 +18,14 @@
   .subtitle_color{
     color: #80ECD8;
   }
-  
+
+  .fb-icon {
+    color: #043696;
+  }
  
+  .twitter-icon{
+    color: #02749C;
+  }
   
 
 

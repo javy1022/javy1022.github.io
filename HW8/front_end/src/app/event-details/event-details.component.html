@@ -69,13 +69,25 @@
             <a href="{{ ticket_url }}" class="text-primary fs-6" target="_blank">Ticketmaster</a>
           </p>
         </div>
-
-        <ng-container *ngIf="seatmap_url !== ''">
-          <div>
-            <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid" />
-          </div>
-        </ng-container>
       </ng-container>
+
+      <ng-container *ngIf="seatmap_url !== ''">
+        <div>
+          <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid" />
+        </div>
+      </ng-container>
+
+      
+      <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
+        <p class="text-white fs-3 mb-0 pe-2">Share on:</p>
+        <fa-icon [icon]="twitter_icon" class="twitter-icon twitter_icon fa-3x pe-2"></fa-icon>
+        <fa-icon [icon]="fb_icon" class="fb-icon fa-square fa-3x"></fa-icon>
+      </div>
+
+
+
+
+
     </mat-tab>
     <mat-tab label="Artist/Teams">
       Overview Content
