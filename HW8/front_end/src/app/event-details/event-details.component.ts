@@ -3,9 +3,7 @@ import { HttpRequestService } from "../http-request.service";
 import { SharedService } from "../shared.service";
 import { Subscription } from "rxjs";
 import * as Constants from "../constants";
-import { faSquareFacebook , faTwitter} from '@fortawesome/free-brands-svg-icons';
-
-
+import { faSquareFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 @Component({
   selector: "app-event-details",
@@ -21,6 +19,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   event_title!: string;
   local_date!: string;
+  local_time!: string;
   artist_or_team: any[] = [];
   venue!: string;
   genre: string = Constants.EMPTY;
@@ -31,7 +30,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   fb_icon = faSquareFacebook;
   twitter_icon = faTwitter;
-
 
   ngOnInit() {
     this.subs_event_details();
@@ -66,18 +64,21 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   back_to_table() {
-    this.sharedService.current_info = "table";   
-    this.artist_or_team = []
+    this.sharedService.current_info = "table";
+    this.artist_or_team = [];
     this.genre = Constants.EMPTY;
   }
-  extract_event_details(resp: any) {  
+  extract_event_details(resp: any) {
     this.event_title = resp?.name?.trim();
     if (this.event_title === undefined || this.event_title === Constants.UNDEFINED_CAP || this.event_title === Constants.UNDEFINED_LOW) this.event_title = Constants.EMPTY;
 
     this.local_date = resp?.dates?.start?.localDate?.trim();
     if (this.local_date === undefined || this.local_date === Constants.UNDEFINED_CAP || this.local_date === Constants.UNDEFINED_LOW) this.local_date = Constants.EMPTY;
 
-    let artists = resp?._embedded?.attractions;    
+    this.local_time = resp?.dates?.start?.localTime?.trim();
+    if (this.local_time === undefined || this.local_time === Constants.UNDEFINED_CAP || this.local_time === Constants.UNDEFINED_LOW) this.local_time = Constants.EMPTY;
+
+    let artists = resp?._embedded?.attractions;
     if (artists !== undefined && artists.length !== 0) {
       for (let i = 0; i < artists.length; i++) {
         let artist_name = artists[i]?.name?.trim();
@@ -94,7 +95,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
       let segment = class_obj?.segment?.name?.trim();
       if (segment !== undefined && segment !== Constants.UNDEFINED_CAP && segment !== Constants.UNDEFINED_LOW) this.genre += segment + Constants.GENRE_SEPARATOR;
-      
+
       let genre_name = class_obj?.genre?.name?.trim();
       if (genre_name !== undefined && genre_name !== Constants.UNDEFINED_CAP && genre_name !== Constants.UNDEFINED_LOW) this.genre += genre_name + Constants.GENRE_SEPARATOR;
 
@@ -109,7 +110,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       if (this.genre.length !== 0) this.genre = this.genre.slice(0, -2).trim();
     }
 
-    this.price_range= resp?.priceRanges;
+    this.price_range = resp?.priceRanges;
     if (this.price_range !== undefined && (this.price_range[0]?.max !== undefined || this.price_range[0]?.min !== undefined)) {
       let price_range_obj = this.price_range[0];
       let min = -1,
@@ -124,23 +125,22 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
       if (min === -1) this.price_range = max + Constants.PRICE_RANGES_OPERATOR + max + " " + currency;
       else if (max === -1) this.price_range = min + Constants.PRICE_RANGES_OPERATOR + min + " " + currency;
-      else this.price_range= min + Constants.PRICE_RANGES_OPERATOR + max + " " + currency;
+      else this.price_range = min + Constants.PRICE_RANGES_OPERATOR + max + " " + currency;
     } else this.price_range = Constants.EMPTY;
 
     this.status = resp?.dates?.status?.code?.trim();
     if (this.status === undefined || this.status === Constants.UNDEFINED_CAP || this.status === Constants.UNDEFINED_LOW) this.status = Constants.EMPTY;
 
-    if(this.status === "onsale") this.status = "On Sale"
-    else if (this.status === "offsale") this.status = "Off Sale"
-    else if (this.status === "cancelled" || this.status === "canceled") this.status = "Canceled"
-    else if (this.status === "rescheduled") this.status = "Rescheduled"
-    else if(this.status === "postponed") this.status = "Postponed"
+    if (this.status === "onsale") this.status = "On Sale";
+    else if (this.status === "offsale") this.status = "Off Sale";
+    else if (this.status === "cancelled" || this.status === "canceled") this.status = "Canceled";
+    else if (this.status === "rescheduled") this.status = "Rescheduled";
+    else if (this.status === "postponed") this.status = "Postponed";
 
     this.ticket_url = resp?.url?.trim();
     if (this.ticket_url === undefined || this.ticket_url === Constants.UNDEFINED_CAP || this.ticket_url === Constants.UNDEFINED_LOW) this.ticket_url = Constants.EMPTY;
 
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
-    if (this.seatmap_url=== undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url= Constants.EMPTY;
-  
+    if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;
   }
 }
