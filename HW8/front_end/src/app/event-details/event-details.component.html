@@ -17,14 +17,12 @@
 
       <div class="bg-primary" *ngIf="artist_or_team.length > 0">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Artist/Team</p>
-       
         <div class="d-flex flex-wrap justify-content-center">
-            <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
-              <p class="text-white fs-6 mb-0 me-2">{{ artist_name }}</p>
-              <p *ngIf="i != artist_or_team.length - 1" class="text-white fs-6 mb-0 pe-2">{{ ARTISTS_SEPARATOR }}</p>
-            </ng-container>
-          </div>
-       
+          <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
+            <p class="text-white fs-6 mb-0 me-2">{{ artist_name }}</p>
+            <p *ngIf="i != artist_or_team.length - 1" class="text-white fs-6 mb-0 pe-2">{{ ARTISTS_SEPARATOR }}</p>
+          </ng-container>
+        </div>
       </div>
     </mat-tab>
     <mat-tab label="Artist/Teams">

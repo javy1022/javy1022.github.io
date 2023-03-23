@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from "@angular/core";
 import { HttpRequestService } from "../http-request.service";
 import { SharedService } from "../shared.service";
 import { Subscription } from "rxjs";
@@ -9,7 +9,7 @@ import * as Constants from "../constants";
   templateUrl: "./event-details.component.html",
   styleUrls: ["./event-details.component.css"],
 })
-export class EventDetailsComponent implements AfterViewInit, OnDestroy {
+export class EventDetailsComponent implements OnInit, OnDestroy {
   constructor(public http_request: HttpRequestService, public sharedService: SharedService) {}
 
   @ViewChild("eventDetails") eventDetails!: ElementRef;
@@ -20,7 +20,7 @@ export class EventDetailsComponent implements AfterViewInit, OnDestroy {
   local_date!: string;
   artist_or_team: any[] = [];
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.subs_event_details();
   }
   ngOnDestroy() {
@@ -72,7 +72,7 @@ export class EventDetailsComponent implements AfterViewInit, OnDestroy {
       for (let i = 0; i < artists.length; i++) {
         let artist_name = artists[i]?.name?.trim();
         if (artist_name === undefined || artist_name === Constants.UNDEFINED_CAP || artist_name === Constants.UNDEFINED_LOW) this.artist_or_team.push(Constants.EMPTY);
-        else this.artist_or_team.push(artist_name.trim());
+        else this.artist_or_team.push(artist_name);
       }
     }
 
