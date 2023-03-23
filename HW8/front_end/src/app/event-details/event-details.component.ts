@@ -13,9 +13,12 @@ export class EventDetailsComponent implements AfterViewInit, OnDestroy {
   constructor(public http_request: HttpRequestService, public sharedService: SharedService) {}
 
   @ViewChild("eventDetails") eventDetails!: ElementRef;
+  ARTISTS_SEPARATOR = Constants.ARTISTS_SEPARATOR;
   event_detail_subs: Subscription = new Subscription();
 
-  event_title = ""
+  event_title!: string;
+  local_date!: string;
+  artist_or_team: any[] = [];
 
   ngAfterViewInit() {
     this.subs_event_details();
@@ -50,36 +53,26 @@ export class EventDetailsComponent implements AfterViewInit, OnDestroy {
   }
 
   back_to_table() {
-    this.sharedService.current_info = "table";
+    this.sharedService.current_info = "table";   
   }
   extract_event_details(resp: any) {
-    let local_date, local_time, venue, price_range, status, ticket_url, seatmap_url;
-    let artist_or_team = [];
+    let venue, price_range, status, ticket_url, seatmap_url;
+
     let genres = Constants.EMPTY;
 
     this.event_title = resp?.name?.trim();
-    if (this.event_title === undefined || this.event_title === Constants.UNDEFINED_CAP || this.event_title  === Constants.UNDEFINED_LOW) this.event_title = Constants.EMPTY;
+    if (this.event_title === undefined || this.event_title === Constants.UNDEFINED_CAP || this.event_title === Constants.UNDEFINED_LOW) this.event_title = Constants.EMPTY;
 
-    local_date = resp?.dates?.start?.localDate?.trim();
-    if (local_date === undefined || local_date === Constants.UNDEFINED_CAP || local_date === Constants.UNDEFINED_LOW) local_date = Constants.EMPTY;
-
-    local_time = resp?.dates?.start?.localTime?.trim();
-    if (local_time === undefined || local_time === Constants.UNDEFINED_CAP || local_time === Constants.UNDEFINED_LOW) local_time = Constants.EMPTY;
+    this.local_date = resp?.dates?.start?.localDate?.trim();
+    if (this.local_date === undefined || this.local_date === Constants.UNDEFINED_CAP || this.local_date === Constants.UNDEFINED_LOW) this.local_date = Constants.EMPTY;
 
     let artists = resp?._embedded?.attractions;
+    this.artist_or_team = []
     if (artists !== undefined && artists.length !== 0) {
       for (let i = 0; i < artists.length; i++) {
-        let buffer = [];
-
         let artist_name = artists[i]?.name?.trim();
-        if (artist_name === undefined || artist_name === Constants.UNDEFINED_CAP || artist_name === Constants.UNDEFINED_LOW) buffer.push(Constants.EMPTY);
-        else buffer.push(artist_name);
-
-        let colab_artists = artists[i]?.url?.trim();
-        if (colab_artists === undefined || colab_artists === Constants.UNDEFINED_CAP || colab_artists === Constants.UNDEFINED_LOW) buffer.push(Constants.EMPTY);
-        else buffer.push(colab_artists);
-
-        artist_or_team.push(buffer);
+        if (artist_name === undefined || artist_name === Constants.UNDEFINED_CAP || artist_name === Constants.UNDEFINED_LOW) this.artist_or_team.push(Constants.EMPTY);
+        else this.artist_or_team.push(artist_name.trim());
       }
     }
 
@@ -132,6 +125,6 @@ export class EventDetailsComponent implements AfterViewInit, OnDestroy {
 
     seatmap_url = resp?.seatmap?.staticUrl?.trim();
     if (seatmap_url === undefined || seatmap_url === Constants.UNDEFINED_CAP || seatmap_url === Constants.UNDEFINED_LOW) seatmap_url = Constants.EMPTY;
-    console.log(this.event_title)
+    console.log(this.artist_or_team);
   }
 }

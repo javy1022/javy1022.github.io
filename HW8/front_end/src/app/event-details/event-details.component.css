@@ -17,3 +17,19 @@
   .title-width {
     width: 85%;
   }
+
+  .mat-mdc-tab-group.mat-background-primary, .mat-mdc-tab-nav-bar.mat-background-primary {
+    --mat-mdc-tab-header-with-background-background-color: #3E8E7B !important;
+       
+  }
+
+  .subtitle_color{
+    color: #80ECD8;
+  }
+
+  
+
+
+ 
+
+  

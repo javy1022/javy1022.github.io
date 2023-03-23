@@ -17,6 +17,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs'
+
 import { EventDetailsComponent } from './event-details/event-details.component';
 
 @NgModule({
@@ -24,7 +26,7 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     EventTableComponent,
     EventDetailsComponent],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule, ReactiveFormsModule, MatInputModule, MatIconModule, 
-    MatButtonModule, MatAutocompleteModule, MatProgressSpinnerModule],
+    MatButtonModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTabsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

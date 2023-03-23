@@ -1,8 +1,39 @@
 <div class="bg-dark bg-opacity-50 bg-blur ch" #eventDetails>
-    <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-4 pt-4" (click)="this.back_to_table()">Back</button>
-    <div class="container d-flex align-items-center justify-content-start ps-4 pt-3">
-        <div class="title-width text-start">
-            <h5 class="text-white">{{ event_title }}</h5>
-        </div>
+  <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-4 pt-4" (click)="this.back_to_table()">Back</button>
+  <div class="container d-flex align-items-center justify-content-start ps-4 pt-3">
+    <div class="title-width text-start">
+      <h5 class="text-white">{{ event_title }}</h5>
     </div>
+  </div>
+
+  <mat-tab-group mat-align-tabs="center" backgroundColor="primary" class="pt-4">
+    <mat-tab label="Events">
+      <ng-container *ngIf="local_date !== ''">
+        <div class="bg-primary">
+          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Date</p>
+          <p class="text-center text-white fs-6 mb-0">{{ local_date }}</p>
+        </div>
+      </ng-container>
+
+      <div class="bg-primary" *ngIf="artist_or_team.length > 0">
+        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Artist/Team</p>
+       
+        <div class="d-flex flex-wrap justify-content-center">
+            <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
+              <p class="text-white fs-6 mb-0 me-2">{{ artist_name }}</p>
+              <p *ngIf="i != artist_or_team.length - 1" class="text-white fs-6 mb-0 pe-2">{{ ARTISTS_SEPARATOR }}</p>
+            </ng-container>
+          </div>
+       
+      </div>
+    </mat-tab>
+    <mat-tab label="Artist/Teams">
+      Overview Content
+      <div class="bg-danger">Additional content for Overview tab</div>
+    </mat-tab>
+
+    <mat-tab label="Venue">
+      <div class="bg-danger">Additional content for Overview tab</div>
+    </mat-tab>
+  </mat-tab-group>
 </div>
