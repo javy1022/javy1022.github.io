@@ -23,6 +23,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   genre: string = Constants.EMPTY;
   price_range!: any;
   status!: string;
+  ticket_url!: string;
+  seatmap_url!: string;
 
   ngOnInit() {
     this.subs_event_details();
@@ -61,9 +63,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.artist_or_team = []
     this.genre = Constants.EMPTY;
   }
-  extract_event_details(resp: any) {
-    let    ticket_url, seatmap_url;  
-
+  extract_event_details(resp: any) {  
     this.event_title = resp?.name?.trim();
     if (this.event_title === undefined || this.event_title === Constants.UNDEFINED_CAP || this.event_title === Constants.UNDEFINED_LOW) this.event_title = Constants.EMPTY;
 
@@ -129,11 +129,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     else if (this.status === "rescheduled") this.status = "Rescheduled"
     else if(this.status === "postponed") this.status = "Postponed"
 
-    ticket_url = resp?.url?.trim();
-    if (ticket_url === undefined || ticket_url === Constants.UNDEFINED_CAP || ticket_url === Constants.UNDEFINED_LOW) ticket_url = Constants.EMPTY;
+    this.ticket_url = resp?.url?.trim();
+    if (this.ticket_url === undefined || this.ticket_url === Constants.UNDEFINED_CAP || this.ticket_url === Constants.UNDEFINED_LOW) this.ticket_url = Constants.EMPTY;
 
-    seatmap_url = resp?.seatmap?.staticUrl?.trim();
-    if (seatmap_url === undefined || seatmap_url === Constants.UNDEFINED_CAP || seatmap_url === Constants.UNDEFINED_LOW) seatmap_url = Constants.EMPTY;
-    console.log(this.artist_or_team);
+    this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
+    if (this.seatmap_url=== undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url= Constants.EMPTY;
+  
   }
 }

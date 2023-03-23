@@ -9,13 +9,13 @@
   <mat-tab-group mat-align-tabs="center" backgroundColor="primary" class="pt-4">
     <mat-tab label="Events">
       <ng-container *ngIf="local_date !== ''">
-        <div class="bg-primary">
+        <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Date</p>
           <p class="text-center text-white fs-6 mb-0">{{ local_date }}</p>
         </div>
       </ng-container>
 
-      <div class="bg-primary" *ngIf="artist_or_team.length > 0">
+      <div *ngIf="artist_or_team.length > 0">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Artist/Team</p>
         <div class="d-flex flex-wrap justify-content-center">
           <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
@@ -26,28 +26,28 @@
       </div>
 
       <ng-container *ngIf="venue !== ''">
-        <div class="bg-primary">
+        <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Venue</p>
           <p class="text-center text-white fs-6 mb-0">{{ venue }}</p>
         </div>
       </ng-container>
 
       <ng-container *ngIf="genre !== ''">
-        <div class="bg-primary">
+        <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Genres</p>
           <p class="text-center text-white fs-6 mb-0">{{ genre }}</p>
         </div>
       </ng-container>
 
       <ng-container *ngIf="price_range !== ''">
-        <div class="bg-primary">
+        <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Price Ranges</p>
           <p class="text-center text-white fs-6 mb-0">{{ price_range }}</p>
         </div>
       </ng-container>
 
       <ng-container *ngIf="status !== ''">
-        <div class="">
+        <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Ticket Status</p>
           <div class="d-flex justify-content-center">
             <span
@@ -56,11 +56,25 @@
               [class.bg-danger]="status === 'Off Sale'"
               [class.bg-black]="status === 'Canceled'"
               [class.bg-warning]="status === 'Rescheduled' || status === 'Postponed'"
-              
-              >{{ status }}</span   
+              >{{ status }}</span
             >
           </div>
         </div>
+      </ng-container>
+
+      <ng-container *ngIf="ticket_url !== ''">
+        <div>
+          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Buy Ticket At:</p>
+          <p class="text-center">
+            <a href="{{ ticket_url }}" class="text-primary fs-6" target="_blank">Ticketmaster</a>
+          </p>
+        </div>
+
+        <ng-container *ngIf="seatmap_url !== ''">
+          <div>
+            <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid" />
+          </div>
+        </ng-container>
       </ng-container>
     </mat-tab>
     <mat-tab label="Artist/Teams">
