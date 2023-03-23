@@ -11,9 +11,9 @@
       <ng-container *ngIf="local_date !== ''">
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Date</p>
-          <p class="text-center text-white fs-6 mb-0 mt-1">{{ local_date }} {{local_time}}</p>
+          <p class="text-center text-white fs-6 mb-0 mt-1">{{ local_date }} {{ local_time }}</p>
         </div>
-      </ng-container>    
+      </ng-container>
 
       <div *ngIf="artist_or_team.length > 0">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Artist/Team</p>
@@ -66,7 +66,7 @@
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Buy Ticket At:</p>
           <p class="text-center mt-1">
-            <a href="{{ ticket_url }}" class="text-primary fs-6" target="_blank">Ticketmaster</a>
+            <a href="{{ ticket_url }}" class="text-primary fs-6" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
           </p>
         </div>
       </ng-container>
@@ -77,17 +77,15 @@
         </div>
       </ng-container>
 
-      
       <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
         <p class="text-white fs-3 mb-0 pe-2">Share on:</p>
-        <fa-icon [icon]="twitter_icon" class="twitter-icon twitter_icon fa-3x pe-2"></fa-icon>
-        <fa-icon [icon]="fb_icon" class="fb-icon fa-square fa-3x"></fa-icon>
+        <a href="https://twitter.com/intent/tweet?text=Check {{ event_title }} on Ticketmaster. {{ ticket_url }}" target="_blank" rel="noopener noreferrer">
+          <fa-icon [icon]="twitter_icon" class="twitter-icon twitter_icon fa-3x pe-2"></fa-icon>
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ ticket_url }}&amp;src=sdkpreparse" target="_blank" rel="noopener noreferrer">
+          <fa-icon [icon]="fb_icon" class="fb-icon fa-square fa-3x"></fa-icon>
+        </a>
       </div>
-
-
-
-
-
     </mat-tab>
     <mat-tab label="Artist/Teams">
       Overview Content
