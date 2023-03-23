@@ -13,3 +13,7 @@
   .bg-blur {
     backdrop-filter: blur(10px);
   }
+
+  .title-width {
+    width: 85%;
+  }
