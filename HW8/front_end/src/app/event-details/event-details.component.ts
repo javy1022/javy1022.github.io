@@ -16,11 +16,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   @ViewChild("eventDetails") eventDetails!: ElementRef;
   ARTISTS_SEPARATOR = Constants.ARTISTS_SEPARATOR;
   event_detail_subs: Subscription = new Subscription();
+  clearEventDetailsSubscription: Subscription = new Subscription();
 
   event_title!: string;
   local_date!: string;
   local_time!: string;
   artist_or_team: any[] = [];
+  spotify_search: any[] = [];
   venue!: string;
   genre: string = Constants.EMPTY;
   price_range!: any;
@@ -33,25 +35,37 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subs_event_details();
+    this.subscribeToClearEventDetails();
   }
   ngOnDestroy() {
     this.event_detail_subs.unsubscribe();
+    this.clearEventDetailsSubscription?.unsubscribe();
+  }
+
+  subscribeToClearEventDetails(): void {
+    this.clearEventDetailsSubscription = this.sharedService.clearEventDetails$.subscribe(() => {
+      this.clear_btn();
+    });
   }
 
   subs_event_details() {
-    this.event_detail_subs = this.sharedService.eventDetail$.subscribe({
+    this.event_detail_subs = this.sharedService.event_detail$.subscribe({
       next: (resp) => {
         if (resp) {
           console.log(resp);
           this.extract_event_details(resp);
-          this.scroll_to_eventDetails();
-          // Process the result here
+          //this.scroll_to_eventDetails();
         }
       },
       error: (error) => {
         console.error("Error occurred:", error);
       },
     });
+  }
+
+  clear_btn(): void{
+    this.artist_or_team = [];
+    this.spotify_search = [];
   }
 
   scroll_to_eventDetails() {
@@ -66,6 +80,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   back_to_table() {
     this.sharedService.current_info = "table";
     this.artist_or_team = [];
+    this.spotify_search = [];
     this.genre = Constants.EMPTY;
   }
   extract_event_details(resp: any) {
@@ -83,7 +98,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       for (let i = 0; i < artists.length; i++) {
         let artist_name = artists[i]?.name?.trim();
         if (artist_name === undefined || artist_name === Constants.UNDEFINED_CAP || artist_name === Constants.UNDEFINED_LOW) this.artist_or_team.push(Constants.EMPTY);
-        else this.artist_or_team.push(artist_name);
+        else {
+          this.artist_or_team.push(artist_name);
+          const artist_category = artists?.[0]?.classifications?.[0]?.segment?.name?.trim();
+          //alert(artist_category)
+          if(artist_category === 'Music') this.spotify_search.push(artist_name);
+        }
       }
     }
 
@@ -142,5 +162,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
     if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;
+
+    console.log(this.spotify_search)
   }
 }

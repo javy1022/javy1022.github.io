@@ -1,8 +1,9 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild} from "@angular/core";
 import { HttpRequestService } from "../http-request.service";
 import * as Constants from "../constants";
 import * as Config from "../config";
 import { SharedService } from "../shared.service";
+
 
 @Component({
   selector: "app-search-form",
@@ -27,6 +28,9 @@ export class SearchFormComponent {
     this.sharedService.search_result_source.next(null);
     this.sharedService.list_for_table = [];
     this.sharedService.current_info = "";
+
+    this.sharedService.clearEventDetails$.next();
+ 
   }
 
   searchResult$ = this.sharedService.search_result_source.asObservable();
