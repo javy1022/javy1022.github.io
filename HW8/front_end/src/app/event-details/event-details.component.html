@@ -88,11 +88,21 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Artist/Teams">     
+    <mat-tab label="Artist/Teams">
       <div id="carouselExampleControls" class="carousel slide">
         <div class="carousel-inner">
-          <div *ngFor="let item of artist_name_spotify; let i = index" class="carousel-item" [ngClass]="{'active': i === 0}">
-            <img src="{{artist_img_spotify[i]}}" class="img-fluid mx-auto d-block rounded-circle mt-3" alt="Artist's Spotify Image">
+          <div *ngFor="let item of artist_name_spotify; let i = index" class="carousel-item" [ngClass]="{ active: i === 0 }">
+            <img src="{{ artist_img_spotify[i] }}" class="img-fluid mx-auto d-block rounded-circle mt-3" alt="Artist's Spotify Image" />
+            <p class="subtitle_color text-center fs-1 mt-0 mb-1">{{ artist_name_spotify[i] }}</p>
+            <p class="subtitle_color text-center fs-2 mt-0 mb-3">Popularity</p>
+            <div>
+              <div class="d-flex justify-content-center">
+                <div class="position-relative">
+                  <mat-progress-spinner class="text-white" color="warn" [value]="artist_popularity_spotify[i]" [diameter]="40"></mat-progress-spinner>
+                  <span class="spinner-value position-absolute top-50 start-50 translate-middle text-white fs-6">{{ artist_popularity_spotify[i] }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
