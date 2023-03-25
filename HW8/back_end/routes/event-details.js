@@ -28,7 +28,7 @@ router.get("/search/event-details/:id", function (req, res, next) {
       })
       .catch(function (error) {
         console.error('Error:', error);
-        return res.status(429).json({ error: "Too Many Requests" });
+        return res.status(error.statusCode).json({ error: error.message });
       });
   
   });

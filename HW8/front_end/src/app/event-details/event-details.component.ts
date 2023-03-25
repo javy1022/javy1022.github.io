@@ -35,6 +35,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   /* Artist tab */
   artist_name_spotify: any[] = [];
+  artist_img_spotify: any[] = [];
 
   ngOnInit() {
     this.subs_event_details();
@@ -57,14 +58,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     console.log(resp);
     if (resp?.artists?.items?.length !== 0) {
       let artist_obj = resp.artists.items[0];
-      if (artist_obj?.name) {
-        this.artist_name_spotify.push(artist_obj.name);
-      }
+      if (artist_obj?.name) this.artist_name_spotify.push(artist_obj.name.trim());
+      if (artist_obj?.images?.[2]?.url) this.artist_img_spotify.push(artist_obj.images[2].url.trim());
 
       const artist_id = artist_obj?.id?.trim();
       this.get_artist_albumn(artist_id);
-    }
-   // console.log(this.artist_name_spotify);
+    }   
+    console.log(this.artist_img_spotify)
   }
 
   get_artist_albumn(artist_id: string) {
@@ -123,6 +123,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.sharedService.current_info = "table";
     this.artist_or_team = [];  
     this.genre = Constants.EMPTY;
+    this.artist_name_spotify = []
   }
   extract_event_details(resp: any) {
     this.event_title = resp?.name?.trim();

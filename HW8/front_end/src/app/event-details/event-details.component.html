@@ -91,30 +91,8 @@
     <mat-tab label="Artist/Teams">     
       <div id="carouselExampleControls" class="carousel slide">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <p class="bg-danger">1</p>
-            <p class="bg-danger">1</p>
-            <p class="bg-danger">1</p>
-            <p class="bg-danger">1</p>
-            <p class="bg-danger">1</p>
-            <p class="bg-danger">1</p>
-          </div>
-          <div class="carousel-item">
-            <p class="bg-info">2</p>
-            <p class="bg-info">2</p>
-            <p class="bg-info">2</p>
-            <p class="bg-info">2</p>
-            <p class="bg-info">2</p>
-            <p class="bg-info">2</p>
-            <p class="bg-info">2</p>
-          </div>
-          <div class="carousel-item">
-            <p class="bg-danger">3</p>
-            <p class="bg-danger">3</p>
-            <p class="bg-danger">3</p>
-            <p class="bg-danger">3</p>
-            <p class="bg-danger">3</p>
-            <p class="bg-danger">3</p>
+          <div *ngFor="let item of artist_name_spotify; let i = index" class="carousel-item" [ngClass]="{'active': i === 0}">
+            <img src="{{artist_img_spotify[i]}}" class="img-fluid mx-auto d-block rounded-circle mt-3" alt="Artist's Spotify Image">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
