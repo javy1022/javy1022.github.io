@@ -5,6 +5,8 @@ import { Subscription } from "rxjs";
 import * as Constants from "../constants";
 import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { filter } from "rxjs/operators";
+import { MatTabGroup } from '@angular/material/tabs';
+
 
 @Component({
   selector: "app-event-details",
@@ -13,7 +15,7 @@ import { filter } from "rxjs/operators";
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
   constructor(public http_request: HttpRequestService, public sharedService: SharedService) {}
-
+  @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
   @ViewChild("eventDetails") eventDetails!: ElementRef;
   ARTISTS_SEPARATOR = Constants.ARTISTS_SEPARATOR;
   event_detail_subs: Subscription = new Subscription();
@@ -57,6 +59,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         console.error(error);
       },
     });
+    this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());
+  }
+
+  setActiveTab() {
+    this.tabGroup.selectedIndex = 0;
   }
 
   extract_artists_spotify(resp: any) {

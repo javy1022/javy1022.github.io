@@ -42,6 +42,7 @@ export class SearchFormComponent {
     // this.sharedService.searchResultSource.next(null);  maybe? idk
     this.sharedService.list_for_table = [];
     this.sharedService.current_info = "table";
+    this.sharedService.resetTabs();
 
     if (!this.sharedService.checkbox_input) {
       let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
