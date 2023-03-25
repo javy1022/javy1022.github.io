@@ -36,7 +36,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   /* Artist tab */
   artist_name_spotify: string[] = [];
   artist_img_spotify: string[] = [];
-  artist_popularity_spotify: any[] = [];
+  artist_popularity_spotify: number[] = [];
+  artist_followersNum_spotify: number[] = [];
+  
 
   ngOnInit() {
     this.subs_event_details();
@@ -62,6 +64,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       if (artist_obj?.name) this.artist_name_spotify.push(artist_obj.name.trim());
       if (artist_obj?.images?.[2]?.url) this.artist_img_spotify.push(artist_obj.images[2].url.trim());
       if (artist_obj?.popularity) this.artist_popularity_spotify.push(artist_obj.popularity);
+      if (artist_obj?.followers?.total) this.artist_followersNum_spotify.push(artist_obj.followers.total.toLocaleString());
 
       const artist_id = artist_obj?.id?.trim();
       this.get_artist_albumn(artist_id);

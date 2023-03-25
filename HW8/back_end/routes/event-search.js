@@ -58,9 +58,12 @@ router.get('/search/event-search', function(req, res, next) {
 		return res.send(response.data);
 	})
 	.catch(function (error) {
-		//console.log("Error");
-	    //console.log(error.response.data);
-		return res.send(error.response.data);
+		if (error.response && error.response.data) {
+			return res.send(error.response.data);
+		  } else {
+			console.error(error);
+			return res.status(500).send('Unknown error occurred');
+		  }
 	});
 });
 
