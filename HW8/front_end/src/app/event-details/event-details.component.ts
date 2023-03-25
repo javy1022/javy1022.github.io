@@ -3,7 +3,7 @@ import { HttpRequestService } from "../http-request.service";
 import { SharedService } from "../shared.service";
 import { Subscription } from "rxjs";
 import * as Constants from "../constants";
-import { faSquareFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { filter } from "rxjs/operators";
 
 @Component({
@@ -38,6 +38,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   artist_img_spotify: string[] = [];
   artist_popularity_spotify: number[] = [];
   artist_followersNum_spotify: number[] = [];
+  artist_spotify_link: string[] = [];
+  spotify_icon = faSpotify;
   
 
   ngOnInit() {
@@ -65,11 +67,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       if (artist_obj?.images?.[2]?.url) this.artist_img_spotify.push(artist_obj.images[2].url.trim());
       if (artist_obj?.popularity) this.artist_popularity_spotify.push(artist_obj.popularity);
       if (artist_obj?.followers?.total) this.artist_followersNum_spotify.push(artist_obj.followers.total.toLocaleString());
+      if (artist_obj?.external_urls?.spotify) this.artist_spotify_link.push(artist_obj.external_urls.spotify.trim());
 
       const artist_id = artist_obj?.id?.trim();
       this.get_artist_albumn(artist_id);
     }   
-    console.log(this.artist_popularity_spotify)
+    console.log(this.artist_spotify_link)
   }
 
   get_artist_albumn(artist_id: string) {

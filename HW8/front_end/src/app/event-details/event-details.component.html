@@ -80,7 +80,7 @@
       <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
         <p class="text-white fs-3 mb-0 pe-2">Share on:</p>
         <a href="https://twitter.com/intent/tweet?text=Check {{ event_title }} on Ticketmaster. {{ ticket_url }}" target="_blank" rel="noopener noreferrer">
-          <fa-icon [icon]="twitter_icon" class="twitter-icon twitter_icon fa-3x pe-2"></fa-icon>
+          <fa-icon [icon]="twitter_icon" class="twitter_icon fa-3x pe-2"></fa-icon>
         </a>
         <a href="https://www.facebook.com/sharer/sharer.php?u={{ ticket_url }}&amp;src=sdkpreparse" target="_blank" rel="noopener noreferrer">
           <fa-icon [icon]="fb_icon" class="fb-icon fa-square fa-3x"></fa-icon>
@@ -89,7 +89,7 @@
     </mat-tab>
 
     <mat-tab label="Artist/Teams">
-      <div id="carouselExampleControls" class="carousel slide">
+      <div id="carouselExampleControls" class="carousel slide carousel-dark">
         <div class="carousel-inner">
           <div *ngFor="let item of artist_name_spotify; let i = index" class="carousel-item" [ngClass]="{ active: i === 0 }">
             <img src="{{ artist_img_spotify[i] }}" class="img-fluid mx-auto d-block rounded-circle mt-3" alt="Artist's Spotify Image" />
@@ -106,6 +106,13 @@
 
             <p class="subtitle_color text-center fs-2 mt-0 mb-2">Followers</p>
             <p class="subtitle_color text-center fs-2 mt-0 mb-3">{{ artist_followersNum_spotify[i] }}</p>
+
+            <p class="subtitle_color text-center fs-2 mt-0 mb-2">Spotify Link</p>
+            <div class="d-flex justify-content-center">
+              <a href="{{ artist_spotify_link[i] }}" target="_blank" rel="noopener noreferrer">
+              <fa-icon [icon]="spotify_icon" class="spotify-icon fa-3x mx-auto"></fa-icon>
+            </a>
+            </div>
 
           </div>
         </div>
