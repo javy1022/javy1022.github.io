@@ -2,11 +2,9 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { SharedService } from "./shared.service";
 import { Observable } from "rxjs";
-import { filter, map, concatMap } from "rxjs/operators";
-import { BehaviorSubject } from "rxjs";
-import { tap, catchError } from "rxjs/operators";
-import { throwError } from "rxjs";
+import { filter, map, concatMap, tap } from "rxjs/operators";
 import * as Constants from "./constants";
+import { forkJoin } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -44,11 +42,18 @@ export class HttpRequestService {
               let artist_name = artists[i]?.name?.trim();
               if (artist_name !== undefined && artist_name !== Constants.UNDEFINED_CAP && artist_name !== Constants.UNDEFINED_LOW) {
                 const artist_category = artists?.[0]?.classifications?.[0]?.segment?.name?.trim();
-                if (artist_category === "Music") spotify_search.push(artist_name);
+                if (artist_category === "Music" && spotify_search.length < 3) spotify_search.push(artist_name);
               }
             }
           }
-          for (let i = 0; i < spotify_search.length; i++) this.spotify_searchArtists(spotify_search[i]);
+
+          // Use forkJoin to make parallel requests and maintain the order of responses
+          const observables = spotify_search.map((artist_name) => this.spotify_searchArtists(artist_name));
+          forkJoin([...observables]).subscribe((results) => {
+            results.forEach((result) => {
+              this.sharedService.spotifyArtistsResultSource.next(result);
+            });
+          });
         })
       )
       .subscribe((result) => {
@@ -57,12 +62,10 @@ export class HttpRequestService {
   }
 
   // Get artist from Spotify using artist's name
-  spotify_searchArtists(q: string): void {
+  spotify_searchArtists(q: string): Observable<any> {
     const url = "http://localhost:3000/search/artists";
     const params = new HttpParams().set("q", q);
-    this.http.get(url, { params: params, responseType: "json" }).subscribe((result) => {
-      this.sharedService.spotifyArtistsResultSource.next(result);
-    });
+    return this.http.get(url, { params: params, responseType: "json" });
   }
 
   //

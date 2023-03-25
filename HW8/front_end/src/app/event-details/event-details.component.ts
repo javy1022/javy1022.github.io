@@ -23,8 +23,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   event_title!: string;
   local_date!: string;
   local_time!: string;
-  artist_or_team: any[] = [];
-  spotify_search: any[] = [];
+  artist_or_team: any[] = []; 
   venue!: string;
   genre: string = Constants.EMPTY;
   price_range!: any;
@@ -46,39 +45,39 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         if (resp) {
           this.extract_artists_spotify(resp);
           // You can now use the result in your component to render the view
-        }   
+        }
       },
       error: (error) => {
-        console.error("Error occurred:", error);
+        console.error(error);
       },
     });
-    
-    
-    
-    
   }
 
   extract_artists_spotify(resp: any) {
     console.log(resp);
     if (resp?.artists?.items?.length !== 0) {
       let artist_obj = resp.artists.items[0];
+      if (artist_obj?.name) {
+        this.artist_name_spotify.push(artist_obj.name);
+      }
+
       const artist_id = artist_obj?.id?.trim();
-      this.get_artist_albumn(artist_id) 
-      
+      this.get_artist_albumn(artist_id);
     }
+   // console.log(this.artist_name_spotify);
   }
 
-get_artist_albumn(artist_id :string){
-  this.http_request.get_artist_with_id(artist_id).subscribe({
-    next: (resp) => {
-      // Handle the API response data here
-      console.log(resp);
-    },
-    error: (error) => {
-      console.error("Error occurred:", error);
-    },
-  });
-}
+  get_artist_albumn(artist_id: string) {
+    this.http_request.get_artist_with_id(artist_id).subscribe({
+      next: (resp) => {
+        // Handle the API response data here
+        console.log(resp);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
 
   ngOnDestroy() {
     this.event_detail_subs.unsubscribe();
@@ -108,8 +107,7 @@ get_artist_albumn(artist_id :string){
   }
 
   clear_btn(): void {
-    this.artist_or_team = [];
-    this.spotify_search = [];
+    this.artist_or_team = [];   
   }
 
   scroll_to_eventDetails() {
@@ -123,8 +121,7 @@ get_artist_albumn(artist_id :string){
 
   back_to_table() {
     this.sharedService.current_info = "table";
-    this.artist_or_team = [];
-    this.spotify_search = [];
+    this.artist_or_team = [];  
     this.genre = Constants.EMPTY;
   }
   extract_event_details(resp: any) {
@@ -143,10 +140,7 @@ get_artist_albumn(artist_id :string){
         let artist_name = artists[i]?.name?.trim();
         if (artist_name === undefined || artist_name === Constants.UNDEFINED_CAP || artist_name === Constants.UNDEFINED_LOW) this.artist_or_team.push(Constants.EMPTY);
         else {
-          this.artist_or_team.push(artist_name);
-          const artist_category = artists?.[0]?.classifications?.[0]?.segment?.name?.trim();
-          //alert(artist_category)
-          if (artist_category === "Music") this.spotify_search.push(artist_name);
+          this.artist_or_team.push(artist_name);          
         }
       }
     }
@@ -206,7 +200,5 @@ get_artist_albumn(artist_id :string){
 
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
     if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;
-
-    // console.log(this.spotify_search)
   }
 }

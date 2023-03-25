@@ -3,6 +3,7 @@ import { BehaviorSubject } from "rxjs";
 import * as Constants from "./constants";
 import { Subject } from "rxjs";
 
+
 @Injectable({
   providedIn: "root",
 })
@@ -10,7 +11,7 @@ export class SharedService {
   constructor() {}
 
   //public keyword_input: string = Constants.EMPTY;
-  public keyword_input: string = "Taylor Swift";
+  public keyword_input: string = "P!NK";
   public distance_input: number = 10;
   public category_input: string = "Default";
   //public location_input: string = Constants.EMPTY;
