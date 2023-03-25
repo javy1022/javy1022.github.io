@@ -30,6 +30,9 @@ export class SharedService {
 
   public spotifyArtistsResultSource = new BehaviorSubject<any>(null);
   spotifyArtistsResult$ = this.spotifyArtistsResultSource.asObservable();
+ 
+  public spotifyArtistDataSource = new BehaviorSubject<any>(null);
+  spotifyArtistData$= this.spotifyArtistsResultSource.asObservable();
 
   clearEventDetails$ = new Subject<void>();
 }

@@ -4,7 +4,7 @@ import { SharedService } from "../shared.service";
 import { Subscription } from "rxjs";
 import * as Constants from "../constants";
 import { faSquareFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { filter } from 'rxjs/operators';
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: "app-event-details",
@@ -18,7 +18,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ARTISTS_SEPARATOR = Constants.ARTISTS_SEPARATOR;
   event_detail_subs: Subscription = new Subscription();
   clearEventDetailsSubscription: Subscription = new Subscription();
-
+  spotifyArtistsSubscription: Subscription = new Subscription();
+  /* Events tab */
   event_title!: string;
   local_date!: string;
   local_time!: string;
@@ -30,28 +31,55 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   status!: string;
   ticket_url!: string;
   seatmap_url!: string;
-
   fb_icon = faSquareFacebook;
   twitter_icon = faTwitter;
-  spotifyArtistsSubscription: Subscription = new Subscription();
+
+  /* Artist tab */
+  artist_name_spotify: any[] = [];
+
   ngOnInit() {
     this.subs_event_details();
     this.subscribeToClearEventDetails();
 
-    this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$.pipe(
-      filter(result => result !== null)
-    ).subscribe({
-      next: (result) => {
-        if (result) {
-          console.log(result);
+    this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$.pipe(filter((resp) => resp !== null)).subscribe({
+      next: (resp) => {
+        if (resp) {
+          this.extract_artists_spotify(resp);
           // You can now use the result in your component to render the view
-        }
+        }   
       },
       error: (error) => {
         console.error("Error occurred:", error);
       },
     });
+    
+    
+    
+    
   }
+
+  extract_artists_spotify(resp: any) {
+    console.log(resp);
+    if (resp?.artists?.items?.length !== 0) {
+      let artist_obj = resp.artists.items[0];
+      const artist_id = artist_obj?.id?.trim();
+      this.get_artist_albumn(artist_id) 
+      
+    }
+  }
+
+get_artist_albumn(artist_id :string){
+  this.http_request.get_artist_with_id(artist_id).subscribe({
+    next: (resp) => {
+      // Handle the API response data here
+      console.log(resp);
+    },
+    error: (error) => {
+      console.error("Error occurred:", error);
+    },
+  });
+}
+
   ngOnDestroy() {
     this.event_detail_subs.unsubscribe();
     this.clearEventDetailsSubscription?.unsubscribe();
@@ -79,7 +107,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  clear_btn(): void{
+  clear_btn(): void {
     this.artist_or_team = [];
     this.spotify_search = [];
   }
@@ -118,7 +146,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           this.artist_or_team.push(artist_name);
           const artist_category = artists?.[0]?.classifications?.[0]?.segment?.name?.trim();
           //alert(artist_category)
-          if(artist_category === 'Music') this.spotify_search.push(artist_name);
+          if (artist_category === "Music") this.spotify_search.push(artist_name);
         }
       }
     }
@@ -179,6 +207,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
     if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;
 
-   // console.log(this.spotify_search)
+    // console.log(this.spotify_search)
   }
 }

@@ -4,8 +4,8 @@ import { SharedService } from "./shared.service";
 import { Observable } from "rxjs";
 import { filter, map, concatMap } from "rxjs/operators";
 import { BehaviorSubject } from "rxjs";
-import { tap, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { tap, catchError } from "rxjs/operators";
+import { throwError } from "rxjs";
 import * as Constants from "./constants";
 
 @Injectable({
@@ -33,43 +33,42 @@ export class HttpRequestService {
     event.preventDefault();
     const url = `http://localhost:3000/search/event-details/${id}`;
     this.sharedService.current_info = "event_details";
-    this.http.get(url).pipe(
-      tap((result:any) => {
-        let spotify_search = [];
-        let artists =(result?._embedded?.attractions);
-        if (artists !== undefined && artists.length !== 0) {
-          for (let i = 0; i < artists.length; i++) {
-            let artist_name = artists[i]?.name?.trim();
-            if (artist_name !== undefined && artist_name !== Constants.UNDEFINED_CAP && artist_name !== Constants.UNDEFINED_LOW) 
-             {
-               const artist_category = artists?.[0]?.classifications?.[0]?.segment?.name?.trim();
-               if(artist_category === 'Music') spotify_search.push(artist_name);
+    this.http
+      .get(url)
+      .pipe(
+        tap((result: any) => {
+          let spotify_search = [];
+          let artists = result?._embedded?.attractions;
+          if (artists !== undefined && artists.length !== 0) {
+            for (let i = 0; i < artists.length; i++) {
+              let artist_name = artists[i]?.name?.trim();
+              if (artist_name !== undefined && artist_name !== Constants.UNDEFINED_CAP && artist_name !== Constants.UNDEFINED_LOW) {
+                const artist_category = artists?.[0]?.classifications?.[0]?.segment?.name?.trim();
+                if (artist_category === "Music") spotify_search.push(artist_name);
+              }
             }
           }
-        }
-        for(let i = 0; i < spotify_search.length; i++) this.spotify_searchArtists(spotify_search[i]);
-       
-      })
-    ).subscribe((result) => {
-      this.sharedService.eventDetailSource.next(result);
+          for (let i = 0; i < spotify_search.length; i++) this.spotify_searchArtists(spotify_search[i]);
+        })
+      )
+      .subscribe((result) => {
+        this.sharedService.eventDetailSource.next(result);
+      });
+  }
+
+  // Get artist from Spotify using artist's name
+  spotify_searchArtists(q: string): void {
+    const url = "http://localhost:3000/search/artists";
+    const params = new HttpParams().set("q", q);
+    this.http.get(url, { params: params, responseType: "json" }).subscribe((result) => {
+      this.sharedService.spotifyArtistsResultSource.next(result);
     });
   }
 
-    // Get event details with id
-    spotify_searchArtists(q: string): void {
-      const url = 'http://localhost:3000/search/artists';
-      const params = new HttpParams().set("q", q);
-      this.http.get(url, { params: params, responseType: "json" }).subscribe((result) => {
-        //console.log(result);
-        
-        // Update the BehaviorSubject with the result
-        this.sharedService.spotifyArtistsResultSource.next(result);
-      });
-    }
-    
-    
-
-    
+  //
+  get_artist_with_id(artist_id: string): Observable<any> {
+    return this.http.get(`http://localhost:3000/search/artists-id/${artist_id}`);
+  }
 
   // Get lat lng using Google geolocation API
   geoCode_send_request(request_url: string): Observable<any> {
@@ -133,6 +132,4 @@ export class HttpRequestService {
       filter((result_dict): result_dict is {} => result_dict !== undefined)
     );
   }
-
-
 }
