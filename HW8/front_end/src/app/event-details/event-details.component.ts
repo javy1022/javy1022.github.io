@@ -4,6 +4,7 @@ import { SharedService } from "../shared.service";
 import { Subscription } from "rxjs";
 import * as Constants from "../constants";
 import { faSquareFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: "app-event-details",
@@ -32,14 +33,29 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   fb_icon = faSquareFacebook;
   twitter_icon = faTwitter;
-
+  spotifyArtistsSubscription: Subscription = new Subscription();
   ngOnInit() {
     this.subs_event_details();
     this.subscribeToClearEventDetails();
+
+    this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$.pipe(
+      filter(result => result !== null)
+    ).subscribe({
+      next: (result) => {
+        if (result) {
+          console.log(result);
+          // You can now use the result in your component to render the view
+        }
+      },
+      error: (error) => {
+        console.error("Error occurred:", error);
+      },
+    });
   }
   ngOnDestroy() {
     this.event_detail_subs.unsubscribe();
     this.clearEventDetailsSubscription?.unsubscribe();
+    this.spotifyArtistsSubscription.unsubscribe();
   }
 
   subscribeToClearEventDetails(): void {
@@ -163,6 +179,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
     if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;
 
-    console.log(this.spotify_search)
+   // console.log(this.spotify_search)
   }
 }

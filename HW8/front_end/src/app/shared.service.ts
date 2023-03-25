@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import * as Constants from "./constants";
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -27,6 +27,9 @@ export class SharedService {
 
   public eventDetailSource = new BehaviorSubject<any>(null);
   event_detail$ = this.eventDetailSource.asObservable();
+
+  public spotifyArtistsResultSource = new BehaviorSubject<any>(null);
+  spotifyArtistsResult$ = this.spotifyArtistsResultSource.asObservable();
 
   clearEventDetails$ = new Subject<void>();
 }

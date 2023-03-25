@@ -41,6 +41,7 @@ export class EventTableComponent implements OnDestroy , OnChanges {
       return date_a.getTime() - date_b.getTime();
     });
   }
+  
 
   generate_table_ref(resp: any): any[] {
     const total_events = resp["_embedded"]?.events?.length;
