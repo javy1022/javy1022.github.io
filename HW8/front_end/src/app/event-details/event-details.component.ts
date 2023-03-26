@@ -7,7 +7,7 @@ import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands
 import { filter } from "rxjs/operators";
 import { MatTabGroup } from '@angular/material/tabs';
 
-
+import { concatMap } from 'rxjs/operators';
 @Component({
   selector: "app-event-details",
   templateUrl: "./event-details.component.html",
@@ -47,13 +47,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subs_event_details();
     this.subscribeToClearEventDetails();
-
-    this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$.pipe(filter((resp) => resp !== null)).subscribe({
+  
+    this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$.pipe(
+      filter((resp) => resp !== null),
+      concatMap((resp) => this.extract_artists_spotify(resp))
+    ).subscribe({
       next: (resp) => {
-        if (resp) {
-          this.extract_artists_spotify(resp);
-          // You can now use the result in your component to render the view
-        }
+        console.log('Album data:', resp);
       },
       error: (error) => {
         console.error(error);
@@ -66,7 +66,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.tabGroup.selectedIndex = 0;
   }
 
-  extract_artists_spotify(resp: any) {
+  async extract_artists_spotify(resp: any) {
     console.log(resp);
     if (resp?.artists?.items?.length !== 0) {
       let artist_obj = resp.artists.items[0];
@@ -75,23 +75,14 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       if (artist_obj?.popularity) this.artist_popularity_spotify.push(artist_obj.popularity);
       if (artist_obj?.followers?.total) this.artist_followersNum_spotify.push(artist_obj.followers.total.toLocaleString());
       if (artist_obj?.external_urls?.spotify) this.artist_spotify_link.push(artist_obj.external_urls.spotify.trim());
-
+  
       const artist_id = artist_obj?.id?.trim();
-      this.get_artist_albumn(artist_id);
-    }   
-    console.log(this.artist_spotify_link)
+      return this.get_artist_albumn(artist_id).toPromise();
+    }
   }
 
   get_artist_albumn(artist_id: string) {
-    this.http_request.get_artist_with_id(artist_id).subscribe({
-      next: (resp) => {
-        // Handle the API response data here
-        console.log(resp);
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+    return this.http_request.get_artist_with_id(artist_id);
   }
 
   ngOnDestroy() {
