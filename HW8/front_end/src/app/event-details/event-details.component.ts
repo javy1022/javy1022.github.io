@@ -56,7 +56,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp) => {
-          console.log(resp);
+          //console.log(resp);
           if (resp?.items) {
             let artist_album: string[] = [];
             for (let album of resp.items) {
@@ -64,7 +64,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
             }
             this.artists_spotify_albumns.push(artist_album);
           }
-          console.log(this.artists_spotify_albumns);
+          //console.log(this.artists_spotify_albumns);
         },
         error: (error) => {
           console.error(error);
@@ -78,7 +78,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   async extract_artists_spotify(resp: any) {
-    console.log(resp);
+    //console.log(resp);
     if (resp?.artists?.items?.length !== 0) {
       let artist_obj = resp.artists.items[0];
       if (artist_obj?.name) this.artist_name_spotify.push(artist_obj.name.trim());
@@ -112,7 +112,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.event_detail_subs = this.sharedService.event_detail$.subscribe({
       next: (resp) => {
         if (resp) {
-          console.log(resp);
+          //console.log(resp);
           this.extract_event_details(resp);
           //this.scroll_to_eventDetails();
         }

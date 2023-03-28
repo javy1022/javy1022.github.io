@@ -42,7 +42,7 @@ export class HttpRequestService {
               let artist_name = artists[i]?.name?.trim();
               if (artist_name !== undefined && artist_name !== Constants.UNDEFINED_CAP && artist_name !== Constants.UNDEFINED_LOW) {
                 const artist_category = artists?.[0]?.classifications?.[0]?.segment?.name?.trim();
-                if (artist_category === "Music" && spotify_search.length < 3) spotify_search.push(artist_name);
+                if (artist_category === "Music") spotify_search.push(artist_name);
               }
             }
           }
