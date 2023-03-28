@@ -165,13 +165,22 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="venue_rule !== undefined">
+      <ng-container *ngIf="venue_general_rule !== undefined">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">General Rule</p>
-        <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{'truncate': !rule_toggle}">{{ venue_rule }}</p>
+        <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{'truncate': !general_rule_toggle}">{{ venue_general_rule }}</p>
         <div class="text-center mt-1"> 
-          <a class="text-info" (click)="rule_info_toggle()">{{ rule_toggle ? 'Show Less' : ' Show More' }}</a>
+          <a class="text-info" (click)=" general_rule_info_toggle()">{{ general_rule_toggle ? 'Show Less' : ' Show More' }}</a>
         </div>
       </ng-container>
+
+      <ng-container *ngIf="venue_child_rule !== undefined">
+        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Child Rule</p>
+        <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{'truncate': !child_rule_toggle}">{{ venue_child_rule }}</p>
+        <div class="text-center mt-1"> 
+          <a class="text-info" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? 'Show Less' : ' Show More' }}</a>
+        </div>
+      </ng-container>
+
 
 
     </mat-tab>

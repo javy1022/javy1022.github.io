@@ -51,10 +51,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   venue_address!: string;
   venue_phone!: string;
   venue_hours!: string;
-  venue_rule!: string;
+  venue_general_rule!: string;
+  venue_child_rule!: string;
 
   hours_toggle: boolean = false;
-  rule_toggle: boolean = false;
+  general_rule_toggle: boolean = false;
+  child_rule_toggle: boolean = false;
+
 
  
 
@@ -97,8 +100,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           const hours_obj = venue_obj?.boxOfficeInfo?.openHoursDetail;
           if(hours_obj) this.venue_hours = hours_obj.trim(); 
 
-          const rule_obj =  venue_obj?.generalInfo?.generalRule;
-          if(rule_obj) this.venue_rule = rule_obj.trim(); 
+          const general_rule_obj =  venue_obj?.generalInfo?.generalRule;
+          if(general_rule_obj) this.venue_general_rule = general_rule_obj.trim(); 
+
+          const child_rule_obj =  venue_obj?.generalInfo?.childRule;
+          if(child_rule_obj) this.venue_child_rule = child_rule_obj.trim(); 
           
         } 
         
@@ -112,8 +118,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.hours_toggle = !this.hours_toggle;
   }
 
-  rule_info_toggle() {
-    this.rule_toggle = !this.rule_toggle;
+  general_rule_info_toggle() {
+    this.general_rule_toggle = !this.general_rule_toggle;
+  }
+
+  child_rule_info_toggle() {
+    this.child_rule_toggle = !this.child_rule_toggle;
   }
 
   setActiveTab() {
