@@ -5,9 +5,9 @@ import { Subscription } from "rxjs";
 import * as Constants from "../constants";
 import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { filter } from "rxjs/operators";
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabGroup } from "@angular/material/tabs";
 
-import { concatMap } from 'rxjs/operators';
+import { concatMap } from "rxjs/operators";
 @Component({
   selector: "app-event-details",
   templateUrl: "./event-details.component.html",
@@ -25,7 +25,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   event_title!: string;
   local_date!: string;
   local_time!: string;
-  artist_or_team: any[] = []; 
+  artist_or_team: any[] = [];
   venue!: string;
   genre: string = Constants.EMPTY;
   price_range!: any;
@@ -41,24 +41,34 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   artist_popularity_spotify: number[] = [];
   artist_followersNum_spotify: number[] = [];
   artist_spotify_link: string[] = [];
+  artists_spotify_albumns: any[][] = [];
   spotify_icon = faSpotify;
-  
 
   ngOnInit() {
     this.subs_event_details();
     this.subscribeToClearEventDetails();
-  
-    this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$.pipe(
-      filter((resp) => resp !== null),
-      concatMap((resp) => this.extract_artists_spotify(resp))
-    ).subscribe({
-      next: (resp) => {
-        console.log('Album data:', resp);
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+
+    this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$
+      .pipe(
+        filter((resp) => resp !== null),
+        concatMap((resp) => this.extract_artists_spotify(resp))
+      )
+      .subscribe({
+        next: (resp) => {
+          console.log(resp);
+          if (resp?.items) {
+            let artist_album: string[] = [];
+            for (let album of resp.items){
+              if(album?.images) artist_album.push(album.images[0].url)
+            }
+            this.artists_spotify_albumns.push(artist_album)
+          }
+          console.log(this.artists_spotify_albumns )
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
     this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());
   }
 
@@ -75,7 +85,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       if (artist_obj?.popularity) this.artist_popularity_spotify.push(artist_obj.popularity);
       if (artist_obj?.followers?.total) this.artist_followersNum_spotify.push(artist_obj.followers.total.toLocaleString());
       if (artist_obj?.external_urls?.spotify) this.artist_spotify_link.push(artist_obj.external_urls.spotify.trim());
-  
+
       const artist_id = artist_obj?.id?.trim();
       return this.get_artist_albumn(artist_id).toPromise();
     }
@@ -113,7 +123,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   clear_btn(): void {
-    this.artist_or_team = [];   
+    this.artist_or_team = [];
   }
 
   scroll_to_eventDetails() {
@@ -127,9 +137,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   back_to_table() {
     this.sharedService.current_info = "table";
-    this.artist_or_team = [];  
+    this.artist_or_team = [];
     this.genre = Constants.EMPTY;
-    this.artist_name_spotify = []
+    this.artist_name_spotify = [];
   }
   extract_event_details(resp: any) {
     this.event_title = resp?.name?.trim();
@@ -147,7 +157,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         let artist_name = artists[i]?.name?.trim();
         if (artist_name === undefined || artist_name === Constants.UNDEFINED_CAP || artist_name === Constants.UNDEFINED_LOW) this.artist_or_team.push(Constants.EMPTY);
         else {
-          this.artist_or_team.push(artist_name);          
+          this.artist_or_team.push(artist_name);
         }
       }
     }
