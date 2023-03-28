@@ -45,6 +45,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   artists_spotify_albumns: any[][] = [];
   spotify_icon = faSpotify;
 
+  /* Venue tab */
+  venue_name!: string;
+  venue_address!: string;
+  venue_phone!: string;
+
   ngOnInit() {
     this.subs_event_details();
     this.subscribeToClearEventDetails();
@@ -56,7 +61,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp) => {
-          //console.log(resp);
+         // console.log(resp);
           if (resp?.items) {
             let artist_album: string[] = [];
             for (let album of resp.items) {
@@ -64,12 +69,30 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
             }
             this.artists_spotify_albumns.push(artist_album);
           }
-          //console.log(this.artists_spotify_albumns);
-        },
-        error: (error) => {
-          console.error(error);
-        },
+        }
       });
+
+    this.sharedService.venueResponse$.subscribe((resp) => {
+      if (resp) {
+        console.log("Component received additional response:", resp);
+        const venue_obj = resp?._embedded?.venues?.[0];
+
+        if(venue_obj){
+          if(venue_obj?.name) this.venue_name = venue_obj.name.trim();  
+
+          const address_obj = venue_obj?.address?.line1;
+          if(address_obj) this.venue_address = address_obj.trim(); 
+
+          const phone_obj = venue_obj?.boxOfficeInfo?.phoneNumberDetail;
+          if(phone_obj) this.venue_phone= phone_obj.trim(); 
+          
+        }
+
+        // Do something with the additional response in your component
+        
+      }
+    });
+
     this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());
   }
 
@@ -116,10 +139,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           this.extract_event_details(resp);
           //this.scroll_to_eventDetails();
         }
-      },
-      error: (error) => {
-        console.error("Error occurred:", error);
-      },
+      }
     });
   }
 

@@ -138,7 +138,30 @@
     </mat-tab>
 
     <mat-tab label="Venue">
-      <div class="bg-danger">Additional content for Overview tab</div>
+      
+      <ng-container *ngIf="venue_name !== undefined">
+        <div>
+          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Name</p>
+          <p class="text-center text-white fs-6 mb-0 mt-1">{{ venue_name }}</p>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="venue_address !== undefined">
+        <div>
+          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Address</p>
+          <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue_address }}</p>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="venue_phone !== undefined">
+        <div>
+          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Phone Number</p>
+          <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue_phone }}</p>
+        </div>
+      </ng-container>
+
+
+
     </mat-tab>
   </mat-tab-group>
 </div>

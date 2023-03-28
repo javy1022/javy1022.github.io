@@ -35,6 +35,10 @@ export class SharedService {
   public spotifyArtistDataSource = new BehaviorSubject<any>(null);
   spotifyArtistData$= this.spotifyArtistsResultSource.asObservable();
 
+  venueResponseSource = new BehaviorSubject<any>(null);
+  venueResponse$ = this.venueResponseSource.asObservable();
+
+
   private resetTabsSource = new Subject<void>();
   resetTabs$ = this.resetTabsSource.asObservable();
 
