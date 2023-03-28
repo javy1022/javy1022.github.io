@@ -31,6 +31,17 @@
     color: #116017;
   }
 
+  /* Reference source: https://css-tricks.com/line-clampin/ */
+  .truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;  
+  }
+  
+
+  
+
   
 
 

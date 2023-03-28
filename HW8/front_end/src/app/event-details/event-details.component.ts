@@ -7,11 +7,12 @@ import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands
 import { filter } from "rxjs/operators";
 import { MatTabGroup } from "@angular/material/tabs";
 
+
 import { concatMap } from "rxjs/operators";
 @Component({
   selector: "app-event-details",
   templateUrl: "./event-details.component.html",
-  styleUrls: ["./event-details.component.css"],
+  styleUrls: ["./event-details.component.css"],   
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
   constructor(public http_request: HttpRequestService, public sharedService: SharedService) {}
@@ -49,6 +50,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   venue_name!: string;
   venue_address!: string;
   venue_phone!: string;
+  venue_hours!: string;
+  hours_toggle: boolean = false;
+
+ 
 
   ngOnInit() {
     this.subs_event_details();
@@ -85,10 +90,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
           const phone_obj = venue_obj?.boxOfficeInfo?.phoneNumberDetail;
           if(phone_obj) this.venue_phone= phone_obj.trim(); 
-          
-        }
 
-        // Do something with the additional response in your component
+          const hours_obj = venue_obj?.boxOfficeInfo?.openHoursDetail;
+          if(hours_obj) this.venue_hours = hours_obj.trim(); 
+          
+        } 
         
       }
     });
@@ -96,6 +102,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());
   }
 
+  hours_info_toggle() {
+    this.hours_toggle = !this.hours_toggle;
+  }
   setActiveTab() {
     this.tabGroup.selectedIndex = 0;
   }

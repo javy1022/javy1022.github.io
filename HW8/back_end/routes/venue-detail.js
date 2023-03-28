@@ -27,8 +27,12 @@ router.get("/search/venue-detail", function (req, res, next) {
         return res.send(response.data);
       })
       .catch(function (error) {
-        console.error('Error:', error);
-        return res.status(error.statusCode).json({ error: error.message });
+        if (error.response && error.response.data) {
+          return res.send(error.response.data);
+          } else {
+          console.error(error);
+          return res.status(500).send('Unknown error occurred');
+          }
       });
   
   });

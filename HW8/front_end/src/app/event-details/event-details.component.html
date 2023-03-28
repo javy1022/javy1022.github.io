@@ -138,7 +138,6 @@
     </mat-tab>
 
     <mat-tab label="Venue">
-      
       <ng-container *ngIf="venue_name !== undefined">
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Name</p>
@@ -154,12 +153,17 @@
       </ng-container>
 
       <ng-container *ngIf="venue_phone !== undefined">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Phone Number</p>
-          <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue_phone }}</p>
-        </div>
+        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Phone Number</p>
+        <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue_phone }}</p>
       </ng-container>
 
+      <ng-container *ngIf="venue_hours !== undefined">
+        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Open Hours</p>
+        <p [ngClass]="{'truncate': !hours_toggle}" class="text-center text-white fs-6 mt-1 mb-0" id="collapse_phone">{{ venue_hours }}</p>
+        <div class="text-center mt-1"> 
+          <a class="text-info" (click)="hours_info_toggle()">{{ hours_toggle ? 'Show Less' : ' Show More' }}</a>
+        </div>
+      </ng-container>
 
 
     </mat-tab>
