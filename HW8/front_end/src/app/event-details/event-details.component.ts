@@ -17,6 +17,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   constructor(public http_request: HttpRequestService, public sharedService: SharedService) {}
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
   @ViewChild("eventDetails") eventDetails!: ElementRef;
+
   ARTISTS_SEPARATOR = Constants.ARTISTS_SEPARATOR;
   event_detail_subs: Subscription = new Subscription();
   clearEventDetailsSubscription: Subscription = new Subscription();
@@ -58,12 +59,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           console.log(resp);
           if (resp?.items) {
             let artist_album: string[] = [];
-            for (let album of resp.items){
-              if(album?.images) artist_album.push(album.images[0].url)
+            for (let album of resp.items) {
+              if (album?.images) artist_album.push(album.images[0].url);
             }
-            this.artists_spotify_albumns.push(artist_album)
+            this.artists_spotify_albumns.push(artist_album);
           }
-          console.log(this.artists_spotify_albumns )
+          console.log(this.artists_spotify_albumns);
         },
         error: (error) => {
           console.error(error);
@@ -124,6 +125,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   clear_btn(): void {
     this.artist_or_team = [];
+    this.artist_name_spotify = [];
+    this.artist_img_spotify = [];
+    this.artist_popularity_spotify = [];
+    this.artist_followersNum_spotify = [];
+    this.artist_spotify_link = [];
+    this.artists_spotify_albumns = [];
+    this.genre = Constants.EMPTY;
   }
 
   scroll_to_eventDetails() {
