@@ -7,12 +7,11 @@ import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands
 import { filter } from "rxjs/operators";
 import { MatTabGroup } from "@angular/material/tabs";
 
-
 import { concatMap } from "rxjs/operators";
 @Component({
   selector: "app-event-details",
   templateUrl: "./event-details.component.html",
-  styleUrls: ["./event-details.component.css"],   
+  styleUrls: ["./event-details.component.css"],
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
   constructor(public http_request: HttpRequestService, public sharedService: SharedService) {}
@@ -48,7 +47,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   /* Venue tab */
   venue_name!: string;
-  venue_address!: string;
+  venue_address: string = "";
   venue_phone!: string;
   venue_hours!: string;
   venue_general_rule!: string;
@@ -57,9 +56,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   hours_toggle: boolean = false;
   general_rule_toggle: boolean = false;
   child_rule_toggle: boolean = false;
-
-
- 
 
   ngOnInit() {
     this.subs_event_details();
@@ -72,7 +68,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp) => {
-         // console.log(resp);
+          // console.log(resp);
           if (resp?.items) {
             let artist_album: string[] = [];
             for (let album of resp.items) {
@@ -80,7 +76,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
             }
             this.artists_spotify_albumns.push(artist_album);
           }
-        }
+        },
       });
 
     this.sharedService.venueResponse$.subscribe((resp) => {
@@ -88,26 +84,31 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         console.log("Component received additional response:", resp);
         const venue_obj = resp?._embedded?.venues?.[0];
 
-        if(venue_obj){
-          if(venue_obj?.name) this.venue_name = venue_obj.name.trim();  
+        if (venue_obj) {
+          if (venue_obj?.name) this.venue_name = venue_obj.name.trim();
 
           const address_obj = venue_obj?.address?.line1;
-          if(address_obj) this.venue_address = address_obj.trim(); 
+          const city_obj = venue_obj?.city?.name;
+          const state_obj = venue_obj?.state?.name;
+          if (address_obj || city_obj || state_obj) {
+            if(address_obj)  this.venue_address += address_obj.trim() + ", ";
+            if(city_obj)  this.venue_address += city_obj.trim() + ", ";
+            if(state_obj ) this.venue_address += state_obj.trim() + ", ";   
+            if(this.venue_address !== '')  this.venue_address = this.venue_address.slice(0, -2);              
+          }
 
           const phone_obj = venue_obj?.boxOfficeInfo?.phoneNumberDetail;
-          if(phone_obj) this.venue_phone= phone_obj.trim(); 
+          if (phone_obj) this.venue_phone = phone_obj.trim();
 
           const hours_obj = venue_obj?.boxOfficeInfo?.openHoursDetail;
-          if(hours_obj) this.venue_hours = hours_obj.trim(); 
+          if (hours_obj) this.venue_hours = hours_obj.trim();
 
-          const general_rule_obj =  venue_obj?.generalInfo?.generalRule;
-          if(general_rule_obj) this.venue_general_rule = general_rule_obj.trim(); 
+          const general_rule_obj = venue_obj?.generalInfo?.generalRule;
+          if (general_rule_obj) this.venue_general_rule = general_rule_obj.trim();
 
-          const child_rule_obj =  venue_obj?.generalInfo?.childRule;
-          if(child_rule_obj) this.venue_child_rule = child_rule_obj.trim(); 
-          
-        } 
-        
+          const child_rule_obj = venue_obj?.generalInfo?.childRule;
+          if (child_rule_obj) this.venue_child_rule = child_rule_obj.trim();
+        }
       }
     });
 
@@ -169,7 +170,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           this.extract_event_details(resp);
           //this.scroll_to_eventDetails();
         }
-      }
+      },
     });
   }
 
