@@ -8,7 +8,7 @@
 
   <mat-tab-group mat-align-tabs="center" backgroundColor="primary" class="pt-4" #tabGroup>
     <mat-tab label="Events">
-      <ng-container *ngIf="local_date !== undefined">
+      <ng-container *ngIf="local_date !== ''">
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Date</p>
           <p class="text-center text-white fs-6 mb-0 mt-1">{{ local_date }} {{ local_time }}</p>
@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <ng-container *ngIf="venue !== undefined">
+      <ng-container *ngIf="venue !== ''">
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Venue</p>
           <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue }}</p>
@@ -39,14 +39,14 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="price_range !== undefined">
+      <ng-container *ngIf="price_range !== ''">
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Price Ranges</p>
           <p class="text-center text-white fs-6 mt-1 mb-0">{{ price_range }}</p>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="status !== undefined">
+      <ng-container *ngIf="status !== ''">
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Ticket Status</p>
           <div class="d-flex justify-content-center mt-2">
@@ -62,7 +62,7 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="ticket_url !== undefined">
+      <ng-container *ngIf="ticket_url !== ''">
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Buy Ticket At:</p>
           <p class="text-center mt-1">
@@ -71,7 +71,7 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="seatmap_url !== undefined">
+      <ng-container *ngIf="seatmap_url !== ''">
         <div class="mt-4 mb-4">
           <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid" />
         </div>
