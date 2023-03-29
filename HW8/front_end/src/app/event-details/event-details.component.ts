@@ -224,6 +224,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.artist_or_team = [];
     this.genre = Constants.EMPTY;
     this.artist_name_spotify = [];
+    this.venue_address = Constants.EMPTY;
   }
   extract_event_details(resp: any) {
     this.event_title = resp?.name?.trim();
