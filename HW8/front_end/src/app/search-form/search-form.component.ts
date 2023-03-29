@@ -54,20 +54,14 @@ export class SearchFormComponent {
           if (result) {
             this.sharedService.search_result_source.next(result);
           }
-        },
-        error: (error) => {
-          console.error(error);
-        },
+        }
       });
     } else {
       const IPINFO_API_HOST = "https://ipinfo.io/";
       this.http_request.ipInfo_send_request(IPINFO_API_HOST + "?token=" + Config.IPINFO_API_KEY).subscribe({
         next: (result) => {
           this.sharedService.search_result_source.next(result);
-        },
-        error: (error) => {
-          console.log(error);
-        },
+        }
       });
     }
   }
@@ -97,7 +91,5 @@ export class SearchFormComponent {
 		let request_url : string = "http://localhost:3000";    // switch to google server when deploying
 		//let request_url : string = window.location.origin;     // when using same server such as google (for deploying)
 		//console.log(window.location.origin);
-		//request_url = request_url + "/keyword/" + this.keyword_input + "/distance/" + this.distance_input + "/category/" + this.category_input + "/location/" + this.location_input;
-    request_url = request_url + "/search"
-   	this.yelp_ajax.getConfig(request_url);
+		
 	*/

@@ -48,12 +48,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   spotify_icon = faSpotify;
 
   /* Venue tab */
-  venue_name!: string;
-  venue_address: string = "";
-  venue_phone!: string;
-  venue_hours!: string;
-  venue_general_rule!: string;
-  venue_child_rule!: string;
+  venue_name = Constants.EMPTY;
+  venue_address: string = Constants.EMPTY;
+  venue_phone: string = Constants.EMPTY;
+  venue_hours: string = Constants.EMPTY;
+  venue_general_rule: string = Constants.EMPTY;
+  venue_child_rule: string = Constants.EMPTY;
   venue_lat!: any;
   venue_lng!: any;
 
@@ -135,9 +135,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());  
-
-  
-    
+     
   }
 
   hours_info_toggle() {
@@ -208,6 +206,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.artist_spotify_link = [];
     this.artists_spotify_albumns = [];
     this.genre = Constants.EMPTY;
+    this.venue_address = Constants.EMPTY;
+    this.venue_name = Constants.EMPTY;
+    this.venue_phone = Constants.EMPTY;
+    this.venue_hours = Constants.EMPTY;
+    this.venue_general_rule = Constants.EMPTY;
+    this.venue_child_rule =  Constants.EMPTY;
+    this.hours_toggle = false;
+    this.general_rule_toggle = false;
+    this.child_rule_toggle = false;
   }
 
   scroll_to_eventDetails() {
@@ -224,7 +231,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.artist_or_team = [];
     this.genre = Constants.EMPTY;
     this.artist_name_spotify = [];
+    this.venue_name = Constants.EMPTY;
     this.venue_address = Constants.EMPTY;
+    this.venue_phone = Constants.EMPTY;
+    this.venue_hours = Constants.EMPTY;
+    this.venue_general_rule = Constants.EMPTY;
+    this.venue_child_rule =  Constants.EMPTY;
+    this.hours_toggle = false;
+    this.general_rule_toggle = false;
+    this.child_rule_toggle = false;
   }
   extract_event_details(resp: any) {
     this.event_title = resp?.name?.trim();

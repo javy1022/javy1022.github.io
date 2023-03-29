@@ -138,7 +138,7 @@
     </mat-tab>
 
     <mat-tab label="Venue">
-      <ng-container *ngIf="venue_name !== undefined">
+      <ng-container *ngIf="venue_name !== ''">
         <div>
           <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Name</p>
           <p class="text-center text-white fs-6 mb-0 mt-1">{{ venue_name }}</p>
@@ -152,12 +152,12 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="venue_phone !== undefined">
+      <ng-container *ngIf="venue_phone !== ''">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Phone Number</p>
         <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue_phone }}</p>
       </ng-container>
 
-      <ng-container *ngIf="venue_hours !== undefined">
+      <ng-container *ngIf="venue_hours !== ''">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Open Hours</p>
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !hours_toggle }">{{ venue_hours }}</p>
         <div class="text-center mt-1">
@@ -165,7 +165,7 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="venue_general_rule !== undefined">
+      <ng-container *ngIf="venue_general_rule !== ''">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">General Rule</p>
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !general_rule_toggle }">{{ venue_general_rule }}</p>
         <div class="text-center mt-1">
@@ -173,7 +173,7 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="venue_child_rule !== undefined">
+      <ng-container *ngIf="venue_child_rule !== ''">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Child Rule</p>
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !child_rule_toggle }">{{ venue_child_rule }}</p>
         <div class="text-center mt-1">

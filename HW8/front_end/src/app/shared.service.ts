@@ -23,7 +23,7 @@ export class SharedService {
 
   public list_for_table: any[] = [];
 
-  public search_result_source = new BehaviorSubject<any>(null);
+  public search_result_source = new Subject<any>();
   search_result$ = this.search_result_source.asObservable();
 
   public eventDetailSource = new BehaviorSubject<any>(null);
