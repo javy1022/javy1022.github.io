@@ -167,24 +167,27 @@
       <ng-container *ngIf="venue_hours !== ''">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Open Hours</p>
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !hours_toggle }">{{ venue_hours }}</p>
-        <div class="text-center mt-1">
+        <div class="d-flex justify-content-center mt-1">
           <a class="text-info" (click)="hours_info_toggle()">{{ hours_toggle ? "Show Less" : " Show More" }}</a>
+          <mat-icon class="text-white">{{ hours_toggle ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
         </div>
       </ng-container>
 
       <ng-container *ngIf="venue_general_rule !== ''">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">General Rule</p>
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !general_rule_toggle }">{{ venue_general_rule }}</p>
-        <div class="text-center mt-1">
+        <div class="d-flex justify-content-center mt-1">
           <a class="text-info" (click)="general_rule_info_toggle()">{{ general_rule_toggle ? "Show Less" : " Show More" }}</a>
+          <mat-icon class="text-white">{{ general_rule_toggle ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
         </div>
       </ng-container>
 
       <ng-container *ngIf="venue_child_rule !== ''">
         <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Child Rule</p>
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !child_rule_toggle }">{{ venue_child_rule }}</p>
-        <div class="text-center mt-1">
+        <div class="d-flex justify-content-center mt-1">
           <a class="text-info" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? "Show Less" : " Show More" }}</a>
+          <mat-icon class="text-white">{{ child_rule_toggle ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
         </div>
       </ng-container>
 
