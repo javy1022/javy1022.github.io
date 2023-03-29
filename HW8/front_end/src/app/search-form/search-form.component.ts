@@ -27,10 +27,8 @@ export class SearchFormComponent {
     // Event table
     this.sharedService.search_result_source.next(null);
     this.sharedService.list_for_table = [];
-    this.sharedService.current_info = "";
-
     this.sharedService.clearEventDetails$.next();
- 
+    this.sharedService.current_info = ""; 
   }
 
   searchResult$ = this.sharedService.search_result_source.asObservable();

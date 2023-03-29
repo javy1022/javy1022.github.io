@@ -198,23 +198,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   clear_btn(): void {
-    this.artist_or_team = [];
-    this.artist_name_spotify = [];
-    this.artist_img_spotify = [];
-    this.artist_popularity_spotify = [];
-    this.artist_followersNum_spotify = [];
-    this.artist_spotify_link = [];
-    this.artists_spotify_albumns = [];
-    this.genre = Constants.EMPTY;
-    this.venue_address = Constants.EMPTY;
-    this.venue_name = Constants.EMPTY;
-    this.venue_phone = Constants.EMPTY;
-    this.venue_hours = Constants.EMPTY;
-    this.venue_general_rule = Constants.EMPTY;
-    this.venue_child_rule =  Constants.EMPTY;
-    this.hours_toggle = false;
-    this.general_rule_toggle = false;
-    this.child_rule_toggle = false;
+    this.back_to_table()
   }
 
   scroll_to_eventDetails() {
@@ -231,6 +215,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.artist_or_team = [];
     this.genre = Constants.EMPTY;
     this.artist_name_spotify = [];
+    this.artist_img_spotify = [];
+    this.artist_popularity_spotify = [];
+    this.artist_followersNum_spotify = [];
+    this.artists_spotify_albumns = [];
+    this.artist_spotify_link = [];
     this.venue_name = Constants.EMPTY;
     this.venue_address = Constants.EMPTY;
     this.venue_phone = Constants.EMPTY;
