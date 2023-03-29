@@ -6,7 +6,7 @@ import * as Constants from "../constants";
 import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { filter } from "rxjs/operators";
 import { MatTabGroup } from "@angular/material/tabs";
-import { GoogleMap } from '@angular/google-maps';
+import { MapInfoWindow, MapMarker, GoogleMap } from '@angular/google-maps';
 
 
 import { concatMap } from "rxjs/operators";
@@ -54,14 +54,19 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   venue_hours!: string;
   venue_general_rule!: string;
   venue_child_rule!: string;
+  venue_lat!: any;
+  venue_lng!: any;
 
   hours_toggle: boolean = false;
   general_rule_toggle: boolean = false;
   child_rule_toggle: boolean = false;
+    
+  marker?:any;
+  mapOptions?:any;
 
   ngOnInit() {
     this.subs_event_details();
-    this.subscribeToClearEventDetails();
+    this.subscribeToClearEventDetails();  
 
     this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$
       .pipe(
@@ -110,11 +115,29 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
           const child_rule_obj = venue_obj?.generalInfo?.childRule;
           if (child_rule_obj) this.venue_child_rule = child_rule_obj.trim();
+
+          const locale_obj = venue_obj?.location;
+          if(locale_obj.latitude &&  locale_obj.longitude){
+            this.venue_lat = parseFloat(locale_obj.latitude);
+            this.venue_lng = parseFloat(locale_obj.longitude);
+            this.mapOptions = {
+              center: { lat: this.venue_lat, lng: this.venue_lng },
+              zoom: 14
+            };
+            this.marker = {
+              position: { lat: this.venue_lat, lng: this.venue_lng },
+            };
+          }
+          console.log(this.venue_lat )
+          console.log(this.venue_lng  )
         }
       }
     });
 
     this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());  
+
+  
+    
   }
 
   hours_info_toggle() {

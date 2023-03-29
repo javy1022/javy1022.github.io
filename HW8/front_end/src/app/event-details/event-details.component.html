@@ -182,34 +182,32 @@
       </ng-container>
 
       <!-- Button trigger modal -->
-      <div class="d-flex justify-content-center mt-5 pb-5"> 
-      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Show venue on Google map</button>
+      <div class="d-flex justify-content-center mt-5 pb-5">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Show venue on Google map</button>
       </div>
 
-      
-<!-- Modal -->
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered mt-0">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="d-flex justify-content-center align-items-center" style="height: 500px;">
-          <google-map [width]="'100%'" [height]="'100%'" class="w-100 h-100"></google-map>
+      <!-- Modal reference source: https://getbootstrap.com/docs/5.1/components/modal/ -->
+
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mt-0 modal-open">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-4" id="staticBackdropLabel">Event Venue</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex justify-content-center align-items-center" style="height: 460px">
+                <google-map *ngIf="marker" [width]="'100%'" [height]="'100%'" class="w-100 h-100" [options]="mapOptions">
+                  <map-marker [position]="marker.position"></map-marker>
+                </google-map>
+              </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-start">
+              <button type="button" class="btn btn-secondary btn-dark" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
     </mat-tab>
   </mat-tab-group>
 </div>
