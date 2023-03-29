@@ -74,11 +74,8 @@
       </div>
     </form>
   </div>
- 
   <div class="mt-5 pb-5">
-    <app-event-table [hidden]="sharedService.current_info !== 'table'"  [events_data]="searchResult$ | async"  #eventTable></app-event-table>
-    <app-event-details [hidden]="sharedService.current_info !== 'event_details'" ></app-event-details>
-    
+    <app-event-table [hidden]="sharedService.current_info !== 'table'" [events_data]="searchResult$ | async" #eventTable></app-event-table>
+    <app-event-details [hidden]="sharedService.current_info !== 'event_details'"></app-event-details>
   </div>
-  
 </div>

@@ -21,7 +21,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { GoogleMapsModule } from '@angular/google-maps'
+
 
 
 @NgModule({
@@ -29,7 +31,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
     EventTableComponent,
     EventDetailsComponent],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule, ReactiveFormsModule, MatInputModule, MatIconModule, 
-    MatButtonModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTabsModule, FontAwesomeModule, GoogleMapsModule],
+    MatButtonModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTabsModule, FontAwesomeModule, GoogleMapsModule, MatSlideToggleModule],
   providers: [],
   bootstrap: [AppComponent],
 })

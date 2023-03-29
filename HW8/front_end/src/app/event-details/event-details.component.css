@@ -39,6 +39,18 @@
     overflow: hidden;  
   }
   
+  .white {
+    background-color: white;
+  }
+  
+  .gray-icon {
+    color: gray;
+  }
+  
+  .red-icon {
+    color: red;
+  }
+
 
   
 

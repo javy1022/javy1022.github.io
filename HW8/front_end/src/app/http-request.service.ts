@@ -40,49 +40,43 @@ export class HttpRequestService {
           if (artists !== undefined && artists.length !== 0) {
             for (let i = 0; i < artists.length; i++) {
               let artist_name = artists[i]?.name?.trim();
-              if (
-                artist_name !== undefined &&
-                artist_name !== Constants.UNDEFINED_CAP &&
-                artist_name !== Constants.UNDEFINED_LOW
-              ) {
+              if (artist_name !== undefined && artist_name !== Constants.UNDEFINED_CAP && artist_name !== Constants.UNDEFINED_LOW) {
                 const artist_category = artists?.[0]?.classifications?.[0]?.segment?.name?.trim();
                 if (artist_category === "Music") spotify_search.push(artist_name);
               }
             }
           }
-  
+
           const spotifyObservables = spotify_search.map((artist_name) => this.spotify_searchArtists(artist_name));
-  
+
           if (result?._embedded?.venues?.[0]?.name) {
             const params_venue = new HttpParams().set("venue_name", result._embedded.venues[0].name.trim());
             const venue_request$ = this.http.get("http://localhost:3000/search/venue-detail", {
               params: params_venue,
               responseType: "json",
             });
-  
-            return forkJoin([...spotifyObservables, venue_request$]).pipe(map(responses => ({result, responses})));
+
+            return forkJoin([...spotifyObservables, venue_request$]).pipe(map((responses) => ({ result, responses })));
           } else {
-            return forkJoin([...spotifyObservables]).pipe(map(responses => ({result, responses})));
+            return forkJoin([...spotifyObservables]).pipe(map((responses) => ({ result, responses })));
           }
         })
       )
-      .subscribe(({result, responses}) => {
+      .subscribe(({ result, responses }) => {
         if (responses) {
           if (result?._embedded?.venues?.[0]?.name) {
-            const additionalResponse = responses.pop(); // Remove and store the last element from the responses array                      
-            this.sharedService.venueResponseSource.next(additionalResponse);
+            const request_venue_detail = responses.pop(); // Remove and store the last element from the responses array
+            this.sharedService.venueResponseSource.next(request_venue_detail);
           }
-      
+
           responses.forEach((result) => {
             this.sharedService.spotifyArtistsResultSource.next(result);
           });
         }
-      
+
         this.sharedService.eventDetailSource.next(result);
       });
   }
-  
-  
 
   // Get artist from Spotify using artist's name
   spotify_searchArtists(q: string): Observable<any> {

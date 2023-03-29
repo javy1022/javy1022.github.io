@@ -6,8 +6,6 @@ import * as Constants from "../constants";
 import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { filter } from "rxjs/operators";
 import { MatTabGroup } from "@angular/material/tabs";
-import { MapInfoWindow, MapMarker, GoogleMap } from '@angular/google-maps';
-
 
 import { concatMap } from "rxjs/operators";
 @Component({
@@ -60,7 +58,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   hours_toggle: boolean = false;
   general_rule_toggle: boolean = false;
   child_rule_toggle: boolean = false;
-    
+  favorite_toggle: boolean = false;
+
   marker?:any;
   mapOptions?:any;
 
@@ -127,9 +126,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
             this.marker = {
               position: { lat: this.venue_lat, lng: this.venue_lng },
             };
-          }
-          console.log(this.venue_lat )
-          console.log(this.venue_lng  )
+          }    
         }
       }
     });
@@ -148,6 +145,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   child_rule_info_toggle() {
     this.child_rule_toggle = !this.child_rule_toggle;
+  }
+
+  favorite_btn_toggle() {
+    this.favorite_toggle = !this.favorite_toggle;
   }
 
   setActiveTab() {

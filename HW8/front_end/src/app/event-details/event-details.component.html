@@ -1,9 +1,12 @@
 <div class="bg-dark bg-opacity-50 bg-blur ch" #eventDetails>
   <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-4 pt-4" (click)="this.back_to_table()">Back</button>
   <div class="container d-flex align-items-center justify-content-start ps-4 pt-3">
-    <div class="title-width text-start">
-      <h5 class="text-white">{{ event_title }}</h5>
+    <div class="title-width">
+      <h5 class="text-white me-2">{{ event_title }}</h5>
     </div>
+    <button mat-mini-fab class="bg-white" (click)="favorite_btn_toggle()" [ngClass]="{ 'gray-icon': !favorite_toggle, 'red-icon': favorite_toggle }">
+      <mat-icon>{{ favorite_toggle ? "favorite" : "favorite_outline" }}</mat-icon>
+    </button>
   </div>
 
   <mat-tab-group mat-align-tabs="center" backgroundColor="primary" class="pt-4" #tabGroup>
