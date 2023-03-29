@@ -6,6 +6,8 @@ import * as Constants from "../constants";
 import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { filter } from "rxjs/operators";
 import { MatTabGroup } from "@angular/material/tabs";
+import { GoogleMap } from '@angular/google-maps';
+
 
 import { concatMap } from "rxjs/operators";
 @Component({
@@ -112,7 +114,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());
+    this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());  
   }
 
   hours_info_toggle() {

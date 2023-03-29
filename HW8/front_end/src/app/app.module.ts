@@ -12,15 +12,16 @@ import { FavoritesComponent } from "./favorites/favorites.component";
 import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-// Material Modules
+// UI Modules
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs'
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import { GoogleMapsModule } from '@angular/google-maps'
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     EventTableComponent,
     EventDetailsComponent],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule, ReactiveFormsModule, MatInputModule, MatIconModule, 
-    MatButtonModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTabsModule, FontAwesomeModule],
+    MatButtonModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTabsModule, FontAwesomeModule, GoogleMapsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
