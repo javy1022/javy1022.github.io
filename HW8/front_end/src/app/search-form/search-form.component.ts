@@ -13,7 +13,7 @@ import { SharedService } from "../shared.service";
 export class SearchFormComponent {
   constructor(private http_request: HttpRequestService, public sharedService: SharedService) {}
   ac_list = [];
-  isLoading = false;
+  loading = false;
 
   onClear() {
     // Search form
@@ -71,14 +71,14 @@ export class SearchFormComponent {
   }
 
   onKeywordChange() {
-    this.isLoading = true;
+    this.loading = true;
     setTimeout(() => {
       this.http_request.get_autocomplete_suggestions().subscribe((res) => {
         const attractions = res["attractions"];
         const names = attractions.map((attraction: { name: string }) => attraction.name);
         this.ac_list = names;
         if (this.sharedService.keyword_input === Constants.EMPTY) this.ac_list = [];
-        this.isLoading = false;
+        this.loading = false;
       });
     }, 500);
   }

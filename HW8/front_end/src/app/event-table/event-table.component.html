@@ -1,5 +1,5 @@
 <div class="table-responsive" #tableWrapper>
-  <table class="table table-dark table-striped w-auto min-vw-150 custom-table text-center fs-6 rounded-4 overflow-hidden">
+  <table class="table table-dark table-striped w-100 text-center fs-6 rounded-4 overflow-hidden mt-5">
     <thead>
       <tr>
         <th>Date/Time</th>
@@ -13,7 +13,12 @@
       <tr *ngFor="let item of sharedService.list_for_table">
         <td class="fw-bold">{{ item[0] }}<br />{{ item[1] }}</td>
         <td>
-          <div class="position-relative" style="width: 20vw; padding-bottom: 20vw">
+          <!-- Small screen image -->
+          <div class="position-relative d-block d-sm-none mx-auto" style="width: 20vw; padding-bottom: 20vw">
+            <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
+          </div>
+          <!-- Large screen image -->
+          <div class="position-relative d-none d-sm-block mx-auto" style="width: 5vw; padding-bottom: 5vw">
             <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
           </div>
         </td>

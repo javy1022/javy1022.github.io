@@ -1,6 +1,6 @@
-<div class="container pt-0 pt-sm-5">
+<div class="container h-100 w-100 pt-0 pt-sm-5">
   <div class="mt-5 pt-4 mx-auto w-100 w-sm-75 ch bg-dark bg-opacity-75 bg-blur rounded-4">
-    <h2 class="text-center text-white pt-3 fs-1" id="title">Events Search</h2>
+    <h2 class="text-center text-white pt-3 fs-1 pt-sm-5" id="title">Events Search</h2>
     <hr class="mx-auto custom-hr mt-4" />
 
     <form class="w-100 h-75 fs-5 pt-0 pt-sm-3" id="search_form" (ngSubmit)="onSubmit()" ngNativeValidate>
@@ -18,14 +18,14 @@
           (input)="onKeywordChange()"
           required
         />
-        <!--Angular Material Autocomplete-->
+        <!--Reference source: https://www.freakyjolly.com/mat-autocomplete-with-http-api-remote-search-results/-->
         <mat-autocomplete #auto="matAutocomplete">
           <!-- Spinner -->
-          <mat-option *ngIf="isLoading">
+          <mat-option *ngIf="loading">
             <mat-spinner diameter="30"></mat-spinner>
           </mat-option>
           <!-- suggestions -->
-          <ng-container *ngIf="!isLoading">
+          <ng-container *ngIf="!loading">
             <mat-option *ngFor="let option of ac_list" [value]="option">{{ option }}</mat-option>
           </ng-container>
         </mat-autocomplete>
