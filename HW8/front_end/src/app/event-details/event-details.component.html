@@ -1,12 +1,12 @@
-<div class=" bg-dark bg-opacity-50 bg-blur ch" #eventDetails>
+<div class="card bg-dark bg-opacity-50 bg-blur ch" #eventDetails>
   <div class="d-flex align-items-center ps-3 pt-3">
     <mat-icon class="text-white">keyboard_arrow_left</mat-icon>
-    <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-0" (click)="this.back_to_table()">Back</button>
+    <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-0" (click)="back_to_table()">Back</button>
   </div>
 
   <div class="d-flex align-items-center justify-content-start ps-4 pt-3">
     <div class="title-width">
-      <h5 class="text-white me-2">{{ event_title }}</h5>
+      <h5 class="card-title text-white me-2">{{ event_title }}</h5>
     </div>
     <button
       mat-mini-fab
@@ -20,118 +20,122 @@
 
   <mat-tab-group mat-align-tabs="center" backgroundColor="primary" class="pt-4" #tabGroup>
     <mat-tab label="Events">
-      <ng-container *ngIf="local_date !== ''">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Date</p>
-          <p class="text-center text-white fs-6 mb-0 mt-1">{{ local_date }} {{ local_time }}</p>
-        </div>
-      </ng-container>
+      <div class="card-body">
+        <ng-container *ngIf="local_date !== ''">
+          <div>
+            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Date</p>
+            <p class="card-text text-center text-white fs-6 mb-0 mt-1">{{ local_date }} {{ local_time }}</p>
+          </div>
+        </ng-container>
 
-      <div *ngIf="artist_or_team.length > 0">
-        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Artist/Team</p>
-        <div class="d-flex flex-wrap justify-content-center mt-1">
-          <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
-            <p class="text-white fs-6 mb-0 me-2">{{ artist_name }}</p>
-            <p *ngIf="i !== artist_or_team.length - 1" class="text-white fs-6 mb-0 pe-2">{{ ARTISTS_SEPARATOR }}</p>
-          </ng-container>
-        </div>
-      </div>
-
-      <ng-container *ngIf="venue !== ''">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Venue</p>
-          <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue }}</p>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="genre !== ''">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Genres</p>
-          <p class="text-center text-white fs-6 mt-1 mb-0">{{ genre }}</p>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="price_range !== ''">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Price Ranges</p>
-          <p class="text-center text-white fs-6 mt-1 mb-0">{{ price_range }}</p>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="status !== ''">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Ticket Status</p>
-          <div class="d-flex justify-content-center mt-2">
-            <span
-              class="text-white text-center fs-6 rounded-3 mt-0 span-custom ps-2 pe-2 pt-1 pb-1"
-              [class.bg-success]="status === 'On Sale'"
-              [class.bg-danger]="status === 'Off Sale'"
-              [class.bg-black]="status === 'Canceled'"
-              [class.bg-warning]="status === 'Rescheduled' || status === 'Postponed'"
-              >{{ status }}</span
-            >
+        <div *ngIf="artist_or_team.length > 0">
+          <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Artist/Team</p>
+          <div class="d-flex flex-wrap justify-content-center mt-1">
+            <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
+              <p class="card-text text-white fs-6 mb-0 me-2">{{ artist_name }}</p>
+              <p *ngIf="i !== artist_or_team.length - 1" class="text-white fs-6 mb-0 pe-2">{{ ARTISTS_SEPARATOR }}</p>
+            </ng-container>
           </div>
         </div>
-      </ng-container>
 
-      <ng-container *ngIf="ticket_url !== ''">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Buy Ticket At:</p>
-          <p class="text-center mt-1">
-            <a href="{{ ticket_url }}" class="text-primary fs-6" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
-          </p>
+        <ng-container *ngIf="venue !== ''">
+          <div>
+            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Venue</p>
+            <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ venue }}</p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="genre !== ''">
+          <div>
+            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Genres</p>
+            <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ genre }}</p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="price_range !== ''">
+          <div>
+            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Price Ranges</p>
+            <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ price_range }}</p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="status !== ''">
+          <div>
+            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Ticket Status</p>
+            <div class="d-flex justify-content-center mt-2">
+              <span
+                class="card-text text-white text-center fs-6 rounded-3 mt-0 span-custom ps-2 pe-2 pt-1 pb-1"
+                [class.bg-success]="status === 'On Sale'"
+                [class.bg-danger]="status === 'Off Sale'"
+                [class.bg-black]="status === 'Canceled'"
+                [class.bg-warning]="status === 'Rescheduled' || status === 'Postponed'"
+                >{{ status }}</span
+              >
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="ticket_url !== ''">
+          <div>
+            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Buy Ticket At:</p>
+            <p class="text-center mt-1">
+              <a href="{{ ticket_url }}" class="card-link text-primary fs-6" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+            </p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="seatmap_url !== ''">
+          <div class="mt-4 mb-4">
+            <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid" />
+          </div>
+        </ng-container>
+
+        <div class="d-flex justify-content-center align-items-center mt-4 mb-4" *ngIf="ticket_url !== undefined">
+          <p class="card-text text-white fs-3 mb-0 pe-2">Share on:</p>
+          <a href="https://twitter.com/intent/tweet?text=Check {{ event_title }} on Ticketmaster. {{ ticket_url }}" target="_blank" rel="noopener noreferrer">
+            <fa-icon [icon]="twitter_icon" class="twitter_icon fa-3x pe-2"></fa-icon>
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ ticket_url }}&amp;src=sdkpreparse" target="_blank" rel="noopener noreferrer">
+            <fa-icon [icon]="fb_icon" class="fb-icon fa-square fa-3x"></fa-icon>
+          </a>
         </div>
-      </ng-container>
-
-      <ng-container *ngIf="seatmap_url !== ''">
-        <div class="mt-4 mb-4">
-          <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid" />
-        </div>
-      </ng-container>
-
-      <div class="d-flex justify-content-center align-items-center mt-4 mb-4" *ngIf="ticket_url !== undefined">
-        <p class="text-white fs-3 mb-0 pe-2">Share on:</p>
-        <a href="https://twitter.com/intent/tweet?text=Check {{ event_title }} on Ticketmaster. {{ ticket_url }}" target="_blank" rel="noopener noreferrer">
-          <fa-icon [icon]="twitter_icon" class="twitter_icon fa-3x pe-2"></fa-icon>
-        </a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ ticket_url }}&amp;src=sdkpreparse" target="_blank" rel="noopener noreferrer">
-          <fa-icon [icon]="fb_icon" class="fb-icon fa-square fa-3x"></fa-icon>
-        </a>
       </div>
     </mat-tab>
 
     <mat-tab label="Artist/Teams">
       <div id="carouselExampleControls" class="carousel slide carousel-dark">
         <div class="carousel-inner">
-          <div *ngFor="let item of artist_name_spotify; let i = index" class="carousel-item" [ngClass]="{ active: i === 0 }">
-            <img src="{{ artist_img_spotify[i] }}" class="img-fluid mx-auto d-block rounded-circle mt-3" alt="Artist's Spotify Image" />
-            <p class="subtitle_color text-center fs-1 mt-1 mb-3">{{ artist_name_spotify[i] }}</p>
-            <p class="subtitle_color text-center fs-2 mt-0 mb-2">Popularity</p>
-            <div>
-              <div class="d-flex justify-content-center mb-3">
-                <div class="position-relative">
-                  <mat-progress-spinner class="text-white" color="warn" [value]="artist_popularity_spotify[i]" [diameter]="40"></mat-progress-spinner>
-                  <span class="spinner-value position-absolute top-50 start-50 translate-middle text-white fs-6">{{ artist_popularity_spotify[i] }}</span>
+          <div class="card-body">
+            <div *ngFor="let item of artist_name_spotify; let i = index" class="carousel-item" [ngClass]="{ active: i === 0 }">
+              <img src="{{ artist_img_spotify[i] }}" class="img-fluid mx-auto d-block rounded-circle mt-3" alt="Artist's Spotify Image" />
+              <p class="card-text subtitle_color text-center fs-1 mt-1 mb-3">{{ artist_name_spotify[i] }}</p>
+              <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2">Popularity</p>
+              <div>
+                <div class="d-flex justify-content-center mb-3">
+                  <div class="position-relative">
+                    <mat-progress-spinner class="text-white" color="warn" [value]="artist_popularity_spotify[i]" [diameter]="40"></mat-progress-spinner>
+                    <span class="spinner-value position-absolute top-50 start-50 translate-middle text-white fs-6">{{ artist_popularity_spotify[i] }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <p class="subtitle_color text-center fs-2 mt-0 mb-2">Followers</p>
-            <p class="subtitle_color text-center fs-2 mt-0 mb-3">{{ artist_followersNum_spotify[i] }}</p>
+              <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2">Followers</p>
+              <p class="card-text subtitle_color text-center fs-2 mt-0 mb-3">{{ artist_followersNum_spotify[i] }}</p>
 
-            <p class="subtitle_color text-center fs-2 mt-0 mb-2">Spotify Link</p>
-            <div class="d-flex justify-content-center">
-              <a href="{{ artist_spotify_link[i] }}" target="_blank" rel="noopener noreferrer">
-                <fa-icon [icon]="spotify_icon" class="spotify-icon fa-3x mx-auto"></fa-icon>
-              </a>
-            </div>
-            <div class="w-75 mx-auto">
-              <p class="subtitle_color fs-5 text-center mt-3 mb-4">Album featuring {{ artist_name_spotify[i] }}</p>
+              <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2">Spotify Link</p>
+              <div class="d-flex justify-content-center">
+                <a href="{{ artist_spotify_link[i] }}" target="_blank" rel="noopener noreferrer">
+                  <fa-icon [icon]="spotify_icon" class="spotify-icon fa-3x mx-auto"></fa-icon>
+                </a>
+              </div>
+              <div class="w-75 mx-auto">
+                <p class="card-text subtitle_color fs-5 text-center mt-3 mb-4">Album featuring {{ artist_name_spotify[i] }}</p>
 
-              <div >
-                <div class="row">
-                  <div *ngFor="let album_img of artists_spotify_albumns[i]" class="mx-auto col-10 col-sm-6">
-                    <img src="{{ album_img }}" class="img-fluid mb-4" alt="Album image" />
+                <div>
+                  <div class="row">
+                    <div *ngFor="let album_img of artists_spotify_albumns[i]" class="mx-auto col-10 col-sm-6">
+                      <img src="{{ album_img }}" class="img-fluid mb-4" alt="Album image" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -150,76 +154,78 @@
     </mat-tab>
 
     <mat-tab label="Venue">
-      <ng-container *ngIf="venue_name !== ''">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Name</p>
-          <p class="text-center text-white fs-6 mb-0 mt-1">{{ venue_name }}</p>
+      <div class="card-body">
+        <ng-container *ngIf="venue_name !== ''">
+          <div>
+            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Name</p>
+            <p class="card-text text-center text-white fs-6 mb-0 mt-1">{{ venue_name }}</p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="venue_address !== ''">
+          <div>
+            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Address</p>
+            <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ venue_address }}</p>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="venue_phone !== ''">
+          <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Phone Number</p>
+          <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ venue_phone }}</p>
+        </ng-container>
+
+        <ng-container *ngIf="venue_hours !== ''">
+          <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Open Hours</p>
+          <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !hours_toggle }">{{ venue_hours }}</p>
+          <div class="d-flex justify-content-center mt-1">
+            <a class="card-link text-info" (click)="hours_info_toggle()">{{ hours_toggle ? "Show Less" : " Show More" }}</a>
+            <mat-icon class="text-white">{{ hours_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="venue_general_rule !== ''">
+          <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">General Rule</p>
+          <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !general_rule_toggle }">{{ venue_general_rule }}</p>
+          <div class="d-flex justify-content-center mt-1">
+            <a class="card-link text-info" (click)="general_rule_info_toggle()">{{ general_rule_toggle ? "Show Less" : " Show More" }}</a>
+            <mat-icon class="text-white">{{ general_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="venue_child_rule !== ''">
+          <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Child Rule</p>
+          <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !child_rule_toggle }">{{ venue_child_rule }}</p>
+          <div class="d-flex justify-content-center mt-1">
+            <a class="card-link text-info" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? "Show Less" : " Show More" }}</a>
+            <mat-icon class="text-white">{{ child_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
+          </div>
+        </ng-container>
+
+        <!-- Button trigger modal -->
+        <div class="d-flex justify-content-center mt-5 pb-5">
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Show venue on Google map</button>
         </div>
-      </ng-container>
 
-      <ng-container *ngIf="venue_address !== ''">
-        <div>
-          <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Address</p>
-          <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue_address }}</p>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="venue_phone !== ''">
-        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Phone Number</p>
-        <p class="text-center text-white fs-6 mt-1 mb-0">{{ venue_phone }}</p>
-      </ng-container>
-
-      <ng-container *ngIf="venue_hours !== ''">
-        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Open Hours</p>
-        <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !hours_toggle }">{{ venue_hours }}</p>
-        <div class="d-flex justify-content-center mt-1">
-          <a class="text-info" (click)="hours_info_toggle()">{{ hours_toggle ? "Show Less" : " Show More" }}</a>
-          <mat-icon class="text-white">{{ hours_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="venue_general_rule !== ''">
-        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">General Rule</p>
-        <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !general_rule_toggle }">{{ venue_general_rule }}</p>
-        <div class="d-flex justify-content-center mt-1">
-          <a class="text-info" (click)="general_rule_info_toggle()">{{ general_rule_toggle ? "Show Less" : " Show More" }}</a>
-          <mat-icon class="text-white">{{ general_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="venue_child_rule !== ''">
-        <p class="subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Child Rule</p>
-        <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !child_rule_toggle }">{{ venue_child_rule }}</p>
-        <div class="d-flex justify-content-center mt-1">
-          <a class="text-info" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? "Show Less" : " Show More" }}</a>
-          <mat-icon class="text-white">{{ child_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
-        </div>
-      </ng-container>
-
-      <!-- Button trigger modal -->
-      <div class="d-flex justify-content-center mt-5 pb-5">
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Show venue on Google map</button>
-      </div>
-
-      <!-- Modal reference source: https://getbootstrap.com/docs/5.1/components/modal/ 
+        <!-- Modal reference source: https://getbootstrap.com/docs/5.1/components/modal/ 
            Google Map source: https://medium.com/swlh/angular-google-map-component-basics-and-tips-7ff679e383ff
       -->
 
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered mt-0 modal-open">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-4" id="staticBackdropLabel">Event Venue</h1>
-            </div>
-            <div class="modal-body">
-              <div class="d-flex justify-content-center align-items-center" style="height: 460px">
-                <google-map *ngIf="marker" [width]="'100%'" [height]="'100%'" class="w-100 h-100" [options]="mapOptions">
-                  <map-marker [position]="marker.position"></map-marker>
-                </google-map>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered mt-0 modal-open">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-4" id="staticBackdropLabel">Event Venue</h1>
               </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-start">
-              <button type="button" class="btn btn-secondary btn-dark" data-bs-dismiss="modal">Close</button>
+              <div class="modal-body">
+                <div class="d-flex justify-content-center align-items-center" style="height: 460px">
+                  <google-map *ngIf="marker" [width]="'100%'" [height]="'100%'" class="w-100 h-100" [options]="mapOptions">
+                    <map-marker [position]="marker.position"></map-marker>
+                  </google-map>
+                </div>
+              </div>
+              <div class="modal-footer d-flex justify-content-start">
+                <button type="button" class="btn btn-secondary btn-dark" data-bs-dismiss="modal">Close</button>
+              </div>
             </div>
           </div>
         </div>
