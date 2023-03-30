@@ -8,17 +8,10 @@ import { SharedService } from "../shared.service";
   styleUrls: ["./favorites.component.css"],
 })
 export class FavoritesComponent implements OnInit {
-  constructor(public sharedService: SharedService) {}
-  ngOnInit() {
-    //this.sharedService.window.localStorage.clear();
-    this.getTableData();
-    //console.log(this.sharedService.window.localStorage.length)
- }
-  getTableData(): any[][] {
-    const tableData = this.sharedService.window.localStorage.getItem('fav');
-    //console.log( tableData ? JSON.parse(tableData) : [])
-    return tableData ? JSON.parse(tableData) : [];
-  }
-  
+  constructor(public sharedService: SharedService) {}   
 
+  ngOnInit(): void {
+    //this.sharedService.window.localStorage.clear();
+    console.log("temp");
+  }
 }

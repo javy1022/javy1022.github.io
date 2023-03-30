@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of getTableData(); let rowIndex = index">
+      <tr *ngFor="let row of sharedService.fav_storage_table; let rowIndex = index">
         <td>{{ rowIndex + 1 }}</td>
         <td>{{ row[0] }}</td>
         <td>{{ row[1] }}</td>

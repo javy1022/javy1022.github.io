@@ -153,7 +153,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   favorite_btn_toggle(key: string) {
     this.sharedService.fav_toggles_dict[key] = ! this.sharedService.fav_toggles_dict[key];
     this.sharedService.window.localStorage.setItem('fav_toggles_dict', JSON.stringify(this.sharedService.fav_toggles_dict));
-    console.log("ni hao");
+    
+    if(this.sharedService.fav_toggles_dict[key] === true){
+    this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);
+    }
   }
 
   saveToLocalStorage() {
@@ -320,14 +323,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
     if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;   
-
-    this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);
   }
 
   fav_storage_and_table_push(local_date:string, event_title:string, genre:string, venue:string, event_id:string){
       let table_row_buffer :any = [];
       let local_storage =  this.sharedService.window.localStorage;
-      let fav_table = this.sharedService.fav_storage_table_ref;
+      let fav_table = this.sharedService.fav_storage_table;
 
       table_row_buffer.push(local_date);
       table_row_buffer.push(event_title);
@@ -335,10 +336,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       table_row_buffer.push(venue);
       table_row_buffer.push(event_id);
 
-      fav_table.push(table_row_buffer); 
-      //console.log(table_row_buffer)       
+      fav_table.push(table_row_buffer);          
 
-     // local_storage.setItem("fav", JSON.stringify(fav_table));
+      local_storage.setItem("fav", JSON.stringify(fav_table));
       //fav_table.push(JSON.parse(local_storage.getItem(Constants.STORAGE_KEY)!));
 
 
