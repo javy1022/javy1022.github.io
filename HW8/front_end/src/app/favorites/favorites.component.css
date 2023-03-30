@@ -1,0 +1,9 @@
+.prompt_color{
+    color: #80ECD8;
+  }
+
+  @media (max-width: 576px) {
+  .custom-table {
+    min-width: 112%;
+  }
+}
