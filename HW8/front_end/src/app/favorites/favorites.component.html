@@ -22,7 +22,15 @@
         <td>{{ event[1] }}</td>
         <td>{{ event[2] }}</td>
         <td>{{ event[3] }}</td>
-        <td><mat-icon>delete_outline</mat-icon></td>
+        <!-- Visible on mobile devices (touchstart event) -->
+        <td class="d-sm-none">
+          <mat-icon class="bg-danger" (touchstart)="remove_event_touch(event_index, $event)">delete_outline</mat-icon>
+        </td>
+
+        <!-- Visible on larger screens (click event) -->
+        <td class="d-none d-sm-table-cell">
+          <mat-icon class="bg-danger" (click)="remove_event_click(event_index, $event)">delete_outline</mat-icon>
+        </td>
       </tr>
     </tbody>
   </table>

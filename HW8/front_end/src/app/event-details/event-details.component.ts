@@ -7,7 +7,6 @@ import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands
 import { filter } from "rxjs/operators";
 import { MatTabGroup } from "@angular/material/tabs";
 
-
 import { concatMap } from "rxjs/operators";
 @Component({
   selector: "app-event-details",
@@ -34,7 +33,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   price_range!: any;
   status!: string;
   ticket_url!: string;
-  seatmap_url!: string;  
+  seatmap_url!: string;
   fb_icon = faSquareFacebook;
   twitter_icon = faTwitter;
 
@@ -62,12 +61,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   child_rule_toggle: boolean = false;
   favorite_toggle: boolean = false;
 
-  marker?:any;
-  mapOptions?:any;
+  marker?: any;
+  mapOptions?: any;
 
   ngOnInit() {
     this.subs_event_details();
-    this.subscribeToClearEventDetails();  
+    this.subscribeToClearEventDetails();
 
     this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$
       .pipe(
@@ -99,10 +98,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           const city_obj = venue_obj?.city?.name;
           const state_obj = venue_obj?.state?.name;
           if (address_obj || city_obj || state_obj) {
-            if(address_obj)  this.venue_address += address_obj.trim() + ", ";
-            if(city_obj)  this.venue_address += city_obj.trim() + ", ";
-            if(state_obj ) this.venue_address += state_obj.trim() + ", ";   
-            if(this.venue_address !== '')  this.venue_address = this.venue_address.slice(0, -2);              
+            if (address_obj) this.venue_address += address_obj.trim() + ", ";
+            if (city_obj) this.venue_address += city_obj.trim() + ", ";
+            if (state_obj) this.venue_address += state_obj.trim() + ", ";
+            if (this.venue_address !== "") this.venue_address = this.venue_address.slice(0, -2);
           }
 
           const phone_obj = venue_obj?.boxOfficeInfo?.phoneNumberDetail;
@@ -118,23 +117,22 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           if (child_rule_obj) this.venue_child_rule = child_rule_obj.trim();
 
           const locale_obj = venue_obj?.location;
-          if(locale_obj.latitude &&  locale_obj.longitude){
+          if (locale_obj.latitude && locale_obj.longitude) {
             this.venue_lat = parseFloat(locale_obj.latitude);
             this.venue_lng = parseFloat(locale_obj.longitude);
             this.mapOptions = {
               center: { lat: this.venue_lat, lng: this.venue_lng },
-              zoom: 14
+              zoom: 14,
             };
             this.marker = {
               position: { lat: this.venue_lat, lng: this.venue_lng },
             };
-          }    
+          }
         }
       }
     });
 
-    this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());  
-     
+    this.sharedService.resetTabs$.subscribe(() => this.setActiveTab());
   }
 
   hours_info_toggle() {
@@ -150,15 +148,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   favorite_btn_toggle(key: string) {
-    this.sharedService.fav_toggles_dict[key] = ! this.sharedService.fav_toggles_dict[key];
-    this.sharedService.window.localStorage.setItem('fav_toggles_dict', JSON.stringify(this.sharedService.fav_toggles_dict));
-    
-    if(this.sharedService.fav_toggles_dict[key] === true){
-    this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);
-    }else{
+    this.sharedService.fav_toggles_dict[key] = !this.sharedService.fav_toggles_dict[key];
+    this.sharedService.window.localStorage.setItem("fav_toggles_dict", JSON.stringify(this.sharedService.fav_toggles_dict));
+
+    if (this.sharedService.fav_toggles_dict[key] === true) {
+      this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);
+    } else {
       this.fav_storage_and_table_remove(this.event_id);
     }
-  } 
+  }
 
   setActiveTab() {
     this.tabGroup.selectedIndex = 0;
@@ -208,7 +206,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   clear_btn(): void {
-    this.back_to_table()
+    this.back_to_table();
   }
 
   scroll_to_eventDetails() {
@@ -235,7 +233,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.venue_phone = Constants.EMPTY;
     this.venue_hours = Constants.EMPTY;
     this.venue_general_rule = Constants.EMPTY;
-    this.venue_child_rule =  Constants.EMPTY;
+    this.venue_child_rule = Constants.EMPTY;
     this.hours_toggle = false;
     this.general_rule_toggle = false;
     this.child_rule_toggle = false;
@@ -245,7 +243,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     if (this.event_title === undefined || this.event_title === Constants.UNDEFINED_CAP || this.event_title === Constants.UNDEFINED_LOW) this.event_title = Constants.EMPTY;
 
     this.event_id = resp?.id?.trim();
-    if (this.event_id === undefined || this.event_id === Constants.UNDEFINED_CAP || this.event_id === Constants.UNDEFINED_LOW) this.event_id= Constants.EMPTY;
+    if (this.event_id === undefined || this.event_id === Constants.UNDEFINED_CAP || this.event_id === Constants.UNDEFINED_LOW) this.event_id = Constants.EMPTY;
 
     this.local_date = resp?.dates?.start?.localDate?.trim();
     if (this.local_date === undefined || this.local_date === Constants.UNDEFINED_CAP || this.local_date === Constants.UNDEFINED_LOW) this.local_date = Constants.EMPTY;
@@ -318,32 +316,31 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     if (this.ticket_url === undefined || this.ticket_url === Constants.UNDEFINED_CAP || this.ticket_url === Constants.UNDEFINED_LOW) this.ticket_url = Constants.EMPTY;
 
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
-    if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;   
+    if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;
   }
 
-  fav_storage_and_table_push(local_date:string, event_title:string, genre:string, venue:string, event_id:string){
-      let table_row_buffer :any = [];
-      let local_storage =  this.sharedService.window.localStorage;
-      let fav_table = this.sharedService.fav_storage_table;
-
-      table_row_buffer.push(local_date);
-      table_row_buffer.push(event_title);
-      table_row_buffer.push(genre);
-      table_row_buffer.push(venue);
-      table_row_buffer.push(event_id);
-
-      fav_table.push(table_row_buffer);          
-
-      local_storage.setItem("fav", JSON.stringify(fav_table));
-      //fav_table.push(JSON.parse(local_storage.getItem(Constants.STORAGE_KEY)!));
-  } 
-  fav_storage_and_table_remove(event_id:string){
+  fav_storage_and_table_push(local_date: string, event_title: string, genre: string, venue: string, event_id: string) {
+    let table_row_buffer: any = [];
+    let local_storage = this.sharedService.window.localStorage;
     let fav_table = this.sharedService.fav_storage_table;
-    let local_storage =  this.sharedService.window.localStorage;
-      console.log(event_id);
-      const target_index = fav_table.findIndex(event => event[4] === event_id);
-      fav_table.splice(target_index, 1);
-      local_storage.setItem("fav", JSON.stringify(fav_table));
 
+    table_row_buffer.push(local_date);
+    table_row_buffer.push(event_title);
+    table_row_buffer.push(genre);
+    table_row_buffer.push(venue);
+    table_row_buffer.push(event_id);
+
+    fav_table.push(table_row_buffer);
+
+    local_storage.setItem("fav", JSON.stringify(fav_table));
+  }
+
+  fav_storage_and_table_remove(event_id: string) {
+    let fav_table = this.sharedService.fav_storage_table;
+    let local_storage = this.sharedService.window.localStorage;
+    console.log(event_id);
+    const target_index = fav_table.findIndex((event) => event[4] === event_id);
+    fav_table.splice(target_index, 1);
+    local_storage.setItem("fav", JSON.stringify(fav_table));
   }
 }
