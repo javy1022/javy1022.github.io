@@ -7,7 +7,7 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class SharedService {
-  constructor() {}
+  constructor() { this.loadFromLocalStorage();}
 
   //public keyword_input: string = Constants.EMPTY;
   public keyword_input: string = "P!NK";
@@ -45,7 +45,15 @@ export class SharedService {
 
   public window: Window = window;
   public fav_storage_table_ref: any[][] = [];
+  public fav_toggles_dict: { [key: string]: boolean } = {};
+
   
+  loadFromLocalStorage() {
+    const storedData = localStorage.getItem('fav_toggles_dict');
+    if (storedData) {
+      this.fav_toggles_dict = JSON.parse(storedData);
+    }
+  }
 
   resetTabs() {
     this.resetTabsSource.next();

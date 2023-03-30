@@ -35,7 +35,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   status!: string;
   ticket_url!: string;
   seatmap_url!: string;
-  fav_toggles_dict: { [key: string]: boolean } = {};
+  //fav_toggles_dict: { [key: string]: boolean } = {};
   fb_icon = faSquareFacebook;
   twitter_icon = faTwitter;
 
@@ -151,8 +151,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   favorite_btn_toggle(key: string) {
-    this.fav_toggles_dict[key] = ! this.fav_toggles_dict[key];
+    this.sharedService.fav_toggles_dict[key] = ! this.sharedService.fav_toggles_dict[key];
+    this.sharedService.window.localStorage.setItem('fav_toggles_dict', JSON.stringify(this.sharedService.fav_toggles_dict));
+    console.log("ni hao");
   }
+
+  saveToLocalStorage() {
+    localStorage.setItem('fav_toggles_dict', JSON.stringify(this.sharedService.fav_toggles_dict));
+  }
+  
 
   setActiveTab() {
     this.tabGroup.selectedIndex = 0;

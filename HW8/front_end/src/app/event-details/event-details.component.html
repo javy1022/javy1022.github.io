@@ -8,8 +8,8 @@
     <div class="title-width">
       <h5 class="text-white me-2">{{ event_title }}</h5>
     </div>
-    <button mat-mini-fab class="bg-white" (click)="favorite_btn_toggle(event_id)" [ngClass]="{ 'text-secondary': !fav_toggles_dict[event_id], 'text-danger': fav_toggles_dict[event_id] }">
-      <mat-icon>{{ fav_toggles_dict[event_id] ? "favorite" : "favorite_outline" }}</mat-icon>
+    <button mat-mini-fab class="bg-white" (click)="favorite_btn_toggle(event_id)" [ngClass]="{ 'text-secondary': !sharedService.fav_toggles_dict[event_id], 'text-danger': sharedService.fav_toggles_dict[event_id] }">
+      <mat-icon>{{ sharedService.fav_toggles_dict[event_id] ? "favorite" : "favorite_outline" }}</mat-icon>
     </button>
   </div>
 
