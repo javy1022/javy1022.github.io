@@ -34,8 +34,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   price_range!: any;
   status!: string;
   ticket_url!: string;
-  seatmap_url!: string;
-  //fav_toggles_dict: { [key: string]: boolean } = {};
+  seatmap_url!: string;  
   fb_icon = faSquareFacebook;
   twitter_icon = faTwitter;
 
@@ -156,13 +155,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     
     if(this.sharedService.fav_toggles_dict[key] === true){
     this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);
+    }else{
+      this.fav_storage_and_table_remove(this.event_id);
     }
-  }
-
-  saveToLocalStorage() {
-    localStorage.setItem('fav_toggles_dict', JSON.stringify(this.sharedService.fav_toggles_dict));
-  }
-  
+  } 
 
   setActiveTab() {
     this.tabGroup.selectedIndex = 0;
@@ -340,7 +336,14 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
       local_storage.setItem("fav", JSON.stringify(fav_table));
       //fav_table.push(JSON.parse(local_storage.getItem(Constants.STORAGE_KEY)!));
-
-
   } 
+  fav_storage_and_table_remove(event_id:string){
+    let fav_table = this.sharedService.fav_storage_table;
+    let local_storage =  this.sharedService.window.localStorage;
+      console.log(event_id);
+      const target_index = fav_table.findIndex(event => event[4] === event_id);
+      fav_table.splice(target_index, 1);
+      local_storage.setItem("fav", JSON.stringify(fav_table));
+
+  }
 }
