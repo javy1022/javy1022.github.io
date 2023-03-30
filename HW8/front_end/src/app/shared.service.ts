@@ -43,6 +43,10 @@ export class SharedService {
 
   clearEventDetails$ = new Subject<void>();
 
+  public window: Window = window;
+  public fav_storage_table_ref: any[][] = [];
+  
+
   resetTabs() {
     this.resetTabsSource.next();
   }

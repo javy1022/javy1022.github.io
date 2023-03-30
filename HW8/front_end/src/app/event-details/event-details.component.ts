@@ -7,6 +7,7 @@ import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands
 import { filter } from "rxjs/operators";
 import { MatTabGroup } from "@angular/material/tabs";
 
+
 import { concatMap } from "rxjs/operators";
 @Component({
   selector: "app-event-details",
@@ -87,7 +88,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     this.sharedService.venueResponse$.subscribe((resp) => {
       if (resp) {
-        console.log("Component received additional response:", resp);
+        //console.log(resp);
         const venue_obj = resp?._embedded?.venues?.[0];
 
         if (venue_obj) {
@@ -306,6 +307,26 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     if (this.ticket_url === undefined || this.ticket_url === Constants.UNDEFINED_CAP || this.ticket_url === Constants.UNDEFINED_LOW) this.ticket_url = Constants.EMPTY;
 
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
-    if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;
+    if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;   
+
+    this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue);
   }
+
+  fav_storage_and_table_push(local_date:string, event_title:string, genre:string, venue:string){
+      let table_row_buffer :any = [];
+      let local_storage =  this.sharedService.window.localStorage;
+      let fav_table = this.sharedService.fav_storage_table_ref;
+
+      table_row_buffer.push(local_date);
+      table_row_buffer.push(event_title);
+      table_row_buffer.push(genre);
+      table_row_buffer.push(venue);
+
+      fav_table.push(table_row_buffer);        
+
+      local_storage.setItem("fav", JSON.stringify(fav_table));
+      //fav_table.push(JSON.parse(local_storage.getItem(Constants.STORAGE_KEY)!));
+
+
+  } 
 }

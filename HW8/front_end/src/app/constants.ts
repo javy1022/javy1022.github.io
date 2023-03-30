@@ -4,3 +4,4 @@ export const UNDEFINED_CAP = "Undefined";
 export const GENRE_SEPARATOR = " | ";
 export const PRICE_RANGES_OPERATOR = " - ";
 export const ARTISTS_SEPARATOR = " | ";
+

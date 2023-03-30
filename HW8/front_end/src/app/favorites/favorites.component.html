@@ -1,4 +1,28 @@
-<div *ngIf="window.localStorage.length === 0" class="bg-white w-75 mx-auto mt-5 rounded-5">
-  <p class="text-danger text-center mx-auto fs-4 ">No favorite events to show</p>
+<div *ngIf="sharedService.window.localStorage.length === 0" class="bg-white w-75 mx-auto mt-5 rounded-5">
+  <p class="text-danger text-center mx-auto fs-4">No favorite events to show</p>
 </div>
 
+<div class="table-responsive" #FavTableWrapper>
+  <table class="table table-dark table-striped w-auto min-vw-150 custom-table text-center fs-6 rounded-4 overflow-hidden">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Date</th>
+        <th>Event</th>
+        <th>Category</th>
+        <th>Venue</th>
+        <th>Favorite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of getTableData(); let rowIndex = index">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>{{ row[4] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
