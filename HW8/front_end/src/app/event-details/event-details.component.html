@@ -1,14 +1,19 @@
-<div class="bg-dark bg-opacity-50 bg-blur ch" #eventDetails>
+<div class=" bg-dark bg-opacity-50 bg-blur ch" #eventDetails>
   <div class="d-flex align-items-center ps-3 pt-3">
     <mat-icon class="text-white">keyboard_arrow_left</mat-icon>
     <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-0" (click)="this.back_to_table()">Back</button>
   </div>
 
-  <div class="container d-flex align-items-center justify-content-start ps-4 pt-3">
+  <div class="d-flex align-items-center justify-content-start ps-4 pt-3">
     <div class="title-width">
       <h5 class="text-white me-2">{{ event_title }}</h5>
     </div>
-    <button mat-mini-fab class="bg-white" (click)="favorite_btn_toggle(event_id)" [ngClass]="{ 'text-secondary': !sharedService.fav_toggles_dict[event_id], 'text-danger': sharedService.fav_toggles_dict[event_id] }">
+    <button
+      mat-mini-fab
+      class="bg-white"
+      (click)="favorite_btn_toggle(event_id)"
+      [ngClass]="{ 'text-secondary': !sharedService.fav_toggles_dict[event_id], 'text-danger': sharedService.fav_toggles_dict[event_id] }"
+    >
       <mat-icon>{{ sharedService.fav_toggles_dict[event_id] ? "favorite" : "favorite_outline" }}</mat-icon>
     </button>
   </div>
@@ -123,7 +128,7 @@
             <div class="w-75 mx-auto">
               <p class="subtitle_color fs-5 text-center mt-3 mb-4">Album featuring {{ artist_name_spotify[i] }}</p>
 
-              <div class="container">
+              <div >
                 <div class="row">
                   <div *ngFor="let album_img of artists_spotify_albumns[i]" class="mx-auto col-10 col-sm-6">
                     <img src="{{ album_img }}" class="img-fluid mb-4" alt="Album image" />

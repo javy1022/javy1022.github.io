@@ -1,36 +1,38 @@
-<div *ngIf="sharedService.fav_storage_table.length === 0" class="bg-white w-75 mx-auto mt-5 rounded-5">
-  <p class="text-danger text-center mx-auto fs-4">No favorite events to show</p>
-</div>
+<div class="container">
+  <div *ngIf="sharedService.fav_storage_table.length === 0" class="bg-white w-75 mx-auto mt-5 rounded-5">
+    <p class="text-danger text-center mx-auto fs-4">No favorite events to show</p>
+  </div>
 
-<div class="table-responsive mt-4" *ngIf="sharedService.fav_storage_table.length > 0" #FavTableWrapper>
-  <p class="prompt_color text-center fs-5 fw-bold pb-1">List of your favorite events</p>
-  <table class="table table-light custom-table text-center fs-6 rounded-4 overflow-hidden">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Date</th>
-        <th>Event</th>
-        <th>Category</th>
-        <th>Venue</th>
-        <th>Favorite</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let event of sharedService.fav_storage_table; let event_index = index">
-        <td>{{ event_index + 1 }}</td>
-        <td>{{ event[0] }}</td>
-        <td>{{ event[1] }}</td>
-        <td>{{ event[2] }}</td>
-        <td>{{ event[3] }}</td>
-        <!-- mobile devices (touchstart event) -->
-        <td class="d-sm-none">
-          <mat-icon (touchstart)="remove_event_touch(event_index, event[4] ,$event)">delete_outline</mat-icon>
-        </td>
-        <!-- larger screens (click event) -->
-        <td class="d-none d-sm-block">
-          <mat-icon (click)="remove_event_click(event_index, event[4] ,$event)">delete_outline</mat-icon>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive mt-4" *ngIf="sharedService.fav_storage_table.length > 0" #FavTableWrapper>
+    <p class="prompt_color text-center fs-5 fw-bold pb-1">List of your favorite events</p>
+    <table class="table table-light custom-table text-center fs-6 rounded-4 overflow-hidden">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Event</th>
+          <th>Category</th>
+          <th>Venue</th>
+          <th>Favorite</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of sharedService.fav_storage_table; let event_index = index">
+          <td>{{ event_index + 1 }}</td>
+          <td>{{ event[0] }}</td>
+          <td>{{ event[1] }}</td>
+          <td>{{ event[2] }}</td>
+          <td>{{ event[3] }}</td>
+          <!-- mobile devices (touchstart event) -->
+          <td class="d-sm-none">
+            <mat-icon (touchstart)="remove_event_touch(event_index, event[4], $event)">delete_outline</mat-icon>
+          </td>
+          <!-- larger screens (click event) -->
+          <td class="d-none d-sm-block">
+            <mat-icon (click)="remove_event_click(event_index, event[4], $event)">delete_outline</mat-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
