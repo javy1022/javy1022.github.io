@@ -3,13 +3,13 @@
     <mat-icon class="text-white">keyboard_arrow_left</mat-icon>
     <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-0" (click)="this.back_to_table()">Back</button>
   </div>
-  
+
   <div class="container d-flex align-items-center justify-content-start ps-4 pt-3">
     <div class="title-width">
       <h5 class="text-white me-2">{{ event_title }}</h5>
     </div>
-    <button mat-mini-fab class="bg-white" (click)="favorite_btn_toggle()" [ngClass]="{ 'text-secondary': !favorite_toggle, 'text-danger': favorite_toggle }">
-      <mat-icon>{{ favorite_toggle ? "favorite" : "favorite_outline" }}</mat-icon>
+    <button mat-mini-fab class="bg-white" (click)="favorite_btn_toggle(event_id)" [ngClass]="{ 'text-secondary': !fav_toggles_dict[event_id], 'text-danger': fav_toggles_dict[event_id] }">
+      <mat-icon>{{ fav_toggles_dict[event_id] ? "favorite" : "favorite_outline" }}</mat-icon>
     </button>
   </div>
 
@@ -169,7 +169,7 @@
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !hours_toggle }">{{ venue_hours }}</p>
         <div class="d-flex justify-content-center mt-1">
           <a class="text-info" (click)="hours_info_toggle()">{{ hours_toggle ? "Show Less" : " Show More" }}</a>
-          <mat-icon class="text-white">{{ hours_toggle ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+          <mat-icon class="text-white">{{ hours_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
         </div>
       </ng-container>
 
@@ -178,7 +178,7 @@
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !general_rule_toggle }">{{ venue_general_rule }}</p>
         <div class="d-flex justify-content-center mt-1">
           <a class="text-info" (click)="general_rule_info_toggle()">{{ general_rule_toggle ? "Show Less" : " Show More" }}</a>
-          <mat-icon class="text-white">{{ general_rule_toggle ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+          <mat-icon class="text-white">{{ general_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
         </div>
       </ng-container>
 
@@ -187,7 +187,7 @@
         <p class="text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !child_rule_toggle }">{{ venue_child_rule }}</p>
         <div class="d-flex justify-content-center mt-1">
           <a class="text-info" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? "Show Less" : " Show More" }}</a>
-          <mat-icon class="text-white">{{ child_rule_toggle ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+          <mat-icon class="text-white">{{ child_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
         </div>
       </ng-container>
 

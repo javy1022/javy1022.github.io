@@ -12,10 +12,11 @@ export class FavoritesComponent implements OnInit {
   ngOnInit() {
     //this.sharedService.window.localStorage.clear();
     this.getTableData();
+    //console.log(this.sharedService.window.localStorage.length)
  }
   getTableData(): any[][] {
     const tableData = this.sharedService.window.localStorage.getItem('fav');
-    console.log( tableData ? JSON.parse(tableData) : [])
+    //console.log( tableData ? JSON.parse(tableData) : [])
     return tableData ? JSON.parse(tableData) : [];
   }
   

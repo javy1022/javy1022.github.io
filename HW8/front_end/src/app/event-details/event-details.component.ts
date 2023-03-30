@@ -25,6 +25,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   spotifyArtistsSubscription: Subscription = new Subscription();
   /* Events tab */
   event_title!: string;
+  event_id!: string;
   local_date!: string;
   local_time!: string;
   artist_or_team: any[] = [];
@@ -34,6 +35,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   status!: string;
   ticket_url!: string;
   seatmap_url!: string;
+  fav_toggles_dict: { [key: string]: boolean } = {};
   fb_icon = faSquareFacebook;
   twitter_icon = faTwitter;
 
@@ -148,8 +150,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.child_rule_toggle = !this.child_rule_toggle;
   }
 
-  favorite_btn_toggle() {
-    this.favorite_toggle = !this.favorite_toggle;
+  favorite_btn_toggle(key: string) {
+    this.fav_toggles_dict[key] = ! this.fav_toggles_dict[key];
   }
 
   setActiveTab() {
@@ -236,6 +238,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.event_title = resp?.name?.trim();
     if (this.event_title === undefined || this.event_title === Constants.UNDEFINED_CAP || this.event_title === Constants.UNDEFINED_LOW) this.event_title = Constants.EMPTY;
 
+    this.event_id = resp?.id?.trim();
+    if (this.event_id === undefined || this.event_id === Constants.UNDEFINED_CAP || this.event_id === Constants.UNDEFINED_LOW) this.event_id= Constants.EMPTY;
+
     this.local_date = resp?.dates?.start?.localDate?.trim();
     if (this.local_date === undefined || this.local_date === Constants.UNDEFINED_CAP || this.local_date === Constants.UNDEFINED_LOW) this.local_date = Constants.EMPTY;
 
@@ -309,10 +314,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.seatmap_url = resp?.seatmap?.staticUrl?.trim();
     if (this.seatmap_url === undefined || this.seatmap_url === Constants.UNDEFINED_CAP || this.seatmap_url === Constants.UNDEFINED_LOW) this.seatmap_url = Constants.EMPTY;   
 
-    this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue);
+    this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);
   }
 
-  fav_storage_and_table_push(local_date:string, event_title:string, genre:string, venue:string){
+  fav_storage_and_table_push(local_date:string, event_title:string, genre:string, venue:string, event_id:string){
       let table_row_buffer :any = [];
       let local_storage =  this.sharedService.window.localStorage;
       let fav_table = this.sharedService.fav_storage_table_ref;
@@ -321,10 +326,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       table_row_buffer.push(event_title);
       table_row_buffer.push(genre);
       table_row_buffer.push(venue);
+      table_row_buffer.push(event_id);
 
-      fav_table.push(table_row_buffer);        
+      fav_table.push(table_row_buffer); 
+      //console.log(table_row_buffer)       
 
-      local_storage.setItem("fav", JSON.stringify(fav_table));
+     // local_storage.setItem("fav", JSON.stringify(fav_table));
       //fav_table.push(JSON.parse(local_storage.getItem(Constants.STORAGE_KEY)!));
 
 
