@@ -45,9 +45,22 @@ export class HttpRequestService {
                 if (artist_category === "Music") spotify_search.push(artist_name);
               }
             }
+            if(spotify_search.length === 0){
+              this.sharedService.artist_no_result = true;  
+                
+
+            }else{
+              this.sharedService.artist_no_result = false;
+               
+            }
+          }else{
+            this.sharedService.artist_no_result = true;      
           }
+          
+       
 
           const spotifyObservables = spotify_search.map((artist_name) => this.spotify_searchArtists(artist_name));
+         
 
           if (result?._embedded?.venues?.[0]?.name) {
             const params_venue = new HttpParams().set("venue_name", result._embedded.venues[0].name.trim());
@@ -64,16 +77,23 @@ export class HttpRequestService {
       )
       .subscribe(({ result, responses }) => {
         if (responses) {
+          let spotify_valid_search_counter = 0;
           if (result?._embedded?.venues?.[0]?.name) {
-            const request_venue_detail = responses.pop(); // Remove and store the last element from the responses array
+            const request_venue_detail = responses.pop(); 
             this.sharedService.venueResponseSource.next(request_venue_detail);
           }
 
           responses.forEach((result) => {
+            let artist_list = result?.artists?.items
+            if(artist_list && artist_list.length !== 0  ){
             this.sharedService.spotifyArtistsResultSource.next(result);
-          });
-        }
+            spotify_valid_search_counter += 1;
+          }
 
+          });
+         if(spotify_valid_search_counter === 0 ) this.sharedService.artist_no_result = true; 
+        }
+       
         this.sharedService.eventDetailSource.next(result);
       });
   }

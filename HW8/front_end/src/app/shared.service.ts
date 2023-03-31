@@ -48,6 +48,7 @@ export class SharedService {
   public fav_toggles_dict: { [key: string]: boolean } = {};
 
   public table_no_result: boolean = false;
+  public artist_no_result: boolean = false;
 
   
   load_fav_states_from_storage() {
