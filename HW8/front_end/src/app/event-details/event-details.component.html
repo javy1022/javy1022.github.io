@@ -183,27 +183,31 @@
 
       <mat-tab label="Venue">
         <div class="card-body">
+          <div class="row row-cols-1 row-cols-sm-2">
+            <div class="col">
           <ng-container *ngIf="venue_name !== ''">
             <div>
-              <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Name</p>
+              <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Name</p>
               <p class="card-text text-center text-white fs-6 mb-0 mt-1">{{ venue_name }}</p>
             </div>
           </ng-container>
 
           <ng-container *ngIf="venue_address !== ''">
             <div>
-              <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Address</p>
+              <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Address</p>
               <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ venue_address }}</p>
             </div>
           </ng-container>
 
           <ng-container *ngIf="venue_phone !== ''">
-            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Phone Number</p>
+            <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Phone Number</p>
             <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ venue_phone }}</p>
           </ng-container>
+        </div>
 
+        <div class="col">
           <ng-container *ngIf="venue_hours !== ''">
-            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Open Hours</p>
+            <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Open Hours</p>
             <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !hours_toggle }">{{ venue_hours }}</p>
             <div class="d-flex justify-content-center mt-1">
               <a class="card-link text-info" (click)="hours_info_toggle()">{{ hours_toggle ? "Show Less" : " Show More" }}</a>
@@ -212,7 +216,7 @@
           </ng-container>
 
           <ng-container *ngIf="venue_general_rule !== ''">
-            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">General Rule</p>
+            <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">General Rule</p>
             <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !general_rule_toggle }">{{ venue_general_rule }}</p>
             <div class="d-flex justify-content-center mt-1">
               <a class="card-link text-info" (click)="general_rule_info_toggle()">{{ general_rule_toggle ? "Show Less" : " Show More" }}</a>
@@ -221,14 +225,15 @@
           </ng-container>
 
           <ng-container *ngIf="venue_child_rule !== ''">
-            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Child Rule</p>
+            <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Child Rule</p>
             <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !child_rule_toggle }">{{ venue_child_rule }}</p>
             <div class="d-flex justify-content-center mt-1">
               <a class="card-link text-info" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? "Show Less" : " Show More" }}</a>
               <mat-icon class="text-white">{{ child_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
             </div>
           </ng-container>
-
+        </div>
+        </div>
           <!-- Button trigger modal -->
           <div class="d-flex justify-content-center mt-5 pb-5">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Show venue on Google map</button>
