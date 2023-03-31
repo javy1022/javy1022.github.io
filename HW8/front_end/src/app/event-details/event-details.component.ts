@@ -154,8 +154,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.sharedService.window.localStorage.setItem("fav_toggles_dict", JSON.stringify(this.sharedService.fav_toggles_dict));
 
     if (this.sharedService.fav_toggles_dict[key] === true) {
-      this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);
+      alert("Event Added to Favorites!");
+      this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);      
     } else {
+      alert("Removed from Favorites!");
       this.fav_storage_and_table_remove(this.event_id);
     }
   }

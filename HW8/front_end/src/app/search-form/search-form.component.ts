@@ -29,9 +29,7 @@ export class SearchFormComponent {
     this.sharedService.list_for_table = [];
     this.sharedService.clearEventDetails$.next();
     this.sharedService.current_info = ""; 
-    this.sharedService.table_no_result = false;
-    console.log( this.sharedService.table_no_result)
-    console.log( this.sharedService.table_no_result)
+    this.sharedService.table_no_result = false;  
   }
 
   searchResult$ = this.sharedService.search_result_source.asObservable();
@@ -40,12 +38,12 @@ export class SearchFormComponent {
     const reg_non_alphanumeric = /[^a-z0-9+]+/gi;
     const GOOGLE_API_HOST = "https://maps.googleapis.com";
     const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
-    // this.sharedService.searchResultSource.next(null);  maybe? idk
+   
     this.sharedService.list_for_table = [];
     this.sharedService.current_info = "table";
     this.sharedService.resetTabs();
     this.sharedService.clearEventDetails$.next();
-  
+    
 
     if (!this.sharedService.checkbox_input) {
       let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
