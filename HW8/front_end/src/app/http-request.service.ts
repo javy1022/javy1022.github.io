@@ -101,6 +101,7 @@ export class HttpRequestService {
             lng: lat_lng_obj?.lng,
           };
         } else {
+          this.sharedService.table_no_result = true;
           return;
         }
       }),
@@ -145,7 +146,7 @@ export class HttpRequestService {
           this.sharedService.show_table = true;
           return result_dict;
         } else {
-          console.log("No Keyword");
+          this.sharedService.table_no_result = true;
           return;
         }
       }),

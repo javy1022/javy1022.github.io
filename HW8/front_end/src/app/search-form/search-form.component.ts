@@ -1,4 +1,4 @@
-import { Component, ViewChild} from "@angular/core";
+import { Component} from "@angular/core";
 import { HttpRequestService } from "../http-request.service";
 import * as Constants from "../constants";
 import * as Config from "../config";
@@ -29,6 +29,9 @@ export class SearchFormComponent {
     this.sharedService.list_for_table = [];
     this.sharedService.clearEventDetails$.next();
     this.sharedService.current_info = ""; 
+    this.sharedService.table_no_result = false;
+    console.log( this.sharedService.table_no_result)
+    console.log( this.sharedService.table_no_result)
   }
 
   searchResult$ = this.sharedService.search_result_source.asObservable();
@@ -42,6 +45,7 @@ export class SearchFormComponent {
     this.sharedService.current_info = "table";
     this.sharedService.resetTabs();
     this.sharedService.clearEventDetails$.next();
+  
 
     if (!this.sharedService.checkbox_input) {
       let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
@@ -49,7 +53,8 @@ export class SearchFormComponent {
       let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + Config.GOOGLE_API_KEY;
       this.http_request.geoCode_send_request(url).subscribe({
         next: (result) => {
-          if (result) {
+          if (result) {     
+            this.sharedService.table_no_result = false;     
             this.sharedService.search_result_source.next(result);
           }
         }
@@ -58,6 +63,7 @@ export class SearchFormComponent {
       const IPINFO_API_HOST = "https://ipinfo.io/";
       this.http_request.ipInfo_send_request(IPINFO_API_HOST + "?token=" + Config.IPINFO_API_KEY).subscribe({
         next: (result) => {
+          this.sharedService.table_no_result = false;     
           this.sharedService.search_result_source.next(result);
         }
       });

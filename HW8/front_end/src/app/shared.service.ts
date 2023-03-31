@@ -47,6 +47,8 @@ export class SharedService {
   public fav_storage_table: any[][] = [];
   public fav_toggles_dict: { [key: string]: boolean } = {};
 
+  public table_no_result: boolean = false;
+
   
   load_fav_states_from_storage() {
     const fav_states = this.window.localStorage.getItem('fav_toggles_dict');

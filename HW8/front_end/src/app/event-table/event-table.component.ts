@@ -17,16 +17,18 @@ export class EventTableComponent implements OnDestroy , OnChanges {
   @Input() events_data!: any[];
   
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['events_data'] && this.events_data) {
+    if (changes['events_data'] && this.events_data ) {
       console.log(this.events_data);
       this.sharedService.list_for_table = this.generate_table_ref(this.events_data);
       this.sort_by_dateTime();
 
       setTimeout(() => {
-        this.tableWrapper.nativeElement.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+        if (this.tableWrapper) { 
+          this.tableWrapper.nativeElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
       }, 100);
     }
   }
