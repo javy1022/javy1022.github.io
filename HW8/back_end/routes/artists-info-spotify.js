@@ -11,7 +11,7 @@ var spotifyApi = new SpotifyWebApi({
   clientId: SPOTIFY_CLIENT_ID,
   clientSecret: SPOTIFY_CLIENT_SECRET,
 });
-
+/* Reference source: https://github.com/thelinmichael/spotify-web-api-node */
 spotifyApi.clientCredentialsGrant().then(
   function (data) {
     console.log("The access token expires in " + data.body["expires_in"]);

@@ -1,8 +1,6 @@
 const TICKETMASTER_API_KEY = "PbITZwAJ32tYq1Codl5AhoRCENI3fPfo"
 const TICKETMASTER_HOST = "https://app.ticketmaster.com"
 const EVENT_SEARCH_PATH = "/discovery/v2/events.json"
-const EVENT_DETAIL_PATH = "/discovery/v2/events/"
-const VENUE_DETAIL_PATH = "/discovery/v2/venues"
 
 const MUSIC_SEGMENT_ID = "KZFzniwnSyZfZ7v7nJ"
 const SPORTS_SEGMENT_ID  = "KZFzniwnSyZfZ7v7nE"

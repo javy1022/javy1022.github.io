@@ -16,8 +16,7 @@ router.get("/search/event-details/:id", function (req, res, next) {
   
     const request_url = TICKETMASTER_HOST + EVENT_DETAIL_PATH + event_id; 
     const instance = axios.create({
-      baseURL: request_url,
-      timeout: 1000,
+      baseURL: request_url     
     });
   
     instance
