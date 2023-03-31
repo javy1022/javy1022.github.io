@@ -125,14 +125,14 @@
           <div class="carousel-inner">
             <div class="card-body">
               <div *ngFor="let item of artist_name_spotify; let i = index" class="carousel-item" [ngClass]="{ active: i === 0 }">
-                <div class="row row-cols-1 row-cols-sm-4 col-12 col-sm-10 mx-auto">
-                  <div class="bg-info">
+                <div class="row row-cols-1 row-cols-sm-4 col-12 col-sm-10 mx-auto align-items-sm-center">
+                  <div>
                     <img src="{{ artist_img_spotify[i] }}" class="img-fluid mx-auto d-block rounded-circle mt-3" alt="Artist's Spotify Image" />
                     <p class="card-text subtitle_color text-center fs-1 mt-1 mb-3">{{ artist_name_spotify[i] }}</p>
                   </div>
 
-                  <div class="bg-success">
-                    <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2">Popularity</p>
+                  <div>
+                    <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2 mb-sm-4">Popularity</p>
                     <div class="d-flex justify-content-center mb-3">
                       <div class="position-relative">
                         <mat-progress-spinner class="text-white" color="warn" [value]="artist_popularity_spotify[i]" [diameter]="40"></mat-progress-spinner>
@@ -141,13 +141,13 @@
                     </div>
                   </div>
 
-                  <div class="bg-success">
-                    <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2">Followers</p>
-                    <p class="card-text subtitle_color text-center fs-2 mt-0 mb-3">{{ artist_followersNum_spotify[i] }}</p>
+                  <div>
+                    <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2 mb-sm-3">Followers</p>
+                    <p class="card-text text-white text-center fs-2 mt-0 mb-3">{{ artist_followersNum_spotify[i] }}</p>
                   </div>
 
-                  <div class="bg-success">
-                    <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2">Spotify Link</p>
+                  <div>
+                    <p class="card-text subtitle_color text-center fs-2 mt-0 mb-2 mb-sm-2">Spotify Link</p>
                     <div class="d-flex justify-content-center">
                       <a href="{{ artist_spotify_link[i] }}" target="_blank" rel="noopener noreferrer">
                         <fa-icon [icon]="spotify_icon" class="spotify-icon fa-3x mx-auto"></fa-icon>
