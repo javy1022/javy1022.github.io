@@ -156,14 +156,14 @@
                   </div>
                 </div>
 
-                <div class="w-75 mx-auto">
-                  <p class="card-text subtitle_color fs-5 text-center mt-3 mb-4">Album featuring {{ artist_name_spotify[i] }}</p>
+                <div class="row col-sm-10 mx-auto mt-4 mb-3 mt-sm-3 mb-sm-5 ps-5 ps-sm-2">
+                  <p class="card-text subtitle_color fs-4 text-start">Album featuring {{ artist_name_spotify[i] }}</p>
+                </div>
 
-                  <div>
-                    <div class="row">
-                      <div *ngFor="let album_img of artists_spotify_albumns[i]" class="mx-auto col-10 col-sm-6">
-                        <img src="{{ album_img }}" class="img-fluid mb-4" alt="Album image" />
-                      </div>
+                <div class="row row-cols-1 row-cols-sm-3 col-sm-10 mx-auto mb-5">
+                  <div *ngFor="let album_img of artists_spotify_albumns[i]">
+                    <div class="mx-auto col-8 col-sm-11 pt-3 pt-sm-0">
+                      <img src="{{ album_img }}" class="img-fluid" alt="Album image" />
                     </div>
                   </div>
                 </div>
