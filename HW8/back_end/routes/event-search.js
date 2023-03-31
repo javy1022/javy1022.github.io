@@ -45,16 +45,12 @@ router.get('/search/event-search', function(req, res, next) {
 
 
   const instance = axios.create({
-	baseURL: TICKETMASTER_HOST,
-	timeout: 1000
+	baseURL: TICKETMASTER_HOST	
   });
 
 
  instance.get(EVENT_SEARCH_PATH, {params: url_params} )
-	.then(function (response) {
-		//console.log("Ok");
-		//console.log(response.data);
-		//return res.send(response.data);
+	.then(function (response) {		
 		return res.send(response.data);
 	})
 	.catch(function (error) {

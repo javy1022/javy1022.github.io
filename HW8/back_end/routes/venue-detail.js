@@ -16,14 +16,12 @@ router.get("/search/venue-detail", function (req, res, next) {
   
     const request_url = TICKETMASTER_HOST + VENUE_DETAIL_PATH;
     const instance = axios.create({
-      baseURL: request_url,
-      timeout: 1000,
+      baseURL: request_url     
     });
   
     instance
       .get('', { params: url_params })
-      .then(function (response) {
-        console.log('Response data:', response.data);
+      .then(function (response) {        
         return res.send(response.data);
       })
       .catch(function (error) {

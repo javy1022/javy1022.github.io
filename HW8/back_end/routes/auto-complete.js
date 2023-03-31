@@ -26,8 +26,7 @@ router.get("/search/auto-complete", limiter, function (req, res, next) {
   };
 
   const instance = axios.create({
-    baseURL: TICKETMASTER_HOST,
-    timeout: 1000,
+    baseURL: TICKETMASTER_HOST  
   });
 
   instance
@@ -36,7 +35,13 @@ router.get("/search/auto-complete", limiter, function (req, res, next) {
       return res.send(response.data);
     })
     .catch(function (error) {
-      return res.status(429).json({ error: "Too Many Requests" });
+      if (error.response && error.response.data) {
+        return res.send(error.response.data);
+        } else {
+        console.error(error);
+        return res.status(500).send('Unknown error occurred');
+        }
+      
     });
 });
 
