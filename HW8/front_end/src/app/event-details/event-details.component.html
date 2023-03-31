@@ -22,97 +22,108 @@
     <mat-tab-group mat-align-tabs="center" backgroundColor="primary" class="pt-4" #tabGroup>
       <mat-tab label="Events">
         <div class="card-body">
-          
-            <div class="col-sm-3 offset-sm-1">
-              <ng-container *ngIf="local_date !== ''" >
-                <div>
+          <div class="row row-cols-1 row-cols-sm-2">
+            <div class="col">
+              <!-- Date -->
+              <div class="col-12 col-sm-12">
+                <ng-container *ngIf="local_date !== ''">
                   <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Date</p>
                   <p class="card-text text-white text-center fs-6 mb-0 mt-1">{{ local_date }} {{ local_time }}</p>
-                </div>
-              </ng-container>
-            </div>
-          
+                </ng-container>
+              </div>
 
-          <div *ngIf="artist_or_team.length > 0" class="col-sm-3 offset-sm-1 bg-success">
-            <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0 ">Artist/Team</p>
-            <div class="d-flex flex-wrap justify-content-center mt-1 ">
-              <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
-                <p class="card-text text-white fs-6 mb-0 me-2">{{ artist_name }}</p>
-                <p *ngIf="i !== artist_or_team.length - 1" class="text-white fs-6 mb-0 pe-2">{{ ARTISTS_SEPARATOR }}</p>
+              <!-- Artist/Team -->
+              <div class="col-12 col-sm-12" *ngIf="artist_or_team.length > 0">
+                <div class="bg-success mt-4">
+                  <p class="card-text subtitle_color text-center fs-5 fw-bold mb-0">Artist/Team</p>
+                  <div class="d-flex flex-wrap justify-content-center mt-1">
+                    <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
+                      <p class="card-text text-white fs-6 mb-0 me-2">{{ artist_name }}</p>
+                      <p *ngIf="i !== artist_or_team.length - 1" class="text-white fs-6 mb-0 pe-2">{{ ARTISTS_SEPARATOR }}</p>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Venue -->
+              <div class="col-12 col-sm-12">
+                <ng-container *ngIf="venue !== ''">
+                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Venue</p>
+                  <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ venue }}</p>
+                </ng-container>
+              </div>
+
+              <!-- Genres -->
+              <div class="col-12 col-sm-12">
+                <ng-container *ngIf="genre !== ''">
+                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Genres</p>
+                  <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ genre }}</p>
+                </ng-container>
+              </div>
+
+              <!-- Price Ranges -->
+              <div class="col-12 col-sm-12">
+                <ng-container *ngIf="price_range !== ''">
+                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Price Ranges</p>
+                  <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ price_range }}</p>
+                </ng-container>
+              </div>
+
+              <div class="col-12 col-sm-12">
+                <ng-container *ngIf="status !== ''">
+                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Ticket Status</p>
+                  <div class="d-flex justify-content-center mt-2">
+                    <span
+                      class="card-text text-white text-center fs-6 rounded-3 mt-0 span-custom ps-2 pe-2 pt-1 pb-1"
+                      [class.bg-success]="status === 'On Sale'"
+                      [class.bg-danger]="status === 'Off Sale'"
+                      [class.bg-black]="status === 'Canceled'"
+                      [class.bg-warning]="status === 'Rescheduled' || status === 'Postponed'"
+                      >{{ status }}</span
+                    >
+                  </div>
+                </ng-container>
+              </div>
+
+              <div class="col-12 col-sm-12">
+                <ng-container *ngIf="ticket_url !== ''">
+                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Buy Ticket At:</p>
+                  <p class="text-center mt-1">
+                    <a href="{{ ticket_url }}" class="card-link text-primary fs-6" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+                  </p>
+                </ng-container>
+              </div>
+
+                 <!-- Seatmap Image -->
+              <div class="col d-block d-sm-none">
+                <ng-container *ngIf="seatmap_url !== ''">
+                  <div class="d-flex justify-content-center align-items-center" style="height: 100%">
+                    <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid bg-success" />
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+         
+            <div class="col d-none d-sm-block">
+              <ng-container *ngIf="seatmap_url !== ''">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                  <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid" />
+                </div>
               </ng-container>
             </div>
           </div>
 
-          <div class="col-sm-3 offset-sm-1">
-          <ng-container *ngIf="venue !== ''">
-            <div>
-              <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Venue</p>
-              <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ venue }}</p>
+          <!-- Share on -->
+          <div class="col-12 col-sm-12 bg-success">
+            <div class="d-flex justify-content-center align-items-center mt-4 mb-4" *ngIf="ticket_url !== undefined">
+              <p class="card-text text-white fs-3 mb-0 pe-2">Share on:</p>
+              <a href="https://twitter.com/intent/tweet?text=Check {{ event_title }} on Ticketmaster. {{ ticket_url }}" target="_blank" rel="noopener noreferrer">
+                <fa-icon [icon]="twitter_icon" class="twitter_icon fa-3x pe-2"></fa-icon>
+              </a>
+              <a href="https://www.facebook.com/sharer/sharer.php?u={{ ticket_url }}&amp;src=sdkpreparse" target="_blank" rel="noopener noreferrer">
+                <fa-icon [icon]="fb_icon" class="fb-icon fa-square fa-3x"></fa-icon>
+              </a>
             </div>
-          </ng-container>
-        </div>
-
-        <div class="col-sm-3 offset-sm-1">
-          <ng-container *ngIf="genre !== ''">
-            <div>
-              <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Genres</p>
-              <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ genre }}</p>
-            </div>
-          </ng-container>
-        </div>
-
-        <div class="col-sm-3 offset-sm-1">
-          <ng-container *ngIf="price_range !== ''">
-            <div>
-              <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Price Ranges</p>
-              <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ price_range }}</p>
-            </div>
-          </ng-container>
-        </div>
-
-          <div class="col-sm-3 offset-sm-1">
-          <ng-container *ngIf="status !== ''">
-            <div>
-              <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Ticket Status</p>
-              <div class="d-flex justify-content-center mt-2">
-                <span
-                  class="card-text text-white text-center fs-6 rounded-3 mt-0 span-custom ps-2 pe-2 pt-1 pb-1"
-                  [class.bg-success]="status === 'On Sale'"
-                  [class.bg-danger]="status === 'Off Sale'"
-                  [class.bg-black]="status === 'Canceled'"
-                  [class.bg-warning]="status === 'Rescheduled' || status === 'Postponed'"
-                  >{{ status }}</span
-                >
-              </div>
-            </div>
-          </ng-container>
-        </div>
-
-        <div class="col-sm-3 offset-sm-1">
-          <ng-container *ngIf="ticket_url !== ''">
-            <div>
-              <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Buy Ticket At:</p>
-              <p class="text-center mt-1">
-                <a href="{{ ticket_url }}" class="card-link text-primary fs-6" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
-              </p>
-            </div>
-          </ng-container>
-        </div>
-
-          <ng-container *ngIf="seatmap_url !== ''">
-            <div class="mt-4 mb-4">
-              <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid bg-success" />
-            </div>
-          </ng-container>
-
-          <div class="d-flex justify-content-center align-items-center mt-4 mb-4" *ngIf="ticket_url !== undefined">
-            <p class="card-text text-white fs-3 mb-0 pe-2">Share on:</p>
-            <a href="https://twitter.com/intent/tweet?text=Check {{ event_title }} on Ticketmaster. {{ ticket_url }}" target="_blank" rel="noopener noreferrer">
-              <fa-icon [icon]="twitter_icon" class="twitter_icon fa-3x pe-2"></fa-icon>
-            </a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u={{ ticket_url }}&amp;src=sdkpreparse" target="_blank" rel="noopener noreferrer">
-              <fa-icon [icon]="fb_icon" class="fb-icon fa-square fa-3x"></fa-icon>
-            </a>
           </div>
         </div>
       </mat-tab>
