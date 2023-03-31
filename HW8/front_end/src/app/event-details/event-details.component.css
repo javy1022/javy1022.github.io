@@ -10,6 +10,7 @@
     width: 85%;
   }
 
+  /* Reference source: https://piazza.com/class/lccnfyaky8yrr/post/729 */
   .mat-mdc-tab-group.mat-background-primary, .mat-mdc-tab-nav-bar.mat-background-primary {
     --mat-mdc-tab-header-with-background-background-color: #3E8E7B !important;
        
