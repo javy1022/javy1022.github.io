@@ -38,15 +38,17 @@
     -webkit-box-orient: vertical;
     overflow: hidden;  
   }
-  
+
+
+
 
 
 
   
+  .modal.fade {
+    position: static;
+   
 
-  
-
-
- 
+  }
 
   

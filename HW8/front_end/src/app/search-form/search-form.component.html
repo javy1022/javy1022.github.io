@@ -1,81 +1,89 @@
-<div class="container h-100 w-100 pt-0 pt-sm-5">
-  <div class="mt-5 pt-4 mx-auto w-100 w-sm-75 ch bg-dark bg-opacity-75 bg-blur rounded-4">
-    <h2 class="text-center text-white pt-3 fs-1 pt-sm-5" id="title">Events Search</h2>
-    <hr class="mx-auto custom-hr mt-4" />
+<div class="container pb-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10">
+      <div class="mt-5 pt-4 mx-auto w-100 h-100 bg-dark bg-opacity-75 bg-blur rounded-4">
+        <h2 class="text-center text-white pt-3 fs-1 pt-sm-5" id="title">Events Search</h2>
+        <hr class="mx-auto custom-hr mt-4" />
 
-    <form class="w-100 h-75 fs-5 pt-0 pt-sm-3" id="search_form" (ngSubmit)="onSubmit()" ngNativeValidate>
-      <div class="mb-3 mb-sm-5 ms-3 ms-sm-5 col-11">
-        <label for="keyword_input" class="form-label text-info fs-5 star">Keyword</label>
+        <form class="w-100 h-75 fs-5 pt-0 pt-sm-3" id="search_form" (ngSubmit)="onSubmit()" ngNativeValidate>
+          <div class="row mb-3 mb-sm-5">
+            <div class="ms-3 ms-sm-5 col-11">
+              <label for="keyword_input" class="form-label text-info fs-5 star">Keyword</label>
 
-        <input
-          matInput
-          [matAutocomplete]="auto"
-          type="text"
-          class="form-control form-control-lg"
-          id="keyword_input"
-          [(ngModel)]="sharedService.keyword_input"
-          name="keyword"
-          (input)="onKeywordChange()"
-          required
-        />
-        <!--Reference source: https://www.freakyjolly.com/mat-autocomplete-with-http-api-remote-search-results/-->
-        <mat-autocomplete #auto="matAutocomplete">
-          <!-- Spinner -->
-          <mat-option *ngIf="loading">
-            <mat-spinner diameter="30"></mat-spinner>
-          </mat-option>
-          <!-- suggestions -->
-          <ng-container *ngIf="!loading">
-            <mat-option *ngFor="let option of ac_list" [value]="option">{{ option }}</mat-option>
-          </ng-container>
-        </mat-autocomplete>
-      </div>
-
-      <div class="mb-3 mb-sm-5">
-        <div class="row gx-5">
-          <div class="col-11 col-sm-6 ms-3 ms-sm-5 mb-3 mb-sm-0">
-            <label for="distance_input" class="form-label text-info fs-5">Distance</label>
-            <input type="number" class="form-control form-control-lg" id="distance_input" [(ngModel)]="sharedService.distance_input" name="distance" min="0" />
+              <input
+                matInput
+                [matAutocomplete]="auto"
+                type="text"
+                class="form-control form-control-lg"
+                id="keyword_input"
+                [(ngModel)]="sharedService.keyword_input"
+                name="keyword"
+                (input)="onKeywordChange()"
+                required
+              />
+              <!--Reference source: https://www.freakyjolly.com/mat-autocomplete-with-http-api-remote-search-results/-->
+              <mat-autocomplete #auto="matAutocomplete">
+                <!-- Spinner -->
+                <mat-option *ngIf="loading">
+                  <mat-spinner diameter="30"></mat-spinner>
+                </mat-option>
+                <!-- suggestions -->
+                <ng-container *ngIf="!loading">
+                  <mat-option *ngFor="let option of ac_list" [value]="option">{{ option }}</mat-option>
+                </ng-container>
+              </mat-autocomplete>
+            </div>
           </div>
-          <div class="col-sm-5 ms-3 ms-sm-5">
-            <label for="category_input" class="form-label text-info fs-5 star">Category</label>
 
-            <select class="form-select form-select-lg w-75" [(ngModel)]="sharedService.category_input" name="category">
-              <option value="Default" selected>Default</option>
-              <option value="Music">Music</option>
-              <option value="Sports">Sports</option>
-              <option value="Arts & Theatre">Arts & Theatre</option>
-              <option value="Film">Film</option>
-              <option value="Miscellaneous">Miscellaneous</option>
-            </select>
+          <div class="mb-3 mb-sm-5">
+            <div class="row gx-5">
+              <div class="col-11 col-sm-5 ms-3 ms-sm-5 mb-3 mb-sm-0">
+                <label for="distance_input" class="form-label text-info fs-5">Distance</label>
+                <input type="number" class="form-control form-control-lg" id="distance_input" [(ngModel)]="sharedService.distance_input" name="distance" min="0" />
+              </div>
+              <div class="col-9 col-sm-5 ms-3 ms-sm-5">
+                <label for="category_input" class="form-label text-info fs-5 star">Category</label>
+
+                <select class="form-select form-select-lg" [(ngModel)]="sharedService.category_input" name="category">
+                  <option value="Default" selected>Default</option>
+                  <option value="Music">Music</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Arts & Theatre">Arts & Theatre</option>
+                  <option value="Film">Film</option>
+                  <option value="Miscellaneous">Miscellaneous</option>
+                </select>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="mb-3 ms-3 ms-sm-5 col-11">
-        <label for="location_input" class="form-label text-info fs-5 star">Location</label>
-        <input type="text" class="form-control form-control-lg" id="location_input" [(ngModel)]="sharedService.location_input" name="location" [disabled]="sharedService.checkbox_input" required />
-      </div>
-
-      <div class="form-check text-info mt-4 ms-3 ms-sm-5">
-        <input class="form-check-input" type="checkbox" id="cb" name="cb" [(ngModel)]="sharedService.checkbox_input" (change)="onCheckboxChange()" />
-        <label class="form-check-label fs-5" for="cb">Auto-detect your location</label>
-      </div>
-
-      <div class="mt-4 mt-sm-5 d-flex justify-content-center">
-        <div class="row gx-4">
-          <div class="col-6">
-            <button class="btn btn-danger btn-lg" type="submit">SUBMIT</button>
+          <div class="mb-3 ms-3 ms-sm-5 col-11">
+            <label for="location_input" class="form-label text-info fs-5 star">Location</label>
+            <input type="text" class="form-control form-control-lg" id="location_input" [(ngModel)]="sharedService.location_input" name="location" [disabled]="sharedService.checkbox_input" required />
           </div>
-          <div class="col-6">
-            <button type="button" class="btn btn-primary btn-lg" (click)="onClear()">CLEAR</button>
+
+          <div class="form-check text-info mt-4 ms-3 ms-sm-5">
+            <input class="form-check-input" type="checkbox" id="cb" name="cb" [(ngModel)]="sharedService.checkbox_input" (change)="onCheckboxChange()" />
+            <label class="form-check-label fs-5" for="cb">Auto-detect your location</label>
           </div>
-        </div>
+
+          <div class="mt-4 mt-sm-5 d-flex justify-content-center">
+            <div class="row gx-4">
+              <div class="col-6">
+                <button class="btn btn-danger btn-lg" type="submit">SUBMIT</button>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-primary btn-lg" (click)="onClear()">CLEAR</button>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
-  <div class="mt-5 pb-5">
+</div>
+
+  <div class="">
     <app-event-table [hidden]="sharedService.current_info !== 'table'" [events_data]="searchResult$ | async" #eventTable></app-event-table>
     <app-event-details [hidden]="sharedService.current_info !== 'event_details'"></app-event-details>
   </div>
-</div>
+

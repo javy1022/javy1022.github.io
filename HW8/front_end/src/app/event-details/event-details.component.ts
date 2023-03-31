@@ -65,6 +65,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   mapOptions?: any;
 
   ngOnInit() {
+    
     this.subs_event_details();
     this.subscribeToClearEventDetails();
 
@@ -85,6 +86,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           }
         },
       });
+      
 
     this.sharedService.venueResponse$.subscribe((resp) => {
       if (resp) {

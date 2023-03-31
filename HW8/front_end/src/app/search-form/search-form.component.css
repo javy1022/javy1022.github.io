@@ -27,15 +27,3 @@ hr {
 }
 
 
-@media (min-width: 576px) {
-  .ch {
-    height: 70%;
-  }
-}
-
-@media (max-width: 575px) {
-  .ch {
-    height: 82%;    
-  }
-}
-
