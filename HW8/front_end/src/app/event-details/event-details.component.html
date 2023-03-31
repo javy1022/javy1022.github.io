@@ -2,13 +2,12 @@
   <div class="card bg-dark bg-opacity-50 bg-blur ch" #eventDetails>
     <div class="d-flex align-items-center ps-3 pt-3">
       <mat-icon class="text-white">keyboard_arrow_left</mat-icon>
-      <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-0" (click)="back_to_table()">Back</button>
+      <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-0 fs-6" (click)="back_to_table()">Back</button>
     </div>
 
-    <div class="d-flex align-items-start justify-content-start ps-4 pt-3">
-      <div class="title-width">
-        <h5 class="card-title text-white me-2">{{ event_title }}</h5>
-      </div>
+    <div class="d-flex align-items-center justify-content-start justify-content-sm-center ps-4 ps-sm-0 mt-4 col-12 mb-3">
+      <h5 class="card-title text-white pe-2 fs-4 pe-sm-4">{{ event_title }}</h5>
+
       <button
         mat-mini-fab
         class="bg-white"
@@ -24,18 +23,16 @@
         <div class="card-body">
           <div class="row row-cols-1 row-cols-sm-2">
             <div class="col">
-              <!-- Date -->
               <div class="col-12 col-sm-12">
                 <ng-container *ngIf="local_date !== ''">
-                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Date</p>
+                  <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Date</p>
                   <p class="card-text text-white text-center fs-6 mb-0 mt-1">{{ local_date }} {{ local_time }}</p>
                 </ng-container>
               </div>
 
-              <!-- Artist/Team -->
               <div class="col-12 col-sm-12" *ngIf="artist_or_team.length > 0">
-                <div class="bg-success mt-4">
-                  <p class="card-text subtitle_color text-center fs-5 fw-bold mb-0">Artist/Team</p>
+                <div class="mt-4">
+                  <p class="card-text subtitle_color text-center fs-4 fw-bold mb-0">Artist/Team</p>
                   <div class="d-flex flex-wrap justify-content-center mt-1">
                     <ng-container *ngFor="let artist_name of artist_or_team; let i = index">
                       <p class="card-text text-white fs-6 mb-0 me-2">{{ artist_name }}</p>
@@ -45,33 +42,30 @@
                 </div>
               </div>
 
-              <!-- Venue -->
               <div class="col-12 col-sm-12">
                 <ng-container *ngIf="venue !== ''">
-                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Venue</p>
+                  <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Venue</p>
                   <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ venue }}</p>
                 </ng-container>
               </div>
 
-              <!-- Genres -->
               <div class="col-12 col-sm-12">
                 <ng-container *ngIf="genre !== ''">
-                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Genres</p>
+                  <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Genres</p>
                   <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ genre }}</p>
                 </ng-container>
               </div>
 
-              <!-- Price Ranges -->
               <div class="col-12 col-sm-12">
                 <ng-container *ngIf="price_range !== ''">
-                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Price Ranges</p>
+                  <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Price Ranges</p>
                   <p class="card-text text-center text-white fs-6 mt-1 mb-0">{{ price_range }}</p>
                 </ng-container>
               </div>
 
               <div class="col-12 col-sm-12">
                 <ng-container *ngIf="status !== ''">
-                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Ticket Status</p>
+                  <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Ticket Status</p>
                   <div class="d-flex justify-content-center mt-2">
                     <span
                       class="card-text text-white text-center fs-6 rounded-3 mt-0 span-custom ps-2 pe-2 pt-1 pb-1"
@@ -87,23 +81,22 @@
 
               <div class="col-12 col-sm-12">
                 <ng-container *ngIf="ticket_url !== ''">
-                  <p class="card-text subtitle_color text-center fs-5 fw-bold mt-4 mb-0">Buy Ticket At:</p>
+                  <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Buy Ticket At:</p>
                   <p class="text-center mt-1">
                     <a href="{{ ticket_url }}" class="card-link text-primary fs-6" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
                   </p>
                 </ng-container>
               </div>
 
-                 <!-- Seatmap Image -->
               <div class="col d-block d-sm-none">
                 <ng-container *ngIf="seatmap_url !== ''">
-                  <div class="d-flex justify-content-center align-items-center" style="height: 100%">
-                    <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid bg-success" />
+                  <div class="d-flex justify-content-center align-items-center h-100">
+                    <img src="{{ seatmap_url }}" alt="Seatmap Image" class="img-fluid" />
                   </div>
                 </ng-container>
               </div>
             </div>
-         
+
             <div class="col d-none d-sm-block">
               <ng-container *ngIf="seatmap_url !== ''">
                 <div class="d-flex align-items-center justify-content-center h-100">
@@ -113,8 +106,7 @@
             </div>
           </div>
 
-          <!-- Share on -->
-          <div class="col-12 col-sm-12 bg-success">
+          <div class="col-12 col-sm-12">
             <div class="d-flex justify-content-center align-items-center mt-4 mb-4" *ngIf="ticket_url !== undefined">
               <p class="card-text text-white fs-3 mb-0 pe-2">Share on:</p>
               <a href="https://twitter.com/intent/tweet?text=Check {{ event_title }} on Ticketmaster. {{ ticket_url }}" target="_blank" rel="noopener noreferrer">
