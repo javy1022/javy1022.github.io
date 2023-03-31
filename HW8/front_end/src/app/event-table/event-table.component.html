@@ -1,41 +1,41 @@
 <div class="container-fluid col-sm-9 mt-5 pt-5 pb-5" *ngIf="sharedService.table_no_result !== true">
-<div class="table-responsive" #tableWrapper>
-  <table class="table table-dark table-striped text-center fs-6 rounded-4 overflow-hidden ">
-    <thead>
-      <tr>
-        <th>Date/Time</th>
-        <th>Icon</th>
-        <th>Event</th>
-        <th>Genre</th>
-        <th>Venue</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of sharedService.list_for_table">
-        <td class="fw-bold">{{ item[0] }}<br />{{ item[1] }}</td>
-        <td>
-          <!-- Small screen image -->
-          <div class="position-relative d-block d-sm-none mx-auto" style="width: 20vw; padding-bottom: 20vw">
-            <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
-          </div>
-          <!-- Large screen image -->
-          <div class="position-relative d-none d-sm-block mx-auto" style="width: 5vw; padding-bottom: 5vw">
-            <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
-          </div>
-        </td>
-        <td>
-          <a href="#" class="text-reset text-decoration-none" (click)="this.http_request.get_request_event_detail(item[6], $event)">{{ item[3] }}</a>
-        </td>
-        <td>{{ item[4] }}</td>
-        <td>{{ item[5] }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="table-responsive" #tableWrapper>
+    <table class="table table-dark table-striped table-hover text-center fs-6 rounded-4 overflow-hidden">
+      <thead>
+        <tr>
+          <th>Date/Time</th>
+          <th>Icon</th>
+          <th>Event</th>
+          <th>Genre</th>
+          <th>Venue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of sharedService.list_for_table" (click)="this.http_request.get_request_event_detail(item[6], $event)" class="click_pointer">
+          <td class="fw-bold">{{ item[0] }}<br />{{ item[1] }}</td>
+          <td>
+            <!-- Small screen image -->
+            <div class="position-relative d-block d-sm-none mx-auto" style="width: 20vw; padding-bottom: 20vw">
+              <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
+            </div>
+            <!-- Large screen image -->
+            <div class="position-relative d-none d-sm-block mx-auto" style="width: 5vw; padding-bottom: 5vw">
+              <img src="{{ item[2] }}" class="img-fluid position-absolute top-0 start-0" style="height: 100%; width: 100%; object-fit: cover" />
+            </div>
+          </td>
+          <td>
+            {{ item[3] }}
+          </td>
+          <td>{{ item[4] }}</td>
+          <td>{{ item[5] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="container">
-<div *ngIf="sharedService.table_no_result === true" class="bg-white w-100 mx-auto mt-5 rounded-5">
-  <p class="text-danger text-center mx-auto fs-4">No results available</p>
-</div>
+  <div *ngIf="sharedService.table_no_result === true" class="bg-white w-100 mx-auto mt-5 rounded-5">
+    <p class="text-danger text-center mx-auto fs-4">No results available</p>
+  </div>
 </div>

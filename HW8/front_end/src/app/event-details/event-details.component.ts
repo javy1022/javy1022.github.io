@@ -76,7 +76,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp) => {
-          // console.log(resp);
+         
           if (resp?.items) {
             let artist_album: string[] = [];
             for (let album of resp.items) {
@@ -90,7 +90,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     this.sharedService.venueResponse$.subscribe((resp) => {
       if (resp) {
-        //console.log(resp);
+        
         const venue_obj = resp?._embedded?.venues?.[0];
 
         if (venue_obj) {
@@ -167,7 +167,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   async extract_artists_spotify(resp: any) {
-    //console.log(resp);
+    
     if (resp?.artists?.items?.length !== 0) {
       let artist_obj = resp.artists.items[0];
       if (artist_obj?.name) this.artist_name_spotify.push(artist_obj.name.trim());
@@ -200,8 +200,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   subs_event_details() {
     this.event_detail_subs = this.sharedService.event_detail$.subscribe({
       next: (resp) => {
-        if (resp) {
-          //console.log(resp);
+        if (resp) {        
           this.extract_event_details(resp);
           //this.scroll_to_eventDetails();
         }
@@ -341,8 +340,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   fav_storage_and_table_remove(event_id: string) {
     let fav_table = this.sharedService.fav_storage_table;
-    let local_storage = this.sharedService.window.localStorage;
-    console.log(event_id);
+    let local_storage = this.sharedService.window.localStorage;  
     const target_index = fav_table.findIndex((event) => event[4] === event_id);
     fav_table.splice(target_index, 1);
     local_storage.setItem("fav", JSON.stringify(fav_table));
