@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
+import * as Constants from "./constants";
 
 @Injectable({
   providedIn: "root",
@@ -10,12 +11,10 @@ export class SharedService {
     this.load_fav_table_from_storage();
   }
 
-  //public keyword_input: string = Constants.EMPTY;
-  public keyword_input: string = "P!NK";
+  public keyword_input: string = Constants.EMPTY;
   public distance_input: number = 10;
   public category_input: string = "Default";
-  //public location_input: string = Constants.EMPTY;
-  public location_input: string = "New York";
+  public location_input: string = Constants.EMPTY;
   public checkbox_input: boolean = false;
 
   public show_table: boolean = false;
@@ -31,9 +30,6 @@ export class SharedService {
 
   public spotify_artists_source = new BehaviorSubject<any>(null);
   spotify_artists_result$ = this.spotify_artists_source.asObservable();
-
-  public spotifyArtistDataSource = new BehaviorSubject<any>(null);
-  spotifyArtistData$ = this.spotify_artists_source.asObservable();
 
   venue_result_source = new BehaviorSubject<any>(null);
   venue_result$ = this.venue_result_source.asObservable();
