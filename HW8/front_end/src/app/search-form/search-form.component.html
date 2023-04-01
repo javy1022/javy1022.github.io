@@ -82,9 +82,7 @@
   </div>
 </div>
 
-  <div>
-    <app-event-table [hidden]="sharedService.current_info !== 'table'" [events_data]="searchResult$ | async" #eventTable></app-event-table>
-    <app-event-details [hidden]="sharedService.current_info !== 'event_details'"></app-event-details>
-  </div>
-  
-
+<div>
+  <app-event-table [hidden]="sharedService.current_info !== 'table'" [events_data]="search_result$ | async" #eventTable></app-event-table>
+  <app-event-details [hidden]="sharedService.current_info !== 'event_details'"></app-event-details>
+</div>

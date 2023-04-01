@@ -192,7 +192,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   subscribeToClearEventDetails(): void {
-    this.clearEventDetailsSubscription = this.sharedService.clearEventDetails$.subscribe(() => {
+    this.clearEventDetailsSubscription = this.sharedService.clear_event_details$.subscribe(() => {
       this.clear_btn();
     });
   }

@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class SharedService {
-  constructor() { this.load_fav_states_from_storage();this.load_fav_table_from_storage();}
+  constructor() {
+    this.load_fav_states_from_storage();
+    this.load_fav_table_from_storage();
+  }
 
   //public keyword_input: string = Constants.EMPTY;
   public keyword_input: string = "P!NK";
@@ -29,18 +31,17 @@ export class SharedService {
 
   public spotifyArtistsResultSource = new BehaviorSubject<any>(null);
   spotifyArtistsResult$ = this.spotifyArtistsResultSource.asObservable();
- 
+
   public spotifyArtistDataSource = new BehaviorSubject<any>(null);
-  spotifyArtistData$= this.spotifyArtistsResultSource.asObservable();
+  spotifyArtistData$ = this.spotifyArtistsResultSource.asObservable();
 
   venueResponseSource = new BehaviorSubject<any>(null);
   venueResponse$ = this.venueResponseSource.asObservable();
 
-
   private resetTabsSource = new Subject<void>();
   resetTabs$ = this.resetTabsSource.asObservable();
 
-  clearEventDetails$ = new Subject<void>();
+  clear_event_details$ = new Subject<void>();
 
   public window: Window = window;
   public fav_storage_table: any[][] = [];
@@ -49,16 +50,15 @@ export class SharedService {
   public table_no_result: boolean = false;
   public artist_no_result: boolean = false;
 
-  
   load_fav_states_from_storage() {
-    const fav_states = this.window.localStorage.getItem('fav_toggles_dict');
+    const fav_states = this.window.localStorage.getItem("fav_toggles_dict");
     if (fav_states) {
       this.fav_toggles_dict = JSON.parse(fav_states);
     }
   }
 
   load_fav_table_from_storage() {
-    const fav_table = this.window.localStorage.getItem('fav');
+    const fav_table = this.window.localStorage.getItem("fav");
     if (fav_table) {
       this.fav_storage_table = JSON.parse(fav_table);
     }

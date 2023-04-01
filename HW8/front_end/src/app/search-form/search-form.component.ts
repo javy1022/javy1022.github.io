@@ -1,9 +1,8 @@
-import { Component} from "@angular/core";
+import { Component } from "@angular/core";
 import { HttpRequestService } from "../http-request.service";
 import * as Constants from "../constants";
 import * as Config from "../config";
 import { SharedService } from "../shared.service";
-
 
 @Component({
   selector: "app-search-form",
@@ -27,23 +26,22 @@ export class SearchFormComponent {
     // Event table
     this.sharedService.search_result_source.next(null);
     this.sharedService.list_for_table = [];
-    this.sharedService.clearEventDetails$.next();
-    this.sharedService.current_info = ""; 
-    this.sharedService.table_no_result = false;  
+    this.sharedService.clear_event_details$.next();
+    this.sharedService.current_info = "";
+    this.sharedService.table_no_result = false;
   }
 
-  searchResult$ = this.sharedService.search_result_source.asObservable();
+  search_result$ = this.sharedService.search_result_source.asObservable();
   onSubmit() {
     const reg_geo_loc = /\s*$/;
     const reg_non_alphanumeric = /[^a-z0-9+]+/gi;
     const GOOGLE_API_HOST = "https://maps.googleapis.com";
     const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
-   
+
     this.sharedService.list_for_table = [];
     this.sharedService.current_info = "table";
     this.sharedService.resetTabs();
-    this.sharedService.clearEventDetails$.next();
-    
+    this.sharedService.clear_event_details$.next();
 
     if (!this.sharedService.checkbox_input) {
       let buffer = this.sharedService.location_input.replace(reg_geo_loc, Constants.EMPTY);
@@ -51,19 +49,19 @@ export class SearchFormComponent {
       let url = GOOGLE_API_HOST + GEOCODING_SEARCH_PATH + "?address=" + api_address_param + "&key=" + Config.GOOGLE_API_KEY;
       this.http_request.geoCode_send_request(url).subscribe({
         next: (result) => {
-          if (result) {     
-            this.sharedService.table_no_result = false;     
+          if (result) {
+            this.sharedService.table_no_result = false;
             this.sharedService.search_result_source.next(result);
           }
-        }
+        },
       });
     } else {
       const IPINFO_API_HOST = "https://ipinfo.io/";
       this.http_request.ipInfo_send_request(IPINFO_API_HOST + "?token=" + Config.IPINFO_API_KEY).subscribe({
         next: (result) => {
-          this.sharedService.table_no_result = false;     
+          this.sharedService.table_no_result = false;
           this.sharedService.search_result_source.next(result);
-        }
+        },
       });
     }
   }
@@ -87,11 +85,3 @@ export class SearchFormComponent {
     }, 500);
   }
 }
-
-// move to another function
-/*
-		let request_url : string = "http://localhost:3000";    // switch to google server when deploying
-		//let request_url : string = window.location.origin;     // when using same server such as google (for deploying)
-		//console.log(window.location.origin);
-		
-	*/
