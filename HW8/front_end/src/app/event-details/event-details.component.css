@@ -1,52 +1,49 @@
-.ch{
+.ch {
   height: auto;
 }
 
-  .bg-blur {
-    backdrop-filter: blur(10px);
-  }
-
-  .title-width {
-    width: 85%;
-  }
-
-  /* Reference source: https://piazza.com/class/lccnfyaky8yrr/post/729 */
-  .mat-mdc-tab-group.mat-background-primary, .mat-mdc-tab-nav-bar.mat-background-primary {
-    --mat-mdc-tab-header-with-background-background-color: #3E8E7B !important;
-       
-  }
-
-  .subtitle_color{
-    color: #80ECD8;
-  }
-
-  .fb-icon {
-    color: #043696;
-  }
- 
-  .twitter-icon{
-    color: #02749C;
-  }
-  
-  .spotify-icon{
-    color: #116017;
-  }
-
-  .click_pointer:hover {
-    cursor: pointer;
+.bg-blur {
+  backdrop-filter: blur(10px);
 }
 
+.title-width {
+  width: 85%;
+}
 
-  /* Reference source: https://css-tricks.com/line-clampin/ */
-  .truncate {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;  
-  }
-  
-  .modal.fade {
-    position: static;   
-  }
+/* Reference source: https://piazza.com/class/lccnfyaky8yrr/post/729 */
+.mat-mdc-tab-group.mat-background-primary,
+.mat-mdc-tab-nav-bar.mat-background-primary {
+  --mat-mdc-tab-header-with-background-background-color: #3e8e7b !important;
+}
 
-  
+.subtitle_color {
+  color: #80ecd8;
+}
+
+.fb-icon {
+  color: #043696;
+}
+
+.twitter-icon {
+  color: #02749c;
+}
+
+.spotify-icon {
+  color: #116017;
+}
+
+.click_pointer:hover {
+  cursor: pointer;
+}
+
+/* Reference source: https://css-tricks.com/line-clampin/ */
+.truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.modal.fade {
+  position: static;
+}

@@ -4,10 +4,9 @@ import { SharedService } from "../shared.service";
 import { Subscription } from "rxjs";
 import * as Constants from "../constants";
 import { faSquareFacebook, faTwitter, faSpotify } from "@fortawesome/free-brands-svg-icons";
-import { filter } from "rxjs/operators";
+import { filter, concatMap } from "rxjs/operators";
 import { MatTabGroup } from "@angular/material/tabs";
 
-import { concatMap } from "rxjs/operators";
 @Component({
   selector: "app-event-details",
   templateUrl: "./event-details.component.html",
@@ -20,8 +19,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ARTISTS_SEPARATOR = Constants.ARTISTS_SEPARATOR;
   event_detail_subs: Subscription = new Subscription();
-  clearEventDetailsSubscription: Subscription = new Subscription();
-  spotifyArtistsSubscription: Subscription = new Subscription();
+  clear_eventDetails_sub: Subscription = new Subscription();
+  spotify_artists_sub: Subscription = new Subscription();
   /* Events tab */
   event_title!: string;
   event_id!: string;
@@ -65,18 +64,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   mapOptions?: any;
 
   ngOnInit() {
-    
     this.subs_event_details();
-    this.subscribeToClearEventDetails();
+    this.clear_EventDetails_sub();
 
-    this.spotifyArtistsSubscription = this.sharedService.spotifyArtistsResult$
+    this.spotify_artists_sub = this.sharedService.spotify_artists_result$
       .pipe(
         filter((resp) => resp !== null),
         concatMap((resp) => this.extract_artists_spotify(resp))
       )
       .subscribe({
         next: (resp) => {
-         
           if (resp?.items) {
             let artist_album: string[] = [];
             for (let album of resp.items) {
@@ -86,11 +83,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           }
         },
       });
-      
 
-    this.sharedService.venueResponse$.subscribe((resp) => {
+    this.sharedService.venue_result$.subscribe((resp) => {
       if (resp) {
-        
         const venue_obj = resp?._embedded?.venues?.[0];
 
         if (venue_obj) {
@@ -155,7 +150,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     if (this.sharedService.fav_toggles_dict[key] === true) {
       alert("Event Added to Favorites!");
-      this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);      
+      this.fav_storage_and_table_push(this.local_date, this.event_title, this.genre, this.venue, this.event_id);
     } else {
       alert("Removed from Favorites!");
       this.fav_storage_and_table_remove(this.event_id);
@@ -167,7 +162,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   async extract_artists_spotify(resp: any) {
-    
     if (resp?.artists?.items?.length !== 0) {
       let artist_obj = resp.artists.items[0];
       if (artist_obj?.name) this.artist_name_spotify.push(artist_obj.name.trim());
@@ -187,12 +181,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.event_detail_subs.unsubscribe();
-    this.clearEventDetailsSubscription?.unsubscribe();
-    this.spotifyArtistsSubscription.unsubscribe();
+    this.clear_eventDetails_sub?.unsubscribe();
+    this.spotify_artists_sub.unsubscribe();
   }
 
-  subscribeToClearEventDetails(): void {
-    this.clearEventDetailsSubscription = this.sharedService.clear_event_details$.subscribe(() => {
+  clear_EventDetails_sub(): void {
+    this.clear_eventDetails_sub = this.sharedService.clear_event_details$.subscribe(() => {
       this.clear_btn();
     });
   }
@@ -200,9 +194,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   subs_event_details() {
     this.event_detail_subs = this.sharedService.event_detail$.subscribe({
       next: (resp) => {
-        if (resp) {        
+        if (resp) {
           this.extract_event_details(resp);
-          //this.scroll_to_eventDetails();
         }
       },
     });
@@ -340,7 +333,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   fav_storage_and_table_remove(event_id: string) {
     let fav_table = this.sharedService.fav_storage_table;
-    let local_storage = this.sharedService.window.localStorage;  
+    let local_storage = this.sharedService.window.localStorage;
     const target_index = fav_table.findIndex((event) => event[4] === event_id);
     fav_table.splice(target_index, 1);
     local_storage.setItem("fav", JSON.stringify(fav_table));

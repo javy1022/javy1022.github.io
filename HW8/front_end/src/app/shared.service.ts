@@ -26,17 +26,17 @@ export class SharedService {
   public search_result_source = new Subject<any>();
   search_result$ = this.search_result_source.asObservable();
 
-  public eventDetailSource = new BehaviorSubject<any>(null);
-  event_detail$ = this.eventDetailSource.asObservable();
+  public event_detail_source = new BehaviorSubject<any>(null);
+  event_detail$ = this.event_detail_source.asObservable();
 
-  public spotifyArtistsResultSource = new BehaviorSubject<any>(null);
-  spotifyArtistsResult$ = this.spotifyArtistsResultSource.asObservable();
+  public spotify_artists_source = new BehaviorSubject<any>(null);
+  spotify_artists_result$ = this.spotify_artists_source.asObservable();
 
   public spotifyArtistDataSource = new BehaviorSubject<any>(null);
-  spotifyArtistData$ = this.spotifyArtistsResultSource.asObservable();
+  spotifyArtistData$ = this.spotify_artists_source.asObservable();
 
-  venueResponseSource = new BehaviorSubject<any>(null);
-  venueResponse$ = this.venueResponseSource.asObservable();
+  venue_result_source = new BehaviorSubject<any>(null);
+  venue_result$ = this.venue_result_source.asObservable();
 
   private resetTabsSource = new Subject<void>();
   resetTabs$ = this.resetTabsSource.asObservable();

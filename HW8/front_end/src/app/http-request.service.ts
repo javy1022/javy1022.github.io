@@ -74,20 +74,20 @@ export class HttpRequestService {
           let spotify_valid_search_counter = 0;
           if (result?._embedded?.venues?.[0]?.name) {
             const request_venue_detail = responses.pop();
-            this.sharedService.venueResponseSource.next(request_venue_detail);
+            this.sharedService.venue_result_source.next(request_venue_detail);
           }
 
           responses.forEach((result) => {
             let artist_list = result?.artists?.items;
             if (artist_list && artist_list.length !== 0) {
-              this.sharedService.spotifyArtistsResultSource.next(result);
+              this.sharedService.spotify_artists_source.next(result);
               spotify_valid_search_counter += 1;
             }
           });
           if (spotify_valid_search_counter === 0) this.sharedService.artist_no_result = true;
         }
 
-        this.sharedService.eventDetailSource.next(result);
+        this.sharedService.event_detail_source.next(result);
       });
   }
 
