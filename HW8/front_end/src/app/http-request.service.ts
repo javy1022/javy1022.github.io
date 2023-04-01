@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { SharedService } from "./shared.service";
-import { Observable } from "rxjs";
+import { Observable, forkJoin } from "rxjs";
 import { filter, map, concatMap, mergeMap } from "rxjs/operators";
 import * as Constants from "./constants";
-import { forkJoin } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -26,7 +25,8 @@ export class HttpRequestService {
       })
     );
   }
-  // Get event details with id
+
+  // Get event details with id, then trigger spotify and venue search in parallel
   get_request_event_detail(id: string, event: MouseEvent): void {
     event.preventDefault();
     const url = `http://localhost:3000/search/event-details/${id}`;
@@ -54,7 +54,7 @@ export class HttpRequestService {
             this.sharedService.artist_no_result = true;
           }
 
-          const spotifyObservables = spotify_search.map((artist_name) => this.spotify_searchArtists(artist_name));
+          const spotify_observers = spotify_search.map((artist_name) => this.spotify_searchArtists(artist_name));
 
           if (result?._embedded?.venues?.[0]?.name) {
             const params_venue = new HttpParams().set("venue_name", result._embedded.venues[0].name.trim());
@@ -63,9 +63,9 @@ export class HttpRequestService {
               responseType: "json",
             });
 
-            return forkJoin([...spotifyObservables, venue_request$]).pipe(map((responses) => ({ result, responses })));
+            return forkJoin([...spotify_observers, venue_request$]).pipe(map((responses) => ({ result, responses })));
           } else {
-            return forkJoin([...spotifyObservables]).pipe(map((responses) => ({ result, responses })));
+            return forkJoin([...spotify_observers]).pipe(map((responses) => ({ result, responses })));
           }
         })
       )
@@ -98,7 +98,7 @@ export class HttpRequestService {
     return this.http.get(url, { params: params, responseType: "json" });
   }
 
-  //
+  // Get artist using artist id
   get_artist_with_id(artist_id: string): Observable<any> {
     return this.http.get(`http://localhost:3000/search/artists-id/${artist_id}`);
   }
