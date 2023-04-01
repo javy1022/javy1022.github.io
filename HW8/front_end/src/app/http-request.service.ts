@@ -14,7 +14,7 @@ export class HttpRequestService {
   // Get autocomplete suggestions
   get_autocomplete_suggestions(): Observable<any> {
     const params = new HttpParams().set("keyword", this.sharedService.keyword_input);
-    return this.http.get("http://localhost:3000/search/auto-complete", { params: params, responseType: "json" }).pipe(
+    return this.http.get("/search/auto-complete", { params: params, responseType: "json" }).pipe(
       map((res: any) => {
         const attractions = res?._embedded?.attractions;
         if (attractions) {
@@ -29,7 +29,7 @@ export class HttpRequestService {
   // Get event details with id, then trigger spotify and venue search in parallel
   get_request_event_detail(id: string, event: MouseEvent): void {
     event.preventDefault();
-    const url = `http://localhost:3000/search/event-details/${id}`;
+    const url = `/search/event-details/${id}`;
     this.sharedService.current_info = "event_details";
     this.http
       .get(url)
@@ -58,7 +58,7 @@ export class HttpRequestService {
 
           if (result?._embedded?.venues?.[0]?.name) {
             const params_venue = new HttpParams().set("venue_name", result._embedded.venues[0].name.trim());
-            const venue_request$ = this.http.get("http://localhost:3000/search/venue-detail", {
+            const venue_request$ = this.http.get("/search/venue-detail", {
               params: params_venue,
               responseType: "json",
             });
@@ -93,14 +93,14 @@ export class HttpRequestService {
 
   // Get artist from Spotify using artist's name
   spotify_searchArtists(q: string): Observable<any> {
-    const url = "http://localhost:3000/search/artists";
+    const url = "/search/artists";
     const params = new HttpParams().set("q", q);
     return this.http.get(url, { params: params, responseType: "json" });
   }
 
   // Get artist using artist id
   get_artist_with_id(artist_id: string): Observable<any> {
-    return this.http.get(`http://localhost:3000/search/artists-id/${artist_id}`);
+    return this.http.get(`/search/artists-id/${artist_id}`);
   }
 
   // Get lat lng using Google geolocation API
@@ -151,7 +151,7 @@ export class HttpRequestService {
       },
     });
 
-    return this.http.get("http://localhost:3000/search/event-search", { params: params, responseType: "json" }).pipe(
+    return this.http.get("/search/event-search", { params: params, responseType: "json" }).pipe(
       map((res: any) => {
         const result_dict = JSON.parse(JSON.stringify(res));
         const data = res?._embedded?.events;
