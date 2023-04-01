@@ -52,7 +52,7 @@ router.get("/search/artists", function (req, res, next) {
         return res.send(response.body);
       })
       .catch(function (error) {
-        if (error.statusCode === 401 && error.message.includes("The access token expired")) {         
+        if (error.statusCode === 401 && error.message.includes("The access token expired")) {
           refresh_access_token().then(() => searchArtists());
         } else {
           return res.status(error.statusCode).json({ error: error.message });
@@ -70,7 +70,7 @@ router.get("/search/artists-id/:artist_id", function (req, res, next) {
 
   function getArtistAlbums() {
     spotifyApi
-      . getArtistAlbums(artist_id  ,{ limit: 3})
+      .getArtistAlbums(artist_id, { limit: 3 })
       .then(function (response) {
         return res.send(response.body);
       })
@@ -85,6 +85,5 @@ router.get("/search/artists-id/:artist_id", function (req, res, next) {
 
   getArtistAlbums();
 });
-
 
 module.exports = router;

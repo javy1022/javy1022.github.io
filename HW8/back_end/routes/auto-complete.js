@@ -26,7 +26,7 @@ router.get("/search/auto-complete", limiter, function (req, res, next) {
   };
 
   const instance = axios.create({
-    baseURL: TICKETMASTER_HOST  
+    baseURL: TICKETMASTER_HOST,
   });
 
   instance
@@ -37,11 +37,10 @@ router.get("/search/auto-complete", limiter, function (req, res, next) {
     .catch(function (error) {
       if (error.response && error.response.data) {
         return res.send(error.response.data);
-        } else {
+      } else {
         console.error(error);
-        return res.status(500).send('Unknown error occurred');
-        }
-      
+        return res.status(500).send("Unknown error occurred");
+      }
     });
 });
 
