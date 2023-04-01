@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { SharedService } from "./shared.service";
 import { Observable } from "rxjs";
-import { filter, map, concatMap, tap, mergeMap } from "rxjs/operators";
+import { filter, map, concatMap, mergeMap } from "rxjs/operators";
 import * as Constants from "./constants";
 import { forkJoin } from "rxjs";
 

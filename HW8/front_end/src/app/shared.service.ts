@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import * as Constants from "./constants";
 import { Subject } from "rxjs";
 
 @Injectable({

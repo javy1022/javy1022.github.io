@@ -1,7 +1,7 @@
 <div class="container mt-5 pb-5 pt-5 col-12">
   <div class="card bg-dark bg-opacity-50 bg-blur ch" #eventDetails>
     <div class="d-flex align-items-center ps-3 pt-3">
-      <mat-icon class="text-white">keyboard_arrow_left</mat-icon>
+      <mat-icon class="text-white click_pointer" (click)="back_to_table()">keyboard_arrow_left</mat-icon>
       <button type="button" class="btn text-white bg-transparent text-decoration-underline border-0 ps-0 fs-6" (click)="back_to_table()">Back</button>
     </div>
 
@@ -220,8 +220,8 @@
             <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Open Hours</p>
             <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !hours_toggle }">{{ venue_hours }}</p>
             <div class="d-flex justify-content-center mt-1">
-              <a class="card-link text-info" (click)="hours_info_toggle()">{{ hours_toggle ? "Show Less" : " Show More" }}</a>
-              <mat-icon class="text-white">{{ hours_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
+              <a class="card-link text-info click_pointer" (click)="hours_info_toggle()">{{ hours_toggle ? "Show Less" : " Show More" }}</a>
+              <mat-icon class="text-white click_pointer"  (click)="hours_info_toggle()">{{ hours_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
             </div>
           </ng-container>
 
@@ -229,8 +229,8 @@
             <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">General Rule</p>
             <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !general_rule_toggle }">{{ venue_general_rule }}</p>
             <div class="d-flex justify-content-center mt-1">
-              <a class="card-link text-info" (click)="general_rule_info_toggle()">{{ general_rule_toggle ? "Show Less" : " Show More" }}</a>
-              <mat-icon class="text-white">{{ general_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
+              <a class="card-link text-info click_pointer" (click)="general_rule_info_toggle()">{{ general_rule_toggle ? "Show Less" : " Show More" }}</a>
+              <mat-icon class="text-white click_pointer" (click)="general_rule_info_toggle()">{{ general_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
             </div>
           </ng-container>
 
@@ -238,8 +238,8 @@
             <p class="card-text subtitle_color text-center fs-4 fw-bold mt-4 mb-0">Child Rule</p>
             <p class="card-text text-center text-white fs-6 mt-1 mb-0" [ngClass]="{ truncate: !child_rule_toggle }">{{ venue_child_rule }}</p>
             <div class="d-flex justify-content-center mt-1">
-              <a class="card-link text-info" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? "Show Less" : " Show More" }}</a>
-              <mat-icon class="text-white">{{ child_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
+              <a class="card-link text-info click_pointer" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? "Show Less" : " Show More" }}</a>
+              <mat-icon class="text-white click_pointer" (click)="child_rule_info_toggle()">{{ child_rule_toggle ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</mat-icon>
             </div>
           </ng-container>
         </div>

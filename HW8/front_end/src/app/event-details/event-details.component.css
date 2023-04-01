@@ -32,6 +32,11 @@
     color: #116017;
   }
 
+  .click_pointer:hover {
+    cursor: pointer;
+}
+
+
   /* Reference source: https://css-tricks.com/line-clampin/ */
   .truncate {
     display: -webkit-box;
