@@ -8,4 +8,6 @@
     <string name="keyword_placeholder">Enter the Keyword</string>
     <string name="distance_title">Distance (Miles)*</string>
     <string name="distance_default">10</string>
+    <string name="distance_hint">Enter the Distance</string>
+    <string name="category_title">Category*</string>
 </resources>
