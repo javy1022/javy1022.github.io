@@ -97,7 +97,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/distance_input" />
 
-
+                <Spinner
+                    android:id="@+id/category_input"
+                    android:spinnerMode="dropdown"
+                    android:popupBackground="@color/gray_form"
+                    android:backgroundTint="@color/green"
+                    android:layout_width="267dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.159"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/category_title" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
