@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.SearchFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -26,10 +25,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -37,30 +35,57 @@
                     android:layout_marginBottom="28dp"
                     android:text="@string/keyword"
                     android:textColor="@color/green"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextView"
-                    android:layout_width="311dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="60dp"
+                    android:id="@+id/keyword_input"
+                    android:layout_width="326dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="48dp"
                     android:backgroundTint="@color/green"
                     android:hint="@string/keyword_placeholder"
                     android:textColor="@color/white"
                     android:textColorHint="@color/gray_hint"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="120dp"
+                    android:layout_marginBottom="28dp"
+                    android:text="Distance (Miles)*"
+                    android:textColor="@color/green"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <EditText
+                    android:id="@+id/editTextNumberSigned7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="156dp"
+                    android:ems="10"
+                    android:inputType="numberSigned"
+                    android:text="10"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/green"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.124"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
