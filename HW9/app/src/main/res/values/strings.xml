@@ -14,4 +14,5 @@
     <string name="location_input">Enter the Location</string>
     <string name="auto_detect_title">Auto-Detect</string>
     <string name="search">Search</string>
+    <string name="clear">Clear</string>
 </resources>

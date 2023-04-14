@@ -23,13 +23,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.hw9.CustomArrayAdapter;
+import com.example.hw9.AutoCompleteArrayAdapter;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,7 +36,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -61,9 +59,9 @@ public class SearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    // Declare adapter and actv as instance variables
+    // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
-    private AutoCompleteTextView actv;
+    private AutoCompleteTextView autoComplete_tv;
 
 
     public SearchFragment() {
@@ -115,19 +113,17 @@ public class SearchFragment extends Fragment {
         clear(view);
         // validation
         inputs_validation(view);
-
+        // autocomplete suggestions http request
         autoComplete_http_request(view);
 
 
         // Initialize the ArrayAdapter with an empty list of names
-        autoCompleteAdapter = new CustomArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
-
-
+        autoCompleteAdapter = new AutoCompleteArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
 
         // Initialize the AutoCompleteTextView
-        actv = view.findViewById(R.id.keyword_input);
-        actv.setThreshold(1);
-        actv.setAdapter(autoCompleteAdapter);
+        autoComplete_tv = view.findViewById(R.id.keyword_input);
+        autoComplete_tv.setThreshold(1);
+        autoComplete_tv.setAdapter(autoCompleteAdapter);
 
 
 
@@ -239,8 +235,8 @@ public class SearchFragment extends Fragment {
                 // do something during the text change
                 String text = s.toString().trim();
                 // call your method here, passing the updated text as a parameter
-                String baseUrl = "https://csci571-hw8-spr23.wl.r.appspot.com/search/auto-complete";
-                Uri.Builder builder = Uri.parse(baseUrl).buildUpon();
+                String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/auto-complete";
+                Uri.Builder builder = Uri.parse(backend_url).buildUpon();
                 builder.appendQueryParameter("keyword", text);
                 String url = builder.build().toString();
 
@@ -248,44 +244,39 @@ public class SearchFragment extends Fragment {
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                             @Override
-                            public void onResponse(JSONObject response) {
-                                JSONObject embedded = response.optJSONObject("_embedded");
-                                JSONArray attractionsArray = embedded != null ? embedded.optJSONArray("attractions") : null;
+                            public void onResponse(JSONObject resp) {
+                                JSONObject embedded = resp.optJSONObject("_embedded");
+                                JSONArray attractions_arr = embedded != null ? embedded.optJSONArray("attractions") : null;
 
-                                if (embedded == null || attractionsArray == null) {
+                                if (embedded == null || attractions_arr == null) {
+                                    List<String> ac_suggestions = new ArrayList<>();
+                                    autoCompleteAdapter.clear();
+                                    autoCompleteAdapter.addAll(ac_suggestions);
+                                    autoCompleteAdapter.notifyDataSetChanged();
                                     Log.e("Exception", "autocomplete suggestion is null");
                                     return;
                                 }
 
                                 // Use Gson to parse the JSON array into a list of maps
                                 Gson gson = new Gson();
-                                Type attractionsListType = new TypeToken<List<Map<String, Object>>>(){}.getType();
-                                List<Map<String, Object>> attractions = attractionsArray != null ? gson.fromJson(attractionsArray.toString(), attractionsListType) : new ArrayList<Map<String, Object>>();
+                                Type attractions_list_type = new TypeToken<List<Map<String, Object>>>(){}.getType();
+                                List<Map<String, Object>> attractions = attractions_arr != null ? gson.fromJson(attractions_arr.toString(), attractions_list_type) : new ArrayList<Map<String, Object>>();
 
                                 // Extract the names of attractions
-                                List<String> names = new ArrayList<>();
-                                for (Map<String, Object> attraction : attractions) {
-                                    String name = (String) attraction.get("name");
+                                List<String> ac_suggestions = new ArrayList<>();
+                                for (Map<String, Object> attraction_obj : attractions) {
+                                    String name = (String) attraction_obj.get("name");
                                     if (name != null) {
-                                        names.add(name);
+                                        ac_suggestions.add(name);
                                     }
                                 }
                                 // Update the ArrayAdapter with the new list of names
                                 autoCompleteAdapter.clear();
-                                autoCompleteAdapter.addAll(names);
+                                autoCompleteAdapter.addAll(ac_suggestions);
                                 autoCompleteAdapter.notifyDataSetChanged();
-
-
-
                                 // Handle the attractions names list
-                                Log.d("debug", "Attractions names: " + names.toString());
-                                /*
-                                Log.d("Adapter After Update", "Size: " + adapter.getCount());
-                                for (int i = 0; i < adapter.getCount(); i++) {
-                                    String item = adapter.getItem(i);
-                                    Log.d("Adapter After Update", item);
-                                }
-                                    */
+                                Log.d("debug", "Attractions names: " + ac_suggestions.toString());
+
                             }
                         }, new Response.ErrorListener() {
 

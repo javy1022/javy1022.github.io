@@ -6,11 +6,11 @@ import android.widget.Filter;
 
 import java.util.List;
 
-public class CustomArrayAdapter extends ArrayAdapter<String> {
+public class AutoCompleteArrayAdapter extends ArrayAdapter<String> {
 
     private List<String> items;
 
-    public CustomArrayAdapter(Context context, int textViewResourceId, List<String> items) {
+    public AutoCompleteArrayAdapter(Context context, int textViewResourceId, List<String> items) {
         super(context, textViewResourceId, items);
         this.items = items;
     }
