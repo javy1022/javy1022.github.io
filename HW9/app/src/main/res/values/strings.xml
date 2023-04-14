@@ -10,4 +10,6 @@
     <string name="distance_default">10</string>
     <string name="distance_hint">Enter the Distance</string>
     <string name="category_title">Category*</string>
+    <string name="location_title">Location*</string>
+    <string name="location_input">Enter the Location</string>
 </resources>
