@@ -1,9 +1,11 @@
 package com.example.hw9.ui.main;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -17,8 +19,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hw9.R;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,6 +87,9 @@ public class SearchFragment extends Fragment {
         toggle_location_input(view);
         //clear btn
         clear(view);
+        // validation
+        inputs_validation(view);
+
     }
 
     /* Custom Code Start Here */
@@ -149,7 +156,33 @@ public class SearchFragment extends Fragment {
 
     }
 
+    private void inputs_validation(View view){
 
+        final Button search = view.findViewById(R.id.search_btn);
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
+                final EditText distance_input = view.findViewById(R.id.distance_input);
+                final EditText location_input = view.findViewById(R.id.location_input);
+                final SwitchCompat auto_detect_switch = view.findViewById(R.id.auto_detect_switch);
+                String keyword = keyword_input.getText().toString().trim();
+                String distance = distance_input.getText().toString().trim();
+                String location =location_input.getText().toString().trim();
+                boolean isSwitchOn = auto_detect_switch.isChecked();
+
+                if (keyword.isEmpty() || distance.isEmpty() || (location.isEmpty() && !isSwitchOn)) {
+                    Snackbar snackbar = Snackbar.make(view, "Please fill all fields", Snackbar.LENGTH_SHORT);
+                    snackbar.getView().setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.gray_snack_bar)));
+                    TextView snackbar_text = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+                    snackbar_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                    snackbar.show();
+                }
+            }
+        });
+
+    }
 
 
 
