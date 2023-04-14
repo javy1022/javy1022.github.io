@@ -6,10 +6,13 @@ import android.os.Bundle;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -74,16 +77,16 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-
         // set up the Spinner
-        setupSpinner(view);
+        init_category_spinner(view);
+        // hide/show location input
         toggle_location_input(view);
+        //clear btn
+        clear(view);
     }
 
     /* Custom Code Start Here */
-    private void setupSpinner(View view) {
+    private void init_category_spinner(View view) {
         Spinner spinner = view.findViewById(R.id.category_input);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_item,
@@ -121,6 +124,28 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
+    }
+
+    private void clear(View view) {
+        final Button clear_btn = view.findViewById(R.id.clear_btn);
+        final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
+        final EditText distance_input = view.findViewById(R.id.distance_input);
+        final Spinner category_spinner = view.findViewById(R.id.category_input);
+        final SwitchCompat auto_detect_switch = view.findViewById(R.id.auto_detect_switch);
+        final EditText location_input = view.findViewById(R.id.location_input);
+
+
+        clear_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyword_input.setText("");
+                if(!TextUtils.isEmpty(distance_input.getText().toString()))distance_input.setText("10");
+                category_spinner.setSelection(0);
+                auto_detect_switch.setChecked(false);
+                location_input.setText("");
+            }
+        });
 
     }
 
