@@ -3,13 +3,15 @@ package com.example.hw9.ui.main;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -73,8 +75,11 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
         // set up the Spinner
         setupSpinner(view);
+        toggle_location_input(view);
     }
 
     /* Custom Code Start Here */
@@ -99,6 +104,24 @@ public class SearchFragment extends Fragment {
         };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+    }
+
+    private void toggle_location_input(View view) {
+        SwitchCompat switchCompat = view.findViewById(R.id.auto_detect_switch);
+        final EditText location_input = view.findViewById(R.id.location_input);
+
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean is_checked) {
+                if (is_checked) {
+                    location_input.setVisibility(View.GONE);
+                } else {
+                    location_input.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
     }
 
 

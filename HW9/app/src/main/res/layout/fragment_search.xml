@@ -140,6 +140,17 @@
                     android:autofillHints="postalAddress"
                     android:inputType="textPostalAddress" />
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/auto_detect_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auto_detect_title"
+                    android:textColor="@color/gray_auto_detect"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.8"
+                    app:layout_constraintStart_toEndOf="@+id/location_title"
+                    app:layout_constraintTop_toBottomOf="@+id/category_input" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

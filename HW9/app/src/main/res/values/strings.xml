@@ -12,4 +12,5 @@
     <string name="category_title">Category*</string>
     <string name="location_title">Location*</string>
     <string name="location_input">Enter the Location</string>
+    <string name="auto_detect_title">Auto-Detect</string>
 </resources>

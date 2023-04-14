@@ -11,5 +11,7 @@
     <color name="gray_theme">#111111</color>
     <color name="gray_form">#141414</color>
     <color name="gray_hint">#4E606F</color>
+    <color name="gray_auto_detect">#B9B9B9</color>
+
 
 </resources>
