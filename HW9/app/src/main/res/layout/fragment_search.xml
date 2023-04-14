@@ -50,6 +50,7 @@
                     android:textColor="@color/white"
                     android:textColorHint="@color/gray_hint"
                     android:textSize="18sp"
+                    android:popupBackground="@color/gray_form"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.482"
                     app:layout_constraintStart_toStartOf="parent"

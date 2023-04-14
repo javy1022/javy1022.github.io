@@ -105,8 +105,10 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // set up the Spinner
+        // init category dropdown spinner
         init_category_spinner(view);
+        // init autocomplete array adapter
+        init_ac_arrayAdapter(view);
         // hide/show location input
         toggle_location_input(view);
         //clear btn
@@ -115,18 +117,6 @@ public class SearchFragment extends Fragment {
         inputs_validation(view);
         // autocomplete suggestions http request
         autoComplete_http_request(view);
-
-
-        // Initialize the ArrayAdapter with an empty list of names
-        autoCompleteAdapter = new AutoCompleteArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
-
-        // Initialize the AutoCompleteTextView
-        autoComplete_tv = view.findViewById(R.id.keyword_input);
-        autoComplete_tv.setThreshold(1);
-        autoComplete_tv.setAdapter(autoCompleteAdapter);
-
-
-
     }
 
     /* Custom Code Start Here */
@@ -153,6 +143,12 @@ public class SearchFragment extends Fragment {
         spinner.setAdapter(categoryAdapter);
     }
 
+    private void init_ac_arrayAdapter(View view){
+        autoCompleteAdapter = new AutoCompleteArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
+        autoComplete_tv = view.findViewById(R.id.keyword_input);
+        autoComplete_tv.setThreshold(1);
+        autoComplete_tv.setAdapter(autoCompleteAdapter);
+    }
     private void toggle_location_input(View view) {
         SwitchCompat switchCompat = view.findViewById(R.id.auto_detect_switch);
         final EditText location_input = view.findViewById(R.id.location_input);
@@ -283,16 +279,10 @@ public class SearchFragment extends Fragment {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // Handle the error
-                                Log.e("Error", "Error: " + error.getMessage());
+                                Log.e("Error", "Volley Error: " + error.getMessage());
                             }
                         });
-
-// Add the request to the request queue
                 MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
-
-
-
-                Log.d("AutoComplete", "URL: " + url); // log the URL
 
             }
 
