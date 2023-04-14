@@ -2,13 +2,17 @@ package com.example.hw9.ui.main;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +25,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.hw9.CustomArrayAdapter;
+import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +60,11 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    // Declare adapter and actv as instance variables
+    private ArrayAdapter<String> autoCompleteAdapter;
+    private AutoCompleteTextView actv;
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -90,13 +116,28 @@ public class SearchFragment extends Fragment {
         // validation
         inputs_validation(view);
 
+        autoComplete_http_request(view);
+
+
+        // Initialize the ArrayAdapter with an empty list of names
+        autoCompleteAdapter = new CustomArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
+
+
+
+        // Initialize the AutoCompleteTextView
+        actv = view.findViewById(R.id.keyword_input);
+        actv.setThreshold(1);
+        actv.setAdapter(autoCompleteAdapter);
+
+
+
     }
 
     /* Custom Code Start Here */
     private void init_category_spinner(View view) {
         Spinner spinner = view.findViewById(R.id.category_input);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_item,
+        ArrayAdapter<CharSequence> categoryAdapter = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_item,
                 getResources().getTextArray(R.array.category_array)) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -112,8 +153,8 @@ public class SearchFragment extends Fragment {
                 return view;
             }
         };
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(categoryAdapter);
     }
 
     private void toggle_location_input(View view) {
@@ -184,6 +225,93 @@ public class SearchFragment extends Fragment {
 
     }
 
+    private void autoComplete_http_request(View view){
+        final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
+
+        keyword_input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // do something before the text changes
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // do something during the text change
+                String text = s.toString().trim();
+                // call your method here, passing the updated text as a parameter
+                String baseUrl = "https://csci571-hw8-spr23.wl.r.appspot.com/search/auto-complete";
+                Uri.Builder builder = Uri.parse(baseUrl).buildUpon();
+                builder.appendQueryParameter("keyword", text);
+                String url = builder.build().toString();
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONObject embedded = response.optJSONObject("_embedded");
+                                JSONArray attractionsArray = embedded != null ? embedded.optJSONArray("attractions") : null;
+
+                                if (embedded == null || attractionsArray == null) {
+                                    Log.e("Exception", "autocomplete suggestion is null");
+                                    return;
+                                }
+
+                                // Use Gson to parse the JSON array into a list of maps
+                                Gson gson = new Gson();
+                                Type attractionsListType = new TypeToken<List<Map<String, Object>>>(){}.getType();
+                                List<Map<String, Object>> attractions = attractionsArray != null ? gson.fromJson(attractionsArray.toString(), attractionsListType) : new ArrayList<Map<String, Object>>();
+
+                                // Extract the names of attractions
+                                List<String> names = new ArrayList<>();
+                                for (Map<String, Object> attraction : attractions) {
+                                    String name = (String) attraction.get("name");
+                                    if (name != null) {
+                                        names.add(name);
+                                    }
+                                }
+                                // Update the ArrayAdapter with the new list of names
+                                autoCompleteAdapter.clear();
+                                autoCompleteAdapter.addAll(names);
+                                autoCompleteAdapter.notifyDataSetChanged();
+
+
+
+                                // Handle the attractions names list
+                                Log.d("debug", "Attractions names: " + names.toString());
+                                /*
+                                Log.d("Adapter After Update", "Size: " + adapter.getCount());
+                                for (int i = 0; i < adapter.getCount(); i++) {
+                                    String item = adapter.getItem(i);
+                                    Log.d("Adapter After Update", item);
+                                }
+                                    */
+                            }
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // Handle the error
+                                Log.e("Error", "Error: " + error.getMessage());
+                            }
+                        });
+
+// Add the request to the request queue
+                MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
+
+
+
+                Log.d("AutoComplete", "URL: " + url); // log the URL
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
+    }
 
 
 }
