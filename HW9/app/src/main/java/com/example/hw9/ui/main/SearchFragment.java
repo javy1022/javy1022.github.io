@@ -13,7 +13,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.provider.SyncStateContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -42,7 +41,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -68,6 +66,8 @@ public class SearchFragment extends Fragment {
     private String cached_googleMap_api_key;
     // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
+
+    private ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
 
 
     public SearchFragment() {
@@ -367,133 +367,110 @@ public class SearchFragment extends Fragment {
 
         Log.d("url", url );
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+        JsonObjectRequest json_obj_request = new JsonObjectRequest
                 (Request.Method.GET, url, null, resp -> {
-                    ArrayList<ArrayList<String>> listForTable = new ArrayList<>();
-
                     Gson gson = new Gson();
-                    JsonObject gsonResponse = gson.fromJson(resp.toString(), JsonObject.class);
-                    JsonArray events = gsonResponse.getAsJsonObject("_embedded").getAsJsonArray("events");
-                    int totalEvents = events.size();
+                    JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
+                    JsonArray events = gson_resp.getAsJsonObject("_embedded").getAsJsonArray("events");
+                    int total_events = events.size();
 
-                    for (int i = 0; i < totalEvents; i++) {
-                        JsonObject respObj = events.get(i).getAsJsonObject();
-                        ArrayList<String> bufferArray = new ArrayList<>();
+                    for (int i = 0; i < total_events; i++) {
+                        JsonObject resp_obj = events.get(i).getAsJsonObject();
+                        ArrayList<String> buffer_arr = new ArrayList<>();
 
-                        if (respObj.has("dates")) {
-                            bufferArrayAppend(bufferArray, "dates", respObj);
+                        if (resp_obj.has("dates")) {
+                            buffer_arr_append(buffer_arr, "dates", resp_obj);
                         } else {
-                            bufferArray.add("");
-                            bufferArray.add("");
+                            buffer_arr.add("");
+                            buffer_arr.add("");
                         }
 
-                        if (respObj.has("images")) {
-                            bufferArrayAppend(bufferArray, "images", respObj);
+                        if (resp_obj.has("images")) {
+                            buffer_arr_append(buffer_arr, "images", resp_obj);
                         } else {
-                            bufferArray.add("");
+                            buffer_arr.add("");
                         }
 
-                        if (respObj.has("name")) {
-                            bufferArrayAppend(bufferArray, "name", respObj);
+                        if (resp_obj.has("name")) {
+                            buffer_arr_append(buffer_arr, "name", resp_obj);
                         } else {
-                            bufferArray.add("");
+                            buffer_arr.add("");
                         }
 
-                        if (respObj.has("classifications")) {
-                            bufferArrayAppend(bufferArray, "classifications", respObj);
+                        if (resp_obj.has("classifications")) {
+                            buffer_arr_append(buffer_arr, "classifications", resp_obj);
                         } else {
-                            bufferArray.add("");
+                            buffer_arr.add("");
                         }
 
-                        if (respObj.has("_embedded")) {
-                            bufferArrayAppend(bufferArray, "_embedded", respObj);
+                        if (resp_obj.has("_embedded")) {
+                            buffer_arr_append(buffer_arr, "_embedded", resp_obj);
                         } else {
-                            bufferArray.add("");
+                            buffer_arr.add("");
                         }
 
-                        if (respObj.has("id")) {
-                            bufferArrayAppend(bufferArray, "id", respObj);
+                        if (resp_obj.has("id")) {
+                            buffer_arr_append(buffer_arr, "id", resp_obj);
                         } else {
-                            bufferArray.add("");
+                            buffer_arr.add("");
                         }
 
-                        listForTable.add(bufferArray);
+                        list_for_table.add(buffer_arr);
                     }
-                    Log.d("table", listForTable.toString());
+                    Log.d("table", list_for_table.toString());
 
                 }, error -> {
                     // Handle the error
                     Log.e("Error", "Volley Error Ticketmaster Event Result: " + error.getMessage());
                 });
-        MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
+        MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
     }
 
-    private void bufferArrayAppend(ArrayList<String> bufferArray, String header, JsonObject respObj) {
-        JsonElement headerElement = respObj.get(header);
+    private void buffer_arr_append(ArrayList<String> buffer_arr, String header, JsonObject resp_obj) {
+        JsonElement header_element = resp_obj.get(header);
 
-        if (headerElement == null) {
+        if (header_element == null) {
             return;
         }
 
         switch (header) {
             case "dates":
-                JsonObject timeObj = ((JsonElement) headerElement).getAsJsonObject();
-                String startLocalDate = getTrimmedValue(timeObj, "start", "localDate");
-                String startLocalTime = getTrimmedValue(timeObj, "start", "localTime");
-                bufferArray.add(startLocalDate != null ? startLocalDate : "");
-                bufferArray.add(startLocalTime != null ? startLocalTime : "");
+                JsonObject time_obj = ((JsonElement) header_element).getAsJsonObject();
+                String start_local_date = extract_json_resp(time_obj, "start", "localDate");
+                String start_local_time = extract_json_resp(time_obj, "start", "localTime");
+                buffer_arr.add(start_local_date != null ? start_local_date : "");
+                buffer_arr.add(start_local_time != null ? start_local_time : "");
                 break;
             case "images":
-                JsonArray imageObj = headerElement.getAsJsonArray();
-                String imageUrl = imageObj.size() > 0 ? getTrimmedValue(imageObj.get(0).getAsJsonObject(), "url") : null;
-                bufferArray.add(imageUrl != null ? imageUrl : "");
+                JsonArray img_obj = header_element.getAsJsonArray();
+                String img_url = img_obj.size() > 0 ? extract_json_resp(img_obj.get(0).getAsJsonObject(), "url") : null;
+                buffer_arr.add(img_url != null ? img_url : "");
                 break;
             case "name":
-                String name = headerElement.getAsString().trim();
-                bufferArray.add(!name.isEmpty() ? name : "");
+            case "id":
+                String name = header_element.getAsString().trim();
+                buffer_arr.add(!name.isEmpty() ? name : "");
                 break;
             case "classifications":
-                JsonArray genreObj = headerElement.getAsJsonArray();
-                String genre = genreObj.size() > 0 ? getTrimmedValue(genreObj.get(0).getAsJsonObject(), "segment", "name") : null;
-                bufferArray.add(genre != null ? genre : "");
+                JsonArray genre_obj = header_element.getAsJsonArray();
+                String genre = genre_obj.size() > 0 ? extract_json_resp(genre_obj.get(0).getAsJsonObject(), "segment", "name") : null;
+                buffer_arr.add(genre != null ? genre : "");
                 break;
             case "_embedded":
-                JsonObject venuesObj = headerElement.getAsJsonObject();
-                if (venuesObj.has("venues")) {
-                    JsonArray venuesArray = venuesObj.getAsJsonArray("venues");
-                    JsonObject firstVenue = venuesArray.size() > 0 ? venuesArray.get(0).getAsJsonObject() : null;
-                    String venue = getTrimmedValue(firstVenue, "name");
-                    bufferArray.add(venue != null ? venue : "");
+                JsonObject venues_obj = header_element.getAsJsonObject();
+                if (venues_obj.has("venues")) {
+                    JsonArray venues_arr = venues_obj.getAsJsonArray("venues");
+                    JsonObject target_venue = venues_arr.size() > 0 ? venues_arr.get(0).getAsJsonObject() : null;
+                    String venue = extract_json_resp(target_venue, "name");
+                    buffer_arr.add(venue != null ? venue : "");
                 } else {
-                    bufferArray.add("");
+                    buffer_arr.add("");
                 }
-                break;
-            case "id":
-                String id = headerElement.getAsString().trim();
-                bufferArray.add(!id.isEmpty() ? id : "");
                 break;
             default:
                 break;
         }
     }
-
-    // Extracts data from Json navigating through its hierarchy using an array of keys in a specific order
-    private String getTrimmedValue(JsonObject jsonObject, String... keys) {
-        JsonObject currentObj = jsonObject;
-        for (int i = 0; i < keys.length - 1; i++) {
-            JsonElement element = currentObj.get(keys[i]);
-            if (element == null || !element.isJsonObject()) {
-                return null;
-            }
-            currentObj = element.getAsJsonObject();
-        }
-        JsonElement finalElement = currentObj.get(keys[keys.length - 1]);
-        if (finalElement == null) {
-            return null;
-        }
-        return finalElement.getAsString().trim();
-    }
-
 
     /* Helper Functions */
     private String preprocess_google_geoLoc_address(String location){
@@ -522,6 +499,23 @@ public class SearchFragment extends Fragment {
         String apiKey = bundle.getString("com.google.android.geo.API_KEY");
         cached_googleMap_api_key = apiKey;
         return apiKey;
+    }
+
+    // Extracts data from Json navigating through its hierarchy using an array of keys in a specific order
+    private String extract_json_resp(JsonObject json_obj, String... keys) {
+        JsonObject current_obj = json_obj;
+        for (int i = 0; i < keys.length - 1; i++) {
+            JsonElement element = current_obj.get(keys[i]);
+            if (element == null || !element.isJsonObject()) {
+                return null;
+            }
+            current_obj = element.getAsJsonObject();
+        }
+        JsonElement desired_element = current_obj.get(keys[keys.length - 1]);
+        if (desired_element == null) {
+            return null;
+        }
+        return desired_element.getAsString().trim();
     }
 
 }
