@@ -1,5 +1,8 @@
 package com.example.hw9.ui.main;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
@@ -41,6 +44,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +59,8 @@ public class SearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
+    private String cached_googleMap_api_key;
     // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
 
@@ -100,6 +107,8 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Remove this after
+        dev_inputs_placeholder(view);
         // init category dropdown spinner
         init_category_spinner(view);
         // init autocomplete array adapter
@@ -108,13 +117,19 @@ public class SearchFragment extends Fragment {
         toggle_location_input(view);
         //clear btn
         clear(view);
-        // validation
-        inputs_validation(view);
+        // submit btn
+        submit_with_inputs_validation(view);
         // autocomplete suggestions http request
         autoComplete_http_request(view);
 
     }
-
+    // Remove this function after
+    private void dev_inputs_placeholder(View view){
+        final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
+        final EditText location_input = view.findViewById(R.id.location_input);
+        keyword_input.setText("P!NK");
+        location_input.setText("New York");
+    }
     /* Custom Code Start Here */
     private void init_category_spinner(View view) {
         Spinner spinner = view.findViewById(R.id.category_input);
@@ -179,17 +194,19 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void inputs_validation(View view){
+    private void submit_with_inputs_validation(View view){
 
         final Button search = view.findViewById(R.id.search_btn);
 
         search.setOnClickListener(v -> {
             final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
             final EditText distance_input = view.findViewById(R.id.distance_input);
+            final Spinner category_input = view.findViewById(R.id.category_input);
             final EditText location_input = view.findViewById(R.id.location_input);
             final SwitchCompat auto_detect_switch = view.findViewById(R.id.auto_detect_switch);
             String keyword = keyword_input.getText().toString().trim();
             String distance = distance_input.getText().toString().trim();
+            String category = category_input.getSelectedItem().toString().trim();
             String location =location_input.getText().toString().trim();
             boolean isSwitchOn = auto_detect_switch.isChecked();
 
@@ -199,10 +216,50 @@ public class SearchFragment extends Fragment {
                 TextView snackBar_text = snackBar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
                 snackBar_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
                 snackBar.show();
+            }else{
+                if(!isSwitchOn) {
+                    String preprocessed_location = preprocess_google_geoLoc_address(location);
+                    String api_key = get_googleMap_api_key();
+                    String base_url = "https://maps.googleapis.com/maps/api/geocode/json";
+                    Uri.Builder builder = Uri.parse(base_url).buildUpon();
+                    builder.appendQueryParameter("address", preprocessed_location);
+                    builder.appendQueryParameter("key", api_key);
+                    String url = builder.build().toString();
+                    Log.d("url", url);
+                    /*
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                            (Request.Method.GET, url, null, resp -> {
+                                JSONObject embedded = resp.optJSONObject("_embedded");
+                                JSONArray attractions_arr = embedded != null ? embedded.optJSONArray("attractions") : null;
+
+                                if (embedded == null || attractions_arr == null) {
+
+                                    Log.e("Exception", "autocomplete suggestion is null");
+                                    return;
+                                }
+
+                                // Use Gson to parse the JSON array into a list of maps
+                                Gson gson = new Gson();
+                                Type attractions_list_type = new TypeToken<List<Map<String, Object>>>() {
+                                }.getType();
+                                List<Map<String, Object>> attractions = gson.fromJson(attractions_arr.toString(), attractions_list_type);
+
+
+
+
+                            }, error -> {
+                                // Handle the error
+                                Log.e("Error", "Volley Error: " + error.getMessage());
+                            });
+                    MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
+                                         */
+
+                }
             }
         });
 
     }
+
 
     private void autoComplete_http_request(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
@@ -287,5 +344,33 @@ public class SearchFragment extends Fragment {
         });
     }
 
+  /* Helper Functions */
+    private String preprocess_google_geoLoc_address(String location){
+        Pattern regGeoLoc = Pattern.compile("\\s*$");
+        Pattern regNonAlphanumeric = Pattern.compile("[^a-zA-Z\\d+]+");
+        Matcher matcher = regGeoLoc.matcher(location);
+        String location_temp = matcher.replaceAll("");
+        String preprocessed_location = regNonAlphanumeric.matcher(location_temp).replaceAll("+");
+        return preprocessed_location;
+    }
+    private String get_googleMap_api_key() {
+        if (cached_googleMap_api_key != null) {
+            return cached_googleMap_api_key;
+        }
+
+        Context context = getContext();
+        PackageManager pm = context.getPackageManager();
+        String packageName = getActivity().getPackageName();
+        ApplicationInfo ai;
+        try {
+            ai = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Bundle bundle = ai.metaData;
+        String apiKey = bundle.getString("com.google.android.geo.API_KEY");
+        cached_googleMap_api_key = apiKey;
+        return apiKey;
+    }
 
 }
