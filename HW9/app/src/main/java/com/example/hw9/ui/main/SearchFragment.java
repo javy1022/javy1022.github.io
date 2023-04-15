@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -124,6 +126,8 @@ public class SearchFragment extends Fragment {
         clear(view);
         // submit btn
         submit_with_inputs_validation(view);
+        // black back btn
+        nav_back_to_search(view);
         // autocomplete suggestions http request
         get_autoComplete_suggestions(view);
 
@@ -180,6 +184,22 @@ public class SearchFragment extends Fragment {
 
     }
 
+    private void nav_back_to_search(View view){
+        final CardView search_from = view.findViewById(R.id.search_form);
+        final ImageButton black_back_btn = view.findViewById(R.id.black_back_btn);
+        final TextView black_back_btn_prompt = view.findViewById(R.id.black_back_btn_prompt);
+
+        black_back_btn .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_from.setVisibility(v.VISIBLE);
+                black_back_btn.setVisibility(v.GONE);
+                black_back_btn_prompt.setVisibility(v.GONE);
+            }
+        });
+
+    }
+
     private void clear(View view) {
         final Button clear_btn = view.findViewById(R.id.clear_btn);
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
@@ -222,12 +242,17 @@ public class SearchFragment extends Fragment {
                 snackBar_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
                 snackBar.show();
             }else{
+                final CardView search_from = view.findViewById(R.id.search_form);
+                final ProgressBar progressBar = view.findViewById(R.id.event_search_progress_bar);
+                final ImageButton black_back_btn = view.findViewById(R.id.black_back_btn);
+                final TextView black_back_btn_prompt = view.findViewById(R.id.black_back_btn_prompt);
+
                 if(!isSwitchOn) {
                     // UI logic
-                    final CardView search_from = view.findViewById(R.id.search_form);
-                    final ProgressBar progressBar = view.findViewById(R.id.event_search_progress_bar);
                     search_from.setVisibility(View.GONE);
                     progressBar.setVisibility(View.VISIBLE);
+                    black_back_btn.setVisibility(View.VISIBLE);
+                    black_back_btn_prompt.setVisibility(View.VISIBLE);
 
 
                     String preprocessed_location = preprocess_google_geoLoc_address(location);
@@ -263,10 +288,12 @@ public class SearchFragment extends Fragment {
                                     }
                                 }else {
                                     Log.d("GeoLoc status", "not result");
+                                    progressBar.setVisibility(View.GONE);
                                 }
 
                             }, error -> {
                                 // Handle the error
+                                progressBar.setVisibility(View.GONE);
                                 Log.e("Error", "Volley Error: " + error.getMessage());
                             });
                     MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
@@ -378,7 +405,18 @@ public class SearchFragment extends Fragment {
                 (Request.Method.GET, url, null, resp -> {
                     Gson gson = new Gson();
                     JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
-                    JsonArray events = gson_resp.getAsJsonObject("_embedded").getAsJsonArray("events");
+
+                    JsonArray events = null;
+
+                    try {
+                        events = gson_resp.getAsJsonObject("_embedded").getAsJsonArray("events");
+                    } catch (NullPointerException e) {
+                        Log.e("Exception", "Exception: No Search Results Available");
+                        pr.setVisibility(View.GONE);
+                        return;
+                    }
+
+
                     int total_events = events.size();
 
                     for (int i = 0; i < total_events; i++) {
