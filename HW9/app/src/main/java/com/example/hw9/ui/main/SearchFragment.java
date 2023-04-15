@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -68,7 +69,6 @@ public class SearchFragment extends Fragment {
     private ArrayAdapter<String> autoCompleteAdapter;
 
     private ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
-
 
     public SearchFragment() {
         // Required empty public constructor
@@ -223,6 +223,13 @@ public class SearchFragment extends Fragment {
                 snackBar.show();
             }else{
                 if(!isSwitchOn) {
+                    // UI logic
+                    final CardView search_from = view.findViewById(R.id.search_form);
+                    final ProgressBar progressBar = view.findViewById(R.id.event_search_progress_bar);
+                    search_from.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.VISIBLE);
+
+
                     String preprocessed_location = preprocess_google_geoLoc_address(location);
                     String api_key = get_googleMap_api_key();
                     String base_url = "https://maps.googleapis.com/maps/api/geocode/json";
@@ -250,7 +257,7 @@ public class SearchFragment extends Fragment {
                                             if (location_obj != null) {
                                                 lat = location_obj.get("lat").getAsString().trim();
                                                 lng = location_obj.get("lng").getAsString().trim();
-                                                get_event_results(lat, lng, keyword, distance, category);
+                                                get_event_results(lat, lng, keyword, distance, category,progressBar);
                                             }
                                         }
                                     }
@@ -355,7 +362,7 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void get_event_results(String lat, String lng, String keyword, String distance, String category){
+    private void get_event_results(String lat, String lng, String keyword, String distance, String category, ProgressBar pr){
         String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/event-search";
         Uri.Builder builder = Uri.parse(backend_url).buildUpon();
         builder.appendQueryParameter("lat", lat);
@@ -417,6 +424,7 @@ public class SearchFragment extends Fragment {
 
                         list_for_table.add(buffer_arr);
                     }
+                    pr.setVisibility(View.GONE);
                     Log.d("table", list_for_table.toString());
 
                 }, error -> {

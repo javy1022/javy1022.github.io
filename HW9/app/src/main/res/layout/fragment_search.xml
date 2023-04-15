@@ -67,6 +67,7 @@
                     app:layout_constraintStart_toStartOf="@+id/keyword_input"
                     app:layout_constraintTop_toTopOf="@+id/keyword_input" />
 
+
                 <TextView
                     android:id="@+id/distance_title"
                     android:layout_width="wrap_content"
@@ -207,6 +208,17 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <ProgressBar
+            android:id="@+id/event_search_progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
