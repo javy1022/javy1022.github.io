@@ -54,13 +54,8 @@ public class SearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
-    private AutoCompleteTextView autoComplete_tv;
 
 
     public SearchFragment() {
@@ -89,8 +84,9 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -145,7 +141,7 @@ public class SearchFragment extends Fragment {
 
     private void init_ac_arrayAdapter(View view){
         autoCompleteAdapter = new AutoCompleteArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
-        autoComplete_tv = view.findViewById(R.id.keyword_input);
+        AutoCompleteTextView autoComplete_tv = view.findViewById(R.id.keyword_input);
         autoComplete_tv.setThreshold(1);
         autoComplete_tv.setAdapter(autoCompleteAdapter);
     }
