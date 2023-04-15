@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +13,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.SyncStateContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -36,9 +36,13 @@ import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -121,7 +125,7 @@ public class SearchFragment extends Fragment {
         // submit btn
         submit_with_inputs_validation(view);
         // autocomplete suggestions http request
-        autoComplete_http_request(view);
+        get_autoComplete_suggestions(view);
 
     }
     // Remove this function after
@@ -226,45 +230,33 @@ public class SearchFragment extends Fragment {
                     builder.appendQueryParameter("address", preprocessed_location);
                     builder.appendQueryParameter("key", api_key);
                     String url = builder.build().toString();
-                    Log.e("test", url);
+
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                             (Request.Method.GET, url, null, resp -> {
                                 String status = resp.optString("status");
                                 if (!status.equals("ZERO_RESULTS")) {
-                                    double lat, lng;
-                                        JSONArray results = resp.optJSONArray("results");
-                                        if (results != null && results.length() > 0) {
-                                            JSONObject result = results.optJSONObject(0);
-                                            JSONObject geometry = result.optJSONObject("geometry");
-                                            if (geometry != null) {
-                                                JSONObject location_obj = geometry.optJSONObject("location");
-                                                if (location_obj != null) {
-                                                    lat = location_obj.optDouble("lat");
-                                                    lng = location_obj.optDouble("lng");
+                                    String lat, lng;
+                                    Gson gson = new Gson();
+                                    JsonObject respObj = gson.fromJson(String.valueOf(resp), JsonObject.class);
+                                    JsonArray results = respObj.getAsJsonArray("results");
 
+                                    if (results != null && results.size() > 0) {
+                                        JsonObject result = results.get(0).getAsJsonObject();
+                                        JsonObject geometry = result.getAsJsonObject("geometry");
 
-                                                }
+                                        if (geometry != null) {
+                                            JsonObject location_obj = geometry.getAsJsonObject("location");
+
+                                            if (location_obj != null) {
+                                                lat = location_obj.get("lat").getAsString().trim();
+                                                lng = location_obj.get("lng").getAsString().trim();
+                                                get_event_results(lat, lng, keyword, distance, category);
                                             }
                                         }
-
-                                } else {
+                                    }
+                                }else {
                                     Log.d("GeoLoc status", "not result");
                                 }
-                                /*
-                                if (embedded == null || attractions_arr == null) {
-
-                                    Log.e("Exception", "autocomplete suggestion is null");
-                                    return;
-                                }
-
-                                // Use Gson to parse the JSON array into a list of maps
-                                Gson gson = new Gson();
-                                Type attractions_list_type = new TypeToken<List<Map<String, Object>>>() {
-                                }.getType();
-                                List<Map<String, Object>> attractions = gson.fromJson(attractions_arr.toString(), attractions_list_type);
-
-
-*/
 
                             }, error -> {
                                 // Handle the error
@@ -280,7 +272,7 @@ public class SearchFragment extends Fragment {
     }
 
     /* Volley http requests */
-    private void autoComplete_http_request(View view){
+    private void get_autoComplete_suggestions(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
         final ProgressBar progressBar = view.findViewById(R.id.ac_progressBar);
 
@@ -363,7 +355,147 @@ public class SearchFragment extends Fragment {
         });
     }
 
-  /* Helper Functions */
+    private void get_event_results(String lat, String lng, String keyword, String distance, String category){
+        String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/event-search";
+        Uri.Builder builder = Uri.parse(backend_url).buildUpon();
+        builder.appendQueryParameter("lat", lat);
+        builder.appendQueryParameter("lng", lng);
+        builder.appendQueryParameter("keyword", keyword);
+        builder.appendQueryParameter("distance", distance);
+        builder.appendQueryParameter("category", category);
+        String url = builder.build().toString();
+
+        Log.d("url", url );
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, resp -> {
+                    ArrayList<ArrayList<String>> listForTable = new ArrayList<>();
+
+                    Gson gson = new Gson();
+                    JsonObject gsonResponse = gson.fromJson(resp.toString(), JsonObject.class);
+                    JsonArray events = gsonResponse.getAsJsonObject("_embedded").getAsJsonArray("events");
+                    int totalEvents = events.size();
+
+                    for (int i = 0; i < totalEvents; i++) {
+                        JsonObject respObj = events.get(i).getAsJsonObject();
+                        ArrayList<String> bufferArray = new ArrayList<>();
+
+                        if (respObj.has("dates")) {
+                            bufferArrayAppend(bufferArray, "dates", respObj);
+                        } else {
+                            bufferArray.add("");
+                            bufferArray.add("");
+                        }
+
+                        if (respObj.has("images")) {
+                            bufferArrayAppend(bufferArray, "images", respObj);
+                        } else {
+                            bufferArray.add("");
+                        }
+
+                        if (respObj.has("name")) {
+                            bufferArrayAppend(bufferArray, "name", respObj);
+                        } else {
+                            bufferArray.add("");
+                        }
+
+                        if (respObj.has("classifications")) {
+                            bufferArrayAppend(bufferArray, "classifications", respObj);
+                        } else {
+                            bufferArray.add("");
+                        }
+
+                        if (respObj.has("_embedded")) {
+                            bufferArrayAppend(bufferArray, "_embedded", respObj);
+                        } else {
+                            bufferArray.add("");
+                        }
+
+                        if (respObj.has("id")) {
+                            bufferArrayAppend(bufferArray, "id", respObj);
+                        } else {
+                            bufferArray.add("");
+                        }
+
+                        listForTable.add(bufferArray);
+                    }
+                    Log.d("table", listForTable.toString());
+
+                }, error -> {
+                    // Handle the error
+                    Log.e("Error", "Volley Error Ticketmaster Event Result: " + error.getMessage());
+                });
+        MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void bufferArrayAppend(ArrayList<String> bufferArray, String header, JsonObject respObj) {
+        JsonElement headerElement = respObj.get(header);
+
+        if (headerElement == null) {
+            return;
+        }
+
+        switch (header) {
+            case "dates":
+                JsonObject timeObj = ((JsonElement) headerElement).getAsJsonObject();
+                String startLocalDate = getTrimmedValue(timeObj, "start", "localDate");
+                String startLocalTime = getTrimmedValue(timeObj, "start", "localTime");
+                bufferArray.add(startLocalDate != null ? startLocalDate : "");
+                bufferArray.add(startLocalTime != null ? startLocalTime : "");
+                break;
+            case "images":
+                JsonArray imageObj = headerElement.getAsJsonArray();
+                String imageUrl = imageObj.size() > 0 ? getTrimmedValue(imageObj.get(0).getAsJsonObject(), "url") : null;
+                bufferArray.add(imageUrl != null ? imageUrl : "");
+                break;
+            case "name":
+                String name = headerElement.getAsString().trim();
+                bufferArray.add(!name.isEmpty() ? name : "");
+                break;
+            case "classifications":
+                JsonArray genreObj = headerElement.getAsJsonArray();
+                String genre = genreObj.size() > 0 ? getTrimmedValue(genreObj.get(0).getAsJsonObject(), "segment", "name") : null;
+                bufferArray.add(genre != null ? genre : "");
+                break;
+            case "_embedded":
+                JsonObject venuesObj = headerElement.getAsJsonObject();
+                if (venuesObj.has("venues")) {
+                    JsonArray venuesArray = venuesObj.getAsJsonArray("venues");
+                    JsonObject firstVenue = venuesArray.size() > 0 ? venuesArray.get(0).getAsJsonObject() : null;
+                    String venue = getTrimmedValue(firstVenue, "name");
+                    bufferArray.add(venue != null ? venue : "");
+                } else {
+                    bufferArray.add("");
+                }
+                break;
+            case "id":
+                String id = headerElement.getAsString().trim();
+                bufferArray.add(!id.isEmpty() ? id : "");
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Extracts data from Json navigating through its hierarchy using an array of keys in a specific order
+    private String getTrimmedValue(JsonObject jsonObject, String... keys) {
+        JsonObject currentObj = jsonObject;
+        for (int i = 0; i < keys.length - 1; i++) {
+            JsonElement element = currentObj.get(keys[i]);
+            if (element == null || !element.isJsonObject()) {
+                return null;
+            }
+            currentObj = element.getAsJsonObject();
+        }
+        JsonElement finalElement = currentObj.get(keys[keys.length - 1]);
+        if (finalElement == null) {
+            return null;
+        }
+        return finalElement.getAsString().trim();
+    }
+
+
+    /* Helper Functions */
     private String preprocess_google_geoLoc_address(String location){
         Pattern regGeoLoc = Pattern.compile("\\s*$");
         Pattern regNonAlphanumeric = Pattern.compile("[^a-zA-Z\\d+]+");
