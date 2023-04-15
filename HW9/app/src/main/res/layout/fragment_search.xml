@@ -56,6 +56,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/keyword_title" />
 
+                <ProgressBar
+                    android:id="@+id/ac_progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/keyword_input"
+                    app:layout_constraintEnd_toEndOf="@+id/keyword_input"
+                    app:layout_constraintHorizontal_bias="0.956"
+                    app:layout_constraintStart_toStartOf="@+id/keyword_input"
+                    app:layout_constraintTop_toTopOf="@+id/keyword_input" />
+
                 <TextView
                     android:id="@+id/distance_title"
                     android:layout_width="wrap_content"

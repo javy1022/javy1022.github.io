@@ -21,6 +21,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -62,6 +63,9 @@ public class SearchFragment extends Fragment {
     // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
     private AutoCompleteTextView autoComplete_tv;
+
+    private ProgressBar progressBar;
+
 
 
     public SearchFragment() {
@@ -117,6 +121,8 @@ public class SearchFragment extends Fragment {
         inputs_validation(view);
         // autocomplete suggestions http request
         autoComplete_http_request(view);
+        //
+
     }
 
     /* Custom Code Start Here */
@@ -219,6 +225,8 @@ public class SearchFragment extends Fragment {
 
     private void autoComplete_http_request(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
+        progressBar = view.findViewById(R.id.ac_progressBar);
+
 
         keyword_input.addTextChangedListener(new TextWatcher() {
             @Override
@@ -229,61 +237,73 @@ public class SearchFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // do something during the text change
+                progressBar.setVisibility(View.VISIBLE);
                 String text = s.toString().trim();
                 // call your method here, passing the updated text as a parameter
-                String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/auto-complete";
-                Uri.Builder builder = Uri.parse(backend_url).buildUpon();
-                builder.appendQueryParameter("keyword", text);
-                String url = builder.build().toString();
+                if(!text.trim().isEmpty()) {
+                    String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/auto-complete";
+                    Uri.Builder builder = Uri.parse(backend_url).buildUpon();
+                    builder.appendQueryParameter("keyword", text);
+                    String url = builder.build().toString();
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                            (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
-                            @Override
-                            public void onResponse(JSONObject resp) {
-                                JSONObject embedded = resp.optJSONObject("_embedded");
-                                JSONArray attractions_arr = embedded != null ? embedded.optJSONArray("attractions") : null;
+                                @Override
+                                public void onResponse(JSONObject resp) {
+                                    JSONObject embedded = resp.optJSONObject("_embedded");
+                                    JSONArray attractions_arr = embedded != null ? embedded.optJSONArray("attractions") : null;
 
-                                if (embedded == null || attractions_arr == null) {
+                                    if (embedded == null || attractions_arr == null) {
+                                        List<String> ac_suggestions = new ArrayList<>();
+                                        autoCompleteAdapter.clear();
+                                        autoCompleteAdapter.addAll(ac_suggestions);
+                                        autoCompleteAdapter.notifyDataSetChanged();
+                                        progressBar.setVisibility(View.GONE);
+                                        Log.e("Exception", "autocomplete suggestion is null");
+                                        return;
+                                    }
+
+                                    // Use Gson to parse the JSON array into a list of maps
+                                    Gson gson = new Gson();
+                                    Type attractions_list_type = new TypeToken<List<Map<String, Object>>>() {
+                                    }.getType();
+                                    List<Map<String, Object>> attractions = attractions_arr != null ? gson.fromJson(attractions_arr.toString(), attractions_list_type) : new ArrayList<Map<String, Object>>();
+
+                                    // Extract the names of attractions
                                     List<String> ac_suggestions = new ArrayList<>();
+                                    for (Map<String, Object> attraction_obj : attractions) {
+                                        String name = (String) attraction_obj.get("name");
+                                        if (name != null) {
+                                            ac_suggestions.add(name);
+                                        }
+                                    }
+                                    // Update the ArrayAdapter with the new list of names
                                     autoCompleteAdapter.clear();
                                     autoCompleteAdapter.addAll(ac_suggestions);
                                     autoCompleteAdapter.notifyDataSetChanged();
-                                    Log.e("Exception", "autocomplete suggestion is null");
-                                    return;
+                                    progressBar.setVisibility(View.GONE);
+                                    // Handle the attractions names list
+                                    Log.d("debug", "Attractions names: " + ac_suggestions.toString());
+
                                 }
+                            }, new Response.ErrorListener() {
 
-                                // Use Gson to parse the JSON array into a list of maps
-                                Gson gson = new Gson();
-                                Type attractions_list_type = new TypeToken<List<Map<String, Object>>>(){}.getType();
-                                List<Map<String, Object>> attractions = attractions_arr != null ? gson.fromJson(attractions_arr.toString(), attractions_list_type) : new ArrayList<Map<String, Object>>();
-
-                                // Extract the names of attractions
-                                List<String> ac_suggestions = new ArrayList<>();
-                                for (Map<String, Object> attraction_obj : attractions) {
-                                    String name = (String) attraction_obj.get("name");
-                                    if (name != null) {
-                                        ac_suggestions.add(name);
-                                    }
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // Handle the error
+                                    Log.e("Error", "Volley Error: " + error.getMessage());
                                 }
-                                // Update the ArrayAdapter with the new list of names
-                                autoCompleteAdapter.clear();
-                                autoCompleteAdapter.addAll(ac_suggestions);
-                                autoCompleteAdapter.notifyDataSetChanged();
-                                // Handle the attractions names list
-                                Log.d("debug", "Attractions names: " + ac_suggestions.toString());
-
-                            }
-                        }, new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Handle the error
-                                Log.e("Error", "Volley Error: " + error.getMessage());
-                            }
-                        });
-                MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
-
+                            });
+                    MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
+                }else{
+                    // 2Somehow ac api return result with empty key
+                    List<String> ac_suggestions = new ArrayList<>();
+                    autoCompleteAdapter.clear();
+                    autoCompleteAdapter.addAll(ac_suggestions);
+                    autoCompleteAdapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
             }
 
             @Override
