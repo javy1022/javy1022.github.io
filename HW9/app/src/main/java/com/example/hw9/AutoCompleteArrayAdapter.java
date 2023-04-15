@@ -41,8 +41,9 @@ public class AutoCompleteArrayAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView = (TextView) super.getView(position, convertView, parent);
-        textView.setTextColor(Color.parseColor("#50C31B")); // Set your desired color here
+        textView.setTextColor(Color.parseColor("#50C31B"));
         return textView;
     }
+
 
 }

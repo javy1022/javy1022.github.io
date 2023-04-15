@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -19,15 +20,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.AutoCompleteArrayAdapter;
 import com.example.hw9.MySingleton;
@@ -63,9 +61,6 @@ public class SearchFragment extends Fragment {
     // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
     private AutoCompleteTextView autoComplete_tv;
-
-    private ProgressBar progressBar;
-
 
 
     public SearchFragment() {
@@ -107,7 +102,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // init category dropdown spinner
         init_category_spinner(view);
@@ -138,7 +133,7 @@ public class SearchFragment extends Fragment {
             }
 
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 ((TextView) view).setTextColor(Color.WHITE); /* set text color for the dropdown items */
                 return view;
@@ -158,14 +153,11 @@ public class SearchFragment extends Fragment {
         SwitchCompat switchCompat = view.findViewById(R.id.auto_detect_switch);
         final EditText location_input = view.findViewById(R.id.location_input);
 
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean is_checked) {
-                if (is_checked) {
-                    location_input.setVisibility(View.GONE);
-                } else {
-                    location_input.setVisibility(View.VISIBLE);
-                }
+        switchCompat.setOnCheckedChangeListener((buttonView, is_checked) -> {
+            if (is_checked) {
+                location_input.setVisibility(View.GONE);
+            } else {
+                location_input.setVisibility(View.VISIBLE);
             }
         });
 
@@ -181,15 +173,12 @@ public class SearchFragment extends Fragment {
         final EditText location_input = view.findViewById(R.id.location_input);
 
 
-        clear_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                keyword_input.setText("");
-                if(!TextUtils.isEmpty(distance_input.getText().toString()))distance_input.setText("10");
-                category_spinner.setSelection(0);
-                auto_detect_switch.setChecked(false);
-                location_input.setText("");
-            }
+        clear_btn.setOnClickListener(v -> {
+            keyword_input.setText("");
+            if(!TextUtils.isEmpty(distance_input.getText().toString()))distance_input.setText(R.string.distance_default);
+            category_spinner.setSelection(0);
+            auto_detect_switch.setChecked(false);
+            location_input.setText("");
         });
 
     }
@@ -198,25 +187,22 @@ public class SearchFragment extends Fragment {
 
         final Button search = view.findViewById(R.id.search_btn);
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
-                final EditText distance_input = view.findViewById(R.id.distance_input);
-                final EditText location_input = view.findViewById(R.id.location_input);
-                final SwitchCompat auto_detect_switch = view.findViewById(R.id.auto_detect_switch);
-                String keyword = keyword_input.getText().toString().trim();
-                String distance = distance_input.getText().toString().trim();
-                String location =location_input.getText().toString().trim();
-                boolean isSwitchOn = auto_detect_switch.isChecked();
+        search.setOnClickListener(v -> {
+            final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
+            final EditText distance_input = view.findViewById(R.id.distance_input);
+            final EditText location_input = view.findViewById(R.id.location_input);
+            final SwitchCompat auto_detect_switch = view.findViewById(R.id.auto_detect_switch);
+            String keyword = keyword_input.getText().toString().trim();
+            String distance = distance_input.getText().toString().trim();
+            String location =location_input.getText().toString().trim();
+            boolean isSwitchOn = auto_detect_switch.isChecked();
 
-                if (keyword.isEmpty() || distance.isEmpty() || (location.isEmpty() && !isSwitchOn)) {
-                    Snackbar snackbar = Snackbar.make(view, "Please fill all fields", Snackbar.LENGTH_SHORT);
-                    snackbar.getView().setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.gray_snack_bar)));
-                    TextView snackbar_text = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
-                    snackbar_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
-                    snackbar.show();
-                }
+            if (keyword.isEmpty() || distance.isEmpty() || (location.isEmpty() && !isSwitchOn)) {
+                Snackbar snackBar = Snackbar.make(view, "Please fill all fields", Snackbar.LENGTH_SHORT);
+                snackBar.getView().setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.gray_snack_bar)));
+                TextView snackBar_text = snackBar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+                snackBar_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                snackBar.show();
             }
         });
 
@@ -246,53 +232,45 @@ public class SearchFragment extends Fragment {
                     String url = builder.build().toString();
 
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                            (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                            (Request.Method.GET, url, null, resp -> {
+                                JSONObject embedded = resp.optJSONObject("_embedded");
+                                JSONArray attractions_arr = embedded != null ? embedded.optJSONArray("attractions") : null;
 
-                                @Override
-                                public void onResponse(JSONObject resp) {
-                                    JSONObject embedded = resp.optJSONObject("_embedded");
-                                    JSONArray attractions_arr = embedded != null ? embedded.optJSONArray("attractions") : null;
-
-                                    if (embedded == null || attractions_arr == null) {
-                                        List<String> ac_suggestions = new ArrayList<>();
-                                        autoCompleteAdapter.clear();
-                                        autoCompleteAdapter.addAll(ac_suggestions);
-                                        autoCompleteAdapter.notifyDataSetChanged();
-                                        progressBar.setVisibility(View.GONE);
-                                        Log.e("Exception", "autocomplete suggestion is null");
-                                        return;
-                                    }
-
-                                    // Use Gson to parse the JSON array into a list of maps
-                                    Gson gson = new Gson();
-                                    Type attractions_list_type = new TypeToken<List<Map<String, Object>>>() {
-                                    }.getType();
-                                    List<Map<String, Object>> attractions = attractions_arr != null ? gson.fromJson(attractions_arr.toString(), attractions_list_type) : new ArrayList<Map<String, Object>>();
-
-                                    // Extract the names of attractions
+                                if (embedded == null || attractions_arr == null) {
                                     List<String> ac_suggestions = new ArrayList<>();
-                                    for (Map<String, Object> attraction_obj : attractions) {
-                                        String name = (String) attraction_obj.get("name");
-                                        if (name != null) {
-                                            ac_suggestions.add(name);
-                                        }
-                                    }
-                                    // Update the ArrayAdapter with the new list of names
                                     autoCompleteAdapter.clear();
                                     autoCompleteAdapter.addAll(ac_suggestions);
                                     autoCompleteAdapter.notifyDataSetChanged();
                                     progressBar.setVisibility(View.GONE);
-                                    // Handle the attractions names list
-                                    Log.d("debug", "Attractions names: " + ac_suggestions.toString());
-
+                                    Log.e("Exception", "autocomplete suggestion is null");
+                                    return;
                                 }
-                            }, new Response.ErrorListener() {
 
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    // Handle the error
-                                    Log.e("Error", "Volley Error: " + error.getMessage());
+                                // Use Gson to parse the JSON array into a list of maps
+                                Gson gson = new Gson();
+                                Type attractions_list_type = new TypeToken<List<Map<String, Object>>>() {
+                                }.getType();
+                                List<Map<String, Object>> attractions = gson.fromJson(attractions_arr.toString(), attractions_list_type);
+
+                                // Extract the names of attractions
+                                List<String> ac_suggestions = new ArrayList<>();
+                                for (Map<String, Object> attraction_obj : attractions) {
+                                    String name = (String) attraction_obj.get("name");
+                                    if (name != null) {
+                                        ac_suggestions.add(name);
+                                    }
                                 }
+                                // Update the ArrayAdapter with the new list of names
+                                autoCompleteAdapter.clear();
+                                autoCompleteAdapter.addAll(ac_suggestions);
+                                autoCompleteAdapter.notifyDataSetChanged();
+                                progressBar.setVisibility(View.GONE);
+                                // Handle the attractions names list
+                                Log.d("debug", "Attractions names: " + ac_suggestions);
+
+                            }, error -> {
+                                // Handle the error
+                                Log.e("Error", "Volley Error: " + error.getMessage());
                             });
                     MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
                 }else{
