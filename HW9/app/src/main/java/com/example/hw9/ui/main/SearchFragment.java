@@ -7,13 +7,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -30,6 +23,12 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.AutoCompleteArrayAdapter;
@@ -40,7 +39,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -189,13 +187,10 @@ public class SearchFragment extends Fragment {
         final ImageButton black_back_btn = view.findViewById(R.id.black_back_btn);
         final TextView black_back_btn_prompt = view.findViewById(R.id.black_back_btn_prompt);
 
-        black_back_btn .setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                search_from.setVisibility(v.VISIBLE);
-                black_back_btn.setVisibility(v.GONE);
-                black_back_btn_prompt.setVisibility(v.GONE);
-            }
+        black_back_btn .setOnClickListener(v -> {
+            search_from.setVisibility(View.VISIBLE);
+            black_back_btn.setVisibility(View.GONE);
+            black_back_btn_prompt.setVisibility(View.GONE);
         });
 
     }
@@ -406,7 +401,7 @@ public class SearchFragment extends Fragment {
                     Gson gson = new Gson();
                     JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
 
-                    JsonArray events = null;
+                    JsonArray events;
 
                     try {
                         events = gson_resp.getAsJsonObject("_embedded").getAsJsonArray("events");
@@ -524,8 +519,7 @@ public class SearchFragment extends Fragment {
         Pattern regNonAlphanumeric = Pattern.compile("[^a-zA-Z\\d+]+");
         Matcher matcher = regGeoLoc.matcher(location);
         String location_temp = matcher.replaceAll("");
-        String preprocessed_location = regNonAlphanumeric.matcher(location_temp).replaceAll("+");
-        return preprocessed_location;
+        return regNonAlphanumeric.matcher(location_temp).replaceAll("+");
     }
     private String get_googleMap_api_key() {
         if (cached_googleMap_api_key != null) {
@@ -533,14 +527,15 @@ public class SearchFragment extends Fragment {
         }
 
         Context context = getContext();
-        PackageManager pm = context.getPackageManager();
-        String packageName = getActivity().getPackageName();
+        PackageManager pm = context != null ? context.getPackageManager() : null;
+        String packageName = requireActivity().getPackageName();
         ApplicationInfo ai;
         try {
-            ai = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+            ai = pm != null ? pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA) : null;
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException(e);
         }
+        assert ai != null;
         Bundle bundle = ai.metaData;
         String apiKey = bundle.getString("com.google.android.geo.API_KEY");
         cached_googleMap_api_key = apiKey;
