@@ -13,18 +13,17 @@ import com.android.volley.toolbox.Volley;
 /* Referenced Code: https://google.github.io/volley/ */
 public class MySingleton {
     private static MySingleton instance;
-    private RequestQueue requestQueue;
-    private ImageLoader imageLoader;
-    private static Context ctx;
+    private final RequestQueue requestQueue;
+    private final ImageLoader imageLoader;
 
     private MySingleton(Context context) {
-        ctx = context;
-        requestQueue = getRequestQueue();
+
+        requestQueue = Volley.newRequestQueue(context.getApplicationContext());
 
         imageLoader = new ImageLoader(requestQueue,
                 new ImageLoader.ImageCache() {
                     private final LruCache<String, Bitmap>
-                            cache = new LruCache<String, Bitmap>(20);
+                            cache = new LruCache<>(20);
 
                     @Override
                     public Bitmap getBitmap(String url) {
@@ -46,11 +45,6 @@ public class MySingleton {
     }
 
     public RequestQueue getRequestQueue() {
-        if (requestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
-            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
-        }
         return requestQueue;
     }
 
