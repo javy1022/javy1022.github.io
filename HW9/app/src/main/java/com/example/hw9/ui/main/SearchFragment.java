@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -225,13 +226,31 @@ public class SearchFragment extends Fragment {
                     builder.appendQueryParameter("address", preprocessed_location);
                     builder.appendQueryParameter("key", api_key);
                     String url = builder.build().toString();
-                    Log.d("url", url);
-                    /*
+                    Log.e("test", url);
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                             (Request.Method.GET, url, null, resp -> {
-                                JSONObject embedded = resp.optJSONObject("_embedded");
-                                JSONArray attractions_arr = embedded != null ? embedded.optJSONArray("attractions") : null;
+                                String status = resp.optString("status");
+                                if (!status.equals("ZERO_RESULTS")) {
+                                    double lat, lng;
+                                        JSONArray results = resp.optJSONArray("results");
+                                        if (results != null && results.length() > 0) {
+                                            JSONObject result = results.optJSONObject(0);
+                                            JSONObject geometry = result.optJSONObject("geometry");
+                                            if (geometry != null) {
+                                                JSONObject location_obj = geometry.optJSONObject("location");
+                                                if (location_obj != null) {
+                                                    lat = location_obj.optDouble("lat");
+                                                    lng = location_obj.optDouble("lng");
 
+
+                                                }
+                                            }
+                                        }
+
+                                } else {
+                                    Log.d("GeoLoc status", "not result");
+                                }
+                                /*
                                 if (embedded == null || attractions_arr == null) {
 
                                     Log.e("Exception", "autocomplete suggestion is null");
@@ -245,14 +264,14 @@ public class SearchFragment extends Fragment {
                                 List<Map<String, Object>> attractions = gson.fromJson(attractions_arr.toString(), attractions_list_type);
 
 
-
+*/
 
                             }, error -> {
                                 // Handle the error
                                 Log.e("Error", "Volley Error: " + error.getMessage());
                             });
                     MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
-                                         */
+
 
                 }
             }
@@ -260,7 +279,7 @@ public class SearchFragment extends Fragment {
 
     }
 
-
+    /* Volley http requests */
     private void autoComplete_http_request(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
         final ProgressBar progressBar = view.findViewById(R.id.ac_progressBar);
