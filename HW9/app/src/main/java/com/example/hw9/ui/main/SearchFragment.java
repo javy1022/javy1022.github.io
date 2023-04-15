@@ -121,7 +121,6 @@ public class SearchFragment extends Fragment {
         inputs_validation(view);
         // autocomplete suggestions http request
         autoComplete_http_request(view);
-        //
 
     }
 
@@ -225,7 +224,7 @@ public class SearchFragment extends Fragment {
 
     private void autoComplete_http_request(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
-        progressBar = view.findViewById(R.id.ac_progressBar);
+        final ProgressBar progressBar = view.findViewById(R.id.ac_progressBar);
 
 
         keyword_input.addTextChangedListener(new TextWatcher() {
