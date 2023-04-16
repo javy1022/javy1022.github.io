@@ -15,9 +15,9 @@
             android:layout_width="355dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
             app:cardBackgroundColor="@color/gray_form"
             app:cardCornerRadius="20dp"
-            android:layout_marginTop="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,10 +47,10 @@
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/green"
                     android:hint="@string/keyword_placeholder"
+                    android:popupBackground="@color/gray_form"
                     android:textColor="@color/white"
                     android:textColorHint="@color/gray_hint"
                     android:textSize="18sp"
-                    android:popupBackground="@color/gray_form"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.482"
                     app:layout_constraintStart_toStartOf="parent"
@@ -204,7 +204,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/location_input"
                     app:layout_constraintVertical_bias="0.0" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
@@ -225,31 +224,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/black_back_button_description"
             android:src="@drawable/black_back_btn"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.041"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.025"
-            android:contentDescription="@string/black_back_button_description" />
+            app:layout_constraintVertical_bias="0.025" />
 
         <TextView
             android:id="@+id/black_back_btn_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/back_btn_prompt"
-            android:visibility="gone"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.035"
             app:layout_constraintStart_toEndOf="@+id/black_back_btn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.024" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/event_recycle_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="56dp"
+            android:background="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/black_back_btn_prompt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

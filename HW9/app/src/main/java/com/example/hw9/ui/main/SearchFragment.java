@@ -28,10 +28,14 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.AutoCompleteArrayAdapter;
+import com.example.hw9.EventResultsAdapter;
+import com.example.hw9.EventResultsDecorator;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -46,6 +50,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -128,7 +133,31 @@ public class SearchFragment extends Fragment {
         nav_back_to_search(view);
         // autocomplete suggestions http request
         get_autoComplete_suggestions(view);
+        //
+        // Get a reference to the RecyclerView
+        RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
 
+        // Set the RecyclerView's layout manager
+        RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(getContext());
+        event_search_recycleView.setLayoutManager(event_search_recycleView_layoutManager);
+
+        // Set the RecyclerView's adapter
+        EventResultsAdapter event_search_adapter = new EventResultsAdapter(getMyData());
+        event_search_recycleView.setAdapter(event_search_adapter);
+
+        event_search_recycleView.addItemDecoration(new EventResultsDecorator(100));
+
+    }
+
+    // Return a list of data for the RecyclerView
+    private String[] getMyData() {
+        String[] data = new String[3];
+        data[0] = "Aloha";
+        data[1] = "From";
+        data[2] = "Javy";
+        // Add more items as needed
+        Log.d("MY_DATA", "Data: " + Arrays.toString(data));
+        return data;
     }
     // Remove this function after
     private void dev_inputs_placeholder(View view){
