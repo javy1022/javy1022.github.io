@@ -41,6 +41,10 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
         // date
         String date = event_search_result.get(0);
         holder.date.setText(date);
+
+        // time
+        String time = event_search_result.get(1);
+        holder.time.setText(time);
         // image
         String img_url = event_search_result.get(2);
         set_img(holder,img_url);
@@ -55,11 +59,13 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
         private final TextView date;
         private final ImageView img;
 
+        private final TextView time;
 
         public ViewHolder(View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.event_date);
             img = itemView.findViewById(R.id.event_img);
+            time = itemView.findViewById(R.id.event_time);
         }
     }
 

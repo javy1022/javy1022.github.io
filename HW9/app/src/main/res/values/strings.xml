@@ -16,4 +16,5 @@
     <string name="title_activity_starter">starter</string>
     <string name="black_back_button_description">Black Back Button</string>
     <string name="back_btn_prompt">Back to Search</string>
+    <string name="event_img_description">event_img</string>
 </resources>
