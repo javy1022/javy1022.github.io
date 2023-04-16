@@ -30,10 +30,10 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ArrayList<String> model = event_search_results.get(position);
-        String text = model.get(0); // get the first element from the inner ArrayList
-        holder.itemText.setText(text);
-        Log.d("testing", text);
+        ArrayList<String> event_search_result = event_search_results.get(position);
+        String date = event_search_result.get(0); // get the first element from the inner ArrayList
+        holder.date.setText(date);
+        Log.d("testing", date);
     }
 
     @Override
@@ -44,12 +44,12 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
     //Provide a reference to the type of views that you are using
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView itemText;
+        private final TextView date;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemText = itemView.findViewById(R.id.textView4);
+            date = itemView.findViewById(R.id.event_date);
         }
     }
 }
