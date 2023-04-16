@@ -467,7 +467,7 @@ public class SearchFragment extends Fragment {
                     }
 
                     Log.d("table", list_for_table.toString());
-                    generate_event_results_recycleView(view, 100);
+                    generate_event_results_recycleView(view, 50);
                     pr.setVisibility(View.GONE);
 
                 }, error -> {

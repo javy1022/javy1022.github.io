@@ -1,14 +1,20 @@
 package com.example.hw9;
 
-import android.util.Log;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -31,9 +37,13 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArrayList<String> event_search_result = event_search_results.get(position);
-        String date = event_search_result.get(0); // get the first element from the inner ArrayList
+
+        // date
+        String date = event_search_result.get(0);
         holder.date.setText(date);
-        Log.d("testing", date);
+        // image
+        String img_url = event_search_result.get(2);
+        set_img(holder,img_url);
     }
 
     @Override
@@ -41,15 +51,30 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
          return event_search_results.size();
     }
 
-    //Provide a reference to the type of views that you are using
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView date;
+        private final ImageView img;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.event_date);
+            img = itemView.findViewById(R.id.event_img);
         }
+    }
+
+    private void set_img(ViewHolder holder, String img_url){
+        MultiTransformation<Bitmap> transformations = new MultiTransformation<>(
+                new CenterCrop(),
+                new RoundedCorners(15)
+        );
+        RequestOptions request_options = new RequestOptions()
+                .override(325, 325)
+                .transform(transformations);
+
+        Glide.with(holder.itemView.getContext())
+                .load(img_url)
+                .apply(request_options)
+                .into(holder.img);
     }
 }
