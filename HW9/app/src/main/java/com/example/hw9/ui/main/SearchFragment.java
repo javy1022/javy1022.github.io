@@ -1,5 +1,6 @@
 package com.example.hw9.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -49,10 +50,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,7 +77,7 @@ public class SearchFragment extends Fragment {
     // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
 
-    private ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
 
     public SearchFragment() {
         // Required empty public constructor
@@ -465,9 +469,10 @@ public class SearchFragment extends Fragment {
 
                         list_for_table.add(buffer_arr);
                     }
+                    sort_by_dateTime(list_for_table);
 
                     Log.d("table", list_for_table.toString());
-                    generate_event_results_recycleView(view, 50);
+                    generate_event_results_recycleView(view);
                     pr.setVisibility(View.GONE);
 
                 }, error -> {
@@ -477,12 +482,12 @@ public class SearchFragment extends Fragment {
         MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
     }
 
-    private void generate_event_results_recycleView(View view, int items_margin_bottom){
+    private void generate_event_results_recycleView(View view){
         // Init
         RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
         RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(getContext());
         event_search_recycleView.setLayoutManager(event_search_recycleView_layoutManager);
-        event_search_recycleView.addItemDecoration(new EventResultsDecorator(items_margin_bottom));
+        event_search_recycleView.addItemDecoration(new EventResultsDecorator(50));
         // Populate recycle view
         EventResultsAdapter event_search_adapter = new EventResultsAdapter(list_for_table);
         event_search_recycleView.setAdapter(event_search_adapter);
@@ -578,6 +583,25 @@ public class SearchFragment extends Fragment {
             return null;
         }
         return desired_element.getAsString().trim();
+    }
+
+    public static void sort_by_dateTime(ArrayList<ArrayList<String>> list_for_table) {
+        // Define a custom Comparator to compare date-time values
+        @SuppressLint("SimpleDateFormat") Comparator<ArrayList<String>> dateComparator = (a, b) -> {
+
+
+                String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+            try {
+                return Objects.requireNonNull(new SimpleDateFormat(dateTimeFormat).parse(a.get(0) + " " + a.get(1)))
+                        .compareTo(new SimpleDateFormat(dateTimeFormat).parse(b.get(0) + " " + b.get(1)));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+        };
+
+        // Sort the list using the custom Comparator
+        list_for_table.sort(dateComparator);
     }
 
 }
