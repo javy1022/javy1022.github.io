@@ -1,5 +1,6 @@
 package com.example.hw9;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,13 @@ import androidx.annotation.NonNull;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapter.ViewHolder> {
 
-    private final String[] event_search_results;
+    private final ArrayList<ArrayList<String>> event_search_results;
 
-    public EventResultsAdapter(String[] event_search_results) {
+    public EventResultsAdapter(ArrayList<ArrayList<String>> event_search_results) {
         this.event_search_results = event_search_results;
     }
 
@@ -27,13 +30,15 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String model = event_search_results[position];
-        holder.itemText.setText(model);
+        ArrayList<String> model = event_search_results.get(position);
+        String text = model.get(0); // get the first element from the inner ArrayList
+        holder.itemText.setText(text);
+        Log.d("testing", text);
     }
 
     @Override
     public int getItemCount() {
-         return event_search_results.length;
+         return event_search_results.size();
     }
 
     //Provide a reference to the type of views that you are using

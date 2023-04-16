@@ -134,31 +134,10 @@ public class SearchFragment extends Fragment {
         // autocomplete suggestions http request
         get_autoComplete_suggestions(view);
         //
-        // Get a reference to the RecyclerView
-        RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
 
-        // Set the RecyclerView's layout manager
-        RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(getContext());
-        event_search_recycleView.setLayoutManager(event_search_recycleView_layoutManager);
-
-        // Set the RecyclerView's adapter
-        EventResultsAdapter event_search_adapter = new EventResultsAdapter(getMyData());
-        event_search_recycleView.setAdapter(event_search_adapter);
-
-        event_search_recycleView.addItemDecoration(new EventResultsDecorator(100));
 
     }
 
-    // Return a list of data for the RecyclerView
-    private String[] getMyData() {
-        String[] data = new String[3];
-        data[0] = "Aloha";
-        data[1] = "From";
-        data[2] = "Javy";
-        // Add more items as needed
-        Log.d("MY_DATA", "Data: " + Arrays.toString(data));
-        return data;
-    }
     // Remove this function after
     private void dev_inputs_placeholder(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
@@ -306,7 +285,7 @@ public class SearchFragment extends Fragment {
                                             if (location_obj != null) {
                                                 lat = location_obj.get("lat").getAsString().trim();
                                                 lng = location_obj.get("lng").getAsString().trim();
-                                                get_event_results(lat, lng, keyword, distance, category,progressBar);
+                                                get_event_results(lat, lng, keyword, distance, category,progressBar, view);
                                             }
                                         }
                                     }
@@ -413,7 +392,7 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void get_event_results(String lat, String lng, String keyword, String distance, String category, ProgressBar pr){
+    private void get_event_results(String lat, String lng, String keyword, String distance, String category, ProgressBar pr, View view){
         String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/event-search";
         Uri.Builder builder = Uri.parse(backend_url).buildUpon();
         builder.appendQueryParameter("lat", lat);
@@ -486,14 +465,27 @@ public class SearchFragment extends Fragment {
 
                         list_for_table.add(buffer_arr);
                     }
-                    pr.setVisibility(View.GONE);
+
                     Log.d("table", list_for_table.toString());
+                    generate_event_results_recycleView(view, 100);
+                    pr.setVisibility(View.GONE);
 
                 }, error -> {
                     // Handle the error
                     Log.e("Error", "Volley Error Ticketmaster Event Result: " + error.getMessage());
                 });
         MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
+    }
+
+    private void generate_event_results_recycleView(View view, int items_margin_bottom){
+        // Init
+        RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
+        RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(getContext());
+        event_search_recycleView.setLayoutManager(event_search_recycleView_layoutManager);
+        event_search_recycleView.addItemDecoration(new EventResultsDecorator(items_margin_bottom));
+        // Populate recycle view
+        EventResultsAdapter event_search_adapter = new EventResultsAdapter(list_for_table);
+        event_search_recycleView.setAdapter(event_search_adapter);
     }
 
     private void buffer_arr_append(ArrayList<String> buffer_arr, String header, JsonObject resp_obj) {
