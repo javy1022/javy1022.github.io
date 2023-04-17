@@ -53,6 +53,13 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
         String name = event_search_result.get(3);
         holder.name.setText(name);
 
+        String category = event_search_result.get(4);
+        holder.category.setText(category);
+
+        // venue
+        String venue = event_search_result.get(5);
+        holder.venue.setText(venue);
+
 
     }
 
@@ -63,20 +70,29 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView date;
-        private final ImageView img;
 
         private final TextView time;
-
+        private final ImageView img;
         private final TextView name;
+
+        private final TextView category;
+        private final TextView venue;
 
         public ViewHolder(View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.event_date);
-            img = itemView.findViewById(R.id.event_img);
             time = itemView.findViewById(R.id.event_time);
+            img = itemView.findViewById(R.id.event_img);
             name = itemView.findViewById(R.id.event_name);
+            category = itemView.findViewById(R.id.event_category);
+            venue = itemView.findViewById(R.id.event_venue);
+            // Add this line
+            ImageView heart_icon = itemView.findViewById(R.id.heart_icon);
 
-            textViews_enable_selected(itemView);
+            textViews_enable_selected(name, venue, category);
+            heart_icon_onClick(heart_icon);
+
+
         }
     }
 
@@ -96,8 +112,26 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
     }
 
     // Enable selected to make marquee effect works on TextViews
-    private static void textViews_enable_selected(View itemView){
-        TextView event_name = itemView.findViewById(R.id.event_name);
+    private static void textViews_enable_selected(TextView event_name, TextView venue, TextView category){
+
         event_name.setSelected(true);
+        venue.setSelected(true);
+        category.setSelected(true);
     }
+
+    private static void heart_icon_onClick(ImageView heart_icon){
+        heart_icon.setOnClickListener(view -> {
+            ImageView imageView = (ImageView) view;
+            Object tag = imageView.getTag();
+            if (tag == null || tag.equals("empty")) {
+                imageView.setImageResource(R.drawable.heart_filled);
+                imageView.setTag("filled");
+            } else {
+                imageView.setImageResource(R.drawable.heart_outline);
+                imageView.setTag("empty");
+            }
+        });
+
+    }
+
 }

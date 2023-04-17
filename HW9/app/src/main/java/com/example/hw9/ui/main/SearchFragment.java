@@ -20,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -139,6 +140,7 @@ public class SearchFragment extends Fragment {
         // autocomplete suggestions http request
         get_autoComplete_suggestions(view);
         //
+
     }
 
     // Remove this function after
