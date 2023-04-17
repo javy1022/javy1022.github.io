@@ -79,7 +79,7 @@ public class SearchFragment extends Fragment {
     // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
 
-    private final ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
+    private ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
 
     public SearchFragment() {
         // Required empty public constructor
@@ -141,6 +141,7 @@ public class SearchFragment extends Fragment {
         get_autoComplete_suggestions(view);
         //
 
+        init_event_results_recycleView_decoration(view, 50);
     }
 
     // Remove this function after
@@ -151,6 +152,11 @@ public class SearchFragment extends Fragment {
         location_input.setText("New York");
     }
     /* Custom Code Start Here */
+
+    private void init_event_results_recycleView_decoration(View view, int items_bottom_margin){
+        RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
+        event_search_recycleView.addItemDecoration(new EventResultsDecorator(items_bottom_margin));
+    }
     private void init_category_spinner(View view) {
         Spinner spinner = view.findViewById(R.id.category_input);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -199,11 +205,18 @@ public class SearchFragment extends Fragment {
         final CardView search_from = view.findViewById(R.id.search_form);
         final ImageButton black_back_btn = view.findViewById(R.id.black_back_btn);
         final TextView black_back_btn_prompt = view.findViewById(R.id.black_back_btn_prompt);
+        final RecyclerView event_results_recycleView = view.findViewById(R.id.event_recycle_view);
 
         black_back_btn .setOnClickListener(v -> {
             search_from.setVisibility(View.VISIBLE);
             black_back_btn.setVisibility(View.GONE);
             black_back_btn_prompt.setVisibility(View.GONE);
+            event_results_recycleView.setVisibility(View.GONE);
+            // Clear event results reference and recycleView
+            list_for_table = new ArrayList<>();
+            EventResultsAdapter event_search_adapter = new EventResultsAdapter(list_for_table);
+            event_results_recycleView.setAdapter(event_search_adapter);
+            //event_results_recycleView.addItemDecoration(new EventResultsDecorator(-50));
         });
 
     }
@@ -237,6 +250,7 @@ public class SearchFragment extends Fragment {
             final Spinner category_input = view.findViewById(R.id.category_input);
             final EditText location_input = view.findViewById(R.id.location_input);
             final SwitchCompat auto_detect_switch = view.findViewById(R.id.auto_detect_switch);
+
             String keyword = keyword_input.getText().toString().trim();
             String distance = distance_input.getText().toString().trim();
             String category = category_input.getSelectedItem().toString().trim();
@@ -254,6 +268,7 @@ public class SearchFragment extends Fragment {
                 final ProgressBar progressBar = view.findViewById(R.id.event_search_progress_bar);
                 final ImageButton black_back_btn = view.findViewById(R.id.black_back_btn);
                 final TextView black_back_btn_prompt = view.findViewById(R.id.black_back_btn_prompt);
+                final RecyclerView event_results_recycleView = view.findViewById(R.id.event_recycle_view);
 
                 if(!isSwitchOn) {
                     // UI logic
@@ -261,6 +276,7 @@ public class SearchFragment extends Fragment {
                     progressBar.setVisibility(View.VISIBLE);
                     black_back_btn.setVisibility(View.VISIBLE);
                     black_back_btn_prompt.setVisibility(View.VISIBLE);
+                    event_results_recycleView.setVisibility(View.VISIBLE);
 
 
                     String preprocessed_location = preprocess_google_geoLoc_address(location);
@@ -488,7 +504,7 @@ public class SearchFragment extends Fragment {
         RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
         RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(getContext());
         event_search_recycleView.setLayoutManager(event_search_recycleView_layoutManager);
-        event_search_recycleView.addItemDecoration(new EventResultsDecorator(50));
+        //event_search_recycleView.addItemDecoration(new EventResultsDecorator(50));
         // Populate recycle view
         EventResultsAdapter event_search_adapter = new EventResultsAdapter(list_for_table);
         event_search_recycleView.setAdapter(event_search_adapter);

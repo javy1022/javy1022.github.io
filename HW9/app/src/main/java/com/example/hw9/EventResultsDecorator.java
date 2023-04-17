@@ -17,8 +17,6 @@ public class EventResultsDecorator extends RecyclerView.ItemDecoration {
     }
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, RecyclerView parent, @NonNull RecyclerView.State state) {
-        if (parent.getChildAdapterPosition(view) != Objects.requireNonNull(parent.getAdapter()).getItemCount() - 1) {
             outRect.bottom = items_bottom_margin;
-        }
     }
 }
