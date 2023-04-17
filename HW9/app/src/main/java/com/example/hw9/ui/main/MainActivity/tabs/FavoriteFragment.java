@@ -1,4 +1,4 @@
-package com.example.hw9.ui.main;
+package com.example.hw9.ui.main.MainActivity.tabs;
 
 import android.os.Bundle;
 

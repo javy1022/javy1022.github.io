@@ -1,4 +1,4 @@
-package com.example.hw9.ui.main;
+package com.example.hw9.ui.main.MainActivity.tabs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,7 +20,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,11 +34,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.hw9.AutoCompleteArrayAdapter;
-import com.example.hw9.EventResultsAdapter;
-import com.example.hw9.EventResultsDecorator;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
+import com.example.hw9.ui.main.MainActivity.adapters.AutoCompleteArrayAdapter;
+import com.example.hw9.ui.main.MainActivity.adapters.EventResultsAdapter;
+import com.example.hw9.ui.main.MainActivity.EventResultsDecorator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -129,6 +128,8 @@ public class SearchFragment extends Fragment {
         init_category_spinner(view);
         // init autocomplete array adapter
         init_ac_arrayAdapter(view);
+        // margin between each item in event result recycleView
+        init_event_results_recycleView_decoration(view);
         // hide/show location input
         toggle_location_input(view);
         //clear btn
@@ -141,7 +142,6 @@ public class SearchFragment extends Fragment {
         get_autoComplete_suggestions(view);
         //
 
-        init_event_results_recycleView_decoration(view, 50);
     }
 
     // Remove this function after
@@ -153,9 +153,9 @@ public class SearchFragment extends Fragment {
     }
     /* Custom Code Start Here */
 
-    private void init_event_results_recycleView_decoration(View view, int items_bottom_margin){
+    private void init_event_results_recycleView_decoration(View view){
         RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
-        event_search_recycleView.addItemDecoration(new EventResultsDecorator(items_bottom_margin));
+        event_search_recycleView.addItemDecoration(new EventResultsDecorator(50));
     }
     private void init_category_spinner(View view) {
         Spinner spinner = view.findViewById(R.id.category_input);

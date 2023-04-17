@@ -1,5 +1,6 @@
-package com.example.hw9;
+package com.example.hw9.ui.main.MainActivity.adapters;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +17,8 @@ import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.hw9.EventDetailsActivity;
+import com.example.hw9.R;
 
 import java.util.ArrayList;
 
@@ -53,6 +57,7 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
         String name = event_search_result.get(3);
         holder.name.setText(name);
 
+        // category
         String category = event_search_result.get(4);
         holder.category.setText(category);
 
@@ -86,12 +91,17 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
             name = itemView.findViewById(R.id.event_name);
             category = itemView.findViewById(R.id.event_category);
             venue = itemView.findViewById(R.id.event_venue);
-            // Add this line
-            ImageView heart_icon = itemView.findViewById(R.id.heart_icon);
 
-            textViews_enable_selected(name, venue, category);
+            // Fill/Empty heart icon
+            ImageView heart_icon = itemView.findViewById(R.id.heart_icon);
             heart_icon_onClick(heart_icon);
 
+            // Enable selected to make marquee effect works on TextViews
+            textViews_enable_selected(name, venue, category);
+
+            // Navigate to EventDetails Activity
+            CardView event_result_card = itemView.findViewById(R.id.event_result_card);
+            event_result_card_onClick(event_result_card);
 
         }
     }
@@ -111,7 +121,7 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
                 .into(holder.img);
     }
 
-    // Enable selected to make marquee effect works on TextViews
+
     private static void textViews_enable_selected(TextView event_name, TextView venue, TextView category){
 
         event_name.setSelected(true);
@@ -130,6 +140,14 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
                 imageView.setImageResource(R.drawable.heart_outline);
                 imageView.setTag("empty");
             }
+        });
+
+    }
+
+    private static void event_result_card_onClick(CardView card){
+        card.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
+            view.getContext().startActivity(intent);
         });
 
     }

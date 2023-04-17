@@ -1,6 +1,8 @@
-package com.example.hw9.ui.main;
+package com.example.hw9.ui.main.EventDetailsActivity.adapter;
 
 import android.content.Context;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
@@ -8,15 +10,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.hw9.R;import androidx.annotation.NonNull;
+import com.example.hw9.R;
+import com.example.hw9.ui.main.EventDetailsActivity.tabs.ArtistsFragment;
+import com.example.hw9.ui.main.EventDetailsActivity.tabs.DetailsFragment;
 
-public class SectionsPagerAdapter extends FragmentStateAdapter {
-
+public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_3, R.string.tab_text_4};
     private final Context mContext;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle) {
+    public EventDetailsSectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
         mContext = context;
     }
@@ -27,10 +30,10 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = SearchFragment.newInstance("123", "456");
+                fragment = DetailsFragment.newInstance("123", "456");
                 break;
             case 1:
-                fragment = FavoriteFragment.newInstance("123", "456");
+                fragment = ArtistsFragment.newInstance("123", "456");
                 break;
             default:
                 throw new IllegalStateException("Exception: Invalid Position createFragment(int position)" + position);

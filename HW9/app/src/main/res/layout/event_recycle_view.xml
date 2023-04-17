@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="370dp"
         android:layout_height="140dp"
-        android:id="@+id/test"
+        android:id="@+id/event_result_card"
         app:cardBackgroundColor="@color/gray_form"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"

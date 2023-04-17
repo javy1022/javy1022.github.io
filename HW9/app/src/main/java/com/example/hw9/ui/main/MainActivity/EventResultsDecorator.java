@@ -1,12 +1,10 @@
-package com.example.hw9;
+package com.example.hw9.ui.main.MainActivity;
 
 import android.graphics.Rect;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.Objects;
 
 public class EventResultsDecorator extends RecyclerView.ItemDecoration {
 
@@ -16,7 +14,7 @@ public class EventResultsDecorator extends RecyclerView.ItemDecoration {
         this.items_bottom_margin = bottom_margin;
     }
     @Override
-    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, RecyclerView parent, @NonNull RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
             outRect.bottom = items_bottom_margin;
     }
 }
