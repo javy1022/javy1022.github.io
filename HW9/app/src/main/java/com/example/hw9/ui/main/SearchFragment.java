@@ -139,8 +139,6 @@ public class SearchFragment extends Fragment {
         // autocomplete suggestions http request
         get_autoComplete_suggestions(view);
         //
-
-
     }
 
     // Remove this function after
