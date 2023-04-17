@@ -65,6 +65,9 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
         String venue = event_search_result.get(5);
         holder.venue.setText(venue);
 
+        // Navigate to EventDetails Activity
+        CardView event_result_card = holder.itemView.findViewById(R.id.event_result_card);
+        event_result_card_onClick(event_result_card, event_search_result);
 
     }
 
@@ -99,9 +102,7 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
             // Enable selected to make marquee effect works on TextViews
             textViews_enable_selected(name, venue, category);
 
-            // Navigate to EventDetails Activity
-            CardView event_result_card = itemView.findViewById(R.id.event_result_card);
-            event_result_card_onClick(event_result_card);
+
 
         }
     }
@@ -144,12 +145,20 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
 
     }
 
-    private static void event_result_card_onClick(CardView card){
+    private static void event_result_card_onClick(CardView card, ArrayList<String> eventData){
         card.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
+
+            // data
+            intent.putStringArrayListExtra("event_data", eventData);
+
             view.getContext().startActivity(intent);
         });
 
+    }
+
+    public ArrayList<ArrayList<String>> getEventSearchResults() {
+        return event_search_results;
     }
 
 }
