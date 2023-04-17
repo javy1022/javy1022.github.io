@@ -145,20 +145,16 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
 
     }
 
-    private static void event_result_card_onClick(CardView card, ArrayList<String> eventData){
+    private static void event_result_card_onClick(CardView card, ArrayList<String> event_data){
         card.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
-
             // data
-            intent.putStringArrayListExtra("event_data", eventData);
+            intent.putStringArrayListExtra("event_data", event_data);
 
             view.getContext().startActivity(intent);
         });
 
     }
 
-    public ArrayList<ArrayList<String>> getEventSearchResults() {
-        return event_search_results;
-    }
 
 }

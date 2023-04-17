@@ -36,11 +36,11 @@ public class EventDetailsActivity extends AppCompatActivity {
         back_btn_onClick();
 
         Intent intent = getIntent();
-        ArrayList<String> eventData = intent.getStringArrayListExtra("event_data");
-        if (eventData != null) {
-            TextView targetTextView = findViewById(R.id.event_details_title);
-            String eventName = eventData.get(3); // assuming the event name is at index 3
-            targetTextView.setText(eventName);
+        ArrayList<String> event_data = intent.getStringArrayListExtra("event_data");
+        if (event_data != null) {
+            TextView event_details_title = findViewById(R.id.event_details_title);
+            String event_name = event_data.get(3);
+            event_details_title.setText(event_name);
         }
 
     }
