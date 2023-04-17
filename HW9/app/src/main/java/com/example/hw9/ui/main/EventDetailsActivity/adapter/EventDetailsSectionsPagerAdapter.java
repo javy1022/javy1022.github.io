@@ -13,10 +13,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.example.hw9.R;
 import com.example.hw9.ui.main.EventDetailsActivity.tabs.ArtistsFragment;
 import com.example.hw9.ui.main.EventDetailsActivity.tabs.DetailsFragment;
+import com.example.hw9.ui.main.EventDetailsActivity.tabs.VenueFragment;
 
 public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_3, R.string.tab_text_4};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_3, R.string.tab_text_4, R.string.tab_text_5};
     private final Context mContext;
 
     public EventDetailsSectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle) {
@@ -35,6 +36,9 @@ public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
             case 1:
                 fragment = ArtistsFragment.newInstance("123", "456");
                 break;
+            case 2:
+                fragment = VenueFragment.newInstance("123", "456");
+                break;
             default:
                 throw new IllegalStateException("Exception: Invalid Position createFragment(int position)" + position);
         }
@@ -48,6 +52,6 @@ public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }

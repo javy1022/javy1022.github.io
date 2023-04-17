@@ -4,6 +4,7 @@
     <string name="tab_text_2">FAVORITES</string>
     <string name="tab_text_3">DETAILS</string>
     <string name="tab_text_4">ARTIST(S)</string>
+    <string name="tab_text_5">VENUE</string>
     <string name="keyword">Keyword*</string>
     <string name="keyword_placeholder">Enter the Keyword</string>
     <string name="distance_title">Distance (Miles)*</string>
@@ -20,5 +21,6 @@
     <string name="back_btn_prompt">Back to Search</string>
     <string name="event_img_description">event_img</string>
     <string name="title_activity_event_details">EventDetailsActivity</string>
+    <string name="heart_icon_description">Favorite Icon</string>
 
 </resources>
