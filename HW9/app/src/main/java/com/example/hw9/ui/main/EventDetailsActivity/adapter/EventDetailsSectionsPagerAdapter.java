@@ -1,6 +1,8 @@
 package com.example.hw9.ui.main.EventDetailsActivity.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,15 +16,20 @@ import com.example.hw9.R;
 import com.example.hw9.ui.main.EventDetailsActivity.tabs.ArtistsFragment;
 import com.example.hw9.ui.main.EventDetailsActivity.tabs.DetailsFragment;
 import com.example.hw9.ui.main.EventDetailsActivity.tabs.VenueFragment;
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.Objects;
 
 public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_3, R.string.tab_text_4, R.string.tab_text_5};
     private final Context mContext;
+    private final TabLayout mTabLayout; // add this field to hold the TabLayout object
 
-    public EventDetailsSectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle) {
+    public EventDetailsSectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle, TabLayout tabLayout) {
         super(fragmentManager, lifecycle);
         mContext = context;
+        mTabLayout = tabLayout; // set the TabLayout object
     }
 
     @Override
@@ -53,5 +60,30 @@ public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         return 3;
+    }
+
+
+    public void setTabIconsAndTitles(int[] tab_icons) {
+        // Set the icons for each tab
+        Objects.requireNonNull(mTabLayout.getTabAt(0)).setIcon(tab_icons[0]);
+        Objects.requireNonNull(mTabLayout.getTabAt(1)).setIcon(tab_icons[1]);
+        Objects.requireNonNull(mTabLayout.getTabAt(2)).setIcon(tab_icons[2]);
+
+        // Set the titles for each tab
+        Objects.requireNonNull(mTabLayout.getTabAt(0)).setText(getPageTitle(0));
+        Objects.requireNonNull(mTabLayout.getTabAt(1)).setText(getPageTitle(1));
+        Objects.requireNonNull(mTabLayout.getTabAt(2)).setText(getPageTitle(2));
+
+        // Create a color state list for tab image icons selected/unselected color
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_selected},
+                new int[]{-android.R.attr.state_selected}
+        };
+        int[] colors = new int[]{
+                Color.parseColor( "#50C31B"),
+                Color.WHITE
+        };
+        ColorStateList colorStateList = new ColorStateList(states, colors);
+        mTabLayout.setTabIconTint(colorStateList);
     }
 }

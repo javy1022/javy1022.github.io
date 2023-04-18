@@ -124,7 +124,6 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
 
 
     private static void textViews_enable_selected(TextView event_name, TextView venue, TextView category){
-
         event_name.setSelected(true);
         venue.setSelected(true);
         category.setSelected(true);

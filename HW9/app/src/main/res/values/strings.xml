@@ -21,5 +21,6 @@
     <string name="back_btn_prompt">Back to Search</string>
     <string name="event_img_description">event_img</string>
     <string name="title_activity_event_details">EventDetailsActivity</string>
+    <string name="favorite_icon_description">Favorite Icon</string>
 
 </resources>
