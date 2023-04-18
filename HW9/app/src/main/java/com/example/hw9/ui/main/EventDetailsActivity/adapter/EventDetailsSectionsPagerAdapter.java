@@ -28,7 +28,7 @@ public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
     private final Context mContext;
     private final TabLayout mTabLayout;
 
-    private ArrayList<String> mEventData;
+    private final ArrayList<String> mEventData;
 
     public EventDetailsSectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle, TabLayout tabLayout, ArrayList<String> eventData) {
         super(fragmentManager, lifecycle);

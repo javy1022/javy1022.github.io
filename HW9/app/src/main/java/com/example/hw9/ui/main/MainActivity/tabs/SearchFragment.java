@@ -57,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -604,23 +605,27 @@ public class SearchFragment extends Fragment {
 
     // Sort event results in ascending dataTime, and convert to AM/PM format
     public static void sort_by_dateTime(ArrayList<ArrayList<String>> list_for_table) {
-        @SuppressLint("SimpleDateFormat") Comparator<ArrayList<String>> date_comparator = (a, b) -> {
-            String dateTime_format = "yyyy-MM-dd HH:mm:ss";
+        String dateTime_format = "yyyy-MM-dd HH:mm:ss";
+        Locale locale = Locale.US;
+
+        Comparator<ArrayList<String>> custom_date_comparator = (a, b) -> {
             try {
-                Date dateA = new SimpleDateFormat(dateTime_format).parse(a.get(0) + " " + a.get(1));
-                Date dateB = new SimpleDateFormat(dateTime_format).parse(b.get(0) + " " + b.get(1));
+                Date dateA = new SimpleDateFormat(dateTime_format, locale).parse(a.get(0) + " " + a.get(1));
+                Date dateB = new SimpleDateFormat(dateTime_format, locale).parse(b.get(0) + " " + b.get(1));
                 return dateA != null ? dateA.compareTo(dateB) : 0;
             } catch (ParseException e) {
                 return 0;
             }
         };
-        list_for_table.sort(date_comparator);
 
-        @SuppressLint("SimpleDateFormat") DateFormat desired_format = new SimpleDateFormat("h:mm a");
+        list_for_table.sort(custom_date_comparator);
+
+        DateFormat desired_format = new SimpleDateFormat("h:mm a", locale);
+
         for (ArrayList<String> date : list_for_table) {
             String formatted_date = "";
             try {
-                @SuppressLint("SimpleDateFormat") Date parsed_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date.get(0) + " " + date.get(1));
+                Date parsed_date = new SimpleDateFormat(dateTime_format, locale).parse(date.get(0) + " " + date.get(1));
                 formatted_date = parsed_date != null ? desired_format.format(parsed_date) : "";
             } catch (ParseException ignored) {
 
