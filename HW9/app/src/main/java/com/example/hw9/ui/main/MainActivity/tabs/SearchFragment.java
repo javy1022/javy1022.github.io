@@ -1,6 +1,5 @@
 package com.example.hw9.ui.main.MainActivity.tabs;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -36,9 +35,9 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
+import com.example.hw9.ui.main.MainActivity.EventResultsDecorator;
 import com.example.hw9.ui.main.MainActivity.adapters.AutoCompleteArrayAdapter;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsAdapter;
-import com.example.hw9.ui.main.MainActivity.EventResultsDecorator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

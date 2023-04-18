@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -93,7 +94,7 @@ public class DetailsFragment  extends Fragment {
                     Gson gson = new Gson();
                     JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
 
-                    extract_event_details(gson_resp);
+                    extract_event_details(view, gson_resp);
 
                 }, error -> {
                     // Handle the error
@@ -103,9 +104,7 @@ public class DetailsFragment  extends Fragment {
 
     }
 
-
-    /* helper functions */
-    private void extract_event_details(JsonObject gson_resp) {
+    private void extract_event_details(View view, JsonObject gson_resp) {
         String event_title = general_json_navigator(gson_resp, "name");
         String event_id = general_json_navigator(gson_resp, "id");
         String local_date = general_json_navigator(gson_resp, "dates", "start", "localDate");
@@ -133,6 +132,7 @@ public class DetailsFragment  extends Fragment {
 
         local_time = reformat_localTime(local_time);
 
+        // remove after
         Log.d("yyy", "event_title: " + event_title);
         Log.d("yyy", "local_date: " + local_date);
         Log.d("yyy", "local_time : " + local_time);
@@ -144,6 +144,24 @@ public class DetailsFragment  extends Fragment {
         Log.d("yyy", "ticket_url  : " + ticket_url);
         Log.d("yyy", "seatmap_url  : " + seatmap_url);
 
+
+        set_event_details_card_ui(view, artist_or_team);
+    }
+
+    private void set_event_details_card_ui(View view, List<String> artist_or_team){
+        final TextView artist_team = view.findViewById(R.id.artist_team);
+        final TextView artist_team_subtitle = view.findViewById(R.id.artist_team_subtitle);
+
+        if(!artist_or_team.isEmpty()) {
+            String formatted_artist_or_team = concat_artists_or_teams(artist_or_team);
+            artist_team.setText(formatted_artist_or_team);
+            artist_team.setSelected(true);
+            artist_team_subtitle.setVisibility(View.VISIBLE);
+            artist_team.setVisibility(View.VISIBLE);
+        }else{
+            artist_team_subtitle.setVisibility(View.GONE);
+            artist_team.setVisibility(View.GONE);
+        }
     }
 
     // extract desired data given a sequences of keys
@@ -246,6 +264,17 @@ public class DetailsFragment  extends Fragment {
         return json_element.getAsJsonArray();
     }
 
+    private String concat_artists_or_teams(List<String> artist_or_team) {
+        StringJoiner artists_buffer = new StringJoiner(" | ");
+
+        for (String artist : artist_or_team) {
+            artist = artist.trim();
+            if (!"undefined".equalsIgnoreCase(artist) && artist.length() > 0) {
+                artists_buffer.add(artist);
+            }
+        }
+        return artists_buffer.toString();
+    }
 
     private String reformat_localTime(String time) {
         String input_time_format = "HH:mm:ss";

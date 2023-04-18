@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:contentDescription="Green back button"
+                android:contentDescription="@string/green_back_button_description"
                 android:src="@drawable/green_back_btn"/>
 
             <TextView
@@ -49,7 +49,6 @@
             app:tabTextAppearance="@style/EventDetails.TabLayout.TextSize"
             app:tabTextColor="@color/white"
             app:tabSelectedTextColor="@color/green"
-
             app:tabIndicatorColor="@color/green"
             app:tabBackground="@color/gray_theme"/>
     </com.google.android.material.appbar.AppBarLayout>

@@ -22,5 +22,7 @@
     <string name="event_img_description">event_img</string>
     <string name="title_activity_event_details">EventDetailsActivity</string>
     <string name="favorite_icon_description">Favorite Icon</string>
+    <string name="artist_teams_subtitle">Artist/Teams</string>
+    <string name="green_back_button_description">Green back button</string>
 
 </resources>
