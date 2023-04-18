@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.hw9.databinding.ActivityEventDetailsBinding;
 import com.example.hw9.ui.main.EventDetailsActivity.adapter.EventDetailsSectionsPagerAdapter;
+import com.example.hw9.ui.main.EventDetailsActivity.tabs.DetailsFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -25,8 +26,12 @@ public class EventDetailsActivity extends AppCompatActivity {
         com.example.hw9.databinding.ActivityEventDetailsBinding binding = ActivityEventDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Get event data from EventResultsAdapter
+        Intent intent = getIntent();
+        ArrayList<String> event_data = intent.getStringArrayListExtra("event_data");
+
         tab_layout = findViewById(R.id.tabs);
-        EventDetailsSectionsPagerAdapter sectionsPagerAdapter = new EventDetailsSectionsPagerAdapter(this, getSupportFragmentManager(), getLifecycle(), tab_layout);
+        EventDetailsSectionsPagerAdapter sectionsPagerAdapter = new EventDetailsSectionsPagerAdapter(this, getSupportFragmentManager(), getLifecycle(), tab_layout,  event_data);
 
         ViewPager2 viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -34,17 +39,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabs, viewPager, (tab, position) -> tab.setText(sectionsPagerAdapter.getPageTitle(position)));
         tabLayoutMediator.attach();
 
-        // Get event data from EventResultsAdapter
-        Intent intent = getIntent();
-        ArrayList<String> event_data = intent.getStringArrayListExtra("event_data");
-
         // set activity objects
         set_event_title(event_data);
         set_tabs_content(sectionsPagerAdapter);
         back_btn_onClick();
-
-
-
     }
 
     private void back_btn_onClick(){

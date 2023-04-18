@@ -1,19 +1,25 @@
 package com.example.hw9.ui.main.EventDetailsActivity.tabs;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.hw9.R;
+
+import java.util.ArrayList;
 
 public class DetailsFragment  extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private ArrayList<String> event_data;
 
     public DetailsFragment () {
         // Required empty public constructor
@@ -52,5 +58,17 @@ public class DetailsFragment  extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_details, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        Bundle args = getArguments();
+        if (args != null) {
+            event_data = args.getStringArrayList("event_data");
+            Log.d("yyy", "Alkoha from detail fragmemt" + event_data);
+        }
     }
 }

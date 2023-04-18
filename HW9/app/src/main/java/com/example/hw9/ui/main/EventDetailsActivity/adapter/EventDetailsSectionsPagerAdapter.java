@@ -3,6 +3,7 @@ package com.example.hw9.ui.main.EventDetailsActivity.adapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,18 +19,22 @@ import com.example.hw9.ui.main.EventDetailsActivity.tabs.DetailsFragment;
 import com.example.hw9.ui.main.EventDetailsActivity.tabs.VenueFragment;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_3, R.string.tab_text_4, R.string.tab_text_5};
     private final Context mContext;
-    private final TabLayout mTabLayout; // add this field to hold the TabLayout object
+    private final TabLayout mTabLayout;
 
-    public EventDetailsSectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle, TabLayout tabLayout) {
+    private ArrayList<String> mEventData;
+
+    public EventDetailsSectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle, TabLayout tabLayout, ArrayList<String> eventData) {
         super(fragmentManager, lifecycle);
         mContext = context;
-        mTabLayout = tabLayout; // set the TabLayout object
+        mTabLayout = tabLayout;
+        mEventData = eventData;
     }
 
     @Override
@@ -39,6 +44,7 @@ public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
         switch (position) {
             case 0:
                 fragment = DetailsFragment.newInstance("123", "456");
+                loadEventData(fragment);
                 break;
             case 1:
                 fragment = ArtistsFragment.newInstance("123", "456");
@@ -60,6 +66,12 @@ public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         return 3;
+    }
+
+    private void loadEventData(Fragment fragment){
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("event_data", mEventData);
+        fragment.setArguments(bundle);
     }
 
 
