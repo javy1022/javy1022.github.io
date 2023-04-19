@@ -39,6 +39,17 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
+            <ImageButton
+                android:id="@+id/facebook"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="70dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Facebook Share Icon"
+                android:src="@drawable/facebook"
+                android:scaleType="fitCenter" />
+
+
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout

@@ -1,15 +1,19 @@
 package com.example.hw9.ui.main.EventDetailsActivity.tabs;
 
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -85,10 +89,9 @@ public class DetailsFragment  extends Fragment {
         ArrayList<String> event_data = args != null ? args.getStringArrayList("event_data") : null;
 
         get_event_details(view, event_data != null ? event_data.get(6) : null);
-
-
-
     }
+
+
 
     private void get_event_details(View view, String event_id){
         String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/event-details/"+ event_id;
@@ -150,6 +153,19 @@ public class DetailsFragment  extends Fragment {
 
 
         set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status, ticket_url,seatmap_url);
+
+        if(!ticket_url.isEmpty()) {
+            ImageButton fb_icon = getActivity().findViewById(R.id.facebook);
+            fb_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String facebookUrl = String.format("https://www.facebook.com/sharer/sharer.php?u=%s&src=sdkpreparse", ticket_url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(facebookUrl));
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre, String price_range, String status, String ticket_url, String seatmap_url){
