@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,9 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.request.target.Target;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.google.gson.Gson;
@@ -147,48 +152,52 @@ public class DetailsFragment  extends Fragment {
         Log.d("yyy", "seatmap_url  : " + seatmap_url);
 
 
-        set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status);
+        set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status, ticket_url,seatmap_url);
     }
 
-    private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre, String price_range, String status){
-        final TextView artist_team_textView = view.findViewById(R.id.artist_team);
-        final TextView venue_textView = view.findViewById(R.id.venue);
-        final TextView date_textView = view.findViewById(R.id.date);
-        final TextView time_textView = view.findViewById(R.id.time);
-        final TextView genres_textView = view.findViewById(R.id.genres);
-        final TextView price_range_textView = view.findViewById(R.id.price_range);
-        final TextView status_textView = view.findViewById(R.id.ticket_status);
+    private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre, String price_range, String status, String ticket_url, String seatmap_url){
+        final TextView artist_team_tv = view.findViewById(R.id.artist_team);
+        final TextView venue_tv = view.findViewById(R.id.venue);
+        final TextView date_tv = view.findViewById(R.id.date);
+        final TextView time_tv = view.findViewById(R.id.time);
+        final TextView genres_tv = view.findViewById(R.id.genres);
+        final TextView price_range_tv = view.findViewById(R.id.price_range);
+        final TextView status_tv = view.findViewById(R.id.ticket_status);
+        final TextView ticket_url_tv = view.findViewById(R.id.ticket_url);
+        final ImageView seatmap_img = view.findViewById(R.id.seatmap_img);
 
         if(!artist_or_team.isEmpty()) {
             String formatted_artist_or_team = concat_artists_or_teams(artist_or_team);
-            artist_team_textView.setText(formatted_artist_or_team);
-            artist_team_textView.setSelected(true);
+            artist_team_tv.setText(formatted_artist_or_team);
+            artist_team_tv.setSelected(true);
         }else{
-            artist_team_textView.setText("N/A");
+            artist_team_tv.setText("N/A");
         }
-        set_text(venue_textView,venue);
-        set_text(date_textView ,date);
-        set_text(time_textView ,time);
-        set_text(genres_textView,genre);
-        set_text(price_range_textView ,price_range);
+        set_textView(venue_tv,venue);
+        set_textView(date_tv ,date);
+        set_textView(time_tv ,time);
+        set_textView(genres_tv,genre);
+        set_textView(price_range_tv ,price_range);
 
         if (!status.isEmpty()) {
-            status_textView.setText(status);
+            status_tv.setText(status);
 
-            GradientDrawable background = (GradientDrawable) status_textView.getBackground();
+            GradientDrawable background = (GradientDrawable) status_tv.getBackground();
             if (status.equals("On Sale")) background.setColor(ContextCompat.getColor(requireContext(), R.color.green));
             else if (status.equals("Rescheduled") || status.equals("Postponed")) background.setColor(ContextCompat.getColor(requireContext(), R.color.status_postpone));
             else if (status.equals("Off Sale")) background.setColor(ContextCompat.getColor(requireContext(), R.color.status_offsale));
             else if (status.equals("Canceled")) background.setColor(ContextCompat.getColor(requireContext(), R.color.black));
-
-
-
-            status_textView .setSelected(true);
+            status_tv .setSelected(true);
         } else {
-            status_textView .setText("N/A");
+            status_tv.setText("N/A");
         }
+        set_textView(ticket_url_tv ,ticket_url);
 
-
+        if(!seatmap_url.isEmpty()){
+        Glide.with(requireContext())
+                .load(seatmap_url)
+                .into(seatmap_img);
+        }
     }
 
     // extract desired data given a sequences of keys
@@ -276,7 +285,6 @@ public class DetailsFragment  extends Fragment {
     } else {
         status = "";
     }
-
         return status;
     }
 
@@ -318,12 +326,12 @@ public class DetailsFragment  extends Fragment {
         return time;
     }
 
-    private void set_text(TextView textView, String text) {
-        if (!text.isEmpty()) {
-            textView.setText(text);
-            textView.setSelected(true);
+    private void set_textView(TextView tv, String tv_data) {
+        if (!tv_data.isEmpty()) {
+            tv.setText(tv_data);
+            tv.setSelected(true);
         } else {
-            textView.setText("N/A");
+            tv.setText("N/A");
         }
     }
 
