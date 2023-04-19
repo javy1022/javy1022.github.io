@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
-import com.bumptech.glide.request.target.Target;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.google.gson.Gson;
@@ -182,11 +179,22 @@ public class DetailsFragment  extends Fragment {
         if (!status.isEmpty()) {
             status_tv.setText(status);
 
-            GradientDrawable background = (GradientDrawable) status_tv.getBackground();
-            if (status.equals("On Sale")) background.setColor(ContextCompat.getColor(requireContext(), R.color.green));
-            else if (status.equals("Rescheduled") || status.equals("Postponed")) background.setColor(ContextCompat.getColor(requireContext(), R.color.status_postpone));
-            else if (status.equals("Off Sale")) background.setColor(ContextCompat.getColor(requireContext(), R.color.status_offsale));
-            else if (status.equals("Canceled")) background.setColor(ContextCompat.getColor(requireContext(), R.color.black));
+            GradientDrawable status_tv_background = (GradientDrawable) status_tv.getBackground();
+            switch (status) {
+                case "On Sale":
+                    status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.green));
+                    break;
+                case "Rescheduled":
+                case "Postponed":
+                    status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.status_postpone));
+                    break;
+                case "Off Sale":
+                    status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.status_offsale));
+                    break;
+                case "Canceled":
+                    status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.black));
+                    break;
+            }
             status_tv .setSelected(true);
         } else {
             status_tv.setText("N/A");
@@ -194,9 +202,13 @@ public class DetailsFragment  extends Fragment {
         set_textView(ticket_url_tv ,ticket_url);
 
         if(!seatmap_url.isEmpty()){
-        Glide.with(requireContext())
-                .load(seatmap_url)
-                .into(seatmap_img);
+            seatmap_img.setVisibility(View.VISIBLE);
+
+            Glide.with(requireContext())
+                    .load(seatmap_url)
+                    .into(seatmap_img);
+        }else{
+            seatmap_img.setVisibility(View.GONE );
         }
     }
 
