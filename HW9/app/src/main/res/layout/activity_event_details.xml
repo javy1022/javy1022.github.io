@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:contentDescription="@string/green_back_button_description"
+                android:contentDescription="Green back button"
                 android:src="@drawable/green_back_btn"/>
 
             <TextView

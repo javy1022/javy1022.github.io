@@ -1,5 +1,6 @@
 package com.example.hw9.ui.main.EventDetailsActivity.tabs;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
@@ -145,14 +147,17 @@ public class DetailsFragment  extends Fragment {
         Log.d("yyy", "seatmap_url  : " + seatmap_url);
 
 
-        set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre);
+        set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status);
     }
 
-    private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre){
+    private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre, String price_range, String status){
         final TextView artist_team_textView = view.findViewById(R.id.artist_team);
         final TextView venue_textView = view.findViewById(R.id.venue);
         final TextView date_textView = view.findViewById(R.id.date);
         final TextView time_textView = view.findViewById(R.id.time);
+        final TextView genres_textView = view.findViewById(R.id.genres);
+        final TextView price_range_textView = view.findViewById(R.id.price_range);
+        final TextView status_textView = view.findViewById(R.id.ticket_status);
 
         if(!artist_or_team.isEmpty()) {
             String formatted_artist_or_team = concat_artists_or_teams(artist_or_team);
@@ -161,28 +166,26 @@ public class DetailsFragment  extends Fragment {
         }else{
             artist_team_textView.setText("N/A");
         }
+        set_text(venue_textView,venue);
+        set_text(date_textView ,date);
+        set_text(time_textView ,time);
+        set_text(genres_textView,genre);
+        set_text(price_range_textView ,price_range);
 
-        if(!venue.isEmpty()) {
-            venue_textView.setText(venue);
-            venue_textView.setSelected(true);
-        }else{
-            venue_textView.setText("N/A");
-        }
+        if (!status.isEmpty()) {
+            status_textView.setText(status);
 
-        if(!date.isEmpty()){
-            date_textView.setText(date);
-            date_textView.setSelected(true);
+            GradientDrawable background = (GradientDrawable) status_textView.getBackground();
+            if (status.equals("On Sale")) background.setColor(ContextCompat.getColor(requireContext(), R.color.green));
+            else if (status.equals("Rescheduled") || status.equals("Postponed")) background.setColor(ContextCompat.getColor(requireContext(), R.color.status_postpone));
+            else if (status.equals("Off Sale")) background.setColor(ContextCompat.getColor(requireContext(), R.color.status_offsale));
+            else if (status.equals("Canceled")) background.setColor(ContextCompat.getColor(requireContext(), R.color.black));
 
-        }else{
-            date_textView.setText("N/A");
-        }
 
-        if(!time.isEmpty()){
-            time_textView.setText(time);
-            time_textView.setSelected(true);
 
-        }else{
-            time_textView.setText("N/A");
+            status_textView .setSelected(true);
+        } else {
+            status_textView .setText("N/A");
         }
 
 
@@ -313,6 +316,15 @@ public class DetailsFragment  extends Fragment {
         } catch (ParseException ignored) {
         }
         return time;
+    }
+
+    private void set_text(TextView textView, String text) {
+        if (!text.isEmpty()) {
+            textView.setText(text);
+            textView.setSelected(true);
+        } else {
+            textView.setText("N/A");
+        }
     }
 
 

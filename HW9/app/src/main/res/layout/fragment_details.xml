@@ -161,6 +161,110 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     />
 
+                <TextView
+                    android:id="@+id/genres_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:text="Genres"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/artist_team_subtitle"
+                    app:layout_constraintTop_toBottomOf="@id/time_subtitle"
+                    android:layout_marginTop="24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/genres"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/genres_subtitle"
+                    app:layout_constraintTop_toTopOf="@+id/genres_subtitle"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    />
+
+                <TextView
+                    android:id="@+id/price_range_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:text="Price Range"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/artist_team_subtitle"
+                    app:layout_constraintTop_toBottomOf="@id/genres_subtitle"
+                    android:layout_marginTop="24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/price_range"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/price_range_subtitle"
+                    app:layout_constraintTop_toTopOf="@+id/price_range_subtitle"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    />
+
+                <TextView
+                    android:id="@+id/ticket_status_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:text="Ticket Status"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/artist_team_subtitle"
+                    app:layout_constraintTop_toBottomOf="@id/price_range_subtitle"
+                    android:layout_marginTop="24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/ticket_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/test"
+                    android:ellipsize="marquee"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/price_range"
+                    app:layout_constraintTop_toTopOf="@+id/ticket_status_subtitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/ticket_status_subtitle"
+                    app:layout_constraintVertical_bias="0.5"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
