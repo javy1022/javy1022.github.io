@@ -145,34 +145,44 @@ public class DetailsFragment  extends Fragment {
         Log.d("yyy", "seatmap_url  : " + seatmap_url);
 
 
-        set_event_details_card_ui(view, artist_or_team, venue);
+        set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre);
     }
 
-    private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue){
-        final TextView artist_team_subtitle = view.findViewById(R.id.artist_team_subtitle);
+    private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre){
         final TextView artist_team_textView = view.findViewById(R.id.artist_team);
-        final TextView venue_subtitle = view.findViewById(R.id.venue_subtitle);
         final TextView venue_textView = view.findViewById(R.id.venue);
+        final TextView date_textView = view.findViewById(R.id.date);
+        final TextView time_textView = view.findViewById(R.id.time);
 
         if(!artist_or_team.isEmpty()) {
             String formatted_artist_or_team = concat_artists_or_teams(artist_or_team);
             artist_team_textView.setText(formatted_artist_or_team);
             artist_team_textView.setSelected(true);
-            artist_team_subtitle.setVisibility(View.VISIBLE);
-            artist_team_textView.setVisibility(View.VISIBLE);
         }else{
-            artist_team_subtitle.setVisibility(View.GONE);
-            artist_team_textView.setVisibility(View.GONE);
+            artist_team_textView.setText("N/A");
         }
 
         if(!venue.isEmpty()) {
             venue_textView.setText(venue);
             venue_textView.setSelected(true);
-            venue_subtitle.setVisibility(View.VISIBLE);
-            venue_textView.setVisibility(View.VISIBLE);
         }else{
-            venue_subtitle.setVisibility(View.GONE);
-            venue_textView.setVisibility(View.GONE);
+            venue_textView.setText("N/A");
+        }
+
+        if(!date.isEmpty()){
+            date_textView.setText(date);
+            date_textView.setSelected(true);
+
+        }else{
+            date_textView.setText("N/A");
+        }
+
+        if(!time.isEmpty()){
+            time_textView.setText(time);
+            time_textView.setSelected(true);
+
+        }else{
+            time_textView.setText("N/A");
         }
 
 
