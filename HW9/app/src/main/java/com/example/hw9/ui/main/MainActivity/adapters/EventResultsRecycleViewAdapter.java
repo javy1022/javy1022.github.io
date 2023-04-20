@@ -1,7 +1,6 @@
 package com.example.hw9.ui.main.MainActivity.adapters;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.hw9.EventDetailsActivity;
 import com.example.hw9.R;
+import com.example.hw9.SharedGeneralPurposeMethods;
 
 import java.util.ArrayList;
 
 public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventResultsRecycleViewAdapter.ViewHolder> {
 
     private final ArrayList<ArrayList<String>> event_search_results;
+
+    private SharedGeneralPurposeMethods shared;
 
     public EventResultsRecycleViewAdapter(ArrayList<ArrayList<String>> event_search_results) {
         this.event_search_results = event_search_results;
@@ -41,6 +38,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArrayList<String> event_search_result = event_search_results.get(position);
+        shared = new SharedGeneralPurposeMethods();
 
         // date
         String date = event_search_result.get(0);
@@ -51,7 +49,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         holder.time.setText(time);
         // image
         String img_url = event_search_result.get(2);
-        set_img(holder,img_url);
+        shared.set_recycleViews_imgView(holder,img_url,holder.img);
 
         // event name
         String name = event_search_result.get(3);
@@ -100,30 +98,8 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             heart_icon_onClick(heart_icon);
 
             // Enable selected to make marquee effect works on TextViews
-            textViews_enable_selected(name, venue, category);
+            SharedGeneralPurposeMethods.textViews_enable_selected(name, venue, category);
         }
-    }
-
-    private void set_img(ViewHolder holder, String img_url){
-        MultiTransformation<Bitmap> transformations = new MultiTransformation<>(
-                new CenterCrop(),
-                new RoundedCorners(15)
-        );
-        RequestOptions request_options = new RequestOptions()
-                .override(325, 325)
-                .transform(transformations);
-
-        Glide.with(holder.itemView.getContext())
-                .load(img_url)
-                .apply(request_options)
-                .into(holder.img);
-    }
-
-
-    private static void textViews_enable_selected(TextView event_name, TextView venue, TextView category){
-        event_name.setSelected(true);
-        venue.setSelected(true);
-        category.setSelected(true);
     }
 
     private static void heart_icon_onClick(ImageView heart_icon){

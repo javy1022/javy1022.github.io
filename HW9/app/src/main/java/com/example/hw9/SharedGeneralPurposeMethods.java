@@ -1,17 +1,25 @@
 package com.example.hw9;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /* Class to share common functions */
 
-public class shared_general_purpose {
+public class SharedGeneralPurposeMethods {
 
     // helper function to  extract desired data array given a sequences of keys
     public JsonArray general_json_arr_navigator(JsonObject json_obj, String... keys) {
@@ -46,4 +54,27 @@ public class shared_general_purpose {
         // Populate recycle view
         recycle_view.setAdapter(recycle_view_adapter);
     }
+
+    public <T extends RecyclerView.ViewHolder> void set_recycleViews_imgView(T holder, String img_url, ImageView img){
+        MultiTransformation<Bitmap> transformations = new MultiTransformation<>(
+                new CenterCrop(),
+                new RoundedCorners(15)
+        );
+        RequestOptions request_options = new RequestOptions()
+                .override(325, 325)
+                .transform(transformations);
+
+        Glide.with(holder.itemView.getContext())
+                .load(img_url)
+                .apply(request_options)
+                .into(img);
+    }
+
+    public static void textViews_enable_selected(TextView... textViews){
+        for (TextView tv : textViews) {
+            tv.setSelected(true);
+        }
+    }
+
+
 }

@@ -34,7 +34,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
-import com.example.hw9.shared_general_purpose;
+import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.RecycleViewDecorator;
 import com.example.hw9.ui.main.MainActivity.adapters.AutoCompleteArrayAdapter;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
@@ -80,7 +80,7 @@ public class SearchFragment extends Fragment {
 
     private ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
 
-    private shared_general_purpose shared;
+    private SharedGeneralPurposeMethods shared;
 
     private EventResultsRecycleViewAdapter event_results_adapter;
 
@@ -129,7 +129,7 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // init class variables
-        shared = new shared_general_purpose();
+        shared = new SharedGeneralPurposeMethods();
         event_search_recycleView = view.findViewById(R.id.event_recycle_view);
         // Remove this after
         dev_inputs_placeholder(view);

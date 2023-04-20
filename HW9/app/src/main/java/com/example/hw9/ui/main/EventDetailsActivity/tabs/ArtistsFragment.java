@@ -17,12 +17,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.example.hw9.RecycleViewDecorator;
-import com.example.hw9.shared_general_purpose;
+import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.ui.main.EventDetailsActivity.adapter.ArtistSpotifyRecycleViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ArtistsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private shared_general_purpose shared;
+    private SharedGeneralPurposeMethods shared;
 
     private ArtistSpotifyRecycleViewAdapter   artist_spotify_adapter;
 
@@ -75,7 +76,7 @@ public class ArtistsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Create an instance of shared_general_purpose
-        shared = new shared_general_purpose();
+        shared = new SharedGeneralPurposeMethods();
         artist_spotify_recycleView = view.findViewById(R.id.artists_spotify_recycle_view);
 
 
@@ -142,10 +143,7 @@ public class ArtistsFragment extends Fragment {
 
                             // formatted number of followers
                             String artist_followers_str = shared.general_json_navigator(artist_obj, "followers", "total");
-                            int artist_followers_num = Integer.parseInt(artist_followers_str);
-                            NumberFormat desired_format = NumberFormat.getNumberInstance(Locale.US);
-                            String artist_followers_formatted = desired_format.format(artist_followers_num);
-                            artist_data.add(artist_followers_formatted);
+                            artist_data.add(custom_str_formatter(artist_followers_str));
 
                             // spotify link
                             String artist_spotify_link = shared.general_json_navigator(artist_obj, "external_urls", "spotify");
@@ -168,6 +166,24 @@ public class ArtistsFragment extends Fragment {
             MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
         }
         return futures;
+    }
+
+    private String custom_str_formatter(String artist_followers_str){
+        int artist_followers_num = Integer.parseInt(artist_followers_str);
+        String artist_followers_formatted;
+        DecimalFormat decimalFormat;
+        if (artist_followers_num >= 1000000) {
+            decimalFormat = new DecimalFormat("0.00M");
+            artist_followers_formatted = decimalFormat.format(artist_followers_num / 1000000.00);
+        } else if (artist_followers_num >= 1000) {
+            decimalFormat = new DecimalFormat("0.00K");
+            artist_followers_formatted = decimalFormat.format(artist_followers_num / 1000.00);
+        } else {
+            artist_followers_formatted = Integer.toString(artist_followers_num);
+        }
+        artist_followers_formatted += " Followers";
+
+        return artist_followers_formatted;
     }
 
 }

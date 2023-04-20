@@ -21,7 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
-import com.example.hw9.shared_general_purpose;
+import com.example.hw9.SharedGeneralPurposeMethods;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -44,7 +44,7 @@ public class DetailsFragment  extends Fragment {
 
     private String event_id;
 
-    private shared_general_purpose shared;
+    private SharedGeneralPurposeMethods shared;
 
     public DetailsFragment () {
         // Required empty public constructor
@@ -92,7 +92,7 @@ public class DetailsFragment  extends Fragment {
         ArrayList<String> event_data = args != null ? args.getStringArrayList("event_data") : null;
 
         // Create an instance of shared_general_purpose
-        shared = new shared_general_purpose();
+        shared = new SharedGeneralPurposeMethods();
         get_event_details(view, event_data != null ? event_data.get(6) : null);
     }
 
