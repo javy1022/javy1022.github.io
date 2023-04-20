@@ -35,6 +35,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
+import com.example.hw9.shared_general_purpose;
 import com.example.hw9.ui.main.MainActivity.EventResultsDecorator;
 import com.example.hw9.ui.main.MainActivity.adapters.AutoCompleteArrayAdapter;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsAdapter;
@@ -80,6 +81,8 @@ public class SearchFragment extends Fragment {
 
     private ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
 
+    private shared_general_purpose shared;
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -122,6 +125,8 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Create an instance of shared_general_purpose
+        shared = new shared_general_purpose();
         // Remove this after
         dev_inputs_placeholder(view);
         // init category dropdown spinner
@@ -520,33 +525,33 @@ public class SearchFragment extends Fragment {
         switch (header) {
             case "dates":
                 JsonObject time_obj = ((JsonElement) header_element).getAsJsonObject();
-                String start_local_date = extract_json_resp(time_obj, "start", "localDate");
-                String start_local_time = extract_json_resp(time_obj, "start", "localTime");
-                buffer_arr.add(start_local_date != null ? start_local_date : "");
-                buffer_arr.add(start_local_time != null ? start_local_time : "");
+                String start_local_date = shared.general_json_navigator(time_obj, "start", "localDate");
+                String start_local_time = shared.general_json_navigator(time_obj, "start", "localTime");
+                buffer_arr.add(start_local_date);
+                buffer_arr.add(start_local_time);
                 break;
             case "images":
                 JsonArray img_obj = header_element.getAsJsonArray();
-                String img_url = img_obj.size() > 0 ? extract_json_resp(img_obj.get(0).getAsJsonObject(), "url") : null;
-                buffer_arr.add(img_url != null ? img_url : "");
+                String img_url = img_obj.size() > 0 ? shared.general_json_navigator(img_obj.get(0).getAsJsonObject(), "url") : null;
+                buffer_arr.add(img_url);
                 break;
             case "name":
             case "id":
                 String name = header_element.getAsString().trim();
-                buffer_arr.add(!name.isEmpty() ? name : "");
+                buffer_arr.add(name);
                 break;
             case "classifications":
                 JsonArray genre_obj = header_element.getAsJsonArray();
-                String genre = genre_obj.size() > 0 ? extract_json_resp(genre_obj.get(0).getAsJsonObject(), "segment", "name") : null;
-                buffer_arr.add(genre != null ? genre : "");
+                String genre = genre_obj.size() > 0 ? shared.general_json_navigator(genre_obj.get(0).getAsJsonObject(), "segment", "name") : null;
+                buffer_arr.add(genre);
                 break;
             case "_embedded":
                 JsonObject venues_obj = header_element.getAsJsonObject();
                 if (venues_obj.has("venues")) {
                     JsonArray venues_arr = venues_obj.getAsJsonArray("venues");
                     JsonObject target_venue = venues_arr.size() > 0 ? venues_arr.get(0).getAsJsonObject() : null;
-                    String venue = extract_json_resp(target_venue, "name");
-                    buffer_arr.add(venue != null ? venue : "");
+                    String venue = shared.general_json_navigator(target_venue, "name");
+                    buffer_arr.add(venue);
                 } else {
                     buffer_arr.add("");
                 }
@@ -585,25 +590,9 @@ public class SearchFragment extends Fragment {
         return apiKey;
     }
 
-    // Extracts data from Json navigating through its hierarchy using an array of keys in a specific order
-    private String extract_json_resp(JsonObject json_obj, String... keys) {
-        JsonObject current_obj = json_obj;
-        for (int i = 0; i < keys.length - 1; i++) {
-            JsonElement element = current_obj.get(keys[i]);
-            if (element == null || !element.isJsonObject()) {
-                return null;
-            }
-            current_obj = element.getAsJsonObject();
-        }
-        JsonElement desired_element = current_obj.get(keys[keys.length - 1]);
-        if (desired_element == null) {
-            return null;
-        }
-        return desired_element.getAsString().trim();
-    }
 
     // Sort event results in ascending dataTime, and convert to AM/PM format
-    public static void sort_by_dateTime(ArrayList<ArrayList<String>> list_for_table) {
+    private static void sort_by_dateTime(ArrayList<ArrayList<String>> list_for_table) {
         String dateTime_format = "yyyy-MM-dd HH:mm:ss";
         Locale locale = Locale.US;
 
