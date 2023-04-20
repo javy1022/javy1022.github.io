@@ -93,9 +93,13 @@ public class ArtistsFragment extends Fragment {
                         JsonArray desired_artist_spotify_info = shared.general_json_arr_navigator(gson_resp, "artists", "items");
                         if (desired_artist_spotify_info != null && desired_artist_spotify_info.size() > 0) {
                             JsonObject artist_obj = desired_artist_spotify_info.get(0).getAsJsonObject();
-                            String artist_name = shared.general_json_navigator(artist_obj, "name");
 
-                            Log.d("aaa", "test name: " + artist_name);
+                            String artist_name = shared.general_json_navigator(artist_obj, "name");
+                            // get artist image with appropriate size
+                            JsonObject artist_img_obj = shared.general_json_arr_navigator(artist_obj, "images").get(2).getAsJsonObject();
+                            String artist_img =  shared.general_json_navigator(artist_img_obj, "url");
+
+                            Log.d("aaa", "test name: " + artist_img );
                         }
 
                         Log.d("dd man", "results :" + gson_resp);
