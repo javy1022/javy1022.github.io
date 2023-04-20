@@ -22,11 +22,11 @@ import com.example.hw9.R;
 
 import java.util.ArrayList;
 
-public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapter.ViewHolder> {
+public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventResultsRecycleViewAdapter.ViewHolder> {
 
     private final ArrayList<ArrayList<String>> event_search_results;
 
-    public EventResultsAdapter(ArrayList<ArrayList<String>> event_search_results) {
+    public EventResultsRecycleViewAdapter(ArrayList<ArrayList<String>> event_search_results) {
         this.event_search_results = event_search_results;
     }
 
@@ -101,9 +101,6 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
 
             // Enable selected to make marquee effect works on TextViews
             textViews_enable_selected(name, venue, category);
-
-
-
         }
     }
 

@@ -39,7 +39,7 @@ public class shared_general_purpose {
         return desired_data;
     }
 
-    public <T extends RecyclerView.Adapter> void generate_event_results_recycleView(Context context, RecyclerView recycle_view , T recycle_view_adapter){
+    public <T extends RecyclerView.Adapter> void generate_linearLayout_recycleView(Context context, RecyclerView recycle_view , T recycle_view_adapter){
         // Init
         RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(context);
         recycle_view.setLayoutManager(event_search_recycleView_layoutManager);

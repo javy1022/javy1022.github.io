@@ -28,7 +28,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -38,7 +37,7 @@ import com.example.hw9.R;
 import com.example.hw9.shared_general_purpose;
 import com.example.hw9.ui.main.MainActivity.EventResultsDecorator;
 import com.example.hw9.ui.main.MainActivity.adapters.AutoCompleteArrayAdapter;
-import com.example.hw9.ui.main.MainActivity.adapters.EventResultsAdapter;
+import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -83,7 +82,7 @@ public class SearchFragment extends Fragment {
 
     private shared_general_purpose shared;
 
-    private EventResultsAdapter event_results_adapter;
+    private EventResultsRecycleViewAdapter event_results_adapter;
 
     private  RecyclerView event_search_recycleView;
 
@@ -129,7 +128,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Create an instance of shared_general_purpose
+        // init class variables
         shared = new shared_general_purpose();
         event_search_recycleView = view.findViewById(R.id.event_recycle_view);
         // Remove this after
@@ -138,8 +137,6 @@ public class SearchFragment extends Fragment {
         init_category_spinner(view);
         // init autocomplete array adapter
         init_ac_arrayAdapter(view);
-        // margin between each item in event result recycleView
-        init_event_results_recycleView_decoration(view);
         // hide/show location input
         toggle_location_input(view);
         //clear btn
@@ -150,8 +147,8 @@ public class SearchFragment extends Fragment {
         nav_back_to_search(view);
         // autocomplete suggestions http request
         get_autoComplete_suggestions(view);
-        //
-
+        // margin between each item in event result recycleView
+        event_search_recycleView.addItemDecoration(new EventResultsDecorator(50));
     }
 
     // Remove this function after
@@ -163,10 +160,6 @@ public class SearchFragment extends Fragment {
     }
     /* Custom Code Start Here */
 
-    private void init_event_results_recycleView_decoration(View view){
-        RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
-        event_search_recycleView.addItemDecoration(new EventResultsDecorator(50));
-    }
     private void init_category_spinner(View view) {
         Spinner spinner = view.findViewById(R.id.category_input);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -224,7 +217,7 @@ public class SearchFragment extends Fragment {
             event_results_recycleView.setVisibility(View.GONE);
             // Clear event results reference and recycleView
             list_for_table = new ArrayList<>();
-            EventResultsAdapter event_search_adapter = new EventResultsAdapter(list_for_table);
+            EventResultsRecycleViewAdapter event_search_adapter = new EventResultsRecycleViewAdapter(list_for_table);
             event_results_recycleView.setAdapter(event_search_adapter);
             //event_results_recycleView.addItemDecoration(new EventResultsDecorator(-50));
         });
@@ -501,8 +494,8 @@ public class SearchFragment extends Fragment {
                     Log.d("table", list_for_table.toString());
 
                     // event search recycle view
-                    event_results_adapter = new EventResultsAdapter(list_for_table);
-                    shared.generate_event_results_recycleView(getContext(),event_search_recycleView,event_results_adapter);
+                    event_results_adapter = new EventResultsRecycleViewAdapter(list_for_table);
+                    shared.generate_linearLayout_recycleView(getContext(),event_search_recycleView,event_results_adapter);
 
                     pr.setVisibility(View.GONE);
 

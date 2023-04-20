@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.example.hw9.shared_general_purpose;
+import com.example.hw9.ui.main.EventDetailsActivity.adapter.ArtistSpotifyRecycleViewAdapter;
+import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -29,6 +32,10 @@ public class ArtistsFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private shared_general_purpose shared;
+
+    private ArtistSpotifyRecycleViewAdapter   artist_spotify_adapter;
+
+    private RecyclerView artist_spotify_recycleView;
 
     public ArtistsFragment () {
         // Required empty public constructor
@@ -65,6 +72,8 @@ public class ArtistsFragment extends Fragment {
 
         // Create an instance of shared_general_purpose
         shared = new shared_general_purpose();
+        artist_spotify_recycleView = view.findViewById(R.id.artists_spotify_recycle_view);
+
 
         // async getter for sequence of artist names passed from detail fragment
         get_and_utilize_artist_names();
@@ -133,6 +142,10 @@ public class ArtistsFragment extends Fragment {
                     });
             MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
         }
+
+        // event search recycle view
+        artist_spotify_adapter = new ArtistSpotifyRecycleViewAdapter();
+        shared.generate_linearLayout_recycleView(getContext(),artist_spotify_recycleView, artist_spotify_adapter);
     }
 
 }
