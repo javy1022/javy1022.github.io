@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hw9.R;
 
+import java.util.ArrayList;
+
 public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<ArtistSpotifyRecycleViewAdapter.ViewHolder> {
 
+    private final ArrayList<ArrayList<String>> artists_spotify_matrix;
 
-    public ArtistSpotifyRecycleViewAdapter() {
-
+    public ArtistSpotifyRecycleViewAdapter(ArrayList<ArrayList<String>> artists_spotify_matrix) {
+        this.artists_spotify_matrix = artists_spotify_matrix;
     }
 
     @NonNull
@@ -27,13 +30,16 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
 
     @Override
     public void onBindViewHolder(ArtistSpotifyRecycleViewAdapter.ViewHolder holder, int position) {
-        String[] testValues = {"Test artist 1", "Test artist 2", "Test artist 3"};
-        holder.name.setText(testValues[position]);
+        ArrayList<String> artist_spotify_info = artists_spotify_matrix.get(position);
+        // name
+        String name = artist_spotify_info.get(0);
+        holder.name.setText(name);
+
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return artists_spotify_matrix.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

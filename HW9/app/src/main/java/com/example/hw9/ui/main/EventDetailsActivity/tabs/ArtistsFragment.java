@@ -39,6 +39,8 @@ public class ArtistsFragment extends Fragment {
 
     private final ArrayList<ArrayList<String>> artist_spotify_matrix = new ArrayList<>();
 
+    private RecyclerView artist_spotify_recycleView;
+
     public ArtistsFragment () {
         // Required empty public constructor
     }
@@ -74,7 +76,7 @@ public class ArtistsFragment extends Fragment {
 
         // Create an instance of shared_general_purpose
         shared = new shared_general_purpose();
-        RecyclerView artist_spotify_recycleView = view.findViewById(R.id.artists_spotify_recycle_view);
+        artist_spotify_recycleView = view.findViewById(R.id.artists_spotify_recycle_view);
 
 
         // async getter for sequence of artist names passed from detail fragment
@@ -98,8 +100,8 @@ public class ArtistsFragment extends Fragment {
                             activity.runOnUiThread(() -> {
                                 // main UI thread
                                 Log.d("spotify debug", "test name: " + artist_spotify_matrix);
-                                // artist_spotify_adapter = new ArtistSpotifyRecycleViewAdapter();
-                                //shared.generate_linearLayout_recycleView(getContext(), artist_spotify_recycleView, artist_spotify_adapter);
+                                artist_spotify_adapter = new ArtistSpotifyRecycleViewAdapter(artist_spotify_matrix);
+                                shared.generate_linearLayout_recycleView(getContext(), artist_spotify_recycleView, artist_spotify_adapter);
                             });
                         }
                     });
