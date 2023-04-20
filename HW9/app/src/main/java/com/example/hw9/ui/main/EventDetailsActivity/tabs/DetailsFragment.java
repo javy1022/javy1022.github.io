@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
+import com.example.hw9.shared_general_purpose;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -42,6 +43,8 @@ public class DetailsFragment  extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private String event_id;
+
+    private shared_general_purpose shared;
 
     public DetailsFragment () {
         // Required empty public constructor
@@ -88,6 +91,8 @@ public class DetailsFragment  extends Fragment {
         Bundle args = getArguments();
         ArrayList<String> event_data = args != null ? args.getStringArrayList("event_data") : null;
 
+        // Create an instance of shared_general_purpose
+        shared = new shared_general_purpose();
         get_event_details(view, event_data != null ? event_data.get(6) : null);
     }
 
@@ -112,21 +117,21 @@ public class DetailsFragment  extends Fragment {
     }
 
     private void extract_event_details(View view, JsonObject gson_resp) {
-        String event_title = general_json_navigator(gson_resp, "name");
-        String event_id = general_json_navigator(gson_resp, "id");
-        String local_date = general_json_navigator(gson_resp, "dates", "start", "localDate");
-        String local_time = general_json_navigator(gson_resp, "dates", "start", "localTime");
+        String event_title = shared.general_json_navigator(gson_resp, "name");
+        String event_id = shared.general_json_navigator(gson_resp, "id");
+        String local_date = shared.general_json_navigator(gson_resp, "dates", "start", "localDate");
+        String local_time = shared.general_json_navigator(gson_resp, "dates", "start", "localTime");
         String genre = genre_json_navigator(gson_resp);
         String price_range = priceRange_json_navigator(gson_resp);
         String status = status_json_navigator(gson_resp);
-        String ticket_url = general_json_navigator(gson_resp, "url");
-        String seatmap_url = general_json_navigator(gson_resp, "seatmap", "staticUrl");
+        String ticket_url = shared.general_json_navigator(gson_resp, "url");
+        String seatmap_url = shared.general_json_navigator(gson_resp, "seatmap", "staticUrl");
 
-        JsonArray attractions = general_json_arr_navigator(gson_resp, "_embedded", "attractions");
+        JsonArray attractions = shared.general_json_arr_navigator(gson_resp, "_embedded", "attractions");
         List<String> artist_or_team = new ArrayList<>();
         if (attractions != null) {
             for (JsonElement artist : attractions) {
-                artist_or_team.add(general_json_navigator(artist.getAsJsonObject(), "name"));
+                artist_or_team.add(shared.general_json_navigator(artist.getAsJsonObject(), "name"));
             }
             // Pass sequence of artist names to artists tab
             Bundle artist_name_bundle = new Bundle();
@@ -134,11 +139,11 @@ public class DetailsFragment  extends Fragment {
             getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
         }
 
-        JsonArray venues_arr = general_json_arr_navigator(gson_resp, "_embedded", "venues");
+        JsonArray venues_arr = shared.general_json_arr_navigator(gson_resp, "_embedded", "venues");
         String venue = "";
         if (venues_arr != null && venues_arr.size() > 0) {
             JsonObject desired_venue = venues_arr.get(0).getAsJsonObject();
-            venue = general_json_navigator(desired_venue, "name");
+            venue = shared.general_json_navigator(desired_venue, "name");
         }
 
         local_time = reformat_localTime(local_time);
@@ -219,32 +224,17 @@ public class DetailsFragment  extends Fragment {
         }
     }
 
-    // extract desired data given a sequences of keys
-    private String general_json_navigator(JsonObject json_obj, String... keys) {
-        JsonElement json_element = json_obj;
-        for (String key : keys) {
-            if (json_element == null) return "";
-            json_element = json_element.getAsJsonObject().get(key);
-        }
-        if (json_element == null) return "";
-        String desired_data = json_element.getAsString().trim();
-        if ("undefined".equalsIgnoreCase(desired_data)) {
-            return "";
-        }
-        return desired_data;
-    }
-
     private String genre_json_navigator(JsonObject json_obj) {
-        JsonArray classifications_arr = general_json_arr_navigator(json_obj, "classifications");
+        JsonArray classifications_arr = shared.general_json_arr_navigator(json_obj, "classifications");
         StringJoiner genre_buffer = new StringJoiner(" | ");
 
         if (classifications_arr != null && classifications_arr.size() > 0) {
             JsonObject classification_obj = classifications_arr.get(0).getAsJsonObject();
-            String segment = general_json_navigator(classification_obj, "segment", "name").trim();
-            String genre_name = general_json_navigator(classification_obj, "genre", "name").trim();
-            String sub_genre = general_json_navigator(classification_obj, "subGenre", "name").trim();
-            String type = general_json_navigator(classification_obj, "name").trim();
-            String subtype = general_json_navigator(classification_obj, "subType", "name").trim();
+            String segment = shared.general_json_navigator(classification_obj, "segment", "name").trim();
+            String genre_name = shared.general_json_navigator(classification_obj, "genre", "name").trim();
+            String sub_genre = shared.general_json_navigator(classification_obj, "subGenre", "name").trim();
+            String type = shared.general_json_navigator(classification_obj, "name").trim();
+            String subtype = shared.general_json_navigator(classification_obj, "subType", "name").trim();
 
             if (!"undefined".equalsIgnoreCase(segment) && segment.length() > 0) {
                 genre_buffer.add(segment);
@@ -268,13 +258,13 @@ public class DetailsFragment  extends Fragment {
 
 
     private String priceRange_json_navigator(JsonObject json_obj) {
-        JsonArray priceRange_arr = general_json_arr_navigator(json_obj, "priceRanges");
+        JsonArray priceRange_arr = shared.general_json_arr_navigator(json_obj, "priceRanges");
         String price_range = "";
         if (priceRange_arr != null && priceRange_arr.size() > 0) {
             JsonObject priceRange_obj = priceRange_arr.get(0).getAsJsonObject();
             double min = priceRange_obj.has("min") ? priceRange_obj.get("min").getAsDouble() : -1;
             double max = priceRange_obj.has("max") ? priceRange_obj.get("max").getAsDouble() : -1;
-            String currency = general_json_navigator(priceRange_obj, "currency");
+            String currency = shared.general_json_navigator(priceRange_obj, "currency");
 
             if (min == -1) {
                 price_range = max + " - " + max + " " + currency;
@@ -289,7 +279,7 @@ public class DetailsFragment  extends Fragment {
     }
 
     private String status_json_navigator(JsonObject json_obj) {
-        String status = general_json_navigator(json_obj, "dates", "status", "code");
+        String status = shared.general_json_navigator(json_obj, "dates", "status", "code");
 
         if ("onsale".equalsIgnoreCase(status)) {
             status = "On Sale";
@@ -305,17 +295,6 @@ public class DetailsFragment  extends Fragment {
         status = "";
     }
         return status;
-    }
-
-    // helper function to  extract desired data array given a sequences of keys
-    private JsonArray general_json_arr_navigator(JsonObject json_obj, String... keys) {
-        JsonElement json_element = json_obj;
-        for (String key : keys) {
-            if (json_element == null) return null;
-            json_element = json_element.getAsJsonObject().get(key);
-        }
-        if (json_element == null) return null;
-        return json_element.getAsJsonArray();
     }
 
     private String concat_artists_or_teams(List<String> artist_or_team) {

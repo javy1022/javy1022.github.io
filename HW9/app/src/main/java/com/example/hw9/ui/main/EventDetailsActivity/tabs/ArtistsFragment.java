@@ -15,7 +15,9 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
+import com.example.hw9.shared_general_purpose;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class ArtistsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private shared_general_purpose shared;
 
     public ArtistsFragment () {
         // Required empty public constructor
@@ -57,6 +60,10 @@ public class ArtistsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Create an instance of shared_general_purpose
+        shared = new shared_general_purpose();
+
         // async getter for sequence of artist names passed from detail fragment
         get_and_utilize_artist_names();
 
@@ -78,12 +85,21 @@ public class ArtistsFragment extends Fragment {
             Uri.Builder builder = Uri.parse(base_url).buildUpon();
             builder.appendQueryParameter("q", artist);
             String backend_url = builder.build().toString();
-
             JsonObjectRequest json_obj_request = new JsonObjectRequest
                     (Request.Method.GET, backend_url, null, resp -> {
                         Gson gson = new Gson();
                         JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
+
+                        JsonArray desired_artist_spotify_info = shared.general_json_arr_navigator(gson_resp, "artists", "items");
+                        if (desired_artist_spotify_info != null && desired_artist_spotify_info.size() > 0) {
+                            JsonObject artist_obj = desired_artist_spotify_info.get(0).getAsJsonObject();
+                            String artist_name = shared.general_json_navigator(artist_obj, "name");
+
+                            Log.d("aaa", "test name: " + artist_name);
+                        }
+
                         Log.d("dd man", "results :" + gson_resp);
+
 
 
 
