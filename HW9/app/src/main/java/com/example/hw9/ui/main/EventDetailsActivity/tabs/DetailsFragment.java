@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.StringJoiner;
 
 public class DetailsFragment  extends Fragment {
@@ -129,6 +128,10 @@ public class DetailsFragment  extends Fragment {
             for (JsonElement artist : attractions) {
                 artist_or_team.add(general_json_navigator(artist.getAsJsonObject(), "name"));
             }
+            // Pass sequence of artist names to artists tab
+            Bundle artist_name_bundle = new Bundle();
+            artist_name_bundle.putStringArrayList("artist_names", (ArrayList<String>) artist_or_team);
+            getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
         }
 
         JsonArray venues_arr = general_json_arr_navigator(gson_resp, "_embedded", "venues");
