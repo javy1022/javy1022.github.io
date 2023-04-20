@@ -34,7 +34,7 @@ public class EventResultsAdapter extends RecyclerView.Adapter<EventResultsAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.event_recycle_view, parent, false);
+                .inflate(R.layout.event_search_recycle_view, parent, false);
         return new ViewHolder(view);
     }
 

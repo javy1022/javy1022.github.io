@@ -83,6 +83,10 @@ public class SearchFragment extends Fragment {
 
     private shared_general_purpose shared;
 
+    private EventResultsAdapter event_results_adapter;
+
+    private  RecyclerView event_search_recycleView;
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -127,6 +131,7 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // Create an instance of shared_general_purpose
         shared = new shared_general_purpose();
+        event_search_recycleView = view.findViewById(R.id.event_recycle_view);
         // Remove this after
         dev_inputs_placeholder(view);
         // init category dropdown spinner
@@ -494,7 +499,11 @@ public class SearchFragment extends Fragment {
                     sort_by_dateTime(list_for_table);
 
                     Log.d("table", list_for_table.toString());
-                    generate_event_results_recycleView(view);
+
+                    // event search recycle view
+                    event_results_adapter = new EventResultsAdapter(list_for_table);
+                    shared.generate_event_results_recycleView(getContext(),event_search_recycleView,event_results_adapter);
+
                     pr.setVisibility(View.GONE);
 
                 }, error -> {
@@ -502,17 +511,6 @@ public class SearchFragment extends Fragment {
                     Log.e("Error", "Volley Error Ticketmaster Event Result: " + error.getMessage());
                 });
         MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
-    }
-
-    private void generate_event_results_recycleView(View view){
-        // Init
-        RecyclerView event_search_recycleView = view.findViewById(R.id.event_recycle_view);
-        RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(getContext());
-        event_search_recycleView.setLayoutManager(event_search_recycleView_layoutManager);
-        //event_search_recycleView.addItemDecoration(new EventResultsDecorator(50));
-        // Populate recycle view
-        EventResultsAdapter event_search_adapter = new EventResultsAdapter(list_for_table);
-        event_search_recycleView.setAdapter(event_search_adapter);
     }
 
     private void buffer_arr_append(ArrayList<String> buffer_arr, String header, JsonObject resp_obj) {

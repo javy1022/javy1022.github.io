@@ -1,5 +1,10 @@
 package com.example.hw9;
 
+import android.content.Context;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,5 +37,13 @@ public class shared_general_purpose {
             return "";
         }
         return desired_data;
+    }
+
+    public <T extends RecyclerView.Adapter> void generate_event_results_recycleView(Context context, RecyclerView recycle_view , T recycle_view_adapter){
+        // Init
+        RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(context);
+        recycle_view.setLayoutManager(event_search_recycleView_layoutManager);
+        // Populate recycle view
+        recycle_view.setAdapter(recycle_view_adapter);
     }
 }
