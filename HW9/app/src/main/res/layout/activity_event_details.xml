@@ -49,7 +49,15 @@
                 android:src="@drawable/facebook"
                 android:scaleType="fitCenter" />
 
-
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/twitter"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:contentDescription="Twitter Share Icon"
+                android:scaleType="fitCenter"
+                android:src="@drawable/twitter"
+                app:shapeAppearanceOverlay="@style/twitter_circle_background" />
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout

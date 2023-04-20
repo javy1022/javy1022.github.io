@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -22,6 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 public class DetailsFragment  extends Fragment {
@@ -151,21 +152,8 @@ public class DetailsFragment  extends Fragment {
         Log.d("yyy", "ticket_url  : " + ticket_url);
         Log.d("yyy", "seatmap_url  : " + seatmap_url);
 
-
+        set_share_icons(ticket_url,event_title);
         set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status, ticket_url,seatmap_url);
-
-        if(!ticket_url.isEmpty()) {
-            ImageButton fb_icon = getActivity().findViewById(R.id.facebook);
-            fb_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String facebookUrl = String.format("https://www.facebook.com/sharer/sharer.php?u=%s&src=sdkpreparse", ticket_url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(facebookUrl));
-                    startActivity(intent);
-                }
-            });
-        }
     }
 
     private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre, String price_range, String status, String ticket_url, String seatmap_url){
@@ -352,6 +340,28 @@ public class DetailsFragment  extends Fragment {
         } catch (ParseException ignored) {
         }
         return time;
+    }
+
+    private void set_share_icons(String ticket_url, String event_title){
+        if(!ticket_url.isEmpty()) {
+            ImageButton fb_icon = requireActivity().findViewById(R.id.facebook);
+            ShapeableImageView twitter_icon = requireActivity().findViewById(R.id.twitter);
+
+            fb_icon.setOnClickListener(v -> {
+                String fb_share_url = String.format("https://www.facebook.com/sharer/sharer.php?u=%s&src=sdkpreparse", ticket_url);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(fb_share_url));
+                startActivity(intent);
+            });
+
+            twitter_icon.setOnClickListener(v -> {
+                String twitter_share_url = String.format("https://twitter.com/intent/tweet?text=%s&url=%s",
+                        Uri.encode("Check out " + event_title + " on TicketMaster!"), Uri.encode(ticket_url));
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(twitter_share_url));
+                startActivity(intent);
+            });
+        }
     }
 
     private void set_textView(TextView tv, String tv_data) {
