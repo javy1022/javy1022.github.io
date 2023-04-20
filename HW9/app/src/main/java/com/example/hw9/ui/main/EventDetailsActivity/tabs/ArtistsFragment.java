@@ -20,7 +20,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ArtistsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -88,18 +90,36 @@ public class ArtistsFragment extends Fragment {
             JsonObjectRequest json_obj_request = new JsonObjectRequest
                     (Request.Method.GET, backend_url, null, resp -> {
                         Gson gson = new Gson();
-                        JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
+                        final JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
 
-                        JsonArray desired_artist_spotify_info = shared.general_json_arr_navigator(gson_resp, "artists", "items");
+                       final JsonArray desired_artist_spotify_info = shared.general_json_arr_navigator(gson_resp, "artists", "items");
                         if (desired_artist_spotify_info != null && desired_artist_spotify_info.size() > 0) {
                             JsonObject artist_obj = desired_artist_spotify_info.get(0).getAsJsonObject();
-
+                            // name
                             String artist_name = shared.general_json_navigator(artist_obj, "name");
-                            // get artist image with appropriate size
+
+                            // artist image with appropriate size
                             JsonObject artist_img_obj = shared.general_json_arr_navigator(artist_obj, "images").get(2).getAsJsonObject();
                             String artist_img =  shared.general_json_navigator(artist_img_obj, "url");
 
-                            Log.d("aaa", "test name: " + artist_img );
+                            // popularity
+                            String artist_popularity = shared.general_json_navigator(artist_obj, "popularity");
+
+                            // formatted number of followers
+                            String artist_followers_str = shared.general_json_navigator(artist_obj, "followers", "total");
+                            int artist_followers_num = Integer.parseInt(artist_followers_str);
+                            NumberFormat desired_format = NumberFormat.getNumberInstance(Locale.US);
+                            String artist_followers_formatted = desired_format.format(artist_followers_num);
+
+                            // spotify link
+                            String artist_spotify_link = shared.general_json_navigator(artist_obj, "external_urls", "spotify");
+
+                            // spotify id
+                            String artist_id = shared.general_json_navigator(artist_obj, "id");
+
+
+
+                            Log.d("spotify debug", "test name: " +   artist_followers_formatted);
                         }
 
                         Log.d("dd man", "results :" + gson_resp);
