@@ -35,7 +35,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.example.hw9.shared_general_purpose;
-import com.example.hw9.ui.main.MainActivity.EventResultsDecorator;
+import com.example.hw9.RecycleViewDecorator;
 import com.example.hw9.ui.main.MainActivity.adapters.AutoCompleteArrayAdapter;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
 import com.google.android.material.snackbar.Snackbar;
@@ -148,7 +148,7 @@ public class SearchFragment extends Fragment {
         // autocomplete suggestions http request
         get_autoComplete_suggestions(view);
         // margin between each item in event result recycleView
-        event_search_recycleView.addItemDecoration(new EventResultsDecorator(50));
+        event_search_recycleView.addItemDecoration(new RecycleViewDecorator(50));
     }
 
     // Remove this function after
