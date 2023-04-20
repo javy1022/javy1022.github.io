@@ -1,5 +1,6 @@
 package com.example.hw9.ui.main.EventDetailsActivity.tabs;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.hw9.MySingleton;
 import com.example.hw9.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
@@ -67,8 +73,26 @@ public class ArtistsFragment extends Fragment {
     }
 
     private void get_artists_spotify_request(ArrayList<String> artist_names){
-        Log.d("spotify test", "spotify test: " + artist_names);
+        for (String artist : artist_names) {
+            String base_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/artists";
+            Uri.Builder builder = Uri.parse(base_url).buildUpon();
+            builder.appendQueryParameter("q", artist);
+            String backend_url = builder.build().toString();
 
+            JsonObjectRequest json_obj_request = new JsonObjectRequest
+                    (Request.Method.GET, backend_url, null, resp -> {
+                        Gson gson = new Gson();
+                        JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
+                        Log.d("dd man", "results :" + gson_resp);
+
+
+
+                    }, error -> {
+                        // Handle the error
+                        Log.e("Error", "Volley Error Spotify Artist Search: " + error.getMessage());
+                    });
+            MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
+        }
     }
 
 }
