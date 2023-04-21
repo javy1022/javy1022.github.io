@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -102,6 +103,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             venue = itemView.findViewById(R.id.event_venue);
             // Fill/Empty heart icon
             heart_icon = itemView.findViewById(R.id.heart_icon);
+
 
         }
     }

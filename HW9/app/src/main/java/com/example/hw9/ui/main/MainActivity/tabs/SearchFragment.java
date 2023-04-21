@@ -73,7 +73,6 @@ public class SearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
     private String cached_googleMap_api_key;
     // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
@@ -85,6 +84,8 @@ public class SearchFragment extends Fragment {
     private EventResultsRecycleViewAdapter event_results_adapter;
 
     private  RecyclerView event_search_recycleView;
+
+    private ProgressBar event_search_pb;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -131,6 +132,7 @@ public class SearchFragment extends Fragment {
         // init class variables
         shared = new SharedGeneralPurposeMethods();
         event_search_recycleView = view.findViewById(R.id.event_recycle_view);
+        event_search_pb = view.findViewById(R.id.event_search_progress_bar);
         // Remove this after
         dev_inputs_placeholder(view);
         // init category dropdown spinner
@@ -268,20 +270,18 @@ public class SearchFragment extends Fragment {
                 snackBar.show();
             }else{
                 final CardView search_from = view.findViewById(R.id.search_form);
-                final ProgressBar progressBar = view.findViewById(R.id.event_search_progress_bar);
                 final ImageButton black_back_btn = view.findViewById(R.id.black_back_btn);
                 final TextView black_back_btn_prompt = view.findViewById(R.id.black_back_btn_prompt);
                 final RecyclerView event_results_recycleView = view.findViewById(R.id.event_recycle_view);
 
+                // UI logic
+                search_from.setVisibility(View.GONE);
+                event_search_pb.setVisibility(View.VISIBLE);
+                black_back_btn.setVisibility(View.VISIBLE);
+                black_back_btn_prompt.setVisibility(View.VISIBLE);
+                event_results_recycleView.setVisibility(View.VISIBLE);
+
                 if(!isSwitchOn) {
-                    // UI logic
-                    search_from.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.VISIBLE);
-                    black_back_btn.setVisibility(View.VISIBLE);
-                    black_back_btn_prompt.setVisibility(View.VISIBLE);
-                    event_results_recycleView.setVisibility(View.VISIBLE);
-
-
                     String preprocessed_location = preprocess_google_geoLoc_address(location);
                     String api_key = get_googleMap_api_key();
                     String base_url = "https://maps.googleapis.com/maps/api/geocode/json";
@@ -309,18 +309,19 @@ public class SearchFragment extends Fragment {
                                             if (location_obj != null) {
                                                 lat = location_obj.get("lat").getAsString().trim();
                                                 lng = location_obj.get("lng").getAsString().trim();
-                                                get_event_results(lat, lng, keyword, distance, category,progressBar, view);
+                                                get_event_results(lat, lng, keyword, distance, category, view);
                                             }
                                         }
                                     }
+
                                 }else {
                                     Log.d("GeoLoc status", "not result");
-                                    progressBar.setVisibility(View.GONE);
+                                    event_search_pb.setVisibility(View.GONE);
                                 }
 
                             }, error -> {
                                 // Handle the error
-                                progressBar.setVisibility(View.GONE);
+                                event_search_pb.setVisibility(View.GONE);
                                 Log.e("Error", "Volley Error: " + error.getMessage());
                             });
                     MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
@@ -335,7 +336,7 @@ public class SearchFragment extends Fragment {
     /* Volley http requests */
     private void get_autoComplete_suggestions(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
-        final ProgressBar progressBar = view.findViewById(R.id.ac_progressBar);
+        final ProgressBar auto_complete_pb = view.findViewById(R.id.ac_progressBar);
 
 
         keyword_input.addTextChangedListener(new TextWatcher() {
@@ -347,7 +348,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // do something during the text change
-                progressBar.setVisibility(View.VISIBLE);
+                auto_complete_pb.setVisibility(View.VISIBLE);
                 String text = s.toString().trim();
                 // call your method here, passing the updated text as a parameter
                 if(!text.trim().isEmpty()) {
@@ -366,7 +367,7 @@ public class SearchFragment extends Fragment {
                                     autoCompleteAdapter.clear();
                                     autoCompleteAdapter.addAll(ac_suggestions);
                                     autoCompleteAdapter.notifyDataSetChanged();
-                                    progressBar.setVisibility(View.GONE);
+                                    auto_complete_pb.setVisibility(View.GONE);
                                     Log.e("Exception", "autocomplete suggestion is null");
                                     return;
                                 }
@@ -389,7 +390,7 @@ public class SearchFragment extends Fragment {
                                 autoCompleteAdapter.clear();
                                 autoCompleteAdapter.addAll(ac_suggestions);
                                 autoCompleteAdapter.notifyDataSetChanged();
-                                progressBar.setVisibility(View.GONE);
+                                auto_complete_pb.setVisibility(View.GONE);
                                 // Handle the attractions names list
                                 Log.d("debug", "Attractions names: " + ac_suggestions);
 
@@ -404,7 +405,7 @@ public class SearchFragment extends Fragment {
                     autoCompleteAdapter.clear();
                     autoCompleteAdapter.addAll(ac_suggestions);
                     autoCompleteAdapter.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
+                    auto_complete_pb.setVisibility(View.GONE);
                 }
             }
 
@@ -416,7 +417,7 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void get_event_results(String lat, String lng, String keyword, String distance, String category, ProgressBar pr, View view){
+    private void get_event_results(String lat, String lng, String keyword, String distance, String category, View view){
         String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/event-search";
         Uri.Builder builder = Uri.parse(backend_url).buildUpon();
         builder.appendQueryParameter("lat", lat);
@@ -437,7 +438,7 @@ public class SearchFragment extends Fragment {
                         events = gson_resp.getAsJsonObject("_embedded").getAsJsonArray("events");
                     } catch (NullPointerException e) {
                         Log.e("Exception", "Exception: No Search Results Available");
-                        pr.setVisibility(View.GONE);
+                        event_search_pb.setVisibility(View.GONE);
                         return;
                     }
 
@@ -495,7 +496,8 @@ public class SearchFragment extends Fragment {
                     event_results_adapter = new EventResultsRecycleViewAdapter(list_for_table);
                     shared.generate_linearLayout_recycleView(getContext(),event_search_recycleView,event_results_adapter);
 
-                    pr.setVisibility(View.GONE);
+                    // UI ready
+                    event_search_pb.setVisibility(View.GONE);
 
                 }, error -> {
                     // Handle the error

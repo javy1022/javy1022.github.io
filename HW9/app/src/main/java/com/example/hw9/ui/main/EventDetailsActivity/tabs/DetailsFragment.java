@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -43,6 +45,8 @@ public class DetailsFragment  extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private String event_id;
+
+    private ProgressBar event_details_pr;
 
     private SharedGeneralPurposeMethods shared;
 
@@ -88,6 +92,11 @@ public class DetailsFragment  extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Ui rendering
+        event_details_pr = view.findViewById(R.id.event_details_progress_bar);
+        event_details_pr.setVisibility(View.VISIBLE);
+
         Bundle args = getArguments();
         ArrayList<String> event_data = args != null ? args.getStringArrayList("event_data") : null;
 
@@ -108,8 +117,13 @@ public class DetailsFragment  extends Fragment {
 
                     extract_event_details(view, gson_resp);
 
+                    // UI ready
+                    event_details_pr.setVisibility(View.GONE);
+                    CardView event_details_card = view.findViewById(R.id.details_card);
+                    event_details_card.setVisibility(View.VISIBLE);
+
                 }, error -> {
-                    // Handle the error
+                    event_details_pr.setVisibility(View.GONE);
                     Log.e("Error", "Volley Error Ticketmaster Event Details: " + error.getMessage());
                 });
         MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
@@ -222,6 +236,7 @@ public class DetailsFragment  extends Fragment {
         }else{
             seatmap_img.setVisibility(View.GONE );
         }
+
     }
 
     private String genre_json_navigator(JsonObject json_obj) {
