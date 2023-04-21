@@ -173,11 +173,11 @@ public class ArtistsFragment extends Fragment {
         String artist_followers_formatted;
         DecimalFormat decimalFormat;
         if (artist_followers_num >= 1000000) {
-            decimalFormat = new DecimalFormat("0.00M");
-            artist_followers_formatted = decimalFormat.format(artist_followers_num / 1000000.00);
+            decimalFormat = new DecimalFormat("0.0M");
+            artist_followers_formatted = decimalFormat.format(artist_followers_num / 1000000.0);
         } else if (artist_followers_num >= 1000) {
-            decimalFormat = new DecimalFormat("0.00K");
-            artist_followers_formatted = decimalFormat.format(artist_followers_num / 1000.00);
+            decimalFormat = new DecimalFormat("0.0K");
+            artist_followers_formatted = decimalFormat.format(artist_followers_num / 1000.0);
         } else {
             artist_followers_formatted = Integer.toString(artist_followers_num);
         }

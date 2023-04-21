@@ -1,5 +1,8 @@
 package com.example.hw9.ui.main.EventDetailsActivity.adapter;
 
+import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +51,15 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         String followers = artist_spotify_info.get(3);
         holder.followers.setText(followers);
 
+        // artist spotify link
+        String spotify_link_url = artist_spotify_info.get(4);
+        holder.spotify_link.setPaintFlags( Paint.UNDERLINE_TEXT_FLAG);
+        holder.spotify_link.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(spotify_link_url));
+            v.getContext().startActivity(browserIntent);
+        });
+
+
     }
 
     @Override
@@ -60,14 +72,23 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         private final ImageView img;
         private final TextView followers;
 
+        private final TextView spotify_link;
+
+
+
         public ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.artist_name);
             img = itemView.findViewById(R.id.artist_spotify_img);
             followers = itemView.findViewById(R.id.artist_followers);
+            spotify_link = itemView.findViewById(R.id.artist_spotify_link);
+
+
+
+
 
             // Enable selected to make marquee effect works on TextViews
-            SharedGeneralPurposeMethods.textViews_enable_selected(name,followers);
+            SharedGeneralPurposeMethods.textViews_enable_selected(name,followers,spotify_link);
         }
     }
 
