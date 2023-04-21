@@ -149,15 +149,17 @@ public class ArtistsFragment extends Fragment {
                             String artist_spotify_link = shared.general_json_navigator(artist_obj, "external_urls", "spotify");
                             artist_data.add(artist_spotify_link);
 
-                            // spotify id
+                            // spotify id and use it to get artist albums
                             String artist_id = shared.general_json_navigator(artist_obj, "id");
+                            get_artist_spotify_album(artist_id).thenAccept(artist_albums -> {
+                                // Do something with artist_albums.
+                                // Example: artist_data.add(artist_albums);
 
-                            // add artist data to matrix
-                            artist_spotify_matrix.add(artist_data);
-
-
+                                artist_spotify_matrix.add(artist_data);
+                                future.complete(null);
+                            });
                         }
-                        future.complete(null);
+
                     }, error -> {
                         // Handle the error
                         future.complete(null);
@@ -168,6 +170,27 @@ public class ArtistsFragment extends Fragment {
             MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
         }
         return futures;
+    }
+
+    private CompletableFuture<ArrayList<String>> get_artist_spotify_album(String artist_id) {
+        CompletableFuture<ArrayList<String>> future = new CompletableFuture<>();
+        ArrayList<String> artist_albums = new ArrayList<>();
+        String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/artists-id/" + artist_id;
+        JsonObjectRequest json_obj_request = new JsonObjectRequest
+                (Request.Method.GET, backend_url, null, resp -> {
+                    Gson gson = new Gson();
+                    JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
+
+                   Log.d("spotify debug", "ALBUM IS HERE: " + gson_resp);
+
+                    future.complete(artist_albums);
+                }, error -> {
+                    Log.e("Error", "Volley Error Spotify Album Search: " + error.getMessage());
+                    future.complete(artist_albums);
+                });
+
+        MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
+        return future;
     }
 
     private String custom_str_formatter(String artist_followers_str){
