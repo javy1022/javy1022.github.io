@@ -426,8 +426,6 @@ public class SearchFragment extends Fragment {
         builder.appendQueryParameter("category", category);
         String url = builder.build().toString();
 
-        Log.d("url", url );
-
         JsonObjectRequest json_obj_request = new JsonObjectRequest
                 (Request.Method.GET, url, null, resp -> {
                     Gson gson = new Gson();

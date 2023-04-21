@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="370dp"
+        android:layout_width="380dp"
         android:layout_height="140dp"
         android:id="@+id/artist_spotify_card"
         app:cardBackgroundColor="@color/gray_form"
@@ -44,7 +44,6 @@
                 android:singleLine="true"
                 android:textColor="@color/gray_details"
                 android:textSize="24sp"
-                android:background="@color/purple_700"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/popularity_subtitle"
                 app:layout_constraintStart_toEndOf="@+id/artist_spotify_img"
@@ -57,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_details"
                 android:text="Popularity"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.96"
@@ -74,7 +73,6 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="@color/gray_details"
-                android:background="@color/purple_700"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/popularity_subtitle"
@@ -83,20 +81,19 @@
 
             <TextView
                 android:id="@+id/artist_spotify_link"
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
+                android:text="Check out on Spotify"
                 android:textColor="@color/green"
                 android:textSize="16sp"
-                android:text="Check out on Spotify"
-                android:onClick="onHyperlinkClick"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.09"
-                app:layout_constraintStart_toEndOf="@+id/artist_spotify_img"
+                app:layout_constraintEnd_toEndOf="@+id/artist_followers"
+                app:layout_constraintHorizontal_bias="0.12"
+                app:layout_constraintStart_toStartOf="@+id/artist_followers"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.9" />
 
@@ -104,17 +101,15 @@
                 android:id="@+id/popularity_pb"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:indicatorColor="@color/orange_clear_btn"
-                app:indicatorSize="50dp"
+                app:indicatorColor="@color/red"
+                app:indicatorSize="80dp"
+                app:trackColor="@color/pb_track_black"
+                app:trackThickness="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/popularity_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/popularity_subtitle"
                 app:layout_constraintTop_toBottomOf="@id/popularity_subtitle"
-                app:trackColor="@color/purple_700"
-                app:trackCornerRadius="4dp"
-                app:trackThickness="8dp" />
-
-
+                />
 
             <TextView
                 android:id="@+id/popularity_percentage_str"

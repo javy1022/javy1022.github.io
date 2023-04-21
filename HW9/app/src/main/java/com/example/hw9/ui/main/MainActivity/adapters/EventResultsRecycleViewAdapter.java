@@ -67,6 +67,12 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         CardView event_result_card = holder.itemView.findViewById(R.id.event_result_card);
         event_result_card_onClick(event_result_card, event_search_result);
 
+        // favorite icon
+        heart_icon_onClick(holder.heart_icon);
+
+        // Enable selected to make marquee effect works on TextViews
+        SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.venue, holder.category);
+
     }
 
     @Override
@@ -84,6 +90,8 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         private final TextView category;
         private final TextView venue;
 
+        private final ImageView  heart_icon;
+
         public ViewHolder(View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.event_date);
@@ -92,13 +100,9 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             name = itemView.findViewById(R.id.event_name);
             category = itemView.findViewById(R.id.event_category);
             venue = itemView.findViewById(R.id.event_venue);
-
             // Fill/Empty heart icon
-            ImageView heart_icon = itemView.findViewById(R.id.heart_icon);
-            heart_icon_onClick(heart_icon);
+            heart_icon = itemView.findViewById(R.id.heart_icon);
 
-            // Enable selected to make marquee effect works on TextViews
-            SharedGeneralPurposeMethods.textViews_enable_selected(name, venue, category);
         }
     }
 

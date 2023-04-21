@@ -84,7 +84,7 @@ public class ArtistsFragment extends Fragment {
         get_and_utilize_artist_names();
 
         // margin between each item in event result recycleView
-       artist_spotify_recycleView.addItemDecoration(new RecycleViewDecorator(200));
+       artist_spotify_recycleView.addItemDecoration(new RecycleViewDecorator(30));
 
     }
 

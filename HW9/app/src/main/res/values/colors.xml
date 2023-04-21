@@ -16,7 +16,9 @@
     <color name="gray_details">#B9B9B9</color>
     <color name="orange_clear_btn">#EC742E</color>
     <color name="status_postpone">#FFC107</color>
-    <color name="status_offsale">#D33242</color>
+    <color name="red">#D33242</color>
+    <color name="pb_track_black">#060606</color>
+
 
 
 

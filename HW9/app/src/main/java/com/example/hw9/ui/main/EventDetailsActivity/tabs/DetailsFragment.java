@@ -201,7 +201,7 @@ public class DetailsFragment  extends Fragment {
                     status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.status_postpone));
                     break;
                 case "Off Sale":
-                    status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.status_offsale));
+                    status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.red));
                     break;
                 case "Canceled":
                     status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.black));
