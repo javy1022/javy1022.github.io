@@ -21,8 +21,10 @@ import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.ui.main.EventDetailsActivity.adapter.ArtistSpotifyRecycleViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -149,13 +151,17 @@ public class ArtistsFragment extends Fragment {
                             String artist_spotify_link = shared.general_json_navigator(artist_obj, "external_urls", "spotify");
                             artist_data.add(artist_spotify_link);
 
+
+
+
                             // spotify id and use it to get artist albums
                             String artist_id = shared.general_json_navigator(artist_obj, "id");
                             get_artist_spotify_album(artist_id).thenAccept(artist_albums -> {
                                 // Do something with artist_albums.
                                 // Example: artist_data.add(artist_albums);
-
+                                artist_data.add(artist_albums);
                                 artist_spotify_matrix.add(artist_data);
+                                Log.d("spotify debug", "ALBUM IS HERE MUHAHAHA: " +  artist_spotify_matrix);
                                 future.complete(null);
                             });
                         }
@@ -181,12 +187,21 @@ public class ArtistsFragment extends Fragment {
                     Gson gson = new Gson();
                     JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
 
-                   Log.d("spotify debug", "ALBUM IS HERE: " + gson_resp);
+                    JsonArray albums_arr = shared.general_json_arr_navigator(gson_resp , "items");
+                    for (JsonElement album_element : albums_arr) {
+                        JsonObject album_obj = album_element.getAsJsonObject();
+                        JsonArray album_img_arr = shared.general_json_arr_navigator(album_obj , "images");
 
+                        if (album_img_arr != null && album_img_arr.size() > 0) {
+                            JsonObject desired_img_obj = album_img_arr.get(0).getAsJsonObject();
+                            String desired_img_url = shared.general_json_navigator(desired_img_obj, "url");
+                            artist_albums.add(desired_img_url);
+                        }
+                    }
                     future.complete(artist_albums);
                 }, error -> {
                     Log.e("Error", "Volley Error Spotify Album Search: " + error.getMessage());
-                    future.complete(artist_albums);
+                    future.complete(null);
                 });
 
         MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
