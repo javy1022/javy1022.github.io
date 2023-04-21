@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -44,6 +45,8 @@ public class ArtistsFragment extends Fragment {
 
     private RecyclerView artist_spotify_recycleView;
 
+    private ProgressBar artist_cards_pb;
+
     public ArtistsFragment () {
         // Required empty public constructor
     }
@@ -80,7 +83,9 @@ public class ArtistsFragment extends Fragment {
         // Create an instance of shared_general_purpose
         shared = new SharedGeneralPurposeMethods();
         artist_spotify_recycleView = view.findViewById(R.id.artists_spotify_recycle_view);
+        artist_cards_pb = view.findViewById(R.id.artist_cards_progress_bar);
 
+        artist_cards_pb.setVisibility(View.VISIBLE);
 
         // async getter for sequence of artist names passed from detail fragment
         get_and_utilize_artist_names();
@@ -105,6 +110,7 @@ public class ArtistsFragment extends Fragment {
                                 Log.d("spotify debug", "test name: " + artist_spotify_matrix);
                                 artist_spotify_adapter = new ArtistSpotifyRecycleViewAdapter(artist_spotify_matrix);
                                 shared.generate_linearLayout_recycleView(getContext(), artist_spotify_recycleView, artist_spotify_adapter);
+                                artist_cards_pb.setVisibility(View.GONE);
                             });
                         }
                     });
@@ -162,6 +168,7 @@ public class ArtistsFragment extends Fragment {
 
                     }, error -> {
                         future.complete(null);
+                        artist_cards_pb.setVisibility(View.GONE);
                         Log.e("Error", "Volley Error Spotify Artist Search: " + error.getMessage());
                     });
             futures.add(future);
@@ -193,6 +200,7 @@ public class ArtistsFragment extends Fragment {
                     future.complete(artist_albums);
                 }, error -> {
                     Log.e("Error", "Volley Error Spotify Album Search: " + error.getMessage());
+                    artist_cards_pb.setVisibility(View.GONE);
                     future.complete(null);
                 });
 
