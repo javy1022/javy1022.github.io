@@ -17,6 +17,7 @@ import com.example.hw9.SharedGeneralPurposeMethods;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<ArtistSpotifyRecycleViewAdapter.ViewHolder> {
 
@@ -66,25 +67,15 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         holder.popularity_pr.setProgressCompat(Integer.parseInt(popularity_percentage_str), true);
 
         // artist spotify album image 1
-        String album_img_1_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(0);
-        if(!album_img_1_url.isEmpty() || album_img_1_url != null) {
-            holder.album_img_1.setVisibility(View.VISIBLE);
-            shared.set_recycleViews_imgView(holder, album_img_1_url, holder.album_img_1);
-        }
+        Object artist_album_obj = artist_spotify_info.get(5);
+        set_album_img(artist_album_obj, 0, holder, holder.album_img_1);
 
         // artist spotify album image 2
-        String album_img_2_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(1);
-        if(!album_img_2_url.isEmpty() || album_img_2_url  != null) {
-            holder.album_img_2.setVisibility(View.VISIBLE);
-            shared.set_recycleViews_imgView(holder,album_img_2_url,holder.album_img_2);
-        }
+        set_album_img(artist_album_obj, 1, holder, holder.album_img_2);
 
         // artist spotify album image 3
-        String album_img_3_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(2);
-        if(!album_img_3_url.isEmpty() || album_img_3_url  != null) {
-            holder.album_img_3.setVisibility(View.VISIBLE);
-            shared.set_recycleViews_imgView(holder, album_img_3_url, holder.album_img_3);
-        }
+        set_album_img(artist_album_obj, 2, holder, holder.album_img_3);
+
 
         // Enable selected to make marquee effect works on TextViews
         SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.followers, holder.spotify_link);
@@ -123,6 +114,21 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
             album_img_1 = itemView.findViewById(R.id.album_img_1);
             album_img_2 = itemView.findViewById(R.id.album_img_2);
             album_img_3 = itemView.findViewById(R.id.album_img_3);
+        }
+    }
+
+    private void set_album_img(Object artist_album_obj, int index, ViewHolder holder, ImageView artist_album_imgView) {
+        if (artist_album_obj instanceof List) {
+            List<?> list = (List<?>) artist_album_obj;
+            if (list.size() > index && list.get(index) instanceof String) {
+                String imageUrl = (String) list.get(index);
+                artist_album_imgView.setVisibility(View.VISIBLE);
+                shared.set_recycleViews_imgView(holder, imageUrl, artist_album_imgView);
+            } else {
+                artist_album_imgView.setVisibility(View.GONE);
+            }
+        } else {
+            artist_album_imgView.setVisibility(View.GONE);
         }
     }
 

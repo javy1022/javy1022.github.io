@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,8 +21,6 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
 
     private final ArrayList<ArrayList<String>> event_search_results;
 
-    private SharedGeneralPurposeMethods shared;
-
     public EventResultsRecycleViewAdapter(ArrayList<ArrayList<String>> event_search_results) {
         this.event_search_results = event_search_results;
     }
@@ -39,7 +36,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArrayList<String> event_search_result = event_search_results.get(position);
-        shared = new SharedGeneralPurposeMethods();
+        SharedGeneralPurposeMethods shared = new SharedGeneralPurposeMethods();
 
         // date
         String date = event_search_result.get(0);

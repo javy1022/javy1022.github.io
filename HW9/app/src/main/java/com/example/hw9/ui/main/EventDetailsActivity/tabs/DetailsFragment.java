@@ -1,6 +1,7 @@
 package com.example.hw9.ui.main.EventDetailsActivity.tabs;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -142,14 +143,14 @@ public class DetailsFragment  extends Fragment {
         String seatmap_url = shared.general_json_navigator(gson_resp, "seatmap", "staticUrl");
 
         JsonArray attractions = shared.general_json_arr_navigator(gson_resp, "_embedded", "attractions");
-        List<String> artist_or_team = new ArrayList<>();
+        ArrayList<String> artist_or_team = new ArrayList<>();
         if (attractions != null) {
             for (JsonElement artist : attractions) {
                 artist_or_team.add(shared.general_json_navigator(artist.getAsJsonObject(), "name"));
             }
             // Pass sequence of artist names to artists tab
             Bundle artist_name_bundle = new Bundle();
-            artist_name_bundle.putStringArrayList("artist_names", (ArrayList<String>) artist_or_team);
+            artist_name_bundle.putStringArrayList("artist_names", artist_or_team);
             getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
         }
 
@@ -221,11 +222,21 @@ public class DetailsFragment  extends Fragment {
                     status_tv_background.setColor(ContextCompat.getColor(requireContext(), R.color.black));
                     break;
             }
-            status_tv .setSelected(true);
+            status_tv.setSelected(true);
         } else {
             status_tv.setText("N/A");
         }
-        set_textView(ticket_url_tv ,ticket_url);
+        if (!ticket_url.isEmpty()) {
+            set_textView(ticket_url_tv, ticket_url);
+            ticket_url_tv.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+            ticket_url_tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+            ticket_url_tv.setOnClickListener(v -> {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ticket_url));
+                v.getContext().startActivity(browserIntent);
+            });
+        } else {
+            ticket_url_tv.setVisibility(View.GONE);
+        }
 
         if(!seatmap_url.isEmpty()){
             seatmap_img.setVisibility(View.VISIBLE);

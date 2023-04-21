@@ -47,13 +47,14 @@ public class SharedGeneralPurposeMethods {
         return desired_data;
     }
 
-    public <T extends RecyclerView.Adapter> void generate_linearLayout_recycleView(Context context, RecyclerView recycle_view , T recycle_view_adapter){
+    public <T extends RecyclerView.Adapter<?>> void generate_linearLayout_recycleView(Context context, RecyclerView recycle_view, T recycle_view_adapter) {
         // Init
         RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(context);
         recycle_view.setLayoutManager(event_search_recycleView_layoutManager);
         // Populate recycle view
         recycle_view.setAdapter(recycle_view_adapter);
     }
+
 
     public <T extends RecyclerView.ViewHolder> void set_recycleViews_imgView(T holder, String img_url, ImageView img){
         MultiTransformation<Bitmap> transformations = new MultiTransformation<>(

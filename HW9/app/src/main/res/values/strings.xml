@@ -23,5 +23,23 @@
     <string name="title_activity_event_details">EventDetailsActivity</string>
     <string name="favorite_icon_description">Favorite Icon</string>
     <string name="artist_teams_subtitle">Artist/Teams</string>
+    <string name="green_back_button">Green back button</string>
+    <string name="facebook_share_icon">Facebook Share Icon</string>
+    <string name="twitter_share_icon">Twitter Share Icon</string>
+    <string name="artist_spotify_image">Artist Spotify Image</string>
+    <string name="popularity">Popularity</string>
+    <string name="check_out_on_spotify">Check out on Spotify</string>
+    <string name="popular_albums">Popular Albums</string>
+    <string name="album_image_1">Album Image 1</string>
+    <string name="album_image_2">Album Image 2</string>
+    <string name="album_image_3">Album Image 3</string>
+    <string name="venue">Venue</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="genres">Genres</string>
+    <string name="price_range">Price Range</string>
+    <string name="ticket_status">Ticket Status</string>
+    <string name="buy_tickets_at">Buy Tickets At</string>
+    <string name="seat_map_image">Seat Map Image</string>
 
 </resources>
