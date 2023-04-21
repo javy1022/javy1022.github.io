@@ -20,11 +20,11 @@ import java.util.ArrayList;
 
 public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<ArtistSpotifyRecycleViewAdapter.ViewHolder> {
 
-    private final ArrayList<ArrayList<String>> artists_spotify_matrix;
+    private final ArrayList<ArrayList<Object>> artists_spotify_matrix;
 
     private SharedGeneralPurposeMethods shared;
 
-    public ArtistSpotifyRecycleViewAdapter(ArrayList<ArrayList<String>> artists_spotify_matrix) {
+    public ArtistSpotifyRecycleViewAdapter(ArrayList<ArrayList<Object>> artists_spotify_matrix) {
         this.artists_spotify_matrix = artists_spotify_matrix;
     }
 
@@ -38,22 +38,22 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
 
     @Override
     public void onBindViewHolder(ArtistSpotifyRecycleViewAdapter.ViewHolder holder, int position) {
-        ArrayList<String> artist_spotify_info = artists_spotify_matrix.get(position);
+        ArrayList<Object> artist_spotify_info = artists_spotify_matrix.get(position);
         shared = new SharedGeneralPurposeMethods();
         // name
-        String name = artist_spotify_info.get(0);
+        String name = (String) artist_spotify_info.get(0);
         holder.name.setText(name);
 
         // artist spotify image
-        String img_url = artist_spotify_info.get(1);
+        String img_url = (String) artist_spotify_info.get(1);
         shared.set_recycleViews_imgView(holder,img_url,holder.img);
 
         // artist followers
-        String followers = artist_spotify_info.get(3);
+        String followers = (String) artist_spotify_info.get(3);
         holder.followers.setText(followers);
 
         // artist spotify link
-        String spotify_link_url = artist_spotify_info.get(4);
+        String spotify_link_url = (String) artist_spotify_info.get(4);
         holder.spotify_link.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         holder.spotify_link.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(spotify_link_url));
@@ -61,7 +61,7 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         });
 
         // spotify popularity percentage text and indicator
-        String popularity_percentage_str = artist_spotify_info.get(2);
+        String popularity_percentage_str = (String) artist_spotify_info.get(2);
         holder.popularity_percentage_str.setText(popularity_percentage_str);
         holder.popularity_pr.setProgressCompat(Integer.parseInt(popularity_percentage_str), true);
 

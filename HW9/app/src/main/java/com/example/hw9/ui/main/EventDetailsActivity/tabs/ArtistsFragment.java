@@ -38,7 +38,7 @@ public class ArtistsFragment extends Fragment {
 
     private ArtistSpotifyRecycleViewAdapter   artist_spotify_adapter;
 
-    private final ArrayList<ArrayList<String>> artist_spotify_matrix = new ArrayList<>();
+    private final ArrayList<ArrayList<Object>> artist_spotify_matrix = new ArrayList<>();
 
     private RecyclerView artist_spotify_recycleView;
 
@@ -123,7 +123,7 @@ public class ArtistsFragment extends Fragment {
                     (Request.Method.GET, backend_url, null, resp -> {
                         Gson gson = new Gson();
                         JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
-                        ArrayList<String> artist_data = new ArrayList<>();
+                        ArrayList<Object> artist_data = new ArrayList<>();
 
                         JsonArray desired_artist_spotify_info = shared.general_json_arr_navigator(gson_resp, "artists", "items");
                         if (desired_artist_spotify_info != null && desired_artist_spotify_info.size() > 0) {
@@ -154,6 +154,8 @@ public class ArtistsFragment extends Fragment {
 
                             // add artist data to matrix
                             artist_spotify_matrix.add(artist_data);
+
+
                         }
                         future.complete(null);
                     }, error -> {
