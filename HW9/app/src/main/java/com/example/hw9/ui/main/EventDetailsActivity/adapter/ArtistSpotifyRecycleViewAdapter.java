@@ -67,18 +67,24 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
 
         // artist spotify album image 1
         String album_img_1_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(0);
-        shared.set_recycleViews_imgView(holder,album_img_1_url,holder.album_img_1);
+        if(!album_img_1_url.isEmpty() || album_img_1_url != null) {
+            holder.album_img_1.setVisibility(View.VISIBLE);
+            shared.set_recycleViews_imgView(holder, album_img_1_url, holder.album_img_1);
+        }
 
         // artist spotify album image 2
         String album_img_2_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(1);
-        shared.set_recycleViews_imgView(holder,album_img_2_url,holder.album_img_2);
+        if(!album_img_2_url.isEmpty() || album_img_2_url  != null) {
+            holder.album_img_2.setVisibility(View.VISIBLE);
+            shared.set_recycleViews_imgView(holder,album_img_2_url,holder.album_img_2);
+        }
 
         // artist spotify album image 3
         String album_img_3_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(2);
-        shared.set_recycleViews_imgView(holder,album_img_3_url,holder.album_img_3);
-
-
-
+        if(!album_img_3_url.isEmpty() || album_img_3_url  != null) {
+            holder.album_img_3.setVisibility(View.VISIBLE);
+            shared.set_recycleViews_imgView(holder, album_img_3_url, holder.album_img_3);
+        }
 
         // Enable selected to make marquee effect works on TextViews
         SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.followers, holder.spotify_link);
