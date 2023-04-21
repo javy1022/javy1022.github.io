@@ -209,7 +209,7 @@
 
                 <TextView
                     android:id="@+id/price_range"
-                    android:layout_width="175dp"
+                    android:layout_width="173dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/green"
                     android:textSize="18sp"

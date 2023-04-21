@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hw9.R;
 import com.example.hw9.SharedGeneralPurposeMethods;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.ArrayList;
 
@@ -59,6 +60,16 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
             v.getContext().startActivity(browserIntent);
         });
 
+        // spotify popularity percentage
+        String popularity_percentage_str = artist_spotify_info.get(2);
+        holder.popularity_percentage_str.setText(popularity_percentage_str);
+
+        // Set the progress here
+        holder.popularity_pr.setProgressCompat(Integer.parseInt(popularity_percentage_str), true);
+
+
+        // Enable selected to make marquee effect works on TextViews
+        SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.followers, holder.spotify_link);
 
     }
 
@@ -71,8 +82,9 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         private final TextView name;
         private final ImageView img;
         private final TextView followers;
-
         private final TextView spotify_link;
+        private final TextView popularity_percentage_str;
+        private CircularProgressIndicator popularity_pr;
 
 
 
@@ -82,13 +94,8 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
             img = itemView.findViewById(R.id.artist_spotify_img);
             followers = itemView.findViewById(R.id.artist_followers);
             spotify_link = itemView.findViewById(R.id.artist_spotify_link);
-
-
-
-
-
-            // Enable selected to make marquee effect works on TextViews
-            SharedGeneralPurposeMethods.textViews_enable_selected(name,followers,spotify_link);
+            popularity_percentage_str = itemView.findViewById(R.id.popularity_percentage_str);
+            popularity_pr = itemView.findViewById(R.id.popularity_pb);
         }
     }
 

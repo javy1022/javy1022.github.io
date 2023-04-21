@@ -92,7 +92,6 @@
                 android:textColor="@color/green"
                 android:textSize="16sp"
                 android:text="Check out on Spotify"
-
                 android:onClick="onHyperlinkClick"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +101,7 @@
                 app:layout_constraintVertical_bias="0.9" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progressBar"
+                android:id="@+id/popularity_pb"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:indicatorColor="@color/orange_clear_btn"
@@ -118,15 +117,15 @@
 
 
             <TextView
-                android:id="@+id/percentage_text"
+                android:id="@+id/popularity_percentage_str"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="50%"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@id/progressBar"
-                app:layout_constraintEnd_toEndOf="@id/progressBar"
-                app:layout_constraintStart_toStartOf="@id/progressBar"
-                app:layout_constraintTop_toTopOf="@id/progressBar" />
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/popularity_pb"
+                app:layout_constraintEnd_toEndOf="@id/popularity_pb"
+                app:layout_constraintStart_toStartOf="@id/popularity_pb"
+                app:layout_constraintTop_toTopOf="@id/popularity_pb" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
