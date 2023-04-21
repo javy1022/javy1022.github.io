@@ -65,6 +65,20 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         holder.popularity_percentage_str.setText(popularity_percentage_str);
         holder.popularity_pr.setProgressCompat(Integer.parseInt(popularity_percentage_str), true);
 
+        // artist spotify album image 1
+        String album_img_1_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(0);
+        shared.set_recycleViews_imgView(holder,album_img_1_url,holder.album_img_1);
+
+        // artist spotify album image 2
+        String album_img_2_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(1);
+        shared.set_recycleViews_imgView(holder,album_img_2_url,holder.album_img_2);
+
+        // artist spotify album image 3
+        String album_img_3_url = ((ArrayList<String>) artist_spotify_info.get(5)).get(2);
+        shared.set_recycleViews_imgView(holder,album_img_3_url,holder.album_img_3);
+
+
+
 
         // Enable selected to make marquee effect works on TextViews
         SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.followers, holder.spotify_link);
@@ -82,7 +96,13 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         private final TextView followers;
         private final TextView spotify_link;
         private final TextView popularity_percentage_str;
-        private CircularProgressIndicator popularity_pr;
+        private final  CircularProgressIndicator popularity_pr;
+
+        private final ImageView album_img_1;
+
+        private final ImageView album_img_2;
+        private final ImageView album_img_3;
+
 
 
 
@@ -94,6 +114,9 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
             spotify_link = itemView.findViewById(R.id.artist_spotify_link);
             popularity_percentage_str = itemView.findViewById(R.id.popularity_percentage_str);
             popularity_pr = itemView.findViewById(R.id.popularity_pb);
+            album_img_1 = itemView.findViewById(R.id.album_img_1);
+            album_img_2 = itemView.findViewById(R.id.album_img_2);
+            album_img_3 = itemView.findViewById(R.id.album_img_3);
         }
     }
 

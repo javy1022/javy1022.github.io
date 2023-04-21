@@ -151,26 +151,18 @@ public class ArtistsFragment extends Fragment {
                             String artist_spotify_link = shared.general_json_navigator(artist_obj, "external_urls", "spotify");
                             artist_data.add(artist_spotify_link);
 
-
-
-
-                            // spotify id and use it to get artist albums
+                           // nested async get request for artist spotify albums
                             String artist_id = shared.general_json_navigator(artist_obj, "id");
                             get_artist_spotify_album(artist_id).thenAccept(artist_albums -> {
-                                // Do something with artist_albums.
-                                // Example: artist_data.add(artist_albums);
                                 artist_data.add(artist_albums);
                                 artist_spotify_matrix.add(artist_data);
-                                Log.d("spotify debug", "ALBUM IS HERE MUHAHAHA: " +  artist_spotify_matrix);
                                 future.complete(null);
                             });
                         }
 
                     }, error -> {
-                        // Handle the error
                         future.complete(null);
                         Log.e("Error", "Volley Error Spotify Artist Search: " + error.getMessage());
-
                     });
             futures.add(future);
             MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);

@@ -58,10 +58,10 @@ public class SharedGeneralPurposeMethods {
     public <T extends RecyclerView.ViewHolder> void set_recycleViews_imgView(T holder, String img_url, ImageView img){
         MultiTransformation<Bitmap> transformations = new MultiTransformation<>(
                 new CenterCrop(),
-                new RoundedCorners(15)
-        );
+                new RoundedCorners(45)
+        );  //original 325 325
         RequestOptions request_options = new RequestOptions()
-                .override(325, 325)
+                .override(310, 310)
                 .transform(transformations);
 
         Glide.with(holder.itemView.getContext())
