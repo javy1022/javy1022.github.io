@@ -159,6 +159,11 @@ public class DetailsFragment  extends Fragment {
         if (venues_arr != null && venues_arr.size() > 0) {
             JsonObject desired_venue = venues_arr.get(0).getAsJsonObject();
             venue = shared.general_json_navigator(desired_venue, "name");
+
+            // Pass venue name to venue tab
+            Bundle venue_name_bundle = new Bundle();
+            venue_name_bundle.putString("venue_name", venue);
+            getParentFragmentManager().setFragmentResult("venue_name", venue_name_bundle);
         }
 
         local_time = reformat_localTime(local_time);
