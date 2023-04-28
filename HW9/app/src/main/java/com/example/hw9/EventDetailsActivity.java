@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.hw9.databinding.ActivityEventDetailsBinding;
 import com.example.hw9.ui.main.EventDetailsActivity.adapter.EventDetailsSectionsPagerAdapter;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -42,6 +43,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         set_event_title(event_data);
         set_tabs_content(sectionsPagerAdapter);
         back_btn_onClick();
+
     }
 
     private void back_btn_onClick(){

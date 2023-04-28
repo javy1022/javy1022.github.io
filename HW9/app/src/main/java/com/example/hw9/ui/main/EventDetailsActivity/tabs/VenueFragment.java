@@ -19,6 +19,12 @@ import com.example.hw9.R;
 import com.example.hw9.RecycleViewDecorator;
 import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.ui.main.EventDetailsActivity.adapter.ArtistSpotifyRecycleViewAdapter;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -27,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class VenueFragment  extends Fragment {
+public class VenueFragment  extends Fragment implements OnMapReadyCallback {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -70,6 +76,10 @@ public class VenueFragment  extends Fragment {
 
         // async getter for venue name from detail fragment
         get_and_utilize_venue_name(view);
+
+        // Get the SupportMapFragment and request notification when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
     }
 
@@ -164,5 +174,12 @@ public class VenueFragment  extends Fragment {
         return full_address_buffer.toString();
     }
 
-
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng location = new LatLng(-33.852, 151.211);
+        googleMap.addMarker(new MarkerOptions()
+                .position(location)
+                .title("Marker in Sydney"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+    }
 }
