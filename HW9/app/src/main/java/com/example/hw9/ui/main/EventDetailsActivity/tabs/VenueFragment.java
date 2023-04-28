@@ -1,8 +1,8 @@
 package com.example.hw9.ui.main.EventDetailsActivity.tabs;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
-import com.example.hw9.RecycleViewDecorator;
 import com.example.hw9.SharedGeneralPurposeMethods;
-import com.example.hw9.ui.main.EventDetailsActivity.adapter.ArtistSpotifyRecycleViewAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,10 +28,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 public class VenueFragment  extends Fragment implements OnMapReadyCallback {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -42,6 +37,8 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
     private static Double venue_lng;
 
     private SharedGeneralPurposeMethods shared;
+
+    private  NestedScrollView nested_scroll_view;
 
     public VenueFragment () {
         // Required empty public constructor
@@ -80,6 +77,9 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
 
         // async getter for venue name from detail fragment
         get_and_utilize_venue_name(view);
+
+        // Get reference to NestedScrollView
+        nested_scroll_view = view.findViewById(R.id.nested_scroll_view);
     }
 
     private void  get_and_utilize_venue_name(View view){
@@ -119,6 +119,7 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
 
                         String city_state = custom_city_state_formatter(city,state);
                         set_card_UI(view,venue_name, address, city_state, contact);
+                        set_subCard_UI(view, hours);
 
                         Log.d("v request", "test resp: " + venue_name );
                         Log.d("v request", "test resp: " + address );
@@ -163,6 +164,36 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
         shared.textViews_enable_selected(venue_tv, address_tv, city_tv, contact_tv);
     }
 
+    private void set_subCard_UI(View view, String hours){
+        TextView hours_tv = view.findViewById(R.id.hours);
+
+        if(!hours.isEmpty()){
+            hours_tv.setText(hours);
+            showMoreLess_toggle(hours_tv, 3);
+        }
+        else hours_tv.setText("N/A");
+
+
+    }
+
+    public static void showMoreLess_toggle(final TextView textView, final int maxLines) {
+        textView.setOnClickListener(new View.OnClickListener() {
+            private boolean show_more = false;
+
+            @Override
+            public void onClick(View v) {
+                if (show_more) {
+                    textView.setMaxLines(maxLines);
+                    textView.setEllipsize(TextUtils.TruncateAt.END);
+                } else {
+                    textView.setMaxLines(Integer.MAX_VALUE);
+                    textView.setEllipsize(null);
+                }
+                show_more = !show_more;
+            }
+        });
+    }
+
     private String custom_city_state_formatter(String city, String state){
         StringBuilder full_address_buffer = new StringBuilder();
 
@@ -190,6 +221,19 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
         LatLng location = new LatLng(venue_lat, venue_lng);
         googleMap.addMarker(new MarkerOptions()
                 .position(location));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+
+        // Disable parent scroll when scrolling Google Map
+        googleMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int reason) {
+                if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                    nested_scroll_view.requestDisallowInterceptTouchEvent(true);
+                } else {
+                    nested_scroll_view.requestDisallowInterceptTouchEvent(false);
+                }
+            }
+        });
     }
+
 }
