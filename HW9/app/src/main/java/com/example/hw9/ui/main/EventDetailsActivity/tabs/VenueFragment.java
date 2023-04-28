@@ -119,7 +119,7 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
 
                         String city_state = custom_city_state_formatter(city,state);
                         set_card_UI(view,venue_name, address, city_state, contact);
-                        set_subCard_UI(view, hours);
+                        set_subCard_UI(view, hours, general_rule, child_rule);
 
                         Log.d("v request", "test resp: " + venue_name );
                         Log.d("v request", "test resp: " + address );
@@ -164,14 +164,28 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
         shared.textViews_enable_selected(venue_tv, address_tv, city_tv, contact_tv);
     }
 
-    private void set_subCard_UI(View view, String hours){
+    private void set_subCard_UI(View view, String hours, String general_rule, String child_rule){
         TextView hours_tv = view.findViewById(R.id.hours);
+        TextView general_rule_tv = view.findViewById(R.id.general_rules);
+        TextView child_rule_tv = view.findViewById(R.id.child_rules);
 
         if(!hours.isEmpty()){
             hours_tv.setText(hours);
             showMoreLess_toggle(hours_tv, 3);
         }
         else hours_tv.setText("N/A");
+
+        if(!general_rule.isEmpty()){
+            general_rule_tv.setText(general_rule);
+            showMoreLess_toggle(general_rule_tv, 3);
+        }
+        else general_rule_tv.setText("N/A");
+
+        if(!child_rule.isEmpty()){
+            child_rule_tv.setText(child_rule);
+            showMoreLess_toggle(child_rule_tv, 3);
+        }
+        else child_rule_tv.setText("N/A");
 
 
     }
