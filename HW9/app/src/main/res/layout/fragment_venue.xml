@@ -13,7 +13,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/venue_card"
-                android:layout_width="355dp"
+                android:layout_width="370dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"
@@ -55,7 +55,6 @@
                         android:textColor="@color/green"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:background="@color/purple_700"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/venue_name_subtitle"
@@ -85,7 +84,6 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:background="@color/purple_700"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/address_subtitle"
                         app:layout_constraintTop_toTopOf="@+id/address_subtitle"
@@ -116,7 +114,6 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:background="@color/purple_700"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/city_subtitle"
                         app:layout_constraintTop_toTopOf="@+id/city_subtitle"
@@ -148,7 +145,6 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:background="@color/purple_700"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/contact_subtitle"
                         app:layout_constraintTop_toTopOf="@+id/contact_subtitle"
@@ -157,7 +153,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/map_card_view"
-                        android:layout_width="320dp"
+                        android:layout_width="340dp"
                         android:layout_height="250dp"
                         app:cardCornerRadius="20dp"
                         android:layout_marginTop="48dp"

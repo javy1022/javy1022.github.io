@@ -37,6 +37,10 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static Double venue_lat;
+
+    private static Double venue_lng;
+
     private SharedGeneralPurposeMethods shared;
 
     public VenueFragment () {
@@ -76,11 +80,6 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
 
         // async getter for venue name from detail fragment
         get_and_utilize_venue_name(view);
-
-        // Get the SupportMapFragment and request notification when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
     }
 
     private void  get_and_utilize_venue_name(View view){
@@ -114,6 +113,9 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
                         String hours = shared.general_json_navigator(venue_obj,"boxOfficeInfo", "openHoursDetail");
                         String general_rule = shared.general_json_navigator(venue_obj,"generalInfo", "generalRule");
                         String child_rule = shared.general_json_navigator(venue_obj,"generalInfo", "childRule");
+                        venue_lat =  Double.parseDouble(shared.general_json_navigator(venue_obj, "location", "latitude"));
+                        venue_lng =  Double.parseDouble(shared.general_json_navigator(venue_obj, "location", "longitude"));
+                        load_googleMap();
 
                         String city_state = custom_city_state_formatter(city,state);
                         set_card_UI(view,venue_name, address, city_state, contact);
@@ -127,6 +129,10 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
                         Log.d("v request", "test resp: " + general_rule);
                         Log.d("v request", "test resp: " + child_rule);
                         Log.d("v request", "test resp: " + city_state );
+                        Log.d("v request", "test resp: " + venue_lat.toString() );
+                        Log.d("v request", "test resp: " + venue_lng.toString() );
+
+
 
                     }
 
@@ -174,12 +180,16 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
         return full_address_buffer.toString();
     }
 
+    private void load_googleMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng location = new LatLng(-33.852, 151.211);
+        LatLng location = new LatLng(venue_lat, venue_lng);
         googleMap.addMarker(new MarkerOptions()
-                .position(location)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+                .position(location));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
     }
 }
