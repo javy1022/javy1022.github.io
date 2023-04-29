@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
@@ -39,6 +41,8 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
     private SharedGeneralPurposeMethods shared;
 
     private  NestedScrollView nested_scroll_view;
+
+    private ProgressBar venue_pr;
 
     public VenueFragment () {
         // Required empty public constructor
@@ -73,6 +77,9 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        venue_pr = view.findViewById(R.id.venue_progress_bar);
+        venue_pr.setVisibility(View.VISIBLE);
+
         shared = new SharedGeneralPurposeMethods();
 
         // async getter for venue name from detail fragment
@@ -80,6 +87,7 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
 
         // Get reference to NestedScrollView
         nested_scroll_view = view.findViewById(R.id.nested_scroll_view);
+
     }
 
     private void  get_and_utilize_venue_name(View view){
@@ -133,6 +141,11 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
                         Log.d("v request", "test resp: " + venue_lat.toString() );
                         Log.d("v request", "test resp: " + venue_lng.toString() );
 
+                        venue_pr.setVisibility(View.GONE);
+                        CardView venue_card_tv = view.findViewById(R.id.venue_card);
+                        CardView venue_sub_card_tv = view.findViewById(R.id.venue_sub_card);
+                        venue_card_tv.setVisibility(View.VISIBLE);
+                        venue_sub_card_tv.setVisibility(View.VISIBLE);
 
 
                     }
