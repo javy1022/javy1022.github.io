@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hw9.EventDetailsActivity;
 import com.example.hw9.R;
 import com.example.hw9.SharedGeneralPurposeMethods;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -23,9 +24,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventResultsRecycleViewAdapter.ViewHolder> {
 
     private final ArrayList<ArrayList<String>> event_search_results;
+    private final boolean isFavoriteTab;
 
-    public EventResultsRecycleViewAdapter(ArrayList<ArrayList<String>> event_search_results) {
+    public EventResultsRecycleViewAdapter(ArrayList<ArrayList<String>> event_search_results, boolean isFavoriteTab) {
         this.event_search_results = event_search_results;
+        this.isFavoriteTab = isFavoriteTab;
     }
 
     @NonNull
@@ -70,7 +73,10 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
 
         // favorite icon
         String event_id = event_search_result.get(6);
-        heart_icon_onClick(holder.itemView.getContext(), holder.heart_icon, event_id);
+        heart_icon_onClick(holder.itemView.getContext(), holder.heart_icon, event_id, isFavoriteTab, holder, event_search_result);
+
+
+
 
         // Enable selected to make marquee effect works on TextViews
         SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.venue, holder.category);
@@ -111,7 +117,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
 
 
 
-    private void heart_icon_onClick(Context context, ImageView heart_icon, String event_id) {
+    private void heart_icon_onClick(Context context, ImageView heart_icon, String event_id, boolean isFavoriteTab , ViewHolder holder, ArrayList<String> eventData) {
         SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = shared_preferences.edit();
@@ -129,12 +135,30 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             updateHeartIconUI(imageView, fav_state_toggle);
 
             editor.putBoolean(key, fav_state_toggle);
+
+            // Save event data as a serialized JSON string
+            if (fav_state_toggle) {
+                Gson gson = new Gson();
+                String eventJson = gson.toJson(eventData);
+                editor.putString("event_data_" + event_id, eventJson);
+            } else {
+                editor.remove("event_data_" + event_id);
+            }
+
             editor.apply();
 
             // Update the isFavorite variable for the next click
             is_fav.set(fav_state_toggle);
+
+            // Call the listener
+            if (onHeartIconClickListener != null) {
+                onHeartIconClickListener.onHeartIconClick(holder, eventData, isFavoriteTab);
+            }
+
+
         });
     }
+
 
 
     private void updateHeartIconUI(ImageView heart_icon, boolean is_fav) {
@@ -154,6 +178,17 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             intent.putStringArrayListExtra("event_data", event_data);
             view.getContext().startActivity(intent);
         });
+    }
+
+
+    public interface OnHeartIconClickListener {
+        void onHeartIconClick(ViewHolder holder, ArrayList<String> eventData, boolean isFavoriteTab);
+    }
+
+    private OnHeartIconClickListener onHeartIconClickListener;
+
+    public void setOnHeartIconClickListener(OnHeartIconClickListener listener) {
+        this.onHeartIconClickListener = listener;
     }
 
 }

@@ -154,36 +154,6 @@ public class SearchFragment extends Fragment {
         // margin between each item in event result recycleView
         event_search_recycleView.addItemDecoration(new RecycleViewDecorator(50));
 
-        /* Data stroe PLAY GROUND
-
-        Flowable<Integer> exampleCounterFlow = dataStore.data().map(prefs -> {
-            Integer value = prefs.get(PreferenceKeys.EXAMPLE_COUNTER);
-            return value != null ? value : 0;
-        });
-        exampleCounterFlow.subscribe(value -> {
-            // Use 'value' here, e.g., log it or update UI
-            Log.d("DataStoreExample", "Counter value: " + value);
-        }, throwable -> {
-            // Handle errors during the subscription
-            Log.e("DataStoreExample", "Error during subscription", throwable);
-        });
-
-        Single<Preferences> updateResult = dataStore.updateDataAsync(prefsIn -> {
-            MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
-            Integer currentInt = prefsIn.get(PreferenceKeys.EXAMPLE_COUNTER);
-            mutablePreferences.set(PreferenceKeys.EXAMPLE_COUNTER, currentInt != null ? currentInt + 1 : 1);
-            return Single.just(mutablePreferences);
-        });
-
-        updateResult.subscribe(result -> {
-            // The update has been completed
-            Log.d("DataStoreExample", "Update completed");
-        }, throwable -> {
-            // Handle errors during update
-            Log.e("DataStoreExample", "Error during update", throwable);
-        });
-        */
-
 
     }
 
@@ -253,7 +223,7 @@ public class SearchFragment extends Fragment {
             event_results_recycleView.setVisibility(View.GONE);
             // Clear event results reference and recycleView
             list_for_table = new ArrayList<>();
-            EventResultsRecycleViewAdapter event_search_adapter = new EventResultsRecycleViewAdapter(list_for_table);
+            EventResultsRecycleViewAdapter event_search_adapter = new EventResultsRecycleViewAdapter(list_for_table, false);
             event_results_recycleView.setAdapter(event_search_adapter);
             //event_results_recycleView.addItemDecoration(new EventResultsDecorator(-50));
         });
@@ -527,7 +497,7 @@ public class SearchFragment extends Fragment {
                     Log.d("table", list_for_table.toString());
 
                     // event search recycle view
-                    event_results_adapter = new EventResultsRecycleViewAdapter(list_for_table);
+                    event_results_adapter = new EventResultsRecycleViewAdapter(list_for_table, false);
                     shared.generate_linearLayout_recycleView(getContext(),event_search_recycleView,event_results_adapter);
 
                     // UI ready
