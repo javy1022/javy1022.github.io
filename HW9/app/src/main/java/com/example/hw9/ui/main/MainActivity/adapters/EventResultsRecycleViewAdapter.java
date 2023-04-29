@@ -1,6 +1,8 @@
 package com.example.hw9.ui.main.MainActivity.adapters;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.example.hw9.R;
 import com.example.hw9.SharedGeneralPurposeMethods;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventResultsRecycleViewAdapter.ViewHolder> {
 
@@ -66,7 +69,8 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         event_result_card_onClick(event_result_card, event_search_result);
 
         // favorite icon
-        heart_icon_onClick(holder.heart_icon);
+        String event_id = event_search_result.get(6);
+        heart_icon_onClick(holder.itemView.getContext(), holder.heart_icon, event_id);
 
         // Enable selected to make marquee effect works on TextViews
         SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.venue, holder.category);
@@ -105,19 +109,42 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         }
     }
 
-    private static void heart_icon_onClick(ImageView heart_icon){
+
+
+    private void heart_icon_onClick(Context context, ImageView heart_icon, String event_id) {
+        SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = shared_preferences.edit();
+        // Create a key for the favorite state based on the unique event ID
+        String key = "favorite_id_" + event_id;
+
+        // Set the initial state of the heart icon based on the saved favorite state
+        AtomicBoolean is_fav = new AtomicBoolean(shared_preferences.getBoolean(key, false));
+        updateHeartIconUI(heart_icon, is_fav.get());
+
+        // Update the favorite state and save it when the heart icon is clicked
         heart_icon.setOnClickListener(view -> {
             ImageView imageView = (ImageView) view;
-            Object tag = imageView.getTag();
-            if (tag == null || tag.equals("empty")) {
-                imageView.setImageResource(R.drawable.heart_filled);
-                imageView.setTag("filled");
-            } else {
-                imageView.setImageResource(R.drawable.heart_outline);
-                imageView.setTag("empty");
-            }
-        });
+            boolean fav_state_toggle = !is_fav.get();
+            updateHeartIconUI(imageView, fav_state_toggle);
 
+            editor.putBoolean(key, fav_state_toggle);
+            editor.apply();
+
+            // Update the isFavorite variable for the next click
+            is_fav.set(fav_state_toggle);
+        });
+    }
+
+
+    private void updateHeartIconUI(ImageView heart_icon, boolean is_fav) {
+        if (is_fav) {
+            heart_icon.setImageResource(R.drawable.heart_filled);
+            heart_icon.setTag("filled");
+        } else {
+            heart_icon.setImageResource(R.drawable.heart_outline);
+            heart_icon.setTag("empty");
+        }
     }
 
     private static void event_result_card_onClick(CardView card, ArrayList<String> event_data){
@@ -125,11 +152,8 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
             // data
             intent.putStringArrayListExtra("event_data", event_data);
-
             view.getContext().startActivity(intent);
         });
-
     }
-
 
 }

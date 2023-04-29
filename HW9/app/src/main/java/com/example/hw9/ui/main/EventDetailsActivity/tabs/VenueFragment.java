@@ -129,25 +129,12 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
                         set_card_UI(view,venue_name, address, city_state, contact);
                         set_subCard_UI(view, hours, general_rule, child_rule);
 
-                        Log.d("v request", "test resp: " + venue_name );
-                        Log.d("v request", "test resp: " + address );
-                        Log.d("v request", "test resp: " + city );
-                        Log.d("v request", "test resp: " + state );
-                        Log.d("v request", "test resp: " + contact );
-                        Log.d("v request", "test resp: " + hours );
-                        Log.d("v request", "test resp: " + general_rule);
-                        Log.d("v request", "test resp: " + child_rule);
-                        Log.d("v request", "test resp: " + city_state );
-                        Log.d("v request", "test resp: " + venue_lat.toString() );
-                        Log.d("v request", "test resp: " + venue_lng.toString() );
-
+                        // progress bar
                         venue_pr.setVisibility(View.GONE);
                         CardView venue_card_tv = view.findViewById(R.id.venue_card);
                         CardView venue_sub_card_tv = view.findViewById(R.id.venue_sub_card);
                         venue_card_tv.setVisibility(View.VISIBLE);
                         venue_sub_card_tv.setVisibility(View.VISIBLE);
-
-
                     }
 
                 }, error -> {

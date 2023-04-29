@@ -34,8 +34,8 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
-import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.RecycleViewDecorator;
+import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.ui.main.MainActivity.adapters.AutoCompleteArrayAdapter;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
 import com.google.android.material.snackbar.Snackbar;
@@ -87,6 +87,7 @@ public class SearchFragment extends Fragment {
 
     private ProgressBar event_search_pb;
 
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -117,6 +118,7 @@ public class SearchFragment extends Fragment {
             String mParam1 = getArguments().getString(ARG_PARAM1);
             String mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -151,6 +153,38 @@ public class SearchFragment extends Fragment {
         get_autoComplete_suggestions(view);
         // margin between each item in event result recycleView
         event_search_recycleView.addItemDecoration(new RecycleViewDecorator(50));
+
+        /* Data stroe PLAY GROUND
+
+        Flowable<Integer> exampleCounterFlow = dataStore.data().map(prefs -> {
+            Integer value = prefs.get(PreferenceKeys.EXAMPLE_COUNTER);
+            return value != null ? value : 0;
+        });
+        exampleCounterFlow.subscribe(value -> {
+            // Use 'value' here, e.g., log it or update UI
+            Log.d("DataStoreExample", "Counter value: " + value);
+        }, throwable -> {
+            // Handle errors during the subscription
+            Log.e("DataStoreExample", "Error during subscription", throwable);
+        });
+
+        Single<Preferences> updateResult = dataStore.updateDataAsync(prefsIn -> {
+            MutablePreferences mutablePreferences = prefsIn.toMutablePreferences();
+            Integer currentInt = prefsIn.get(PreferenceKeys.EXAMPLE_COUNTER);
+            mutablePreferences.set(PreferenceKeys.EXAMPLE_COUNTER, currentInt != null ? currentInt + 1 : 1);
+            return Single.just(mutablePreferences);
+        });
+
+        updateResult.subscribe(result -> {
+            // The update has been completed
+            Log.d("DataStoreExample", "Update completed");
+        }, throwable -> {
+            // Handle errors during update
+            Log.e("DataStoreExample", "Error during update", throwable);
+        });
+        */
+
+
     }
 
     // Remove this function after
