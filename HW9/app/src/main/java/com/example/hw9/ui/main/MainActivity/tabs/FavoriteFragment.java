@@ -102,20 +102,22 @@ public class FavoriteFragment extends Fragment {
 
         Gson gson = new Gson();
 
-        // Loop through SharedPreferences to get the favorite events
-        for (String key : shared_preferences.getAll().keySet()) {
-            if (key.startsWith("favorite_id_") && shared_preferences.getBoolean(key, false)) {
-                String eventId = key.replace("favorite_id_", "");
-                String eventJson = shared_preferences.getString("event_data_" + eventId, null);
-                if (eventJson != null) {
-                    ArrayList<String> eventDetails = gson.fromJson(eventJson, new TypeToken<ArrayList<String>>() {}.getType());
-                    favoriteEvents.add(eventDetails);
-                }
+        // Get the list of favorite event IDs
+        String favoriteEventIdsJson = shared_preferences.getString("favorite_event_ids", null);
+        ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+
+        // Loop through the list of favorite event IDs to get the favorite events
+        for (String eventId : favoriteEventIds) {
+            String eventJson = shared_preferences.getString("event_data_" + eventId, null);
+            if (eventJson != null) {
+                ArrayList<String> eventDetails = gson.fromJson(eventJson, new TypeToken<ArrayList<String>>() {}.getType());
+                favoriteEvents.add(eventDetails);
             }
         }
 
         return favoriteEvents;
     }
+
 
     @Override
     public void onResume() {
@@ -171,7 +173,10 @@ public class FavoriteFragment extends Fragment {
             }
         });
 
+
     }
+
+
 
 
 }

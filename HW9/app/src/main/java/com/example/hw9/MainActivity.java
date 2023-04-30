@@ -31,4 +31,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabs, viewPager, (tab, position) -> tab.setText(mainSectionsPagerAdapter.getPageTitle(position)));
         tabLayoutMediator.attach();
     }
+
+
+
 }

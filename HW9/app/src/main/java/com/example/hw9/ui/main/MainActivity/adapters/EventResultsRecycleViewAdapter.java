@@ -17,6 +17,7 @@ import com.example.hw9.EventDetailsActivity;
 import com.example.hw9.R;
 import com.example.hw9.SharedGeneralPurposeMethods;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -108,57 +109,58 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             name = itemView.findViewById(R.id.event_name);
             category = itemView.findViewById(R.id.event_category);
             venue = itemView.findViewById(R.id.event_venue);
-            // Fill/Empty heart icon
             heart_icon = itemView.findViewById(R.id.heart_icon);
+        }
 
+        public void updateHeartIconState(Context context, String event_id) {
+            String key = "favorite_id_" + event_id;
+            SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+            boolean fav_state = shared_preferences.getBoolean(key, false);
 
+            if (fav_state) {
+                heart_icon.setImageResource(R.drawable.heart_filled); // Use the same resource as in updateHeartIconUI()
+            } else {
+                heart_icon.setImageResource(R.drawable.heart_outline); // Use the same resource as in updateHeartIconUI()
+            }
         }
     }
 
-
-
-    private void heart_icon_onClick(Context context, ImageView heart_icon, String event_id, boolean isFavoriteTab , ViewHolder holder, ArrayList<String> eventData) {
+    private void heart_icon_onClick(Context context, ImageView heart_icon, String event_id, boolean is_fav_tab, ViewHolder holder, ArrayList<String> event_data) {
         SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
-
         SharedPreferences.Editor editor = shared_preferences.edit();
-        // Create a key for the favorite state based on the unique event ID
         String key = "favorite_id_" + event_id;
 
-        // Set the initial state of the heart icon based on the saved favorite state
-        AtomicBoolean is_fav = new AtomicBoolean(shared_preferences.getBoolean(key, false));
-        updateHeartIconUI(heart_icon, is_fav.get());
+        final boolean[] is_fav = {shared_preferences.getBoolean(key, false)};
+        updateHeartIconUI(heart_icon, is_fav[0]);
 
-        // Update the favorite state and save it when the heart icon is clicked
+        Gson gson = new Gson();
+
         heart_icon.setOnClickListener(view -> {
             ImageView imageView = (ImageView) view;
-            boolean fav_state_toggle = !is_fav.get();
-            updateHeartIconUI(imageView, fav_state_toggle);
+            is_fav[0] = !is_fav[0];
+            updateHeartIconUI(imageView, is_fav[0]);
 
-            editor.putBoolean(key, fav_state_toggle);
+            editor.putBoolean(key, is_fav[0]);
 
-            // Save event data as a serialized JSON string
-            if (fav_state_toggle) {
-                Gson gson = new Gson();
-                String eventJson = gson.toJson(eventData);
-                editor.putString("event_data_" + event_id, eventJson);
+            String favoriteEventIdsJson = shared_preferences.getString("favorite_event_ids", null);
+            ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+
+            if (is_fav[0]) {
+                favoriteEventIds.add(event_id);
+                editor.putString("event_data_" + event_id, gson.toJson(event_data));
             } else {
+                favoriteEventIds.remove(event_id);
                 editor.remove("event_data_" + event_id);
             }
 
+            editor.putString("favorite_event_ids", gson.toJson(favoriteEventIds));
             editor.apply();
 
-            // Update the isFavorite variable for the next click
-            is_fav.set(fav_state_toggle);
-
-            // Call the listener
             if (onHeartIconClickListener != null) {
-                onHeartIconClickListener.onHeartIconClick(holder, eventData, isFavoriteTab);
+                onHeartIconClickListener.onHeartIconClick(holder, event_data, is_fav_tab);
             }
-
-
         });
     }
-
 
 
     private void updateHeartIconUI(ImageView heart_icon, boolean is_fav) {
@@ -190,5 +192,18 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
     public void setOnHeartIconClickListener(OnHeartIconClickListener listener) {
         this.onHeartIconClickListener = listener;
     }
+
+
+
+    public ArrayList<ArrayList<String>> getEventSearchResults() {
+        return event_search_results;
+    }
+
+
+
+
+
+
+
 
 }

@@ -28,10 +28,12 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.hw9.MainActivity;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.example.hw9.RecycleViewDecorator;
@@ -153,7 +155,6 @@ public class SearchFragment extends Fragment {
         get_autoComplete_suggestions(view);
         // margin between each item in event result recycleView
         event_search_recycleView.addItemDecoration(new RecycleViewDecorator(50));
-
 
     }
 
@@ -616,5 +617,31 @@ public class SearchFragment extends Fragment {
             date.set(1, formatted_date);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateHeartIconStates();
+    }
+
+    private void updateHeartIconStates() {
+        if (event_results_adapter != null) {
+            int firstVisibleItemPosition = ((LinearLayoutManager) event_search_recycleView.getLayoutManager()).findFirstVisibleItemPosition();
+            int lastVisibleItemPosition = ((LinearLayoutManager) event_search_recycleView.getLayoutManager()).findLastVisibleItemPosition();
+
+            for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
+                EventResultsRecycleViewAdapter.ViewHolder holder = (EventResultsRecycleViewAdapter.ViewHolder) event_search_recycleView.findViewHolderForAdapterPosition(i);
+                if (holder != null) {
+                    String event_id = event_results_adapter.getEventSearchResults().get(i).get(6); // Get the event ID from the search results list
+                    holder.updateHeartIconState(requireContext(), event_id);
+                }
+            }
+        }
+    }
+
+
+
+
+
 
 }
