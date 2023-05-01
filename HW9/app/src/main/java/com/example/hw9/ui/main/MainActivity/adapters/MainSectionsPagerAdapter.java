@@ -31,10 +31,10 @@ public class MainSectionsPagerAdapter extends FragmentStateAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = SearchFragment.newInstance("123", "456");
+                fragment = SearchFragment.newInstance();
                 break;
             case 1:
-                fragment = FavoriteFragment.newInstance("123", "456");
+                fragment = FavoriteFragment.newInstance();
                 break;
             default:
                 throw new IllegalStateException("Exception: Invalid Position createFragment(int position)" + position);

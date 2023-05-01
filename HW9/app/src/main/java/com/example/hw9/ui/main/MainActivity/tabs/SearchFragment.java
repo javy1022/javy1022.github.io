@@ -63,9 +63,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SearchFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private String cached_googleMap_api_key;
     private ArrayAdapter<String> autoCompleteAdapter;
 
@@ -83,13 +80,8 @@ public class SearchFragment extends Fragment {
     public SearchFragment() {
         // Required empty public constructor
     }
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static SearchFragment newInstance() {
+        return new SearchFragment();
     }
 
     @Override

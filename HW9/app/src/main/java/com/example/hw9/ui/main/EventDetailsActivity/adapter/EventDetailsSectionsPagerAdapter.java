@@ -43,14 +43,14 @@ public class EventDetailsSectionsPagerAdapter extends FragmentStateAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = DetailsFragment.newInstance("123", "456");
+                fragment = DetailsFragment.newInstance();
                 loadEventData(fragment);
                 break;
             case 1:
-                fragment = ArtistsFragment.newInstance("123", "456");
+                fragment = ArtistsFragment.newInstance();
                 break;
             case 2:
-                fragment = VenueFragment.newInstance("123", "456");
+                fragment = VenueFragment.newInstance();
                 break;
             default:
                 throw new IllegalStateException("Exception: Invalid Position createFragment(int position)" + position);

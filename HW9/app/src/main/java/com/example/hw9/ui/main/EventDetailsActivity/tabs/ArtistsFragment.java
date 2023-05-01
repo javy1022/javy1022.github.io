@@ -31,9 +31,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ArtistsFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private SharedGeneralPurposeMethods shared;
 
     private ArtistSpotifyRecycleViewAdapter   artist_spotify_adapter;
@@ -47,13 +44,8 @@ public class ArtistsFragment extends Fragment {
     public ArtistsFragment () {
         // Required empty public constructor
     }
-    public static ArtistsFragment newInstance(String param1, String param2) {
-        ArtistsFragment  fragment = new ArtistsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static ArtistsFragment newInstance() {
+        return new ArtistsFragment();
     }
 
     @Override

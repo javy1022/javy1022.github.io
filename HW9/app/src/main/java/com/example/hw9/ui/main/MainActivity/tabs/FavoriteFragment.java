@@ -3,17 +3,17 @@ package com.example.hw9.ui.main.MainActivity.tabs;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.hw9.R;
+import com.example.hw9.RecycleViewDecorator;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,24 +21,16 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
 public class FavoriteFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private EventResultsRecycleViewAdapter fav_adapter;
 
-    private EventResultsRecycleViewAdapter favoriteAdapter;
-
-    private RecyclerView favoriteRecyclerView;
+    private RecyclerView fav_recycle_view;
 
 
     public FavoriteFragment() {
         // Required empty public constructor
     }
-    public static FavoriteFragment newInstance(String param1, String param2) {
-        FavoriteFragment fragment = new FavoriteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static FavoriteFragment newInstance() {
+        return new FavoriteFragment();
     }
 
     @Override
@@ -59,13 +51,11 @@ public class FavoriteFragment extends Fragment {
 
 
         // Initialize the RecyclerView
-        favoriteRecyclerView = view.findViewById(R.id.fav_recycle_view);
+        fav_recycle_view = view.findViewById(R.id.fav_recycle_view);
 
         // Set a layout manager for the RecyclerView
-        favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-
+        fav_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
+        fav_recycle_view.addItemDecoration(new RecycleViewDecorator(50));
 
 
     }
@@ -73,7 +63,7 @@ public class FavoriteFragment extends Fragment {
     private ArrayList<ArrayList<String>> getFavoriteEvents() {
         ArrayList<ArrayList<String>> favoriteEvents = new ArrayList<>();
 
-        SharedPreferences shared_preferences = getContext().getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+        SharedPreferences shared_preferences = requireContext().getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
 
         Gson gson = new Gson();
 
@@ -105,12 +95,12 @@ public class FavoriteFragment extends Fragment {
         ArrayList<ArrayList<String>> favoriteEvents = getFavoriteEvents();
 
         // Create a new instance of EventResultsRecycleViewAdapter with the list of favorite events
-        favoriteAdapter = new EventResultsRecycleViewAdapter(favoriteEvents, true);
+        fav_adapter = new EventResultsRecycleViewAdapter(favoriteEvents, true);
 
         // Set the adapter to the RecyclerView in the favorite tab
-        favoriteRecyclerView.setAdapter(favoriteAdapter);
+        fav_recycle_view.setAdapter(fav_adapter);
 
-        favoriteAdapter.set_heart_icon_onClick_listener((holder, event_search_result, isFavoriteTab) -> {
+        fav_adapter.set_heart_icon_onClick_listener((holder, event_search_result, isFavoriteTab) -> {
             // Your current heart_icon_onClick code here
 
             // Get the event_id
@@ -120,7 +110,7 @@ public class FavoriteFragment extends Fragment {
             String key = "favorite_id_" + event_id;
 
             // Get the favorite state from SharedPreferences
-            SharedPreferences shared_preferences = getContext().getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+            SharedPreferences shared_preferences = requireContext().getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
             boolean fav_state_toggle = shared_preferences.getBoolean(key, false);
 
             // Get the current list of favorite event IDs
@@ -144,7 +134,7 @@ public class FavoriteFragment extends Fragment {
             if (isFavoriteTab && !fav_state_toggle) {
                 int position = holder.getAdapterPosition();
                 favoriteEvents.remove(position);
-                favoriteAdapter.notifyItemRemoved(position);
+                fav_adapter.notifyItemRemoved(position);
             }
         });
 

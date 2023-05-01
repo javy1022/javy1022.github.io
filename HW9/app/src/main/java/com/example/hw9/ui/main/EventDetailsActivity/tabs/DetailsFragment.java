@@ -40,9 +40,6 @@ import java.util.Locale;
 import java.util.StringJoiner;
 
 public class DetailsFragment  extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private ProgressBar event_details_pr;
 
     private SharedGeneralPurposeMethods shared;
@@ -50,13 +47,8 @@ public class DetailsFragment  extends Fragment {
     public DetailsFragment () {
         // Required empty public constructor
     }
-    public static DetailsFragment newInstance(String param1, String param2) {
-        DetailsFragment  fragment = new DetailsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static DetailsFragment newInstance() {
+        return new DetailsFragment();
     }
 
     @Override

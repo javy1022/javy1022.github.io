@@ -31,9 +31,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class VenueFragment  extends Fragment implements OnMapReadyCallback {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private static Double venue_lat;
 
     private static Double venue_lng;
@@ -47,13 +44,8 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
     public VenueFragment () {
         // Required empty public constructor
     }
-    public static VenueFragment newInstance(String param1, String param2) {
-        VenueFragment  fragment = new VenueFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static VenueFragment newInstance() {
+        return new VenueFragment();
     }
 
     @Override
