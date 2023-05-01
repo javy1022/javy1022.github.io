@@ -117,7 +117,16 @@ public class DetailsFragment  extends Fragment {
         ArrayList<String> artist_or_team = new ArrayList<>();
         if (attractions != null) {
             for (JsonElement artist : attractions) {
-                artist_or_team.add(shared.general_json_navigator(artist.getAsJsonObject(), "name"));
+                JsonObject artistObj = artist.getAsJsonObject();
+                String artist_name = shared.general_json_navigator(artistObj, "name");
+                JsonArray classifications = shared.general_json_arr_navigator(artistObj, "classifications");
+                if (classifications != null && classifications.size() > 0) {
+                    JsonObject classification = classifications.get(0).getAsJsonObject();
+                    String artist_category = shared.general_json_navigator(classification, "segment", "name");
+                    if ("Music".equalsIgnoreCase(artist_category)) {
+                        artist_or_team.add(artist_name);
+                    }
+                }
             }
             // Pass sequence of artist names to artists tab
             Bundle artist_name_bundle = new Bundle();
@@ -141,6 +150,8 @@ public class DetailsFragment  extends Fragment {
 
         set_share_icons(ticket_url,event_title);
         set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status, ticket_url,seatmap_url);
+
+        Log.d("debugs", "music artist: " + artist_or_team);
     }
 
     private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre, String price_range, String status, String ticket_url, String seatmap_url){

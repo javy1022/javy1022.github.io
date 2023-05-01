@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -27,6 +28,8 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView fav_recycle_view;
 
     private SharedGeneralPurposeMethods shared;
+
+    private ProgressBar fav_pb;
 
 
     public FavoriteFragment() {
@@ -54,49 +57,25 @@ public class FavoriteFragment extends Fragment {
 
         shared = new SharedGeneralPurposeMethods();
 
-        // Initialize the RecyclerView
         fav_recycle_view = view.findViewById(R.id.fav_recycle_view);
-
-        // Set a layout manager for the RecyclerView
         fav_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
         fav_recycle_view.addItemDecoration(new RecycleViewDecorator(50));
-
-
     }
 
-    private ArrayList<ArrayList<String>> getFavoriteEvents() {
-        ArrayList<ArrayList<String>> favoriteEvents = new ArrayList<>();
-
-        SharedPreferences shared_preferences = requireContext().getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
-
-        Gson gson = new Gson();
-
-        // Get the list of favorite event IDs
-        String favoriteEventIdsJson = shared_preferences.getString("favorite_event_ids", null);
-        ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
-
-        // Loop through the list of favorite event IDs to get the favorite events
-        for (String eventId : favoriteEventIds) {
-            String eventJson = shared_preferences.getString("event_data_" + eventId, null);
-            if (eventJson != null) {
-                ArrayList<String> eventDetails = gson.fromJson(eventJson, new TypeToken<ArrayList<String>>() {}.getType());
-                favoriteEvents.add(eventDetails);
-            }
-        }
-
-        return favoriteEvents;
-    }
 
 
     @Override
     public void onResume() {
         super.onResume();
 
+        fav_pb = requireView().findViewById(R.id.fav_progress_bar);
+        fav_pb.setVisibility(View.VISIBLE);
+
         // Create a Gson object
         Gson gson = new Gson();
 
         // Create a new ArrayList containing favorite events from the SharedPreferences
-        ArrayList<ArrayList<String>> favoriteEvents = getFavoriteEvents();
+        ArrayList<ArrayList<String>> favoriteEvents = SharedGeneralPurposeMethods.getFavoriteEvents(requireContext());
 
         // Create a new instance of EventResultsRecycleViewAdapter with the list of favorite events
         fav_adapter = new EventResultsRecycleViewAdapter(favoriteEvents, true);
@@ -141,7 +120,7 @@ public class FavoriteFragment extends Fragment {
                 fav_adapter.notifyItemRemoved(position);
             }
         });
-
+        fav_pb.setVisibility(View.GONE);
 
     }
 

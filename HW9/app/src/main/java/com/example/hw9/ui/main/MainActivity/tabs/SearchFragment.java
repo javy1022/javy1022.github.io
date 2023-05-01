@@ -251,7 +251,7 @@ public class SearchFragment extends Fragment {
                 if(!isSwitchOn) {
                     get_event_result_geoLoc(location,keyword,distance,category);
                 }else{
-                    Log.d("test", "ipinfo");
+                    get_event_result_IpInfo(keyword,distance,category);
                 }
             }
         });
@@ -275,8 +275,8 @@ public class SearchFragment extends Fragment {
                     if (!status.equals("ZERO_RESULTS")) {
                         String lat, lng;
                         Gson gson = new Gson();
-                        JsonObject respObj = gson.fromJson(String.valueOf(resp), JsonObject.class);
-                        JsonArray results = respObj.getAsJsonArray("results");
+                        JsonObject gson_resp = gson.fromJson(String.valueOf(resp), JsonObject.class);
+                        JsonArray results = gson_resp.getAsJsonArray("results");
 
                         if (results != null && results.size() > 0) {
                             JsonObject result = results.get(0).getAsJsonObject();
@@ -302,6 +302,29 @@ public class SearchFragment extends Fragment {
                     // Handle the error
                     event_search_pb.setVisibility(View.GONE);
                     Log.e("Error", "Volley Error: " + error.getMessage());
+                });
+        MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void get_event_result_IpInfo(String keyword, String distance, String category){
+        String base_url = "https://ipinfo.io/";
+        Uri.Builder builder = Uri.parse(base_url).buildUpon();
+        builder.appendQueryParameter("token", "69aeb460f27a79");
+        String url = builder.build().toString();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, resp -> {
+                    Gson gson = new Gson();
+                    JsonObject gson_resp = gson.fromJson(String.valueOf(resp), JsonObject.class);
+                    String lat_lng = shared.general_json_navigator(gson_resp,"loc");
+                    String[] lat_lng_arr = lat_lng.split(",");
+                    String lat = lat_lng_arr[0].trim();
+                    String lng = lat_lng_arr[1].trim();
+                    get_event_results(lat, lng, keyword, distance, category);
+
+                }, error -> {
+                    event_search_pb.setVisibility(View.GONE);
+                    Log.e("Error", "Volley Error IpInfo: " + error.getMessage());
                 });
         MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
     }
