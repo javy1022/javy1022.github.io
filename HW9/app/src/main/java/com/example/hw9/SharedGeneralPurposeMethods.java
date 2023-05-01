@@ -1,10 +1,14 @@
 package com.example.hw9;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,9 +17,14 @@ import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
 
 /* Class to share common functions */
 
@@ -74,6 +83,75 @@ public class SharedGeneralPurposeMethods {
     public static void textViews_enable_selected(TextView... textViews){
         for (TextView tv : textViews) {
             tv.setSelected(true);
+        }
+    }
+
+    public void snack_bar_msg(View view, Context context, String msg ){
+        Snackbar snackBar = Snackbar.make(view,  msg, Snackbar.LENGTH_SHORT);
+        snackBar.getView().setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.gray_snack_bar)));
+        TextView snackBar_text = snackBar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+        snackBar_text.setTextColor(ContextCompat.getColor(context, R.color.black));
+        snackBar.show();
+    }
+
+
+    public static ArrayList<ArrayList<String>> getFavoriteEvents(Context context) {
+        ArrayList<ArrayList<String>> favoriteEvents = new ArrayList<>();
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+
+        Gson gson = new Gson();
+
+        // Get the list of favorite event IDs
+        String favoriteEventIdsJson = sharedPreferences.getString("favorite_event_ids", null);
+        ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+
+        // Loop through the list of favorite event IDs to get the favorite events
+        for (String eventId : favoriteEventIds) {
+            String eventJson = sharedPreferences.getString("event_data_" + eventId, null);
+            if (eventJson != null) {
+                ArrayList<String> eventDetails = gson.fromJson(eventJson, new TypeToken<ArrayList<String>>() {}.getType());
+                favoriteEvents.add(eventDetails);
+            }
+        }
+
+        return favoriteEvents;
+    }
+
+    public static void updateFavoritesInSharedPreferences(Context context, boolean isFav, String eventId, ArrayList<String> eventData) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+
+        // Get the current list of favorite event IDs
+        String favoriteEventIdsJson = sharedPreferences.getString("favorite_event_ids", null);
+        ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+
+        if (isFav) {
+            // If the event is now a favorite, add the event ID to the list
+            favoriteEventIds.add(eventId);
+            // Save the event data
+            editor.putString("event_data_" + eventId, gson.toJson(eventData));
+        } else {
+            // If the event is no longer a favorite, remove the event ID from the list
+            favoriteEventIds.remove(eventId);
+            // Remove the event data
+            editor.remove("event_data_" + eventId);
+        }
+
+        // Save the updated list of favorite event IDs
+        editor.putString("favorite_event_ids", gson.toJson(favoriteEventIds));
+        editor.apply();
+    }
+
+    public void update_heart_icon_UI(ImageView heart_icon, boolean is_fav) {
+        if (is_fav) {
+            heart_icon.setImageResource(R.drawable.heart_filled);
+            heart_icon.setTag("filled");
+        } else {
+            heart_icon.setImageResource(R.drawable.heart_outline);
+            heart_icon.setTag("empty");
         }
     }
 

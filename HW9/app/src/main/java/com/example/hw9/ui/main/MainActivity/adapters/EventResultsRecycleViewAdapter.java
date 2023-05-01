@@ -26,6 +26,8 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
     private final ArrayList<ArrayList<String>> event_search_results;
     private final boolean is_fav_tab;
 
+    private  SharedGeneralPurposeMethods shared;
+
     private HeartIconOnClickListener heart_icon_onClick_listener;
 
     public EventResultsRecycleViewAdapter(ArrayList<ArrayList<String>> event_search_results, boolean is_fav_tab) {
@@ -44,7 +46,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArrayList<String> event_search_result = event_search_results.get(position);
-        SharedGeneralPurposeMethods shared = new SharedGeneralPurposeMethods();
+        shared = new SharedGeneralPurposeMethods();
 
         // date
         String date = event_search_result.get(0);
@@ -130,7 +132,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         String key = "favorite_id_" + event_id;
         final boolean[] fav_toggle = {shared_preferences.getBoolean(key, false)};
 
-        update_heart_icon_UI(heart_icon, fav_toggle[0]);
+        shared.update_heart_icon_UI(heart_icon, fav_toggle[0]);
         Gson gson = new Gson();
 
         heart_icon.setOnClickListener(view -> {
@@ -138,7 +140,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             ArrayList<String> fav_events_ids;
 
             fav_toggle[0] = !fav_toggle[0];
-            update_heart_icon_UI(heart_icon_iv, fav_toggle[0]);
+            shared.update_heart_icon_UI(heart_icon_iv, fav_toggle[0]);
             editor.putBoolean(key, fav_toggle[0]);
             String desired_data = shared_preferences.getString("favorite_event_ids", null);
 
@@ -149,13 +151,18 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
                 fav_events_ids = new ArrayList<>();
             }
 
+            String msg;
             if (fav_toggle[0]) {
                 fav_events_ids.add(event_id);
                 editor.putString("event_data_" + event_id, gson.toJson(event_data));
+                msg = event_data.get(3) + " added to favorites";
+
             } else {
                 fav_events_ids.remove(event_id);
                 editor.remove("event_data_" + event_id);
+                msg = event_data.get(3) + " removed from favorites";
             }
+            shared.snack_bar_msg(view, view.getContext(), msg );
 
             editor.putString("favorite_event_ids", gson.toJson(fav_events_ids));
             editor.apply();
@@ -168,15 +175,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         });
     }
 
-    private void update_heart_icon_UI(ImageView heart_icon, boolean is_fav) {
-        if (is_fav) {
-            heart_icon.setImageResource(R.drawable.heart_filled);
-            heart_icon.setTag("filled");
-        } else {
-            heart_icon.setImageResource(R.drawable.heart_outline);
-            heart_icon.setTag("empty");
-        }
-    }
+
 
     private void event_result_card_onClick(CardView card, ArrayList<String> event_data) {
         card.setOnClickListener(view -> {
@@ -193,4 +192,5 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
     public void set_heart_icon_onClick_listener(HeartIconOnClickListener listener) {
         this.heart_icon_onClick_listener = listener;
     }
+
 }

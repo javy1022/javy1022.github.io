@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/green_back_button"
-                android:src="@drawable/green_back_btn"/>
+                android:src="@drawable/green_back_btn" />
 
             <TextView
                 android:id="@+id/event_details_title"
@@ -37,7 +37,7 @@
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                 android:textColor="@color/green"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/facebook"
@@ -46,8 +46,8 @@
                 android:layout_marginStart="70dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/facebook_share_icon"
-                android:src="@drawable/facebook"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/facebook" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/twitter"
@@ -58,6 +58,19 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/twitter"
                 app:shapeAppearanceOverlay="@style/twitter_circle_background" />
+
+            <ImageView
+                android:id="@+id/sub_heart_icon"
+                android:layout_width="26dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/heart_outline"
+
+                 />
+
+
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout

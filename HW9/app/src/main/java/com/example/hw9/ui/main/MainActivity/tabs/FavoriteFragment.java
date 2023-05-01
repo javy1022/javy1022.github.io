@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hw9.R;
 import com.example.hw9.RecycleViewDecorator;
+import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +25,8 @@ public class FavoriteFragment extends Fragment {
     private EventResultsRecycleViewAdapter fav_adapter;
 
     private RecyclerView fav_recycle_view;
+
+    private SharedGeneralPurposeMethods shared;
 
 
     public FavoriteFragment() {
@@ -49,6 +52,7 @@ public class FavoriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        shared = new SharedGeneralPurposeMethods();
 
         // Initialize the RecyclerView
         fav_recycle_view = view.findViewById(R.id.fav_recycle_view);

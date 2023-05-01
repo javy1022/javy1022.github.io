@@ -1,8 +1,11 @@
 package com.example.hw9;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,11 +16,18 @@ import com.example.hw9.ui.main.EventDetailsActivity.adapter.EventDetailsSections
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
 public class EventDetailsActivity extends AppCompatActivity {
     private TabLayout tab_layout;
+
+    private String eventId;
+    private SharedGeneralPurposeMethods shared;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +39,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         // Get event data from EventResultsAdapter
         Intent intent = getIntent();
         ArrayList<String> event_data = intent.getStringArrayListExtra("event_data");
+        eventId = event_data.get(6); // Assuming the event id is at index 6 in event_data
 
         tab_layout = findViewById(R.id.tabs);
         EventDetailsSectionsPagerAdapter sectionsPagerAdapter = new EventDetailsSectionsPagerAdapter(this, getSupportFragmentManager(), getLifecycle(), tab_layout,  event_data);
@@ -43,6 +54,23 @@ public class EventDetailsActivity extends AppCompatActivity {
         set_event_title(event_data);
         set_tabs_content(sectionsPagerAdapter);
         back_btn_onClick();
+
+        // Call updateHeartIconState initially
+        shared = new SharedGeneralPurposeMethods();
+
+
+        updateHeartIconState();
+
+        ImageView heartIcon = findViewById(R.id.sub_heart_icon);
+        heartIcon.setOnClickListener(view -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+            boolean isFav = sharedPreferences.getBoolean("favorite_id_" + eventId, false);
+            boolean newFavState = !isFav;
+            sharedPreferences.edit().putBoolean("favorite_id_" + eventId, newFavState).apply();
+            updateHeartIconState();
+            shared.updateFavoritesInSharedPreferences(this, newFavState, eventId, event_data);;
+        });
+
 
     }
 
@@ -65,5 +93,23 @@ public class EventDetailsActivity extends AppCompatActivity {
         tab_layout = findViewById(R.id.tabs);
         sectionsPagerAdapter.setTabIconsAndTitles(tab_icons);
     }
+
+    private void updateHeartIconState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+        boolean isFav = sharedPreferences.getBoolean("favorite_id_" + eventId, false);
+
+        ImageView heartIcon = findViewById(R.id.sub_heart_icon);
+        if (isFav) {
+            heartIcon.setImageResource(R.drawable.heart_filled);
+        } else {
+            heartIcon.setImageResource(R.drawable.heart_outline);
+        }
+
+
+    }
+
+
+
+
 
 }

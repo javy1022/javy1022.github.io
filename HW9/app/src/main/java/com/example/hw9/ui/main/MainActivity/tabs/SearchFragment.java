@@ -234,11 +234,7 @@ public class SearchFragment extends Fragment {
             boolean isSwitchOn = auto_detect_switch.isChecked();
 
             if (keyword.isEmpty() || distance.isEmpty() || (location.isEmpty() && !isSwitchOn)) {
-                Snackbar snackBar = Snackbar.make(view, "Please fill all fields", Snackbar.LENGTH_SHORT);
-                snackBar.getView().setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.gray_snack_bar)));
-                TextView snackBar_text = snackBar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
-                snackBar_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
-                snackBar.show();
+              shared.snack_bar_msg(view, requireContext(), "Please fill all fields");
             }else{
                 final CardView search_from = view.findViewById(R.id.search_form);
                 final ImageButton black_back_btn = view.findViewById(R.id.black_back_btn);
@@ -253,51 +249,9 @@ public class SearchFragment extends Fragment {
                 event_results_recycleView.setVisibility(View.VISIBLE);
 
                 if(!isSwitchOn) {
-                    String preprocessed_location = preprocess_google_geoLoc_address(location);
-                    String api_key = get_googleMap_api_key();
-                    String base_url = "https://maps.googleapis.com/maps/api/geocode/json";
-                    Uri.Builder builder = Uri.parse(base_url).buildUpon();
-                    builder.appendQueryParameter("address", preprocessed_location);
-                    builder.appendQueryParameter("key", api_key);
-                    String url = builder.build().toString();
-
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                            (Request.Method.GET, url, null, resp -> {
-                                String status = resp.optString("status");
-                                if (!status.equals("ZERO_RESULTS")) {
-                                    String lat, lng;
-                                    Gson gson = new Gson();
-                                    JsonObject respObj = gson.fromJson(String.valueOf(resp), JsonObject.class);
-                                    JsonArray results = respObj.getAsJsonArray("results");
-
-                                    if (results != null && results.size() > 0) {
-                                        JsonObject result = results.get(0).getAsJsonObject();
-                                        JsonObject geometry = result.getAsJsonObject("geometry");
-
-                                        if (geometry != null) {
-                                            JsonObject location_obj = geometry.getAsJsonObject("location");
-
-                                            if (location_obj != null) {
-                                                lat = location_obj.get("lat").getAsString().trim();
-                                                lng = location_obj.get("lng").getAsString().trim();
-                                                get_event_results(lat, lng, keyword, distance, category);
-                                            }
-                                        }
-                                    }
-
-                                }else {
-                                    Log.d("GeoLoc status", "not result");
-                                    event_search_pb.setVisibility(View.GONE);
-                                }
-
-                            }, error -> {
-                                // Handle the error
-                                event_search_pb.setVisibility(View.GONE);
-                                Log.e("Error", "Volley Error: " + error.getMessage());
-                            });
-                    MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
-
-
+                    get_event_result_geoLoc(location,keyword,distance,category);
+                }else{
+                    Log.d("test", "ipinfo");
                 }
             }
         });
@@ -305,6 +259,53 @@ public class SearchFragment extends Fragment {
     }
 
     /* Volley http requests */
+
+    private void get_event_result_geoLoc(String location ,String keyword, String distance, String category){
+        String preprocessed_location = preprocess_google_geoLoc_address(location);
+        String api_key = get_googleMap_api_key();
+        String base_url = "https://maps.googleapis.com/maps/api/geocode/json";
+        Uri.Builder builder = Uri.parse(base_url).buildUpon();
+        builder.appendQueryParameter("address", preprocessed_location);
+        builder.appendQueryParameter("key", api_key);
+        String url = builder.build().toString();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, resp -> {
+                    String status = resp.optString("status");
+                    if (!status.equals("ZERO_RESULTS")) {
+                        String lat, lng;
+                        Gson gson = new Gson();
+                        JsonObject respObj = gson.fromJson(String.valueOf(resp), JsonObject.class);
+                        JsonArray results = respObj.getAsJsonArray("results");
+
+                        if (results != null && results.size() > 0) {
+                            JsonObject result = results.get(0).getAsJsonObject();
+                            JsonObject geometry = result.getAsJsonObject("geometry");
+
+                            if (geometry != null) {
+                                JsonObject location_obj = geometry.getAsJsonObject("location");
+
+                                if (location_obj != null) {
+                                    lat = location_obj.get("lat").getAsString().trim();
+                                    lng = location_obj.get("lng").getAsString().trim();
+                                    get_event_results(lat, lng, keyword, distance, category);
+                                }
+                            }
+                        }
+
+                    }else {
+                        Log.d("GeoLoc status", "not result");
+                        event_search_pb.setVisibility(View.GONE);
+                    }
+
+                }, error -> {
+                    // Handle the error
+                    event_search_pb.setVisibility(View.GONE);
+                    Log.e("Error", "Volley Error: " + error.getMessage());
+                });
+        MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
     private void get_autoComplete_suggestions(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
         final ProgressBar auto_complete_pb = view.findViewById(R.id.ac_progressBar);
@@ -609,6 +610,10 @@ public class SearchFragment extends Fragment {
             date.set(1, formatted_date);
         }
     }
+
+
+
+
 
 
 }
