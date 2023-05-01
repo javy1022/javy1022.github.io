@@ -33,7 +33,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.hw9.MainActivity;
 import com.example.hw9.MySingleton;
 import com.example.hw9.R;
 import com.example.hw9.RecycleViewDecorator;
@@ -63,20 +62,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SearchFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private String cached_googleMap_api_key;
-    // autocomplete variables
     private ArrayAdapter<String> autoCompleteAdapter;
 
     private ArrayList<ArrayList<String>> list_for_table = new ArrayList<>();
@@ -93,16 +83,6 @@ public class SearchFragment extends Fragment {
     public SearchFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
@@ -115,18 +95,12 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // TODO: Rename and change types of parameters
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+                            Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
@@ -314,7 +288,7 @@ public class SearchFragment extends Fragment {
                                             if (location_obj != null) {
                                                 lat = location_obj.get("lat").getAsString().trim();
                                                 lng = location_obj.get("lng").getAsString().trim();
-                                                get_event_results(lat, lng, keyword, distance, category, view);
+                                                get_event_results(lat, lng, keyword, distance, category);
                                             }
                                         }
                                     }
@@ -422,7 +396,7 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void get_event_results(String lat, String lng, String keyword, String distance, String category, View view){
+    private void get_event_results(String lat, String lng, String keyword, String distance, String category){
         String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/event-search";
         Uri.Builder builder = Uri.parse(backend_url).buildUpon();
         builder.appendQueryParameter("lat", lat);
@@ -520,7 +494,7 @@ public class SearchFragment extends Fragment {
 
         switch (header) {
             case "dates":
-                JsonObject time_obj = ((JsonElement) header_element).getAsJsonObject();
+                JsonObject time_obj = header_element.getAsJsonObject();
                 String start_local_date = shared.general_json_navigator(time_obj, "start", "localDate");
                 String start_local_time = shared.general_json_navigator(time_obj, "start", "localTime");
                 buffer_arr.add(start_local_date);
@@ -556,6 +530,32 @@ public class SearchFragment extends Fragment {
                 break;
         }
     }
+
+    // keep heart icons in sync
+    @Override
+    public void onResume() {
+        super.onResume();
+        update_heart_icon_states();
+    }
+    private void update_heart_icon_states() {
+        if (event_results_adapter != null) {
+            RecyclerView.LayoutManager recycle_view_layout_manager = event_search_recycleView.getLayoutManager();
+            LinearLayoutManager linear_layout_manager = (LinearLayoutManager) recycle_view_layout_manager;
+            int start_item_position = 0;
+            if (linear_layout_manager != null) {
+                start_item_position = linear_layout_manager.findFirstVisibleItemPosition();
+            }
+            int end_item_position = 0;
+            if (linear_layout_manager != null) {
+                end_item_position = linear_layout_manager.findLastVisibleItemPosition();
+            }
+
+            for (int i = start_item_position; i <= end_item_position; i++) {
+                event_results_adapter.notifyItemChanged(i);
+            }
+        }
+    }
+
 
     /* Helper Functions */
     private String preprocess_google_geoLoc_address(String location){
@@ -617,31 +617,6 @@ public class SearchFragment extends Fragment {
             date.set(1, formatted_date);
         }
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateHeartIconStates();
-    }
-
-    private void updateHeartIconStates() {
-        if (event_results_adapter != null) {
-            int firstVisibleItemPosition = ((LinearLayoutManager) event_search_recycleView.getLayoutManager()).findFirstVisibleItemPosition();
-            int lastVisibleItemPosition = ((LinearLayoutManager) event_search_recycleView.getLayoutManager()).findLastVisibleItemPosition();
-
-            for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
-                EventResultsRecycleViewAdapter.ViewHolder holder = (EventResultsRecycleViewAdapter.ViewHolder) event_search_recycleView.findViewHolderForAdapterPosition(i);
-                if (holder != null) {
-                    String event_id = event_results_adapter.getEventSearchResults().get(i).get(6); // Get the event ID from the search results list
-                    holder.updateHeartIconState(requireContext(), event_id);
-                }
-            }
-        }
-    }
-
-
-
-
 
 
 }

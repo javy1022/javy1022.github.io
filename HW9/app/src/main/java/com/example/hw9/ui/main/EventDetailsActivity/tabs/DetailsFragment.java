@@ -40,12 +40,8 @@ import java.util.Locale;
 import java.util.StringJoiner;
 
 public class DetailsFragment  extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    private String event_id;
 
     private ProgressBar event_details_pr;
 
@@ -54,16 +50,6 @@ public class DetailsFragment  extends Fragment {
     public DetailsFragment () {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FavoriteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DetailsFragment newInstance(String param1, String param2) {
         DetailsFragment  fragment = new DetailsFragment();
         Bundle args = new Bundle();
@@ -76,17 +62,11 @@ public class DetailsFragment  extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // TODO: Rename and change types of parameters
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
@@ -133,7 +113,6 @@ public class DetailsFragment  extends Fragment {
 
     private void extract_event_details(View view, JsonObject gson_resp) {
         String event_title = shared.general_json_navigator(gson_resp, "name");
-        String event_id = shared.general_json_navigator(gson_resp, "id");
         String local_date = shared.general_json_navigator(gson_resp, "dates", "start", "localDate");
         String local_time = shared.general_json_navigator(gson_resp, "dates", "start", "localTime");
         String genre = genre_json_navigator(gson_resp);
@@ -167,18 +146,6 @@ public class DetailsFragment  extends Fragment {
         }
 
         local_time = reformat_localTime(local_time);
-
-        // remove after
-        Log.d("yyy", "event_title: " + event_title);
-        Log.d("yyy", "local_date: " + local_date);
-        Log.d("yyy", "local_time : " + local_time);
-        Log.d("yyy", "artist_or_team  : " + artist_or_team);
-        Log.d("yyy", "venue  : " + venue);
-        Log.d("yyy", "genre  : " + genre);
-        Log.d("yyy", "price_range  : " + price_range);
-        Log.d("yyy", "status  : " + status);
-        Log.d("yyy", "ticket_url  : " + ticket_url);
-        Log.d("yyy", "seatmap_url  : " + seatmap_url);
 
         set_share_icons(ticket_url,event_title);
         set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status, ticket_url,seatmap_url);

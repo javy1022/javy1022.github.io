@@ -59,17 +59,11 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // TODO: Rename and change types of parameters
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_venue, container, false);
     }
 
@@ -137,9 +131,7 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
                         venue_sub_card_tv.setVisibility(View.VISIBLE);
                     }
 
-                }, error -> {
-                    Log.e("Error", "Volley Error Get Venue Details: " + error.getMessage());
-                });
+                }, error -> Log.e("Error", "Volley Error Get Venue Details: " + error.getMessage()));
         MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest);
     }
 
@@ -161,7 +153,7 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
         if(!contact.isEmpty()) contact_tv.setText(contact);
         else contact_tv.setText("N/A");
 
-        shared.textViews_enable_selected(venue_tv, address_tv, city_tv, contact_tv);
+        SharedGeneralPurposeMethods.textViews_enable_selected(venue_tv, address_tv, city_tv, contact_tv);
     }
 
     private void set_subCard_UI(View view, String hours, String general_rule, String child_rule){
@@ -227,7 +219,9 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
 
     private void load_googleMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
     }
 
     @Override
@@ -238,16 +232,7 @@ public class VenueFragment  extends Fragment implements OnMapReadyCallback {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
 
         // Disable parent scroll when scrolling Google Map
-        googleMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
-            @Override
-            public void onCameraMoveStarted(int reason) {
-                if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-                    nested_scroll_view.requestDisallowInterceptTouchEvent(true);
-                } else {
-                    nested_scroll_view.requestDisallowInterceptTouchEvent(false);
-                }
-            }
-        });
+        googleMap.setOnCameraMoveStartedListener(reason -> nested_scroll_view.requestDisallowInterceptTouchEvent(reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE));
     }
 
 }

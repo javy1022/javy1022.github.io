@@ -14,44 +14,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hw9.R;
-import com.example.hw9.RecycleViewDecorator;
-import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FavoriteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FavoriteFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private EventResultsRecycleViewAdapter favoriteAdapter;
-    // Add this class member variable
+
     private RecyclerView favoriteRecyclerView;
 
 
     public FavoriteFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FavoriteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FavoriteFragment newInstance(String param1, String param2) {
         FavoriteFragment fragment = new FavoriteFragment();
         Bundle args = new Bundle();
@@ -64,17 +44,12 @@ public class FavoriteFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // TODO: Rename and change types of parameters
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_favorite, container, false);
     }
 
@@ -135,7 +110,7 @@ public class FavoriteFragment extends Fragment {
         // Set the adapter to the RecyclerView in the favorite tab
         favoriteRecyclerView.setAdapter(favoriteAdapter);
 
-        favoriteAdapter.setOnHeartIconClickListener((holder, event_search_result, isFavoriteTab) -> {
+        favoriteAdapter.set_heart_icon_onClick_listener((holder, event_search_result, isFavoriteTab) -> {
             // Your current heart_icon_onClick code here
 
             // Get the event_id

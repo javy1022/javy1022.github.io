@@ -20,16 +20,17 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventResultsRecycleViewAdapter.ViewHolder> {
 
     private final ArrayList<ArrayList<String>> event_search_results;
-    private final boolean isFavoriteTab;
+    private final boolean is_fav_tab;
 
-    public EventResultsRecycleViewAdapter(ArrayList<ArrayList<String>> event_search_results, boolean isFavoriteTab) {
+    private HeartIconOnClickListener heart_icon_onClick_listener;
+
+    public EventResultsRecycleViewAdapter(ArrayList<ArrayList<String>> event_search_results, boolean is_fav_tab) {
         this.event_search_results = event_search_results;
-        this.isFavoriteTab = isFavoriteTab;
+        this.is_fav_tab = is_fav_tab;
     }
 
     @NonNull
@@ -54,7 +55,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         holder.time.setText(time);
         // image
         String img_url = event_search_result.get(2);
-        shared.set_recycleViews_imgView(holder,img_url,holder.img);
+        shared.set_recycleViews_imgView(holder, img_url, holder.img);
 
         // event name
         String name = event_search_result.get(3);
@@ -74,9 +75,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
 
         // favorite icon
         String event_id = event_search_result.get(6);
-        heart_icon_onClick(holder.itemView.getContext(), holder.heart_icon, event_id, isFavoriteTab, holder, event_search_result);
-
-
+        heart_icon_onClick(holder.itemView.getContext(), holder.heart_icon, event_id, is_fav_tab, holder, event_search_result);
 
 
         // Enable selected to make marquee effect works on TextViews
@@ -86,7 +85,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
 
     @Override
     public int getItemCount() {
-         return event_search_results.size();
+        return event_search_results.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -99,7 +98,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         private final TextView category;
         private final TextView venue;
 
-        private final ImageView  heart_icon;
+        private final ImageView heart_icon;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -112,15 +111,15 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
             heart_icon = itemView.findViewById(R.id.heart_icon);
         }
 
-        public void updateHeartIconState(Context context, String event_id) {
+        public void update_heart_icon_state(Context context, String event_id) {
             String key = "favorite_id_" + event_id;
             SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
             boolean fav_state = shared_preferences.getBoolean(key, false);
 
             if (fav_state) {
-                heart_icon.setImageResource(R.drawable.heart_filled); // Use the same resource as in updateHeartIconUI()
+                heart_icon.setImageResource(R.drawable.heart_filled);
             } else {
-                heart_icon.setImageResource(R.drawable.heart_outline); // Use the same resource as in updateHeartIconUI()
+                heart_icon.setImageResource(R.drawable.heart_outline);
             }
         }
     }
@@ -129,41 +128,47 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = shared_preferences.edit();
         String key = "favorite_id_" + event_id;
+        final boolean[] fav_toggle = {shared_preferences.getBoolean(key, false)};
 
-        final boolean[] is_fav = {shared_preferences.getBoolean(key, false)};
-        updateHeartIconUI(heart_icon, is_fav[0]);
-
+        update_heart_icon_UI(heart_icon, fav_toggle[0]);
         Gson gson = new Gson();
 
         heart_icon.setOnClickListener(view -> {
-            ImageView imageView = (ImageView) view;
-            is_fav[0] = !is_fav[0];
-            updateHeartIconUI(imageView, is_fav[0]);
+            ImageView heart_icon_iv = (ImageView) view;
+            ArrayList<String> fav_events_ids;
 
-            editor.putBoolean(key, is_fav[0]);
+            fav_toggle[0] = !fav_toggle[0];
+            update_heart_icon_UI(heart_icon_iv, fav_toggle[0]);
+            editor.putBoolean(key, fav_toggle[0]);
+            String desired_data = shared_preferences.getString("favorite_event_ids", null);
 
-            String favoriteEventIdsJson = shared_preferences.getString("favorite_event_ids", null);
-            ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+            if (desired_data != null) {
+                fav_events_ids = gson.fromJson(desired_data, new TypeToken<ArrayList<String>>() {
+                }.getType());
+            } else {
+                fav_events_ids = new ArrayList<>();
+            }
 
-            if (is_fav[0]) {
-                favoriteEventIds.add(event_id);
+            if (fav_toggle[0]) {
+                fav_events_ids.add(event_id);
                 editor.putString("event_data_" + event_id, gson.toJson(event_data));
             } else {
-                favoriteEventIds.remove(event_id);
+                fav_events_ids.remove(event_id);
                 editor.remove("event_data_" + event_id);
             }
 
-            editor.putString("favorite_event_ids", gson.toJson(favoriteEventIds));
+            editor.putString("favorite_event_ids", gson.toJson(fav_events_ids));
             editor.apply();
 
-            if (onHeartIconClickListener != null) {
-                onHeartIconClickListener.onHeartIconClick(holder, event_data, is_fav_tab);
+            holder.update_heart_icon_state(context, event_id);
+
+            if (heart_icon_onClick_listener != null) {
+                heart_icon_onClick_listener.HeartIconOnClick(holder, event_data, is_fav_tab);
             }
         });
     }
 
-
-    private void updateHeartIconUI(ImageView heart_icon, boolean is_fav) {
+    private void update_heart_icon_UI(ImageView heart_icon, boolean is_fav) {
         if (is_fav) {
             heart_icon.setImageResource(R.drawable.heart_filled);
             heart_icon.setTag("filled");
@@ -173,37 +178,19 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         }
     }
 
-    private static void event_result_card_onClick(CardView card, ArrayList<String> event_data){
+    private void event_result_card_onClick(CardView card, ArrayList<String> event_data) {
         card.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
-            // data
             intent.putStringArrayListExtra("event_data", event_data);
             view.getContext().startActivity(intent);
         });
     }
 
-
-    public interface OnHeartIconClickListener {
-        void onHeartIconClick(ViewHolder holder, ArrayList<String> eventData, boolean isFavoriteTab);
+    public interface HeartIconOnClickListener {
+        void HeartIconOnClick(ViewHolder holder, ArrayList<String> event_data, boolean is_fav_tab);
     }
 
-    private OnHeartIconClickListener onHeartIconClickListener;
-
-    public void setOnHeartIconClickListener(OnHeartIconClickListener listener) {
-        this.onHeartIconClickListener = listener;
+    public void set_heart_icon_onClick_listener(HeartIconOnClickListener listener) {
+        this.heart_icon_onClick_listener = listener;
     }
-
-
-
-    public ArrayList<ArrayList<String>> getEventSearchResults() {
-        return event_search_results;
-    }
-
-
-
-
-
-
-
-
 }
