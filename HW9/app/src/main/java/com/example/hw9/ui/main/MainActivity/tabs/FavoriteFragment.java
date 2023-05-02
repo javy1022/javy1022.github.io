@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,10 @@ public class FavoriteFragment extends Fragment {
     private SharedGeneralPurposeMethods shared;
 
     private ProgressBar fav_pb;
+
+    private CardView favEmptyCardView;
+
+
 
 
     public FavoriteFragment() {
@@ -60,6 +65,8 @@ public class FavoriteFragment extends Fragment {
         fav_recycle_view = view.findViewById(R.id.fav_recycle_view);
         fav_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
         fav_recycle_view.addItemDecoration(new RecycleViewDecorator(50));
+
+        favEmptyCardView = view.findViewById(R.id.fav_empty);
     }
 
 
@@ -82,6 +89,12 @@ public class FavoriteFragment extends Fragment {
 
         // Set the adapter to the RecyclerView in the favorite tab
         fav_recycle_view.setAdapter(fav_adapter);
+
+        if (favoriteEvents.isEmpty()) {
+            favEmptyCardView.setVisibility(View.VISIBLE);
+        } else {
+            favEmptyCardView.setVisibility(View.GONE);
+        }
 
         fav_adapter.set_heart_icon_onClick_listener((holder, event_search_result, isFavoriteTab) -> {
             // Your current heart_icon_onClick code here
@@ -118,6 +131,13 @@ public class FavoriteFragment extends Fragment {
                 int position = holder.getAdapterPosition();
                 favoriteEvents.remove(position);
                 fav_adapter.notifyItemRemoved(position);
+
+                // Update the visibility of favEmptyCardView after removing the item
+                if (favoriteEvents.isEmpty()) {
+                    favEmptyCardView.setVisibility(View.VISIBLE);
+                } else {
+                    favEmptyCardView.setVisibility(View.GONE);
+                }
             }
         });
         fav_pb.setVisibility(View.GONE);
