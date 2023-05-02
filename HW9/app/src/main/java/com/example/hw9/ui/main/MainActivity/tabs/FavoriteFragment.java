@@ -28,10 +28,6 @@ public class FavoriteFragment extends Fragment {
 
     private RecyclerView fav_recycle_view;
 
-    private SharedGeneralPurposeMethods shared;
-
-    private ProgressBar fav_pb;
-
     private CardView favEmptyCardView;
 
 
@@ -60,8 +56,6 @@ public class FavoriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        shared = new SharedGeneralPurposeMethods();
-
         fav_recycle_view = view.findViewById(R.id.fav_recycle_view);
         fav_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
         fav_recycle_view.addItemDecoration(new RecycleViewDecorator(50));
@@ -75,7 +69,7 @@ public class FavoriteFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        fav_pb = requireView().findViewById(R.id.fav_progress_bar);
+        ProgressBar fav_pb = requireView().findViewById(R.id.fav_progress_bar);
         fav_pb.setVisibility(View.VISIBLE);
 
         // Create a Gson object

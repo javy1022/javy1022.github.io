@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +42,8 @@ public class ArtistsFragment extends Fragment {
 
     private ProgressBar artist_cards_pb;
 
+    private CardView artist_empty;
+
     public ArtistsFragment () {
         // Required empty public constructor
     }
@@ -67,6 +70,7 @@ public class ArtistsFragment extends Fragment {
         shared = new SharedGeneralPurposeMethods();
         artist_spotify_recycleView = view.findViewById(R.id.artists_spotify_recycle_view);
         artist_cards_pb = view.findViewById(R.id.artist_cards_progress_bar);
+        artist_empty = view.findViewById(R.id.artist_empty);
 
         artist_cards_pb.setVisibility(View.VISIBLE);
 
@@ -81,6 +85,12 @@ public class ArtistsFragment extends Fragment {
     private void get_and_utilize_artist_names(){
         getParentFragmentManager().setFragmentResultListener("artist_names", this, (requestKey, bundle) -> {
             ArrayList<String> artist_names = bundle.getStringArrayList("artist_names");
+            Log.d("debugs", "received data: " + artist_names);
+            if(artist_names.isEmpty()){
+                artist_cards_pb.setVisibility(View.GONE);
+                artist_empty.setVisibility(View.VISIBLE);
+                return;
+            }
             List<CompletableFuture<Void>> futures = get_artists_spotify_request(artist_names);
 
             // wait all async http get requests to complete

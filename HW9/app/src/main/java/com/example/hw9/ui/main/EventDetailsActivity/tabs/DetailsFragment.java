@@ -115,6 +115,7 @@ public class DetailsFragment  extends Fragment {
 
         JsonArray attractions = shared.general_json_arr_navigator(gson_resp, "_embedded", "attractions");
         ArrayList<String> artist_or_team = new ArrayList<>();
+        Bundle artist_name_bundle = new Bundle();
         if (attractions != null) {
             for (JsonElement artist : attractions) {
                 JsonObject artist_obj = artist.getAsJsonObject();
@@ -128,7 +129,10 @@ public class DetailsFragment  extends Fragment {
                     }
                 }
             }
-            Bundle artist_name_bundle = new Bundle();
+            artist_name_bundle.putStringArrayList("artist_names", artist_or_team);
+            getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
+        }else{
+            // If the json data for artist does not exist
             artist_name_bundle.putStringArrayList("artist_names", artist_or_team);
             getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
         }

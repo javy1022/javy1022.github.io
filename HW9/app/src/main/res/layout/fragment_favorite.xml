@@ -27,7 +27,7 @@
             android:layout_height="50dp"
             android:visibility="gone"
             app:cardBackgroundColor="@color/gray_form"
-            app:cardCornerRadius="15dp"
+            app:cardCornerRadius="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
