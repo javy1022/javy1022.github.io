@@ -28,14 +28,12 @@ public class FavoriteFragment extends Fragment {
 
     private RecyclerView fav_recycle_view;
 
-    private CardView favEmptyCardView;
-
-
-
+    private CardView fav_empty_cv;
 
     public FavoriteFragment() {
-        // Required empty public constructor
+        // required constructor
     }
+
     public static FavoriteFragment newInstance() {
         return new FavoriteFragment();
     }
@@ -60,10 +58,8 @@ public class FavoriteFragment extends Fragment {
         fav_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
         fav_recycle_view.addItemDecoration(new RecycleViewDecorator(50));
 
-        favEmptyCardView = view.findViewById(R.id.fav_empty);
+        fav_empty_cv = view.findViewById(R.id.fav_empty);
     }
-
-
 
     @Override
     public void onResume() {
@@ -72,73 +68,46 @@ public class FavoriteFragment extends Fragment {
         ProgressBar fav_pb = requireView().findViewById(R.id.fav_progress_bar);
         fav_pb.setVisibility(View.VISIBLE);
 
-        // Create a Gson object
         Gson gson = new Gson();
+        ArrayList<ArrayList<String>> fav_events = SharedGeneralPurposeMethods.getFavoriteEvents(requireContext());
+        fav_adapter = new EventResultsRecycleViewAdapter(fav_events, true);
 
-        // Create a new ArrayList containing favorite events from the SharedPreferences
-        ArrayList<ArrayList<String>> favoriteEvents = SharedGeneralPurposeMethods.getFavoriteEvents(requireContext());
-
-        // Create a new instance of EventResultsRecycleViewAdapter with the list of favorite events
-        fav_adapter = new EventResultsRecycleViewAdapter(favoriteEvents, true);
-
-        // Set the adapter to the RecyclerView in the favorite tab
         fav_recycle_view.setAdapter(fav_adapter);
 
-        if (favoriteEvents.isEmpty()) {
-            favEmptyCardView.setVisibility(View.VISIBLE);
-        } else {
-            favEmptyCardView.setVisibility(View.GONE);
-        }
+        if (fav_events.isEmpty()) fav_empty_cv.setVisibility(View.VISIBLE);
+        else fav_empty_cv.setVisibility(View.GONE);
 
-        fav_adapter.set_heart_icon_onClick_listener((holder, event_search_result, isFavoriteTab) -> {
-            // Your current heart_icon_onClick code here
-
-            // Get the event_id
+        fav_adapter.set_heart_icon_onClick_listener((holder, event_search_result, is_fav_tab) -> {
             String event_id = event_search_result.get(6);
-
-            // Create a key for the favorite state based on the unique event ID
             String key = "favorite_id_" + event_id;
 
-            // Get the favorite state from SharedPreferences
+            // Get the heart icon state from SharedPreferences
             SharedPreferences shared_preferences = requireContext().getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
             boolean fav_state_toggle = shared_preferences.getBoolean(key, false);
 
-            // Get the current list of favorite event IDs
-            String favoriteEventIdsJson = shared_preferences.getString("favorite_event_ids", null);
-            ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+            // Get the current list of favorite event ids
+            String fav_events_ids_json_obj = shared_preferences.getString("favorite_event_ids", null);
+            ArrayList<String> fav_event_ids = fav_events_ids_json_obj != null ? gson.fromJson(fav_events_ids_json_obj, new TypeToken<ArrayList<String>>() {
+            }.getType()) : new ArrayList<>();
 
-            if (fav_state_toggle) {
-                // If the event is now a favorite, add the event ID to the list
-                favoriteEventIds.add(event_id);
-            } else {
-                // If the event is no longer a favorite, remove the event ID from the list
-                favoriteEventIds.remove(event_id);
-            }
+            if (fav_state_toggle) fav_event_ids.add(event_id);
+            else fav_event_ids.remove(event_id);
 
-            // Save the updated list of favorite event IDs
+            // Save the updated list of favorite event ids
             SharedPreferences.Editor editor = shared_preferences.edit();
-            editor.putString("favorite_event_ids", gson.toJson(favoriteEventIds));
+            editor.putString("favorite_event_ids", gson.toJson(fav_event_ids));
             editor.apply();
 
             // If this is the favorite tab, remove the item from the list and notify the adapter
-            if (isFavoriteTab && !fav_state_toggle) {
+            if (is_fav_tab && !fav_state_toggle) {
                 int position = holder.getAdapterPosition();
-                favoriteEvents.remove(position);
+                fav_events.remove(position);
                 fav_adapter.notifyItemRemoved(position);
 
-                // Update the visibility of favEmptyCardView after removing the item
-                if (favoriteEvents.isEmpty()) {
-                    favEmptyCardView.setVisibility(View.VISIBLE);
-                } else {
-                    favEmptyCardView.setVisibility(View.GONE);
-                }
+                if (fav_events.isEmpty()) fav_empty_cv.setVisibility(View.VISIBLE);
+                else fav_empty_cv.setVisibility(View.GONE);
             }
         });
         fav_pb.setVisibility(View.GONE);
-
     }
-
-
-
-
 }
