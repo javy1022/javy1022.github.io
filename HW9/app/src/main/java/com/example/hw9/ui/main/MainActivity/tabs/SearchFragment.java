@@ -3,6 +3,7 @@ package com.example.hw9.ui.main.MainActivity.tabs;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,6 +105,7 @@ public class SearchFragment extends Fragment {
         event_search_recycleView = view.findViewById(R.id.event_recycle_view);
         event_search_pb = view.findViewById(R.id.event_search_progress_bar);
         search_empty_cv = view.findViewById(R.id.search_empty);
+
         // Remove this after
         dev_inputs_placeholder(view);
         // init category dropdown spinner
@@ -111,6 +114,8 @@ public class SearchFragment extends Fragment {
         init_ac_arrayAdapter(view);
         // hide/show location input
         toggle_location_input(view);
+        // custom colors
+        custom_switchCompat_UI(view);
         //clear btn
         clear(view);
         // submit btn
@@ -572,6 +577,35 @@ public class SearchFragment extends Fragment {
             }
         }
     }
+
+    private void custom_switchCompat_UI(View view) {
+        SwitchCompat switchCompat = view.findViewById(R.id.auto_detect_switch);
+
+        int defaultActiveThumbColor = ContextCompat.getColor(getContext(), R.color.green);
+        int inactiveThumbColor = Color.parseColor("#B9B9B9");
+
+        int[][] thumbStates = new int[][] {
+                new int[] {-android.R.attr.state_checked},
+                new int[] {android.R.attr.state_checked}
+        };
+        int[] thumbColors = new int[] {inactiveThumbColor, defaultActiveThumbColor};
+        ColorStateList thumbColorStateList = new ColorStateList(thumbStates, thumbColors);
+
+        switchCompat.setThumbTintList(thumbColorStateList);
+
+        int defaultActiveTrackColor = ContextCompat.getColor(getContext(), R.color.switch_track_green);
+        int inactiveTrackColor = Color.parseColor("#5B5B5B");
+
+        int[][] trackStates = new int[][] {
+                new int[] {-android.R.attr.state_checked},
+                new int[] {android.R.attr.state_checked}
+        };
+        int[] trackColors = new int[] {inactiveTrackColor, defaultActiveTrackColor};
+        ColorStateList trackColorStateList = new ColorStateList(trackStates, trackColors);
+
+        switchCompat.setTrackTintList(trackColorStateList);
+    }
+
 
 
     /* Helper Functions */
