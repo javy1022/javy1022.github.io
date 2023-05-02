@@ -76,6 +76,8 @@ public class SearchFragment extends Fragment {
 
     private ProgressBar event_search_pb;
 
+    private CardView search_empty_cv;
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -103,6 +105,7 @@ public class SearchFragment extends Fragment {
         shared = new SharedGeneralPurposeMethods();
         event_search_recycleView = view.findViewById(R.id.event_recycle_view);
         event_search_pb = view.findViewById(R.id.event_search_progress_bar);
+        search_empty_cv = view.findViewById(R.id.search_empty);
         // Remove this after
         dev_inputs_placeholder(view);
         // init category dropdown spinner
@@ -188,11 +191,11 @@ public class SearchFragment extends Fragment {
             black_back_btn.setVisibility(View.GONE);
             black_back_btn_prompt.setVisibility(View.GONE);
             event_results_recycleView.setVisibility(View.GONE);
+            search_empty_cv.setVisibility(View.GONE);
             // Clear event results reference and recycleView
             list_for_table = new ArrayList<>();
             EventResultsRecycleViewAdapter event_search_adapter = new EventResultsRecycleViewAdapter(list_for_table, false);
             event_results_recycleView.setAdapter(event_search_adapter);
-            //event_results_recycleView.addItemDecoration(new EventResultsDecorator(-50));
         });
 
     }
@@ -294,7 +297,7 @@ public class SearchFragment extends Fragment {
                         }
 
                     }else {
-                        Log.d("GeoLoc status", "not result");
+                        search_empty_cv.setVisibility(View.VISIBLE);
                         event_search_pb.setVisibility(View.GONE);
                     }
 
@@ -433,6 +436,7 @@ public class SearchFragment extends Fragment {
                         events = gson_resp.getAsJsonObject("_embedded").getAsJsonArray("events");
                     } catch (NullPointerException e) {
                         Log.e("Exception", "Exception: No Search Results Available");
+                        search_empty_cv.setVisibility(View.VISIBLE);
                         event_search_pb.setVisibility(View.GONE);
                         return;
                     }
