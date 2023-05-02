@@ -18,11 +18,11 @@ public class MainSectionsPagerAdapter extends FragmentStateAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
-    private final Context mContext;
+    private final Context context;
 
     public MainSectionsPagerAdapter(Context context, FragmentManager fragmentManager, Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
-        mContext = context;
+        this.context = context;
     }
 
     @Override
@@ -37,14 +37,14 @@ public class MainSectionsPagerAdapter extends FragmentStateAdapter {
                 fragment = FavoriteFragment.newInstance();
                 break;
             default:
-                throw new IllegalStateException("Exception: Invalid Position createFragment(int position)" + position);
+                throw new IllegalStateException("Exception: Invalid Position MainSectionsPagerAdapter " + position);
         }
         return fragment;
     }
 
     @Nullable
     public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
+        return context.getResources().getString(TAB_TITLES[position]);
     }
 
     @Override
