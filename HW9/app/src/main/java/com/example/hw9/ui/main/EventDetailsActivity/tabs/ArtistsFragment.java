@@ -82,92 +82,94 @@ public class ArtistsFragment extends Fragment {
 
     }
 
-    private void get_and_utilize_artist_names(){
+    private void get_and_utilize_artist_names() {
         getParentFragmentManager().setFragmentResultListener("artist_names", this, (requestKey, bundle) -> {
             ArrayList<String> artist_names = bundle.getStringArrayList("artist_names");
             Log.d("debugs", "received data: " + artist_names);
-            if(artist_names.isEmpty()){
+            if (artist_names.isEmpty()) {
                 artist_cards_pb.setVisibility(View.GONE);
                 artist_empty.setVisibility(View.VISIBLE);
                 return;
             }
-            List<CompletableFuture<Void>> futures = get_artists_spotify_request(artist_names);
 
-            // wait all async http get requests to complete
-            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                    .thenRun(() -> {
-                        Activity activity = getActivity();
-                        if (activity != null) {
-                            activity.runOnUiThread(() -> {
-                                // main UI thread
-                                Log.d("spotify debug", "test name: " + artist_spotify_matrix);
-                                artist_spotify_adapter = new ArtistSpotifyRecycleViewAdapter(artist_spotify_matrix);
-                                shared.generate_linearLayout_recycleView(getContext(), artist_spotify_recycleView, artist_spotify_adapter);
-                                artist_cards_pb.setVisibility(View.GONE);
-                            });
-                        }
+            CompletableFuture<Void> combinedFuture = CompletableFuture.completedFuture(null);
+            for (String artist : artist_names) {
+                combinedFuture = combinedFuture.thenCompose(v -> get_artists_spotify_request(artist));
+            }
+
+            combinedFuture.thenRun(() -> {
+                Activity activity = getActivity();
+                if (activity != null) {
+                    activity.runOnUiThread(() -> {
+                        // main UI thread
+                        Log.d("spotify debug", "test name: " + artist_spotify_matrix);
+                        artist_spotify_adapter = new ArtistSpotifyRecycleViewAdapter(artist_spotify_matrix);
+                        shared.generate_linearLayout_recycleView(getContext(), artist_spotify_recycleView, artist_spotify_adapter);
+                        artist_cards_pb.setVisibility(View.GONE);
                     });
+                }
+            });
         });
     }
 
-    private List<CompletableFuture<Void>> get_artists_spotify_request(ArrayList<String> artist_names){
-        List<CompletableFuture<Void>> futures = new ArrayList<>();
 
-        for (String artist : artist_names) {
-            String base_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/artists";
-            Uri.Builder builder = Uri.parse(base_url).buildUpon();
-            builder.appendQueryParameter("q", artist);
-            String backend_url = builder.build().toString();
+    private CompletableFuture<Void> get_artists_spotify_request(String artist) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
 
-            CompletableFuture<Void> future = new CompletableFuture<>();
-            JsonObjectRequest json_obj_request = new JsonObjectRequest
-                    (Request.Method.GET, backend_url, null, resp -> {
-                        Gson gson = new Gson();
-                        JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
-                        ArrayList<Object> artist_data = new ArrayList<>();
+        String base_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/artists";
+        Uri.Builder builder = Uri.parse(base_url).buildUpon();
+        builder.appendQueryParameter("q", artist);
+        String backend_url = builder.build().toString();
 
-                        JsonArray desired_artist_spotify_info = shared.general_json_arr_navigator(gson_resp, "artists", "items");
-                        if (desired_artist_spotify_info != null && desired_artist_spotify_info.size() > 0) {
-                            JsonObject artist_obj = desired_artist_spotify_info.get(0).getAsJsonObject();
-                            // name
-                            String artist_name = shared.general_json_navigator(artist_obj, "name");
-                            artist_data.add(artist_name);
+        JsonObjectRequest json_obj_request = new JsonObjectRequest
+                (Request.Method.GET, backend_url, null, resp -> {
+                    Gson gson = new Gson();
+                    JsonObject gson_resp = gson.fromJson(resp.toString(), JsonObject.class);
+                    ArrayList<Object> artist_data = new ArrayList<>();
 
-                            // artist image with appropriate size
-                            JsonObject artist_img_obj = shared.general_json_arr_navigator(artist_obj, "images").get(2).getAsJsonObject();
-                            String artist_img =  shared.general_json_navigator(artist_img_obj, "url");
-                            artist_data.add(artist_img);
+                    JsonArray desired_artist_spotify_info = shared.general_json_arr_navigator(gson_resp, "artists", "items");
+                    if (desired_artist_spotify_info != null && desired_artist_spotify_info.size() > 0) {
+                        JsonObject artist_obj = desired_artist_spotify_info.get(0).getAsJsonObject();
+                        // name
+                        String artist_name = shared.general_json_navigator(artist_obj, "name");
+                        artist_data.add(artist_name);
 
-                            // popularity
-                            String artist_popularity = shared.general_json_navigator(artist_obj, "popularity");
-                            artist_data.add(artist_popularity);
+                        // artist image with appropriate size
+                        JsonObject artist_img_obj = shared.general_json_arr_navigator(artist_obj, "images").get(2).getAsJsonObject();
+                        String artist_img = shared.general_json_navigator(artist_img_obj, "url");
+                        artist_data.add(artist_img);
 
-                            // formatted number of followers
-                            String artist_followers_str = shared.general_json_navigator(artist_obj, "followers", "total");
-                            artist_data.add(custom_str_formatter(artist_followers_str));
+                        // popularity
+                        String artist_popularity = shared.general_json_navigator(artist_obj, "popularity");
+                        artist_data.add(artist_popularity);
 
-                            // spotify link
-                            String artist_spotify_link = shared.general_json_navigator(artist_obj, "external_urls", "spotify");
-                            artist_data.add(artist_spotify_link);
+                        // formatted number of followers
+                        String artist_followers_str = shared.general_json_navigator(artist_obj, "followers", "total");
+                        artist_data.add(custom_str_formatter(artist_followers_str));
 
-                           // nested async get request for artist spotify albums
-                            String artist_id = shared.general_json_navigator(artist_obj, "id");
-                            get_artist_spotify_album(artist_id).thenAccept(artist_albums -> {
-                                artist_data.add(artist_albums);
-                                artist_spotify_matrix.add(artist_data);
-                                future.complete(null);
-                            });
-                        }
+                        // spotify link
+                        String artist_spotify_link = shared.general_json_navigator(artist_obj, "external_urls", "spotify");
+                        artist_data.add(artist_spotify_link);
 
-                    }, error -> {
+                        // nested async get request for artist spotify albums
+                        String artist_id = shared.general_json_navigator(artist_obj, "id");
+                        get_artist_spotify_album(artist_id).thenAccept(artist_albums -> {
+                            artist_data.add(artist_albums);
+                            artist_spotify_matrix.add(artist_data);
+                            future.complete(null);
+                        });
+                    } else {
                         future.complete(null);
-                        artist_cards_pb.setVisibility(View.GONE);
-                        Log.e("Error", "Volley Error Spotify Artist Search: " + error.getMessage());
-                    });
-            futures.add(future);
-            MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
-        }
-        return futures;
+                    }
+
+                }, error -> {
+                    future.complete(null);
+                    artist_cards_pb.setVisibility(View.GONE);
+                    Log.e("Error", "Volley Error Spotify Artist Search: " + error.getMessage());
+                });
+
+        MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
+        return future;
     }
 
     private CompletableFuture<ArrayList<String>> get_artist_spotify_album(String artist_id) {

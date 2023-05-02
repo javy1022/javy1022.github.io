@@ -3,7 +3,6 @@ package com.example.hw9.ui.main.MainActivity.tabs;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +37,6 @@ import com.example.hw9.RecycleViewDecorator;
 import com.example.hw9.SharedGeneralPurposeMethods;
 import com.example.hw9.ui.main.MainActivity.adapters.AutoCompleteArrayAdapter;
 import com.example.hw9.ui.main.MainActivity.adapters.EventResultsRecycleViewAdapter;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -131,7 +128,7 @@ public class SearchFragment extends Fragment {
     private void dev_inputs_placeholder(View view){
         final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
         final EditText location_input = view.findViewById(R.id.location_input);
-        keyword_input.setText("P!NK");
+        keyword_input.setText("Taylor Swift");
         location_input.setText("New York");
     }
     /* Custom Code Start Here */
