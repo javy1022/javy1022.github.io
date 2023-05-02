@@ -117,9 +117,9 @@ public class DetailsFragment  extends Fragment {
         ArrayList<String> artist_or_team = new ArrayList<>();
         if (attractions != null) {
             for (JsonElement artist : attractions) {
-                JsonObject artistObj = artist.getAsJsonObject();
-                String artist_name = shared.general_json_navigator(artistObj, "name");
-                JsonArray classifications = shared.general_json_arr_navigator(artistObj, "classifications");
+                JsonObject artist_obj = artist.getAsJsonObject();
+                String artist_name = shared.general_json_navigator(artist_obj, "name");
+                JsonArray classifications = shared.general_json_arr_navigator(artist_obj, "classifications");
                 if (classifications != null && classifications.size() > 0) {
                     JsonObject classification = classifications.get(0).getAsJsonObject();
                     String artist_category = shared.general_json_navigator(classification, "segment", "name");
@@ -128,7 +128,6 @@ public class DetailsFragment  extends Fragment {
                     }
                 }
             }
-            // Pass sequence of artist names to artists tab
             Bundle artist_name_bundle = new Bundle();
             artist_name_bundle.putStringArrayList("artist_names", artist_or_team);
             getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
