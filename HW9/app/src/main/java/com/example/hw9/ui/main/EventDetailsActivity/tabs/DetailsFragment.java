@@ -31,10 +31,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringJoiner;
@@ -164,9 +163,8 @@ public class DetailsFragment extends Fragment {
             String formatted_artist_or_team = concat_artists_or_teams(artist_or_team);
             artist_team_tv.setText(formatted_artist_or_team);
             artist_team_tv.setSelected(true);
-        } else {
-            artist_team_tv.setText("N/A");
-        }
+        } else artist_team_tv.setText("N/A");
+
         set_textView(venue_tv, venue);
         set_textView(date_tv, date);
         set_textView(time_tv, time);
@@ -193,9 +191,7 @@ public class DetailsFragment extends Fragment {
                     break;
             }
             status_tv.setSelected(true);
-        } else {
-            status_tv.setText("N/A");
-        }
+        } else status_tv.setText("N/A");
 
         if (!ticket_url.isEmpty()) {
             set_textView(ticket_url_tv, ticket_url);
@@ -206,9 +202,7 @@ public class DetailsFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ticket_url));
                 v.getContext().startActivity(intent);
             });
-        } else {
-            ticket_url_tv.setVisibility(View.GONE);
-        }
+        } else ticket_url_tv.setVisibility(View.GONE);
 
         if (!seatmap_url.isEmpty()) {
             seatmap_img.setVisibility(View.VISIBLE);
@@ -216,9 +210,7 @@ public class DetailsFragment extends Fragment {
             Glide.with(requireContext())
                     .load(seatmap_url)
                     .into(seatmap_img);
-        } else {
-            seatmap_img.setVisibility(View.GONE);
-        }
+        } else seatmap_img.setVisibility(View.GONE);
     }
 
     /* custom json data navigators */
@@ -238,8 +230,8 @@ public class DetailsFragment extends Fragment {
             if (segment.length() > 0) genre_buffer.add(segment);
             if (genre_name.length() > 0) genre_buffer.add(genre_name);
             if (sub_genre.length() > 0) genre_buffer.add(sub_genre);
-            if ( type.length() > 0) genre_buffer.add(type);
-            if ( subtype.length() > 0) genre_buffer.add(subtype);
+            if (type.length() > 0) genre_buffer.add(type);
+            if (subtype.length() > 0) genre_buffer.add(subtype);
         }
         return genre_buffer.toString();
     }
@@ -304,9 +296,9 @@ public class DetailsFragment extends Fragment {
         Locale locale = Locale.US;
 
         try {
-            Date parsed_time = new SimpleDateFormat(input_time_format, locale).parse(time);
-            if (parsed_time != null) return new SimpleDateFormat(desired_time_format, locale).format(parsed_time);
-        } catch (ParseException ignored) {
+            LocalTime parsed_time = LocalTime.parse(time, DateTimeFormatter.ofPattern(input_time_format, locale));
+            return parsed_time.format(DateTimeFormatter.ofPattern(desired_time_format, locale));
+        } catch (Exception ignored) {
         }
         return time;
     }

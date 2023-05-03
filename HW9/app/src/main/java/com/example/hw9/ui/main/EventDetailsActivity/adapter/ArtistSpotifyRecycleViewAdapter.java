@@ -74,7 +74,6 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         // artist spotify album image 3
         set_album_img(artist_album_obj, 2, holder, holder.album_img_3);
 
-
         // Enable selected to make marquee effect works on TextViews
         SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.followers, holder.spotify_link);
     }

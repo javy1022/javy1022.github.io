@@ -41,7 +41,7 @@
                     android:id="@+id/fav_empty_prompt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No favorites available"
+                    android:text="@string/no_favorites_available"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold"

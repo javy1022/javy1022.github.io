@@ -198,9 +198,7 @@ public class VenueFragment extends Fragment implements OnMapReadyCallback {
     /* Google Map SDK */
     private void load_googleMap() {
         SupportMapFragment map_fragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (map_fragment != null) {
-            map_fragment.getMapAsync(this);
-        }
+        if (map_fragment != null) map_fragment.getMapAsync(this);
     }
 
     @Override

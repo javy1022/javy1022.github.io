@@ -49,12 +49,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -99,8 +96,6 @@ public class SearchFragment extends Fragment {
         event_search_pb = view.findViewById(R.id.event_search_progress_bar);
         search_empty_cv = view.findViewById(R.id.search_empty);
 
-        // remove this when deploy
-        dev_inputs_placeholder(view);
         // init category dropdown spinner
         init_category_spinner(view);
         // init autocomplete array adapter
@@ -133,6 +128,7 @@ public class SearchFragment extends Fragment {
                 ((TextView) view).setTextColor(Color.WHITE);
                 return view;
             }
+
             // custom dropdown text color
             @Override
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
@@ -156,7 +152,7 @@ public class SearchFragment extends Fragment {
         SwitchCompat auto_detect_switch = view.findViewById(R.id.auto_detect_switch);
         // custom thumb
         int active_thumb_color = ContextCompat.getColor(requireContext(), R.color.green);
-        int inactive_thumb_color = Color.parseColor("#B9B9B9");
+        int inactive_thumb_color = ContextCompat.getColor(requireContext(), R.color.gray_details);
         int[][] thumb_states = new int[][]{
                 new int[]{-android.R.attr.state_checked},
                 new int[]{android.R.attr.state_checked}
@@ -167,7 +163,7 @@ public class SearchFragment extends Fragment {
 
         // custom track
         int active_track_color = ContextCompat.getColor(requireContext(), R.color.switch_track_green);
-        int inactive_track_color = Color.parseColor("#5B5B5B");
+        int inactive_track_color = ContextCompat.getColor(requireContext(), R.color.switch_track_gray);
         int[][] track_states = new int[][]{
                 new int[]{-android.R.attr.state_checked},
                 new int[]{android.R.attr.state_checked}
@@ -340,6 +336,7 @@ public class SearchFragment extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // required
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 auto_complete_pb.setVisibility(View.VISIBLE);
@@ -376,9 +373,7 @@ public class SearchFragment extends Fragment {
                                 List<String> ac_suggestions = new ArrayList<>();
                                 for (Map<String, Object> attraction_obj : attractions) {
                                     String name = (String) attraction_obj.get("name");
-                                    if (name != null) {
-                                        ac_suggestions.add(name);
-                                    }
+                                    if (name != null) ac_suggestions.add(name);
                                 }
                                 // Update the ArrayAdapter with the new list of names
                                 ac_adapter.clear();
@@ -398,7 +393,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                // required
             }
 
         });
@@ -541,9 +536,8 @@ public class SearchFragment extends Fragment {
             if (linear_layout_manager != null) {
                 int start_item_position = linear_layout_manager.findFirstVisibleItemPosition();
                 int end_item_position = linear_layout_manager.findLastVisibleItemPosition();
-                for (int i = start_item_position; i <= end_item_position; i++) {
+                for (int i = start_item_position; i <= end_item_position; i++)
                     event_results_adapter.notifyItemChanged(i);
-                }
             }
         }
     }
@@ -577,43 +571,32 @@ public class SearchFragment extends Fragment {
         return apiKey;
     }
 
-    // Sort event results in ascending dataTime, and convert to AM/PM format
-    // Reference source: https://stackoverflow.com/questions/5927109/sort-objects-in-arraylist-by-date
-    private static void sort_by_dateTime(ArrayList<ArrayList<String>> list_for_table) {
-        String dateTime_format = "yyyy-MM-dd HH:mm:ss";
-        Locale locale = Locale.US;
-        SimpleDateFormat date_format = new SimpleDateFormat(dateTime_format, locale);
+    // Sort event results in ascending dateTime, and convert time to AM/PM format
+    private void sort_by_dateTime(ArrayList<ArrayList<String>> list_for_table) {
+        DateTimeFormatter input_dateTime_format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
 
-        Comparator<ArrayList<String>> custom_date_comparator = (a, b) -> {
+        // custom date comparator
+        list_for_table.sort((a, b) -> {
             try {
-                Date date_a = date_format.parse(a.get(0) + " " + a.get(1));
-                Date date_b = date_format.parse(b.get(0) + " " + b.get(1));
-                return date_a != null ? date_a.compareTo(date_b) : 0;
-            } catch (ParseException e) {
+                LocalDateTime dateTime_a = LocalDateTime.parse(a.get(0) + " " + a.get(1), input_dateTime_format);
+                LocalDateTime dateTime_b = LocalDateTime.parse(b.get(0) + " " + b.get(1), input_dateTime_format);
+                return dateTime_a.compareTo(dateTime_b);
+            } catch (Exception e) {
                 return 0;
             }
-        };
+        });
 
-        list_for_table.sort(custom_date_comparator);
+        // format the time
+        DateTimeFormatter desired_time_format = DateTimeFormatter.ofPattern("h:mm a", Locale.US);
 
-        DateFormat desired_format = new SimpleDateFormat("h:mm a", locale);
-
-        for (ArrayList<String> date : list_for_table) {
-            String formatted_date = "";
+        list_for_table.forEach(date -> {
             try {
-                Date parsed_date = date_format.parse(date.get(0) + " " + date.get(1));
-                formatted_date = parsed_date != null ? desired_format.format(parsed_date) : "";
-            } catch (ParseException ignored) {
-
+                LocalDateTime parsed_dateTime = LocalDateTime.parse(date.get(0) + " " + date.get(1), input_dateTime_format);
+                String formatted_time = desired_time_format.format(parsed_dateTime);
+                date.set(1, formatted_time);
+            } catch (Exception ignored) {
             }
-            date.set(1, formatted_date);
-        }
+        });
     }
-    // Remove this function after
-    private void dev_inputs_placeholder(View view){
-        final AutoCompleteTextView keyword_input = view.findViewById(R.id.keyword_input);
-        final EditText location_input = view.findViewById(R.id.location_input);
-        keyword_input.setText("Taylor Swift");
-        location_input.setText("New York");
-    }
+
 }

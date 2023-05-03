@@ -282,7 +282,7 @@
                     android:id="@+id/search_empty_prompt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No events found"
+                    android:text="@string/no_events_found"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold"

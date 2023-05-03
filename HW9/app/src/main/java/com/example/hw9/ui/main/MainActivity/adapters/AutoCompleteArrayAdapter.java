@@ -18,7 +18,7 @@ public class AutoCompleteArrayAdapter extends ArrayAdapter<String> {
         this.items = items;
     }
 
-    /* Custom filter to not filter anything, which is not by default */
+    /* Custom filter to not filter anything, so the autocomplete suggestions from api is not affected */
     @Override
     public Filter getFilter() {
         return new Filter() {

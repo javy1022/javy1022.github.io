@@ -76,7 +76,6 @@ public class EventDetailsActivity extends AppCompatActivity {
     private void heart_icon_toggle() {
         SharedPreferences shared_preferences = getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
         boolean is_fav = shared_preferences.getBoolean("favorite_id_" + event_id, false);
-
         ImageView heart_icon = findViewById(R.id.sub_heart_icon);
         shared.update_heart_icon_UI(heart_icon, is_fav);
     }

@@ -54,7 +54,7 @@
                     android:id="@+id/artist_empty_prompt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Artist/Music data unavailable"
+                    android:text="@string/artist_music_data_unavailable"
                     android:textColor="@color/green"
                     android:textSize="18sp"
                     android:textStyle="bold"

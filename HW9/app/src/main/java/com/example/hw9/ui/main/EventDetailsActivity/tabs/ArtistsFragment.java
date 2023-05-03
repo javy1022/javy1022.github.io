@@ -189,13 +189,13 @@ public class ArtistsFragment extends Fragment {
     private String custom_str_formatter(String artist_followers_str) {
         int artist_followers_num = Integer.parseInt(artist_followers_str);
         String artist_followers_formatted;
-        DecimalFormat decimalFormat;
+        DecimalFormat desired_format;
         if (artist_followers_num >= 1000000) {
-            decimalFormat = new DecimalFormat("0.0M");
-            artist_followers_formatted = decimalFormat.format(artist_followers_num / 1000000.0);
+            desired_format = new DecimalFormat("0.0M");
+            artist_followers_formatted = desired_format.format(artist_followers_num / 1000000.0);
         } else if (artist_followers_num >= 1000) {
-            decimalFormat = new DecimalFormat("0.0K");
-            artist_followers_formatted = decimalFormat.format(artist_followers_num / 1000.0);
+            desired_format = new DecimalFormat("0.0K");
+            artist_followers_formatted = desired_format.format(artist_followers_num / 1000.0);
         } else {
             artist_followers_formatted = Integer.toString(artist_followers_num);
         }

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class SharedGeneralPurposeMethods {
 
-    // helper function to  extract desired data array given a sequences of keys
+    // helper function to extract desired data array given a sequences of keys
     public JsonArray general_json_arr_navigator(JsonObject json_obj, String... keys) {
         JsonElement json_element = json_obj;
         for (String key : keys) {
@@ -66,7 +66,7 @@ public class SharedGeneralPurposeMethods {
     }
 
     // generic helper function to set image with Glide
-    public <T extends RecyclerView.ViewHolder> void set_recycle_view_iv(T holder, String img_url, ImageView img){
+    public <T extends RecyclerView.ViewHolder> void set_recycle_view_iv(T holder, String img_url, ImageView img) {
         MultiTransformation<Bitmap> transformations = new MultiTransformation<>(
                 new CenterCrop(),
                 new RoundedCorners(45)
@@ -82,12 +82,12 @@ public class SharedGeneralPurposeMethods {
                 .into(img);
     }
 
-    public static void textViews_enable_selected(TextView... text_views){
+    public static void textViews_enable_selected(TextView... text_views) {
         for (TextView tv : text_views) tv.setSelected(true);
     }
 
-    public void snack_bar_msg(View view, Context context, String msg ){
-        Snackbar snackBar = Snackbar.make(view,  msg, Snackbar.LENGTH_SHORT);
+    public void snack_bar_msg(View view, Context context, String msg) {
+        Snackbar snackBar = Snackbar.make(view, msg, Snackbar.LENGTH_SHORT);
         snackBar.getView().setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.gray_snack_bar)));
         TextView snackBar_text = snackBar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
         snackBar_text.setTextColor(ContextCompat.getColor(context, R.color.black));
@@ -102,13 +102,15 @@ public class SharedGeneralPurposeMethods {
 
         // Get the list of favorite events ids
         String fav_events_ids_json = shared_preferences.getString("favorite_event_ids", null);
-        ArrayList<String> fav_event_ids = fav_events_ids_json != null ? gson.fromJson(fav_events_ids_json, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+        ArrayList<String> fav_event_ids = fav_events_ids_json != null ? gson.fromJson(fav_events_ids_json, new TypeToken<ArrayList<String>>() {
+        }.getType()) : new ArrayList<>();
 
         // Get the favorite events
         for (String event_id : fav_event_ids) {
             String event_json = shared_preferences.getString("event_data_" + event_id, null);
             if (event_json != null) {
-                ArrayList<String> event_data = gson.fromJson(event_json, new TypeToken<ArrayList<String>>() {}.getType());
+                ArrayList<String> event_data = gson.fromJson(event_json, new TypeToken<ArrayList<String>>() {
+                }.getType());
                 fav_events.add(event_data);
             }
         }
@@ -122,7 +124,8 @@ public class SharedGeneralPurposeMethods {
 
         // Get the current list of favorite events ids
         String fav_events_ids_json = shared_preferences.getString("favorite_event_ids", null);
-        ArrayList<String> fav_events_ids = fav_events_ids_json != null ? gson.fromJson(fav_events_ids_json, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+        ArrayList<String> fav_events_ids = fav_events_ids_json != null ? gson.fromJson(fav_events_ids_json, new TypeToken<ArrayList<String>>() {
+        }.getType()) : new ArrayList<>();
 
         if (is_fav) {
             fav_events_ids.add(event_id);

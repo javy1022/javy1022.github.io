@@ -41,5 +41,16 @@
     <string name="ticket_status">Ticket Status</string>
     <string name="buy_tickets_at">Buy Tickets At</string>
     <string name="seat_map_image">Seat Map Image</string>
+    <string name="add_to_favorite">Add to Favorite</string>
+    <string name="artist_music_data_unavailable">Artist/Music data unavailable</string>
+    <string name="no_favorites_available">No favorites available</string>
+    <string name="no_events_found">No events found</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="city_state">City/State</string>
+    <string name="contact_info">Contact Info</string>
+    <string name="open_hours">Open Hours</string>
+    <string name="general_rules">General Rules</string>
+    <string name="child_rules">Child Rules</string>
 
 </resources>
