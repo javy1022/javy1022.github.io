@@ -586,13 +586,16 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        // format the time
+        // format the date and time
+        DateTimeFormatter desired_date_format = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.US);
         DateTimeFormatter desired_time_format = DateTimeFormatter.ofPattern("h:mm a", Locale.US);
 
         list_for_table.forEach(date -> {
             try {
                 LocalDateTime parsed_dateTime = LocalDateTime.parse(date.get(0) + " " + date.get(1), input_dateTime_format);
+                String formatted_date = desired_date_format.format(parsed_dateTime);
                 String formatted_time = desired_time_format.format(parsed_dateTime);
+                date.set(0, formatted_date);
                 date.set(1, formatted_time);
             } catch (Exception ignored) {
             }
