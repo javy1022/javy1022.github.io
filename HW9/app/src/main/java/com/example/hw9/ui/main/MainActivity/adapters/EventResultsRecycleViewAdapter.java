@@ -116,6 +116,8 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
         }
     }
 
+    // Read and write data to SharedPreferences
+    // Reference source: https://www.geeksforgeeks.org/how-to-save-arraylist-to-sharedpreferences-in-android/
     private void heart_icon_onClick(Context context, ImageView heart_icon, String event_id, boolean is_fav_tab, ViewHolder holder, ArrayList<String> event_data) {
         SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = shared_preferences.edit();
@@ -162,10 +164,10 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
     }
 
     private void event_result_card_onClick(CardView card, ArrayList<String> event_data) {
-        card.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), EventDetailsActivity.class);
+        card.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
             intent.putStringArrayListExtra("event_data", event_data);
-            v.getContext().startActivity(intent);
+            view.getContext().startActivity(intent);
         });
     }
 

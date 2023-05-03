@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 public class AutoCompleteArrayAdapter extends ArrayAdapter<String> {
-
     private final List<String> items;
 
     public AutoCompleteArrayAdapter(Context context, int textViewResourceId, List<String> items) {
@@ -19,6 +18,7 @@ public class AutoCompleteArrayAdapter extends ArrayAdapter<String> {
         this.items = items;
     }
 
+    /* Custom filter to not filter anything, which is not the default */
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -36,6 +36,7 @@ public class AutoCompleteArrayAdapter extends ArrayAdapter<String> {
             }
         };
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView = (TextView) super.getView(position, convertView, parent);

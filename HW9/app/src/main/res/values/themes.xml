@@ -13,6 +13,9 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowSplashScreenBackground">@color/header_color</item>
+        <!-- Custom autocomplete dropdown scrollbar color -->
+        <item name="android:dropDownListViewStyle">@style/Theme.HW9.DropDownListView</item>
+
     </style>
 
     <style name="Theme.HW9.NoActionBar">
@@ -28,4 +31,9 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="Theme.HW9.DropDownListView" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:scrollbarThumbVertical">@color/green</item>
+    </style>
+
 </resources>
