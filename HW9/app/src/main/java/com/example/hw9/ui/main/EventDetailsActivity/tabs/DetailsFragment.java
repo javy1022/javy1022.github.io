@@ -111,24 +111,26 @@ public class DetailsFragment extends Fragment {
         String seatmap_url = shared.general_json_navigator(gson_resp, "seatmap", "staticUrl");
 
         JsonArray attractions = shared.general_json_arr_navigator(gson_resp, "_embedded", "attractions");
+        ArrayList<String> artists = new ArrayList<>();
         ArrayList<String> artist_or_team = new ArrayList<>();
         Bundle artist_name_bundle = new Bundle();
         if (attractions != null) {
             for (JsonElement artist : attractions) {
                 JsonObject artist_obj = artist.getAsJsonObject();
                 String artist_name = shared.general_json_navigator(artist_obj, "name");
+                artist_or_team.add(artist_name);
                 JsonArray classifications = shared.general_json_arr_navigator(artist_obj, "classifications");
                 if (classifications != null && classifications.size() > 0) {
                     JsonObject classification = classifications.get(0).getAsJsonObject();
                     String artist_category = shared.general_json_navigator(classification, "segment", "name");
                     if ("Music".equalsIgnoreCase(artist_category)) {
-                        artist_or_team.add(artist_name);
+                        artists.add(artist_name);
                     }
                 }
             }
         }
         // If the json data for artist does not exist
-        artist_name_bundle.putStringArrayList("artist_names", artist_or_team);
+        artist_name_bundle.putStringArrayList("artist_names", artists);
         getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
 
         JsonArray venues_arr = shared.general_json_arr_navigator(gson_resp, "_embedded", "venues");
