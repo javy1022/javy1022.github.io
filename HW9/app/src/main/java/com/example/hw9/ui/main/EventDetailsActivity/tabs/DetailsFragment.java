@@ -31,6 +31,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -142,6 +143,7 @@ public class DetailsFragment extends Fragment {
             getParentFragmentManager().setFragmentResult("venue_name", venue_name_bundle);
         }
 
+        local_date = reformat_localDate(local_date);
         local_time = reformat_localTime(local_time);
 
         set_share_icons(ticket_url, event_title);
@@ -288,6 +290,19 @@ public class DetailsFragment extends Fragment {
         StringJoiner artists_buffer = new StringJoiner(" | ");
         for (String artist : artist_or_team) if (artist.length() > 0) artists_buffer.add(artist);
         return artists_buffer.toString();
+    }
+
+    private static String reformat_localDate(String date) {
+        String input_date_format = "yyyy-M-d";
+        String desired_date_format = "MMM d, yyyy";
+        Locale locale = Locale.US;
+
+        try {
+            LocalDate parsed_date = LocalDate.parse(date, DateTimeFormatter.ofPattern(input_date_format, locale));
+            return parsed_date.format(DateTimeFormatter.ofPattern(desired_date_format, locale));
+        } catch (Exception ignored) {
+        }
+        return date;
     }
 
     private String reformat_localTime(String time) {
