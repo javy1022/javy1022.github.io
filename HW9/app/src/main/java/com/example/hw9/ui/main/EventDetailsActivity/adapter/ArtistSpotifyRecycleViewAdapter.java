@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<ArtistSpotifyRecycleViewAdapter.ViewHolder> {
-
     private final ArrayList<ArrayList<Object>> artists_spotify_matrix;
-
     private SharedGeneralPurposeMethods shared;
 
     public ArtistSpotifyRecycleViewAdapter(ArrayList<ArrayList<Object>> artists_spotify_matrix) {
@@ -47,7 +45,7 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
 
         // artist spotify image
         String img_url = (String) artist_spotify_info.get(1);
-        shared.set_recycleViews_imgView(holder,img_url,holder.img);
+        shared.set_recycle_view_iv(holder, img_url, holder.img);
 
         // artist followers
         String followers = (String) artist_spotify_info.get(3);
@@ -57,8 +55,8 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         String spotify_link_url = (String) artist_spotify_info.get(4);
         holder.spotify_link.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         holder.spotify_link.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(spotify_link_url));
-            v.getContext().startActivity(browserIntent);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(spotify_link_url));
+            v.getContext().startActivity(intent);
         });
 
         // spotify popularity percentage text and indicator
@@ -79,7 +77,6 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
 
         // Enable selected to make marquee effect works on TextViews
         SharedGeneralPurposeMethods.textViews_enable_selected(holder.name, holder.followers, holder.spotify_link);
-
     }
 
     @Override
@@ -93,15 +90,10 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         private final TextView followers;
         private final TextView spotify_link;
         private final TextView popularity_percentage_str;
-        private final  CircularProgressIndicator popularity_pr;
-
+        private final CircularProgressIndicator popularity_pr;
         private final ImageView album_img_1;
-
         private final ImageView album_img_2;
         private final ImageView album_img_3;
-
-
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -117,19 +109,14 @@ public class ArtistSpotifyRecycleViewAdapter extends RecyclerView.Adapter<Artist
         }
     }
 
-    private void set_album_img(Object artist_album_obj, int index, ViewHolder holder, ImageView artist_album_imgView) {
-        if (artist_album_obj instanceof List) {
-            List<?> list = (List<?>) artist_album_obj;
-            if (list.size() > index && list.get(index) instanceof String) {
-                String imageUrl = (String) list.get(index);
-                artist_album_imgView.setVisibility(View.VISIBLE);
-                shared.set_recycleViews_imgView(holder, imageUrl, artist_album_imgView);
-            } else {
-                artist_album_imgView.setVisibility(View.GONE);
-            }
-        } else {
-            artist_album_imgView.setVisibility(View.GONE);
-        }
+    private void set_album_img(Object artist_album_obj, int index, ViewHolder holder, ImageView artist_album_iv) {
+        // generic wildcard list
+        List<?> list = (List<?>) artist_album_obj;
+        if (list.size() > index) {
+            String img_url = (String) list.get(index);
+            artist_album_iv.setVisibility(View.VISIBLE);
+            shared.set_recycle_view_iv(holder, img_url, artist_album_iv);
+        } else artist_album_iv.setVisibility(View.GONE);
     }
 
 }

@@ -70,7 +70,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private void set_tabs_content(EventDetailsSectionsPagerAdapter sections_pager_adapter) {
         int[] tab_icons = {R.drawable.info_icon, R.drawable.artist_icon, R.drawable.venue_icon};
         tab_layout = findViewById(R.id.tabs);
-        sections_pager_adapter.setTabIconsAndTitles(tab_icons);
+        sections_pager_adapter.set_tabs_layouts(tab_icons);
     }
 
     private void heart_icon_toggle() {
@@ -90,7 +90,7 @@ public class EventDetailsActivity extends AppCompatActivity {
             boolean is_fav = shared_preferences.getBoolean("favorite_id_" + event_id, false);
             shared_preferences.edit().putBoolean("favorite_id_" + event_id, !is_fav).apply();
             heart_icon_toggle();
-            SharedGeneralPurposeMethods.updateFavoritesInSharedPreferences(this, !is_fav, event_id, event_data);
+            SharedGeneralPurposeMethods.update_sharedPreferences_fav_events(this, !is_fav, event_id, event_data);
 
             String msg;
             if (!is_fav) {

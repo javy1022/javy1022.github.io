@@ -69,7 +69,7 @@ public class FavoriteFragment extends Fragment {
         fav_pb.setVisibility(View.VISIBLE);
 
         Gson gson = new Gson();
-        ArrayList<ArrayList<String>> fav_events = SharedGeneralPurposeMethods.getFavoriteEvents(requireContext());
+        ArrayList<ArrayList<String>> fav_events = SharedGeneralPurposeMethods.get_sharedPreferences_fav_events(requireContext());
         fav_adapter = new EventResultsRecycleViewAdapter(fav_events, true);
 
         fav_recycle_view.setAdapter(fav_adapter);

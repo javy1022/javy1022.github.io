@@ -55,7 +55,7 @@ public class EventResultsRecycleViewAdapter extends RecyclerView.Adapter<EventRe
 
         // image
         String img_url = event_search_result.get(2);
-        shared.set_recycleViews_imgView(holder, img_url, holder.img);
+        shared.set_recycle_view_iv(holder, img_url, holder.img);
 
         // event name
         String name = event_search_result.get(3);

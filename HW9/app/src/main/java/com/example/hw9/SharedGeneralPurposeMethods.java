@@ -56,6 +56,7 @@ public class SharedGeneralPurposeMethods {
         return desired_data;
     }
 
+    // generic recycle view layout constructor
     public <T extends RecyclerView.Adapter<?>> void generate_linearLayout_recycleView(Context context, RecyclerView recycle_view, T recycle_view_adapter) {
         // Init
         RecyclerView.LayoutManager event_search_recycleView_layoutManager = new LinearLayoutManager(context);
@@ -64,12 +65,13 @@ public class SharedGeneralPurposeMethods {
         recycle_view.setAdapter(recycle_view_adapter);
     }
 
-
-    public <T extends RecyclerView.ViewHolder> void set_recycleViews_imgView(T holder, String img_url, ImageView img){
+    // generic helper function to set image with Glide
+    public <T extends RecyclerView.ViewHolder> void set_recycle_view_iv(T holder, String img_url, ImageView img){
         MultiTransformation<Bitmap> transformations = new MultiTransformation<>(
                 new CenterCrop(),
                 new RoundedCorners(45)
-        );  //original 325 325
+        );
+
         RequestOptions request_options = new RequestOptions()
                 .override(310, 310)
                 .transform(transformations);
@@ -80,10 +82,8 @@ public class SharedGeneralPurposeMethods {
                 .into(img);
     }
 
-    public static void textViews_enable_selected(TextView... textViews){
-        for (TextView tv : textViews) {
-            tv.setSelected(true);
-        }
+    public static void textViews_enable_selected(TextView... text_views){
+        for (TextView tv : text_views) tv.setSelected(true);
     }
 
     public void snack_bar_msg(View view, Context context, String msg ){
@@ -94,54 +94,46 @@ public class SharedGeneralPurposeMethods {
         snackBar.show();
     }
 
-
-    public static ArrayList<ArrayList<String>> getFavoriteEvents(Context context) {
-        ArrayList<ArrayList<String>> favoriteEvents = new ArrayList<>();
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
-
+    // Reference source: https://www.geeksforgeeks.org/how-to-save-arraylist-to-sharedpreferences-in-android/
+    public static ArrayList<ArrayList<String>> get_sharedPreferences_fav_events(Context context) {
+        ArrayList<ArrayList<String>> fav_events = new ArrayList<>();
+        SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
 
-        // Get the list of favorite event IDs
-        String favoriteEventIdsJson = sharedPreferences.getString("favorite_event_ids", null);
-        ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+        // Get the list of favorite events ids
+        String fav_events_ids_json = shared_preferences.getString("favorite_event_ids", null);
+        ArrayList<String> fav_event_ids = fav_events_ids_json != null ? gson.fromJson(fav_events_ids_json, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
 
-        // Loop through the list of favorite event IDs to get the favorite events
-        for (String eventId : favoriteEventIds) {
-            String eventJson = sharedPreferences.getString("event_data_" + eventId, null);
-            if (eventJson != null) {
-                ArrayList<String> eventDetails = gson.fromJson(eventJson, new TypeToken<ArrayList<String>>() {}.getType());
-                favoriteEvents.add(eventDetails);
+        // Get the favorite events
+        for (String event_id : fav_event_ids) {
+            String event_json = shared_preferences.getString("event_data_" + event_id, null);
+            if (event_json != null) {
+                ArrayList<String> event_data = gson.fromJson(event_json, new TypeToken<ArrayList<String>>() {}.getType());
+                fav_events.add(event_data);
             }
         }
-
-        return favoriteEvents;
+        return fav_events;
     }
 
-    public static void updateFavoritesInSharedPreferences(Context context, boolean isFav, String eventId, ArrayList<String> eventData) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
+    public static void update_sharedPreferences_fav_events(Context context, boolean is_fav, String event_id, ArrayList<String> event_data) {
+        SharedPreferences shared_preferences = context.getSharedPreferences("favorite_preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared_preferences.edit();
         Gson gson = new Gson();
 
-        // Get the current list of favorite event IDs
-        String favoriteEventIdsJson = sharedPreferences.getString("favorite_event_ids", null);
-        ArrayList<String> favoriteEventIds = favoriteEventIdsJson != null ? gson.fromJson(favoriteEventIdsJson, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
+        // Get the current list of favorite events ids
+        String fav_events_ids_json = shared_preferences.getString("favorite_event_ids", null);
+        ArrayList<String> fav_events_ids = fav_events_ids_json != null ? gson.fromJson(fav_events_ids_json, new TypeToken<ArrayList<String>>() {}.getType()) : new ArrayList<>();
 
-        if (isFav) {
-            // If the event is now a favorite, add the event ID to the list
-            favoriteEventIds.add(eventId);
-            // Save the event data
-            editor.putString("event_data_" + eventId, gson.toJson(eventData));
+        if (is_fav) {
+            fav_events_ids.add(event_id);
+            editor.putString("event_data_" + event_id, gson.toJson(event_data));
         } else {
-            // If the event is no longer a favorite, remove the event ID from the list
-            favoriteEventIds.remove(eventId);
-            // Remove the event data
-            editor.remove("event_data_" + eventId);
+            fav_events_ids.remove(event_id);
+            editor.remove("event_data_" + event_id);
         }
 
-        // Save the updated list of favorite event IDs
-        editor.putString("favorite_event_ids", gson.toJson(favoriteEventIds));
+        // Save the updated list of favorite events ids
+        editor.putString("favorite_event_ids", gson.toJson(fav_events_ids));
         editor.apply();
     }
 
@@ -154,6 +146,5 @@ public class SharedGeneralPurposeMethods {
             heart_icon.setTag("empty");
         }
     }
-
 
 }
