@@ -39,14 +39,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringJoiner;
 
-public class DetailsFragment  extends Fragment {
+public class DetailsFragment extends Fragment {
     private ProgressBar event_details_pr;
-
     private SharedGeneralPurposeMethods shared;
 
-    public DetailsFragment () {
-        // Required empty public constructor
+    public DetailsFragment() {
+        // required constructor
     }
+
     public static DetailsFragment newInstance() {
         return new DetailsFragment();
     }
@@ -70,18 +70,17 @@ public class DetailsFragment  extends Fragment {
         event_details_pr = view.findViewById(R.id.event_details_progress_bar);
         event_details_pr.setVisibility(View.VISIBLE);
 
+        // access data
         Bundle args = getArguments();
         ArrayList<String> event_data = args != null ? args.getStringArrayList("event_data") : null;
 
-        // Create an instance of shared_general_purpose
+        // REST
         shared = new SharedGeneralPurposeMethods();
         get_event_details(view, event_data != null ? event_data.get(6) : null);
     }
 
-
-
-    private void get_event_details(View view, String event_id){
-        String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/event-details/"+ event_id;
+    private void get_event_details(View view, String event_id) {
+        String backend_url = "https://csci571-hw8-spr23.wl.r.appspot.com/search/event-details/" + event_id;
 
         JsonObjectRequest json_obj_request = new JsonObjectRequest
                 (Request.Method.GET, backend_url, null, resp -> {
@@ -94,13 +93,11 @@ public class DetailsFragment  extends Fragment {
                     event_details_pr.setVisibility(View.GONE);
                     CardView event_details_card = view.findViewById(R.id.details_card);
                     event_details_card.setVisibility(View.VISIBLE);
-
                 }, error -> {
                     event_details_pr.setVisibility(View.GONE);
                     Log.e("Error", "Volley Error Ticketmaster Event Details: " + error.getMessage());
                 });
         MySingleton.getInstance(requireContext()).addToRequestQueue(json_obj_request);
-
     }
 
     private void extract_event_details(View view, JsonObject gson_resp) {
@@ -129,13 +126,10 @@ public class DetailsFragment  extends Fragment {
                     }
                 }
             }
-            artist_name_bundle.putStringArrayList("artist_names", artist_or_team);
-            getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
-        }else{
-            // If the json data for artist does not exist
-            artist_name_bundle.putStringArrayList("artist_names", artist_or_team);
-            getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
         }
+        // If the json data for artist does not exist
+        artist_name_bundle.putStringArrayList("artist_names", artist_or_team);
+        getParentFragmentManager().setFragmentResult("artist_names", artist_name_bundle);
 
         JsonArray venues_arr = shared.general_json_arr_navigator(gson_resp, "_embedded", "venues");
         String venue = "";
@@ -151,13 +145,11 @@ public class DetailsFragment  extends Fragment {
 
         local_time = reformat_localTime(local_time);
 
-        set_share_icons(ticket_url,event_title);
-        set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status, ticket_url,seatmap_url);
-
-        Log.d("debugs", "music artist: " + artist_or_team);
+        set_share_icons(ticket_url, event_title);
+        set_event_details_card_ui(view, artist_or_team, venue, local_date, local_time, genre, price_range, status, ticket_url, seatmap_url);
     }
 
-    private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre, String price_range, String status, String ticket_url, String seatmap_url){
+    private void set_event_details_card_ui(View view, List<String> artist_or_team, String venue, String date, String time, String genre, String price_range, String status, String ticket_url, String seatmap_url) {
         final TextView artist_team_tv = view.findViewById(R.id.artist_team);
         final TextView venue_tv = view.findViewById(R.id.venue);
         final TextView date_tv = view.findViewById(R.id.date);
@@ -168,18 +160,18 @@ public class DetailsFragment  extends Fragment {
         final TextView ticket_url_tv = view.findViewById(R.id.ticket_url);
         final ImageView seatmap_img = view.findViewById(R.id.seatmap_img);
 
-        if(!artist_or_team.isEmpty()) {
+        if (!artist_or_team.isEmpty()) {
             String formatted_artist_or_team = concat_artists_or_teams(artist_or_team);
             artist_team_tv.setText(formatted_artist_or_team);
             artist_team_tv.setSelected(true);
-        }else{
+        } else {
             artist_team_tv.setText("N/A");
         }
-        set_textView(venue_tv,venue);
-        set_textView(date_tv ,date);
-        set_textView(time_tv ,time);
-        set_textView(genres_tv,genre);
-        set_textView(price_range_tv ,price_range);
+        set_textView(venue_tv, venue);
+        set_textView(date_tv, date);
+        set_textView(time_tv, time);
+        set_textView(genres_tv, genre);
+        set_textView(price_range_tv, price_range);
 
         if (!status.isEmpty()) {
             status_tv.setText(status);
@@ -204,62 +196,53 @@ public class DetailsFragment  extends Fragment {
         } else {
             status_tv.setText("N/A");
         }
+
         if (!ticket_url.isEmpty()) {
             set_textView(ticket_url_tv, ticket_url);
             ticket_url_tv.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
             ticket_url_tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
             ticket_url_tv.setOnClickListener(v -> {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ticket_url));
-                v.getContext().startActivity(browserIntent);
+                // open website with browser
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ticket_url));
+                v.getContext().startActivity(intent);
             });
         } else {
             ticket_url_tv.setVisibility(View.GONE);
         }
 
-        if(!seatmap_url.isEmpty()){
+        if (!seatmap_url.isEmpty()) {
             seatmap_img.setVisibility(View.VISIBLE);
 
             Glide.with(requireContext())
                     .load(seatmap_url)
                     .into(seatmap_img);
-        }else{
-            seatmap_img.setVisibility(View.GONE );
+        } else {
+            seatmap_img.setVisibility(View.GONE);
         }
-
     }
 
+    /* custom json data navigators */
     private String genre_json_navigator(JsonObject json_obj) {
         JsonArray classifications_arr = shared.general_json_arr_navigator(json_obj, "classifications");
         StringJoiner genre_buffer = new StringJoiner(" | ");
 
         if (classifications_arr != null && classifications_arr.size() > 0) {
             JsonObject classification_obj = classifications_arr.get(0).getAsJsonObject();
-            String segment = shared.general_json_navigator(classification_obj, "segment", "name").trim();
-            String genre_name = shared.general_json_navigator(classification_obj, "genre", "name").trim();
-            String sub_genre = shared.general_json_navigator(classification_obj, "subGenre", "name").trim();
-            String type = shared.general_json_navigator(classification_obj, "name").trim();
-            String subtype = shared.general_json_navigator(classification_obj, "subType", "name").trim();
+            String segment = shared.general_json_navigator(classification_obj, "segment", "name");
+            String genre_name = shared.general_json_navigator(classification_obj, "genre", "name");
+            String sub_genre = shared.general_json_navigator(classification_obj, "subGenre", "name");
+            String type = shared.general_json_navigator(classification_obj, "name");
+            String subtype = shared.general_json_navigator(classification_obj, "subType", "name");
 
-            if (!"undefined".equalsIgnoreCase(segment) && segment.length() > 0) {
-                genre_buffer.add(segment);
-            }
-            if (!"undefined".equalsIgnoreCase(genre_name) && genre_name.length() > 0) {
-                genre_buffer.add(genre_name);
-            }
-            if (!"undefined".equalsIgnoreCase(sub_genre) && sub_genre.length() > 0) {
-                genre_buffer.add(sub_genre);
-            }
-            if (!"undefined".equalsIgnoreCase(type) && type.length() > 0) {
-                genre_buffer.add(type);
-            }
-            if (!"undefined".equalsIgnoreCase(subtype) && subtype.length() > 0) {
-                genre_buffer.add(subtype);
-            }
+            // formatting
+            if (segment.length() > 0) genre_buffer.add(segment);
+            if (genre_name.length() > 0) genre_buffer.add(genre_name);
+            if (sub_genre.length() > 0) genre_buffer.add(sub_genre);
+            if ( type.length() > 0) genre_buffer.add(type);
+            if ( subtype.length() > 0) genre_buffer.add(subtype);
         }
         return genre_buffer.toString();
     }
-
-
 
     private String priceRange_json_navigator(JsonObject json_obj) {
         JsonArray priceRange_arr = shared.general_json_arr_navigator(json_obj, "priceRanges");
@@ -271,45 +254,47 @@ public class DetailsFragment  extends Fragment {
             String currency = shared.general_json_navigator(priceRange_obj, "currency");
 
             if (min == -1) {
-                price_range = max + " - " + max + " " + currency;
+                price_range = max + " - " + max + " " + "(" + currency + ")";
             } else if (max == -1) {
-                price_range = min + " - " + min + " " + currency;
+                price_range = min + " - " + min + " " + "(" + currency + ")";
             } else {
-                price_range = min + " - " + max + " " +  "(" + currency + ")";
+                price_range = min + " - " + max + " " + "(" + currency + ")";
             }
         }
-
         return price_range;
     }
 
     private String status_json_navigator(JsonObject json_obj) {
         String status = shared.general_json_navigator(json_obj, "dates", "status", "code");
 
-        if ("onsale".equalsIgnoreCase(status)) {
-            status = "On Sale";
-        } else if ("offsale".equalsIgnoreCase(status)) {
-            status = "Off Sale";
-        } else if ("cancelled".equalsIgnoreCase(status) || "canceled".equalsIgnoreCase(status)){
-            status = "Canceled";
-    } else if ("rescheduled".equalsIgnoreCase(status)) {
-        status = "Rescheduled";
-    } else if ("postponed".equalsIgnoreCase(status)) {
-        status = "Postponed";
-    } else {
-        status = "";
-    }
+        switch (status.toLowerCase()) {
+            case "onsale":
+                status = "On Sale";
+                break;
+            case "offsale":
+                status = "Off Sale";
+                break;
+            case "cancelled":
+            case "canceled":
+                status = "Canceled";
+                break;
+            case "rescheduled":
+                status = "Rescheduled";
+                break;
+            case "postponed":
+                status = "Postponed";
+                break;
+            default:
+                status = "";
+                break;
+        }
         return status;
     }
 
+    /* helper functions */
     private String concat_artists_or_teams(List<String> artist_or_team) {
         StringJoiner artists_buffer = new StringJoiner(" | ");
-
-        for (String artist : artist_or_team) {
-            artist = artist.trim();
-            if (!"undefined".equalsIgnoreCase(artist) && artist.length() > 0) {
-                artists_buffer.add(artist);
-            }
-        }
+        for (String artist : artist_or_team) if (artist.length() > 0) artists_buffer.add(artist);
         return artists_buffer.toString();
     }
 
@@ -320,16 +305,14 @@ public class DetailsFragment  extends Fragment {
 
         try {
             Date parsed_time = new SimpleDateFormat(input_time_format, locale).parse(time);
-            if (parsed_time != null) {
-                return new SimpleDateFormat(desired_time_format, locale).format(parsed_time);
-            }
+            if (parsed_time != null) return new SimpleDateFormat(desired_time_format, locale).format(parsed_time);
         } catch (ParseException ignored) {
         }
         return time;
     }
 
-    private void set_share_icons(String ticket_url, String event_title){
-        if(!ticket_url.isEmpty()) {
+    private void set_share_icons(String ticket_url, String event_title) {
+        if (!ticket_url.isEmpty()) {
             ImageButton fb_icon = requireActivity().findViewById(R.id.facebook);
             ShapeableImageView twitter_icon = requireActivity().findViewById(R.id.twitter);
 
@@ -354,10 +337,7 @@ public class DetailsFragment  extends Fragment {
         if (!tv_data.isEmpty()) {
             tv.setText(tv_data);
             tv.setSelected(true);
-        } else {
-            tv.setText("N/A");
-        }
+        } else tv.setText("N/A");
     }
-
 
 }
