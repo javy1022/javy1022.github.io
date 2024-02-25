@@ -2,4 +2,6 @@ The code base for the course, CSCI571 Web Technologies, at the University of Sou
 
 Course Description: Advanced study of programming languages with application to the Web. Languages for client-side and server-side processing.
 
-HW3 url: https://csci571-spring23-hw3.wl.r.appspot.com/
+HW3 url: https://javy1022.github.io/HW3/src/home.html
+
+HW6 url: https://csci571-spring23-hw3.wl.r.appspot.com/
