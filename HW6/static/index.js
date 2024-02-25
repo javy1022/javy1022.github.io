@@ -3,9 +3,9 @@
 
 const GOOGLE_API_HOST = "https://maps.googleapis.com";
 const GEOCODING_SEARCH_PATH = "/maps/api/geocode/json";
-const GOOGLE_API_KEY = "AIzaSyBGrN-nnOE1sF7ilWjpSy1YFMrg49bf0ms";
+const GOOGLE_API_KEY = "your api key";
 const IPINFO_API_HOST = "https://ipinfo.io/";
-const IPINFO_API_KEY = "69aeb460f27a79";
+const IPINFO_API_KEY = "your api key";
 const GOOGLE_MAP_SEARCH_PATH = "https://www.google.com/maps/search/?api=1&query=";
 
 const reg_non_alphanumeric = /[^a-z0-9+]+/gi;
