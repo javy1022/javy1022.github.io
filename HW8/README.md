@@ -7,8 +7,6 @@ and Google Maps for comprehensive event searches, artist profiles, and venue loc
 * Implemented autocomplete search, dynamic content display through Bootstrap Carousel, and a  "Add to Favorite" feature using HTML Web Storage.
 * Engineered the back-end with JavaScript and Node.js; utilized RxJS for efficient asynchronous
 data handling and AJAX requests.
-* Extended the project by creating an Android version using Android Studio and Java for mobile 
-accessibility.
 
 
 <!-- Website URL -->
@@ -16,13 +14,16 @@ accessibility.
 
 [https://csci571-spring23-hw8.wl.r.appspot.com/search](https://csci571-spring23-hw8.wl.r.appspot.com/search)
 
-### Built With
+## Built With
 
 [![Angular][Angular.io]][Angular-url] 
 
 
 
 [![Node.js][Nodejs.com]][Nodejs-url]
+
+
+[![TypeScript][TypeScript.com]][TypeScript-url]
 
 
 
@@ -36,4 +37,7 @@ accessibility.
 [Bootstrap-url]: https://getbootstrap.com
 [Nodejs.com]: https://img.shields.io/badge/Node.js-026E00?style=for-the-badge&logo=node.js&logoColor=white
 [Nodejs-url]: https://nodejs.org/en
+[TypeScript.com]: https://img.shields.io/badge/TypeScript-2F74C0?style=for-the-badge&logo=typescript&logoColor=white
+
+[TypeScript-url]: https://www.typescriptlang.org/
 
