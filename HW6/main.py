@@ -2,7 +2,7 @@ import requests
 from flask import Flask
 from geolib import geohash as gh
 
-TICKETMASTER_API_KEY = "your api key"
+TICKETMASTER_API_KEY = "PbITZwAJ32tYq1Codl5AhoRCENI3fPfo"
 TICKETMASTER_HOST = "https://app.ticketmaster.com"
 EVENT_SEARCH_PATH = "/discovery/v2/events.json"
 EVENT_DETAIL_PATH = "/discovery/v2/events/"
