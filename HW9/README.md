@@ -4,7 +4,7 @@
 * Extended HW8 by creating an Android version using Android Studio and Java for mobile accessibility.
 
 
-## Video Demo
+## Video Demo (Click)
 
 <a href="https://www.youtube.com/watch?v=2RPcEY9aPZo">
   <img src="https://github.com/javy1022/javy1022.github.io/blob/main/HW9/demo/cover.PNG" alt="demo" width="275" height="500">
