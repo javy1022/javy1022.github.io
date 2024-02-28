@@ -6,7 +6,10 @@
 
 ## Video Demo
 
-[![video demo](https://github.com/javy1022/javy1022.github.io/blob/main/HW9/demo/cover.PNG)](https://www.youtube.com/watch?v=2RPcEY9aPZo)
+<a href="https://www.youtube.com/watch?v=2RPcEY9aPZo">
+  <img src="https://github.com/javy1022/javy1022.github.io/blob/main/HW9/demo/cover.PNG" alt="demo" width="300" height="300">
+</a>
+
 
 
 ## Built With
