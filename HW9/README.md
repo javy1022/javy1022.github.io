@@ -7,7 +7,7 @@
 ## Video Demo
 
 <a href="https://www.youtube.com/watch?v=2RPcEY9aPZo">
-  <img src="https://github.com/javy1022/javy1022.github.io/blob/main/HW9/demo/cover.PNG" alt="demo" width="300" height="500">
+  <img src="https://github.com/javy1022/javy1022.github.io/blob/main/HW9/demo/cover.PNG" alt="demo" width="250" height="500">
 </a>
 
 
