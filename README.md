@@ -1,9 +1,5 @@
 
 <!-- ABOUT THE PROJECT -->
-## USC CSCI571 HW3
-* A simple static webpage without a back-end.
-<!-- Website URL -->
-## Website URL
-
-[https://javy1022.github.io/HW3/home.html](https://javy1022.github.io/HW3/home.html)
+## USC CSCI571: Web  Web Technologies
+ Advanced study of programming languages with application to the Web. Languages for client-side and server-side processing.
 
